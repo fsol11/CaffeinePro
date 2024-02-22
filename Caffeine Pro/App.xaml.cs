@@ -1,128 +1,230 @@
-﻿using System.Windows;
-using System.Runtime.InteropServices;
+﻿using System.ComponentModel;
+using System.Drawing;
+using System.Globalization;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using Caffeine_Pro.Classes;
+using Caffeine_Pro.WindowsAndControls;
 using Hardcodet.Wpf.TaskbarNotification;
-using Timer = System.Timers.Timer;
+using StartupEventArgs = System.Windows.StartupEventArgs;
 
 namespace Caffeine_Pro;
 
-/// <summary>
-/// Interaction logic for App.xaml
-/// </summary>
-public partial class App
+public partial class App : INotifyPropertyChanged
 {
-    private readonly Timer _timer = new (5000) // 5 seconds
-    {
-        AutoReset = false,
-        Enabled = false,
-        Site = null,
-        SynchronizingObject = null
-    };
-    
-    private readonly TaskbarIcon _tbIcon = new()
-    {
-        AllowDrop = false,
-        CacheMode = null,
-        Clip = null,
-        ClipToBounds = false,
-        Effect = null,
-        Focusable = false,
-        IsEnabled = false,
-        IsHitTestVisible = false,
-        IsManipulationEnabled = false,
-        Opacity = 0,
-        OpacityMask = null,
-        RenderSize = default,
-        RenderTransform = null,
-        RenderTransformOrigin = default,
-        SnapsToDevicePixels = false,
-        Uid = null,
-        Visibility = Visibility.Visible,
-        BindingGroup = null,
-        ContextMenu = null,
-        Cursor = null,
-        DataContext = null,
-        FlowDirection = FlowDirection.LeftToRight,
-        FocusVisualStyle = null,
-        ForceCursor = false,
-        Height = 0,
-        HorizontalAlignment = HorizontalAlignment.Left,
-        InputScope = null,
-        Language = null,
-        LayoutTransform = null,
-        Margin = default,
-        MaxHeight = 0,
-        MaxWidth = 0,
-        MinHeight = 0,
-        MinWidth = 0,
-        Name = null,
-        OverridesDefaultStyle = false,
-        Style = null,
-        Tag = null,
-        ToolTip = null,
-        UseLayoutRounding = false,
-        VerticalAlignment = VerticalAlignment.Top,
-        Width = 0,
-        Icon = null,
-        CustomPopupPosition = null,
-        IconSource = null,
-        ToolTipText = null,
-        TrayToolTip = null,
-        TrayPopup = null,
-        MenuActivation = PopupActivationMode.LeftOrRightClick,
-        PopupActivation = PopupActivationMode.DoubleClick,
-        DoubleClickCommand = null,
-        DoubleClickCommandParameter = null,
-        DoubleClickCommandTarget = null,
-        LeftClickCommand = null,
-        LeftClickCommandParameter = null,
-        LeftClickCommandTarget = null,
-        NoLeftClickDelay = false
-    };
+    private TaskbarIcon? _trayIcon;
+    private ContextMenu? _menu;
+    private StatusControl? _statusControl;
+    private bool _isActive;
 
-    // ReSharper disable once InconsistentNaming
-    // ReSharper disable once IdentifierTypo
-    private const uint MOUSEEVENTF_MOVE = 0x0001;
+    private static readonly AboutWindow AboutWindow = new();
+    private static readonly KeepAwakeService KeepAwakeService = new();
+    private static readonly SingletonService SingletonService = new();
+    private static readonly ParameterProcessorService ParameterProcessorService = new(KeepAwakeService);
+    private static readonly Icon NormalIcon;
+    private static readonly Icon ActiveIcon;
 
-    [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-    private static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, IntPtr dwExtraInfo);
+    static App()
+    {
+        using var iconStream1 = Routines.GetResourceStream("Caffeine_Pro.Resources.Coffee.ico");
+        NormalIcon = new Icon(iconStream1);
+        using var iconStream2 = Routines.GetResourceStream("Caffeine_Pro.Resources.CoffeeDot.ico");
+        ActiveIcon = new Icon(iconStream2);
+    }
+
+    public bool IsActive
+    {
+        get => _isActive;
+        set => SetField(ref _isActive, value);
+    }
 
     protected override void OnStartup(StartupEventArgs e)
     {
+        if (!SingletonService.CheckSingleton())
+        {
+            if (e.Args.Length == 0)
+                MessageBox.Show("An instance of the application is already running.");
+            else
+                SingletonService.SendCommandToTheRunningInstance(string.Join(" ", e.Args));
+            Shutdown();
+            return;
+        }
+
         base.OnStartup(e);
 
-        // Load the icon from resources
-        using var iconStream = Routines.GetResourceStream("Caffeine_Pro.Coffee.ico");
-        _tbIcon.Icon = new(iconStream);
+        Init();
 
-        _tbIcon.ToolTipText = "Caffeine Pro";
-
-        // Create the context menu
-        var menu = new ContextMenu();
-        var exitItem = new MenuItem { Header = "Exit"};
-        exitItem.Click += OnMenuExit;
-        menu.Items.Add(exitItem);
-
-        _tbIcon.ContextMenu = menu;
-
-        StartMouseMovement();
+        ParameterProcessorService.ProcessArgs(e.Args, ParameterProcessorService.StartActions.Activate);
+        ApplyCommands();
     }
 
-    private void StartMouseMovement()
+    private void ApplyCommands()
     {
-        _timer.Elapsed += (sender, args) =>
+        _trayIcon!.Visibility = AppSettings.Default.NoIcon ? Visibility.Collapsed : Visibility.Visible;
+    }
+
+    private void Init()
+    {
+        _trayIcon = (TaskbarIcon)FindResource("TrayIcon")!;
+        _menu = (ContextMenu)FindResource("TrayContextMenu")!;
+        _menu.DataContext = this;
+        _statusControl = (StatusControl)((MenuItem)_menu.Items[0]!).Header!;
+        KeepAwakeService.OnActivate += OnStatusChanged;
+        KeepAwakeService.OnDeactivate += OnStatusChanged;
+        KeepAwakeService.Tick += OnStatusChanged;
+
+        // When another instance starts, it will send its arguments to the running instance
+        SingletonService.CommandReceived += (command) =>
         {
-            // Simulate mouse movement
-            mouse_event(MOUSEEVENTF_MOVE, 0, 1, 0, IntPtr.Zero);
-            mouse_event(MOUSEEVENTF_MOVE, 0, 0, 0, IntPtr.Zero); // Move back to the original position
+            ParameterProcessorService.ProcessArgs(command.Split(" "), ParameterProcessorService.StartActions.DoNothing);
+            ApplyCommands();
         };
-        _timer.Start();
     }
 
-    private void OnMenuExit(object sender, RoutedEventArgs e)
+    private void OnStatusChanged(object? sender, EventArgs e)
     {
-        _tbIcon.Dispose(); // Removes the icon from the system tray
-        Current.Shutdown(); // Closes the application
+        RefreshStatus();
     }
-    
+
+    /// <summary>
+    /// Sets tooltip and UI status based on the current date time
+    /// </summary>
+    private void RefreshStatus()
+    {
+        IsActive = KeepAwakeService.IsActive;
+        _trayIcon!.Icon = IsActive ? ActiveIcon : NormalIcon;
+        _trayIcon.ToolTipText = "Caffeine Pro";
+        if (IsActive && KeepAwakeService.UntilDateTime != DateTime.MaxValue)
+            _trayIcon.ToolTipText += $"\r\nActive Until: {Routines.GetTimeString(KeepAwakeService.UntilDateTime)}";
+
+        if (IsActive)
+            _statusControl!.SetActive(KeepAwakeService.UntilDateTime);
+        else
+            _statusControl!.SetInactive();
+    }
+
+    protected override void OnExit(ExitEventArgs e)
+    {
+        base.OnExit(e);
+        _trayIcon?.Dispose();
+        NormalIcon.Dispose();
+        ActiveIcon.Dispose();
+        SingletonService.Dispose();
+    }
+
+    private void MenuItemOnClick_ActiveFor(object sender, RoutedEventArgs e)
+    {
+        var menu = (MenuItem)sender;
+        var minutes = int.Parse((menu.Tag as string)!);
+        KeepAwakeService.ActivateUntil(DateTime.Now.AddMinutes(minutes));
+    }
+
+    private void MenuItemOnClick_ActivateUntil(object sender, RoutedEventArgs e)
+    {
+        var header = (string)((MenuItem)sender).Header;
+        var hours = int.Parse(header[..2].Trim());
+        var minutes = int.Parse(header[3..5]);
+        var period = header[5..].Trim();
+        if (period == "PM") hours += 12;
+        var date = DateTime.Now.Date;
+        var time = new TimeSpan(hours, minutes, 0);
+        if (time < DateTime.Now.TimeOfDay) date = date.AddDays(1);
+        KeepAwakeService.ActivateUntil(new DateTime(DateOnly.FromDateTime(date), TimeOnly.FromTimeSpan(time)));
+    }
+
+
+    private void OnAboutMenu(object sender, RoutedEventArgs e)
+    {
+        AboutWindow.ShowDialog();
+    }
+
+    private void OnExitMenu(object sender, RoutedEventArgs e)
+    {
+        Shutdown();
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
+        field = value;
+        OnPropertyChanged(propertyName);
+        return true;
+    }
+
+    private void OnPlus15(object? sender, EventArgs e)
+    {
+        KeepAwakeService.ActivateUntil(KeepAwakeService.UntilDateTime.AddMinutes(15));
+    }
+
+    private void OnMinus15(object? sender, EventArgs e)
+    {
+        KeepAwakeService.ActivateUntil(KeepAwakeService.UntilDateTime.AddMinutes(-15));
+    }
+
+    private void OnActivate(object sender, RoutedEventArgs e)
+    {
+        KeepAwakeService.ActivateUntil(DateTime.MaxValue);
+    }
+
+    private void OnCancel(object sender, RoutedEventArgs e)
+    {
+        KeepAwakeService.Deactivate();
+    }
+
+    private void NumericTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        if ((e.OriginalSource as TextBox)!.Text.Length + e.Text.Length > 2
+            || !decimal.TryParse(e.Text, out var num)
+            || num is > 99 or < 0)
+        {
+            // If not, cancel the input
+            e.Handled = true;
+        }
+
+    }
+
+    private void NumericTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        // Check if the key is a space
+        if (e.Key == Key.Space)
+        {
+            // If it is, cancel the key
+            e.Handled = true;
+        }
+    }
+
+    private void NoIconBtn(object sender, RoutedEventArgs e)
+    {
+        if (MessageBox.Show(
+                "The icon will be removed from the tray. If you continue, the only way to access the application will be through the command line. Continue?",
+                "Alert",
+                MessageBoxButton.OKCancel) == MessageBoxResult.OK)
+            _trayIcon!.Visibility = Visibility.Collapsed;
+    }
+
+    private void CpuUsage_OnGotFocus(object sender, RoutedEventArgs e)
+    {
+        (sender as TextBox)?.SelectAll();
+    }
+
+    private void ResetSettings(object sender, RoutedEventArgs e)
+    {
+        AppSettings.Default.Reset();
+    }
+
+    private void SetLanguageMenu(object sender, RoutedEventArgs e)
+    {
+        if (((MenuItem)sender).Tag is not string culture) return;
+        AppSettings.Default.Culture = culture;
+        Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+    }
 }
