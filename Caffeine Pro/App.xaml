@@ -1,0 +1,9 @@
+﻿<Application x:Class="Caffeine_Pro.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:notifyIcon="http://www.hardcodet.net/2009/xaml/notifyicon"
+             xmlns:tb="http://www.hardcodet.net/taskbar"
+             xmlns:local="clr-namespace:Caffeine_Pro"
+             >
+
+</Application>

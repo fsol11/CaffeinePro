@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34607.119
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Caffeine Pro", "Caffeine Pro\Caffeine Pro.csproj", "{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Graphics", "Graphics", "{37EBCC03-27C7-4A85-AF73-0AF02927FFD9}"
+	ProjectSection(SolutionItems) = preProject
+		Graphics\Coffee 128x128.png = Graphics\Coffee 128x128.png
+		Graphics\Coffee 16x16.png = Graphics\Coffee 16x16.png
+		Graphics\Coffee 32x32.png = Graphics\Coffee 32x32.png
+		Graphics\Coffee 64x64.png = Graphics\Coffee 64x64.png
+		Graphics\Coffee.png = Graphics\Coffee.png
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {32F898F9-3021-4A1E-AA00-4A66F9FD367F}
+	EndGlobalSection
+EndGlobal
