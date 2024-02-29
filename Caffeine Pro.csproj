@@ -16,9 +16,8 @@
     <RepositoryUrl>https://github.com/fsol11/Caffein-Pro</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <Version>1.1.227</Version>
+    <Version>1.1.224</Version>
     <SignAssembly>True</SignAssembly>
-    <Deterministic>false</Deterministic>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
