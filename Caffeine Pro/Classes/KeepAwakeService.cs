@@ -10,6 +10,7 @@ public class KeepAwakeService : INotifyPropertyChanged
 {
     // Property backing fields
     private bool _isActive;
+    private string _statusText = string.Empty;
     private string _untilDateTimeText = string.Empty;
     private DateTime _untilDateTime = DateTime.MinValue;
 
@@ -65,13 +66,8 @@ public class KeepAwakeService : INotifyPropertyChanged
     /// </summary>
     public string StatusText
     {
-        get
-        {
-            var status = IsActive ? "Active" : "Inactive";
-            return (!IsActive || UntilDateTime == DateTime.MaxValue)
-                ? status
-                : $"{status} until {UntilDateTimeText}";
-        }
+        get => _statusText;
+        set => SetField(ref _statusText, value);
     }
 
     /// <summary>
@@ -108,8 +104,10 @@ public class KeepAwakeService : INotifyPropertyChanged
         UntilDateTime = dateTime;
         _timer.Start();
         IsActive = true;
+        UpdateStatusText();
         OnStatusChanged?.Invoke(this, EventArgs.Empty);
     }
+
 
     /// <summary>
     /// Deactivate the keep awake service
@@ -119,7 +117,17 @@ public class KeepAwakeService : INotifyPropertyChanged
         SetThreadExecutionState(EsContinuous);
         _timer.Stop();
         IsActive = false;
+        UpdateStatusText();
         OnStatusChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void UpdateStatusText()
+    {
+        StatusText =
+                "Caffeine Pro - " +
+                (IsActive ? "Active" : "Inactive") +
+                (IsActive && UntilDateTime != DateTime.MaxValue ? " until " + UntilDateTimeText : string.Empty)
+            ;
     }
 
     /// <summary>

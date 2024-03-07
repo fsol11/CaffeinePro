@@ -212,6 +212,17 @@ public class Routines
         };
     }
 
+    public static bool IsWindowsThemeDark()
+    {
+        const string registryKeyPath = @"Software\Microsoft\Windows\CurrentVersion\Themes\Personalize";
+        const string registryValueName = "AppsUseLightTheme";
+
+        using var key = Registry.CurrentUser.OpenSubKey(registryKeyPath);
+        var registryValue = key?.GetValue(registryValueName);
+        return registryValue is int and <= 0;
+    }
+
+
     /// <summary>
     /// Cleans up the session switch event
     /// </summary>

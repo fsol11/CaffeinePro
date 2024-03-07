@@ -17,7 +17,7 @@
     <ROW Property="ProductCode" Value="1033:{061222DC-D741-4A6E-BE50-A2CD2FF5FE64} " Type="16" />
     <ROW Property="ProductLanguage" Value="1033" />
     <ROW Property="ProductName" Value="Caffeine Pro" />
-    <ROW Property="ProductVersion" Value="1.1.493" Options="32" />
+    <ROW Property="ProductVersion" Value="1.1.525" Options="32" />
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND" />
     <ROW Property="UpgradeCode" Value="{39865116-A848-4D38-A33C-52A2A9E235F5}" />
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-" />

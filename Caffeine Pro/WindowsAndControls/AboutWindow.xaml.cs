@@ -8,10 +8,10 @@ namespace Caffeine_Pro.WindowsAndControls;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class AboutWindow : Window
+public partial class AboutWindow
 {
     private static AboutWindow? _aboutWindow;
-    public static string AppName => Assembly.GetExecutingAssembly().GetName().Name!.ToString();
+    public static string AppName => Assembly.GetExecutingAssembly().GetName().Name!;
     public static string Version => Assembly.GetExecutingAssembly().GetName().Version!.ToString();
 
     /// <summary>

@@ -1,16 +1,16 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace Caffeine_Pro.WindowsAndControls;
 
 /// <summary>
 /// Interaction logic for StatusControl.xaml
 /// </summary>
-public partial class StatusControl : UserControl, INotifyPropertyChanged
+public partial class StatusControl : INotifyPropertyChanged
 {
     private bool _showPlusMinusButtons = true;
+
     public event EventHandler? OnPlus15;
     public event EventHandler? OnMinus15;
 

@@ -21,9 +21,9 @@
                 <Run Text="Active"/>
             </TextBlock>
 
-            <StackPanel Orientation="Vertical" Visibility="{Binding Visibility, ElementName=ActiveUntilText}">
-                <StackPanel Orientation="Horizontal" >
-                    <TextBlock VerticalAlignment="Center" FontSize="10" TextAlignment="Center" >
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Visibility="{Binding Visibility, ElementName=ActiveUntilText}">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="10" TextAlignment="Center" >
                         <Run Text="Until" />
                         <Run Text=" "/>
                     </TextBlock>
@@ -31,8 +31,8 @@
                     <TextBlock x:Name="ActiveUntilText" Text="{Binding Source={x:Static local:App.KeepAwakeService}, Path=UntilDateTimeText}" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Bold" Visibility="{Binding Source={x:Static local:App.KeepAwakeService}, Path=UntilDateTime, Converter={StaticResource DateToVis}}" />
                 </StackPanel>
             </StackPanel>
-            <StackPanel Visibility="{Binding ShowPlusMinusButtons, Converter={StaticResource BoolToVis}}" >
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Visibility="{Binding Source={x:Static local:App.KeepAwakeService}, Path=UntilDateTime, Converter={StaticResource DateToVis}}">
+            <StackPanel HorizontalAlignment="Center"  Visibility="{Binding ShowPlusMinusButtons, Converter={StaticResource BoolToVis}}" >
+                <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Visibility="{Binding Source={x:Static local:App.KeepAwakeService}, Path=UntilDateTime, Converter={StaticResource DateToVis}}">
                     <TextBlock><Hyperlink Click="OnPlus15Btn">+15</Hyperlink></TextBlock>
                     <TextBlock Width="10"></TextBlock>
                     <TextBlock><Hyperlink Click="OnMinus15Btn">-15</Hyperlink></TextBlock>

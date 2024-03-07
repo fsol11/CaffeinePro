@@ -60,9 +60,6 @@ public class KeySimulator
 
     // ReSharper disable once InconsistentNaming
     const uint INPUT_KEYBOARD = 1;
-    // ReSharper disable once IdentifierTypo
-    // ReSharper disable once InconsistentNaming
-    const uint KEYEVENTF_EXTENDEDKEY = 0x0001;
     // ReSharper disable once InconsistentNaming
     // ReSharper disable once IdentifierTypo
     const uint KEYEVENTF_KEYUP = 0x0002;

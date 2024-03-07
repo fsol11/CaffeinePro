@@ -7,281 +7,272 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:windowsAndControls="clr-namespace:Caffeine_Pro.WindowsAndControls"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
              mc:Ignorable="d">
     <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ThemesDictionary />
+                <ui:ControlsDictionary />
+            </ResourceDictionary.MergedDictionaries>
+
+            <windowsAndControls:InvertableBooleanToVisibilityConverter x:Key="BoolToVis"/>
+
+            <Style x:Key="NoHighlightMenuItemStyle" TargetType="{x:Type MenuItem}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type MenuItem}">
+                            <Border x:Name="Border" Background="{TemplateBinding Background}">
+                                <ContentPresenter ContentSource="Header" Margin="10,2"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
 
 
-        <windowsAndControls:InvertableBooleanToVisibilityConverter x:Key="BoolToVis"/>
+            <ContextMenu x:Key="TrayContextMenu" DataContext="{Binding Source={x:Static local:App.Current}}">
+                <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}" StaysOpenOnClick="True">
+                    <MenuItem.Header>
+                        <windowsAndControls:StatusControl Padding="0 5 0 0" OnMinus15="OnMinus15" OnPlus15="OnPlus15" />
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem StaysOpenOnClick="True" HorizontalAlignment="Center" Header="Cancel" Click="OnCancel" Visibility="{Binding Source={x:Static local:App.KeepAwakeService}, Path=IsActive, Converter={StaticResource BoolToVis}}"/>
+                <MenuItem StaysOpenOnClick="True" HorizontalAlignment="Center" Header="Activate" Click="OnActivate" Visibility="{Binding Source={x:Static local:App.KeepAwakeService}, Path=IsActive, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}" />
+                <Separator />
+                <MenuItem Header="Activate For">
+                    <MenuItem.Items>
+                        <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}">
+                            <MenuItem.HeaderTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="0" Grid.Column="0" x:Name="SampleMenuItem" Header="15m" Tag="15" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="1" Grid.Column="0" Header="30m" Tag="30" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="2" Grid.Column="0" Header="45m" Tag="45" Click="MenuItemOnClick_ActiveFor"/>
 
-        <Style x:Key="NoHighlightMenuItemStyle" TargetType="{x:Type MenuItem}">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type MenuItem}">
-                        <Border x:Name="Border" Background="{TemplateBinding Background}">
-                            <ContentPresenter ContentSource="Header" Margin="10,2"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="true">
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+                                        <Separator Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" />
 
-
-        <ContextMenu x:Key="TrayContextMenu" DataContext="{Binding Source={x:Static local:App.Current}}">
-            <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}" StaysOpenOnClick="True">
-                <MenuItem.Header>
-                    <windowsAndControls:StatusControl Padding="25 5 0 0" OnMinus15="OnMinus15" OnPlus15="OnPlus15" />
-                </MenuItem.Header>
-            </MenuItem>
-            <Separator />
-            <MenuItem StaysOpenOnClick="True" Header="Cancel" Click="OnCancel" Visibility="{Binding Source={x:Static local:App.KeepAwakeService}, Path=IsActive, Converter={StaticResource BoolToVis}}"/>
-            <MenuItem StaysOpenOnClick="True" Header="Activate" Click="OnActivate" Visibility="{Binding Source={x:Static local:App.KeepAwakeService}, Path=IsActive, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}" />
-            <Separator />
-            <MenuItem Header="Activate For">
-                <MenuItem.Items>
-                    <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}">
-                        <MenuItem.HeaderTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="0" Grid.Column="0" x:Name="SampleMenuItem" Header="15m" Tag="15" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="1" Grid.Column="0" Header="30m" Tag="30" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="2" Grid.Column="0" Header="45m" Tag="45" Click="MenuItemOnClick_ActiveFor"/>
-
-                                    <Separator Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" />
-
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="4" Grid.Column="0" Header=" 1h" Tag="60" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="5" Grid.Column="0" Header=" 2h" Tag="120" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="6" Grid.Column="0" Header=" 3h" Tag="180" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="7" Grid.Column="0" Header=" 4h" Tag="240" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="8" Grid.Column="0" Header=" 5h" Tag="300" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="9" Grid.Column="0" Header=" 6h" Tag="360" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="10" Grid.Column="0" Header=" 7h" Tag="420" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="11" Grid.Column="0" Header=" 8h" Tag="480" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="12" Grid.Column="0" Header=" 9h" Tag="540" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="13" Grid.Column="0" Header="10h" Tag="600" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="4" Grid.Column="0" Header=" 1h" Tag="60" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="5" Grid.Column="0" Header=" 2h" Tag="120" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="6" Grid.Column="0" Header=" 3h" Tag="180" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="7" Grid.Column="0" Header=" 4h" Tag="240" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="8" Grid.Column="0" Header=" 5h" Tag="300" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="9" Grid.Column="0" Header=" 6h" Tag="360" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="10" Grid.Column="0" Header=" 7h" Tag="420" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="11" Grid.Column="0" Header=" 8h" Tag="480" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="12" Grid.Column="0" Header=" 9h" Tag="540" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="13" Grid.Column="0" Header="10h" Tag="600" Click="MenuItemOnClick_ActiveFor"/>
 
 
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="4" Grid.Column="1" Header=" 1h:30m" Tag="90" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="5" Grid.Column="1" Header=" 2h:30m" Tag="150" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="6" Grid.Column="1" Header=" 3h:30m" Tag="210" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="7" Grid.Column="1" Header=" 4h:30m" Tag="270" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="8" Grid.Column="1" Header=" 5h:30m" Tag="330" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="9" Grid.Column="1" Header=" 6h:30m" Tag="390" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="10" Grid.Column="1" Header=" 7h:30m" Tag="450" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="11" Grid.Column="1" Header=" 8h:30m" Tag="510" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="12" Grid.Column="1" Header=" 9h:30m" Tag="570" Click="MenuItemOnClick_ActiveFor"/>
-                                    <MenuItem StaysOpenOnClick="True" Grid.Row="13" Grid.Column="1" Header="10h:30m" Tag="630" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="4" Grid.Column="1" Header=" 1h:30m" Tag="90" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="5" Grid.Column="1" Header=" 2h:30m" Tag="150" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="6" Grid.Column="1" Header=" 3h:30m" Tag="210" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="7" Grid.Column="1" Header=" 4h:30m" Tag="270" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="8" Grid.Column="1" Header=" 5h:30m" Tag="330" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="9" Grid.Column="1" Header=" 6h:30m" Tag="390" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="10" Grid.Column="1" Header=" 7h:30m" Tag="450" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="11" Grid.Column="1" Header=" 8h:30m" Tag="510" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="12" Grid.Column="1" Header=" 9h:30m" Tag="570" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem StaysOpenOnClick="True" Grid.Row="13" Grid.Column="1" Header="10h:30m" Tag="630" Click="MenuItemOnClick_ActiveFor"/>
 
-                                    <Separator Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="2" />
+                                        <Separator Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="2" />
 
-                                    <MenuItem  Grid.Row="15" Grid.Column="0" Header="24h" Tag="1440" Click="MenuItemOnClick_ActiveFor"/>
+                                        <MenuItem  Grid.Row="15" Grid.Column="0" Header="24h" Tag="1440" Click="MenuItemOnClick_ActiveFor"/>
 
-                                </Grid>
-                            </DataTemplate>
-                        </MenuItem.HeaderTemplate>
-                    </MenuItem>
-                </MenuItem.Items>
-            </MenuItem>
-            <MenuItem Header="Activate Until">
-                <MenuItem.Items>
-                    <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}">
-                        <MenuItem.HeaderTemplate>
-                            <DataTemplate>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <ItemsControl Grid.Column="0">
-                                        <MenuItem Header="12:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 1:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 2:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 3:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 4:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 5:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 6:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 7:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 8:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 9:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="10:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="11:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="12:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 1:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 2:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 3:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 4:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 5:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 6:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 7:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 8:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 9:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="10:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="11:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                    </ItemsControl>
-                                    <ItemsControl Grid.Column="1">
-                                        <MenuItem Header="12:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 1:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 2:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 3:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 4:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 5:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 6:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 7:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 8:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 9:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="10:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="11:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="12:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 1:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 2:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 3:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 4:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 5:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 6:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 7:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 8:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 9:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="10:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="11:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                    </ItemsControl>
-                                    <ItemsControl Grid.Column="2">
-                                        <MenuItem Header="12:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 1:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 2:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 3:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 4:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 5:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 6:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 7:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 8:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 9:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="10:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="11:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="12:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 1:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 2:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 3:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 4:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 5:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 6:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 7:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 8:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 9:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="10:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="11:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                    </ItemsControl>
-                                    <ItemsControl Grid.Column="3">
-                                        <MenuItem Header="12:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 1:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 2:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 3:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 4:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 5:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 6:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 7:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 8:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 9:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="10:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="11:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="12:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 1:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 2:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 3:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 4:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 5:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 6:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 7:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 8:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header=" 9:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="10:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                        <MenuItem Header="11:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
-                                    </ItemsControl>
-                                </Grid>
-                            </DataTemplate>
-                        </MenuItem.HeaderTemplate>
-                    </MenuItem>
-                </MenuItem.Items>
-            </MenuItem>
-            <Separator />
-            <MenuItem Header="Settings" >
-                <MenuItem.Items>
-                    <MenuItem Header="Start With Windows" IsCheckable="True" IsChecked="{Binding Mode=TwoWay, Source={x:Static local:App.AppSettings}, Path=StartWithWindows}" StaysOpenOnClick="True" />
-                    <Separator/>
-                    <MenuItem Header="Allow Screen Saver" IsCheckable="True" IsChecked="{Binding Mode=TwoWay, Source={x:Static local:App.AppSettings}, Path=AllowScreenSaver}" StaysOpenOnClick="True" />
-                    <MenuItem Header="Active When Locked" IsCheckable="True" IsChecked="{Binding Mode=TwoWay, Source={x:Static local:App.AppSettings}, Path=ActiveWhenLocked}" StaysOpenOnClick="True"  />
-                    <MenuItem Header="Deactivate When On Battery" IsCheckable="True" IsChecked="{Binding Mode=TwoWay, Source={x:Static local:App.AppSettings}, Path=DeactivateOnBattery}" StaysOpenOnClick="True"  />
-                    <MenuItem IsCheckable="True" IsChecked="{Binding Mode=TwoWay, Source={x:Static local:App.AppSettings}, Path=DeactivateWhenCpuBelowPercentage}" StaysOpenOnClick="True" >
-                        <MenuItem.Header>
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock> Deactivate When CPU Below</TextBlock>
-                                <windowsAndControls:NumericTextBox MaxLength="2" Width="50" Margin="5,0,0,0" Text="{Binding Mode=TwoWay, Source={x:Static local:App.AppSettings}, Path=CpuUsage}" />
-                                <TextBlock>%</TextBlock>
-                            </StackPanel>
-                        </MenuItem.Header>
-                    </MenuItem>
-                    <MenuItem Header="No Icon" IsCheckable="True" IsChecked="{Binding Mode=TwoWay, Source={x:Static local:App.AppSettings}, Path=NoIcon}" StaysOpenOnClick="True" Click="NoIconBtn"/>
-                    <Separator/>
-                    <MenuItem StaysOpenOnClick="True" Header="Reset Settings" Click="ResetSettings"/>
-                </MenuItem.Items>
-            </MenuItem>
-            <Separator/>
+                                    </Grid>
+                                </DataTemplate>
+                            </MenuItem.HeaderTemplate>
+                        </MenuItem>
+                    </MenuItem.Items>
+                </MenuItem>
+                <MenuItem Header="Activate Until">
+                    <MenuItem.Items>
+                        <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}">
+                            <MenuItem.HeaderTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ItemsControl Grid.Column="0">
+                                            <MenuItem Header="12:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 1:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 2:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 3:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 4:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 5:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 6:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 7:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 8:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 9:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="10:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="11:00AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="12:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 1:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 2:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 3:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 4:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 5:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 6:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 7:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 8:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 9:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="10:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="11:00PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                        </ItemsControl>
+                                        <ItemsControl Grid.Column="1">
+                                            <MenuItem Header="12:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 1:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 2:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 3:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 4:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 5:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 6:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 7:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 8:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 9:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="10:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="11:15AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="12:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 1:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 2:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 3:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 4:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 5:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 6:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 7:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 8:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 9:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="10:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="11:15PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                        </ItemsControl>
+                                        <ItemsControl Grid.Column="2">
+                                            <MenuItem Header="12:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 1:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 2:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 3:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 4:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 5:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 6:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 7:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 8:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 9:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="10:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="11:30AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="12:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 1:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 2:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 3:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 4:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 5:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 6:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 7:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 8:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 9:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="10:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="11:30PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                        </ItemsControl>
+                                        <ItemsControl Grid.Column="3">
+                                            <MenuItem Header="12:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 1:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 2:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 3:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 4:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 5:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 6:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 7:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 8:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 9:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="10:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="11:45AM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="12:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 1:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 2:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 3:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 4:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 5:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 6:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 7:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 8:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header=" 9:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="10:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                            <MenuItem Header="11:45PM" StaysOpenOnClick="True" Click="MenuItemOnClick_ActivateUntil"/>
+                                        </ItemsControl>
+                                    </Grid>
+                                </DataTemplate>
+                            </MenuItem.HeaderTemplate>
+                        </MenuItem>
+                    </MenuItem.Items>
+                </MenuItem>
+                <Separator />
+                <MenuItem Header="Settings" >
+                    <MenuItem.Items>
+                        <MenuItem Header="Start With Windows" IsCheckable="True" IsChecked="{Binding Mode=TwoWay, Source={x:Static local:App.AppSettings}, Path=StartWithWindows}" StaysOpenOnClick="True" />
+                        <Separator/>
+                        <MenuItem Header="Allow Screen Saver" IsCheckable="True" IsChecked="{Binding Mode=TwoWay, Source={x:Static local:App.AppSettings}, Path=AllowScreenSaver}" StaysOpenOnClick="True" />
+                        <MenuItem Header="Active When Locked" IsCheckable="True" IsChecked="{Binding Mode=TwoWay, Source={x:Static local:App.AppSettings}, Path=ActiveWhenLocked}" StaysOpenOnClick="True"  />
+                        <MenuItem Header="Deactivate When On Battery" IsCheckable="True" IsChecked="{Binding Mode=TwoWay, Source={x:Static local:App.AppSettings}, Path=DeactivateOnBattery}" StaysOpenOnClick="True"  />
+                        <MenuItem IsCheckable="True" IsChecked="{Binding Mode=TwoWay, Source={x:Static local:App.AppSettings}, Path=DeactivateWhenCpuBelowPercentage}" StaysOpenOnClick="True" >
+                            <MenuItem.Header>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock> Deactivate When CPU Below</TextBlock>
+                                    <windowsAndControls:NumericTextBox MaxLength="2" Width="50" Margin="5,0,0,0" Text="{Binding Mode=TwoWay, Source={x:Static local:App.AppSettings}, Path=CpuUsage}" />
+                                    <TextBlock>%</TextBlock>
+                                </StackPanel>
+                            </MenuItem.Header>
+                        </MenuItem>
+                        <MenuItem Header="No Icon" IsCheckable="True" IsChecked="{Binding Mode=TwoWay, Source={x:Static local:App.AppSettings}, Path=NoIcon}" StaysOpenOnClick="True" Click="NoIconBtn"/>
+                        <Separator/>
+                        <MenuItem StaysOpenOnClick="True" Header="Reset Settings" Click="ResetSettings"/>
+                    </MenuItem.Items>
+                </MenuItem>
+                <Separator/>
 
-            <MenuItem Header ="About" Click="OnAboutMenu" />
-            <MenuItem Header ="Exit" Click="OnExitMenu" />
-        </ContextMenu>
+                <MenuItem Header ="About" Click="OnAboutMenu" />
+                <MenuItem Header ="Exit" Click="OnExitMenu" />
+            </ContextMenu>
 
-        <BitmapImage x:Key="InactiveIcon" UriSource="/Resources/Coffee.ico"/>
-        <BitmapImage x:Key="ActiveIcon" UriSource="/Resources/CoffeeDot.ico"/>
+            <BitmapImage x:Key="InactiveIcon" UriSource="/Resources/Coffee.ico"/>
+            <BitmapImage x:Key="ActiveIcon" UriSource="/Resources/CoffeeDot.ico"/>
 
-        <tb:TaskbarIcon 
-            x:Key="TrayIcon" 
-            MenuActivation="LeftOrRightClick" 
+            <tb:TaskbarIcon 
+                x:Key="TrayIcon" 
+                MenuActivation="LeftOrRightClick" 
+                ToolTipText="{Binding Source={x:Static local:App.KeepAwakeService}, Path=StatusText}"
+                Visibility="{Binding Source={x:Static local:App.AppSettings}, Path=NoIcon, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}"
+                ContextMenu="{StaticResource TrayContextMenu}">
 
-            Visibility="{Binding Source={x:Static local:App.AppSettings}, Path=NoIcon, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}"
-            
-            ContextMenu="{StaticResource TrayContextMenu}">
+            </tb:TaskbarIcon>
 
-            <tb:TaskbarIcon.TrayToolTip>
-                <Border Padding="5" Background="{x:Static SystemColors.InfoBrush}" BorderThickness="1" BorderBrush="{x:Static SystemColors.ActiveBorderBrush}">
-                    <StackPanel Orientation="Vertical" HorizontalAlignment="Left" >
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Source={x:Static windowsAndControls:AboutWindow.AppName}}" VerticalAlignment="Top" FontWeight="Bold"/>
-                        </StackPanel>
-                        <Border BorderThickness="1" BorderBrush="{x:Static SystemColors.ActiveBorderBrush}">
-                            <windowsAndControls:StatusControl Width="Auto" ShowPlusMinusButtons="False"/>
-                        </Border>
-                    </StackPanel>
-                </Border>
-            </tb:TaskbarIcon.TrayToolTip>
-
-        </tb:TaskbarIcon>
-
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

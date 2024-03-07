@@ -4,6 +4,9 @@ using System.Windows.Media.Imaging;
 using Caffeine_Pro.Classes;
 using Caffeine_Pro.WindowsAndControls;
 using Hardcodet.Wpf.TaskbarNotification;
+using Microsoft.Win32;
+using Wpf.Ui.Appearance;
+using Wpf.Ui.Markup;
 
 namespace Caffeine_Pro;
 
@@ -17,6 +20,7 @@ public partial class App
     public static readonly SingletonService SingletonService = new();
     public static readonly ParameterProcessorService ParameterProcessorService = new(KeepAwakeService);
     public static readonly AppSettings AppSettings = new();
+    //public static readonly ApplicationTheme ApplicationTheme = Routines.IsWindowsThemeDark() ? ApplicationTheme.Dark : ApplicationTheme.Light;
 
     /// <summary>
     /// Called when the application starts
@@ -34,9 +38,7 @@ public partial class App
             return;
         }
 
-        if (e.Args.Length == 0)
-
-            base.OnStartup(e);
+        base.OnStartup(e);
         Init(e);
     }
 
@@ -58,6 +60,23 @@ public partial class App
 
         // process the command line arguments
         ParameterProcessorService.ProcessArgs(e.Args, ParameterProcessorService.StartActions.Activate);
+
+        SetThemeColor();
+
+        SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+    }
+
+    private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
+    {
+        SetThemeColor();
+    }
+
+    private void SetThemeColor()
+    {
+        Resources.MergedDictionaries.OfType<ThemesDictionary>().First().Theme
+            = Routines.IsWindowsThemeDark()
+                ? ApplicationTheme.Dark
+                : ApplicationTheme.Light;
     }
 
     /// <summary>
@@ -78,6 +97,7 @@ public partial class App
     /// </summary>
     protected override void OnExit(ExitEventArgs e)
     {
+        SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
         AboutWindow.CloseIt(); // <- About Window might be open or loaded when exit is called
         SingletonService.Dispose(); // <- Disposing the singleton mutex
         base.OnExit(e);
