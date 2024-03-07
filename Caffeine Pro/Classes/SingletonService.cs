@@ -1,10 +1,12 @@
 ﻿using System.IO;
-using System.Windows;
 using System.IO.Pipes;
 
 namespace Caffeine_Pro.Classes;
 
-internal class SingletonService : IDisposable
+/// <summary>
+/// This class is used to ensure that only one instance of the application is running
+/// </summary>
+public class SingletonService : IDisposable
 {
     public delegate void CommandReceivedHandler(string command);
     public event CommandReceivedHandler? CommandReceived;
@@ -12,23 +14,42 @@ internal class SingletonService : IDisposable
     private static Mutex? _mutex;
     private NamedPipeServerStream? _pipeServer;
 
+    private const string MutexName = "CaffeineProMutex";
+    private const string PipeName = "CaffeineProPipe";
 
-    private const string AppName = "CaffeinePro";
-    private const string PipeName = AppName + "Pipe7898761321544623435";
-
-    public bool CheckSingleton()
+    /// <summary>
+    /// Checks if the application is already running
+    /// </summary>
+    /// <returns></returns>
+    public bool IsApplicationAlreadyRunning()
     {
-        _mutex = new Mutex(true, AppName, out var createdNew);
+        _mutex = new Mutex(true, MutexName, out var createdNew);
         if (!createdNew)
             return false;
 
-        // Listen for commands from other instances
+        // Listen for commands from other instances through a named pipe
         _pipeServer = new NamedPipeServerStream(PipeName, PipeDirection.In);
         _pipeServer.BeginWaitForConnection(OtherInstanceRequestedACommand, _pipeServer);
 
         return true;
     }
 
+    /// <summary>
+    /// Send a command to the running instance through a named pipe
+    /// </summary>
+    /// <param name="command"></param>
+    public void SendCommandToTheRunningInstance(string command)
+    {
+        using var pipeClient = new NamedPipeClientStream(".", PipeName, PipeDirection.Out);
+        pipeClient.Connect();
+        using var writer = new StreamWriter(pipeClient);
+        writer.Write(command);
+    }
+
+    /// <summary>
+    /// This function is the handler for the named pipe server, and it is called when another instance sends a command
+    /// </summary>
+    /// <param name="ar"></param>
     private void OtherInstanceRequestedACommand(IAsyncResult ar)
     {
         _pipeServer = (NamedPipeServerStream)ar.AsyncState!;
@@ -40,20 +61,18 @@ internal class SingletonService : IDisposable
         }
     }
 
-    public void SendCommandToTheRunningInstance(string command)
-    {
-        using var pipeClient = new NamedPipeClientStream(".", PipeName, PipeDirection.Out);
-        pipeClient.Connect();
-        using var writer = new StreamWriter(pipeClient);
-        writer.Write(command);
-    }
-
+    /// <summary>
+    /// Clean up resources
+    /// </summary>
     ~SingletonService()
     {
-        ReleaseUnmanagedResources();
+        Dispose();
     }
 
-    private void ReleaseUnmanagedResources()
+    /// <summary>
+    /// Clean up resources
+    /// </summary>
+    public void Dispose()
     {
         _mutex?.Dispose();
         _mutex = null;
@@ -61,11 +80,6 @@ internal class SingletonService : IDisposable
         _pipeServer?.Close();
         _pipeServer?.Dispose();
         _pipeServer = null;
-    }
-
-    public void Dispose()
-    {
-        ReleaseUnmanagedResources();
         GC.SuppressFinalize(this);
     }
 }

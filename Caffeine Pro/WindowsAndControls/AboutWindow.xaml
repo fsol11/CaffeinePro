@@ -3,18 +3,20 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:resources="clr-namespace:Caffeine_Pro.Resources"
-
         mc:Ignorable="d"
-        Title="About" Height="616" Width="818" 
-        WindowStartupLocation="CenterScreen">
+        Title="About" Height="712" Width="818" 
+WindowStartupLocation
+    ="CenterScreen">
     <Window.Resources>
         <BitmapImage x:Key="Coffee" UriSource="/Resources/Coffee.png"/>
     </Window.Resources>
 
-
     <Grid>
-        <Image Source="{StaticResource Coffee}" Margin="20,10,0,0" HorizontalAlignment="Left" Width="128" Height="128" VerticalAlignment="Top"></Image>
+        <Image  Source="{StaticResource Coffee}" Margin="20,10,0,0" HorizontalAlignment="Left" Width="128" Height="128" VerticalAlignment="Top">
+            <Image.Clip>
+                <RectangleGeometry RadiusX="10" RadiusY="10" Rect="0,0,128,128"/>
+            </Image.Clip>
+        </Image>
         <StackPanel Orientation="Vertical" Margin="171,0,25,3">
             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Caffeine Pro" VerticalAlignment="Top" FontSize="36"/>
             <TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top"><Run Text="Keep your Windows awake." FontSize="16" /><Bold/></TextBlock>
@@ -43,12 +45,87 @@
                 <Hyperlink ToolTip="https://www.buymeacoffee.com/fsol" NavigateUri="https://www.buymeacoffee.com/fsol" Click="Hyperlink_OnClick">Buy me a coffee...</Hyperlink>
             </TextBlock>
 
-            <TextBlock Padding="0 10 0 0">Command line usage:</TextBlock>
+            <Separator Height="10" Margin="0,10,0,10" />
         </StackPanel>
-        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.ActiveBorderBrushKey}}" Margin="171,259,25,67">
-            <WebBrowser  x:Name="webBrowser" />
-        </Border>
         <Button Content="Close" Margin="0,0,25,15" Click="CloseBtnClick" IsDefault="True" IsCancel="True" Width="80" Height="37" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="171,245,124,0" VerticalAlignment="Top">
+            <StackPanel HorizontalAlignment="Left">
+                <TextBlock HorizontalAlignment="Left" FontWeight="Bold" Text="Command Line Usage:" Margin="0,0,0,8" Width="231" />
+
+                <TextBlock Padding="5" TextAlignment="Center" Background="#d9d9d9" FontFamily="Courier New" Text="CaffeinePro.exe [Command] [options]" Margin="0,0,0,8" />
+
+                <TextBlock TextWrapping="Wrap" Margin="0,0,0,8">
+                        <Bold>NOTE:</Bold> If another instance of <Italic>Caffeine Pro</Italic> is already running all the command line commands and options are sent to that instance.
+                </TextBlock>
+
+                <TextBlock FontWeight="Bold" Text="Commands:" Margin="0,0,0,8" />
+
+                <StackPanel Margin="0,0,0,8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Width="180" Text="activate" />
+                        <TextBlock Text="activate" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Width="180" Text="activeforX" />
+                        <TextBlock Text="activate for X min" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Width="180" Text="activeuntilX" />
+                        <TextBlock Text="activate until X (X=hh:mmpp, e.g. 5:24PM)" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Width="180" Text="deactivate" />
+                        <TextBlock Text="deactivate **" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Width="180" Text="exit" />
+                        <TextBlock Text="exits the instance **" />
+                    </StackPanel>
+                </StackPanel>
+
+                <TextBlock FontWeight="Bold" Text="Options:" Margin="0,0,0,8" />
+
+                <StackPanel Margin="0,0,0,8">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Width="180" Text="-help" />
+                        <TextBlock Text="Show help" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Width="180" Text="-resetoptions" />
+                        <TextBlock Text="Reset all options to false **" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Width="180" Text="-startinactive" />
+                        <TextBlock Text="starts inactive" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Width="180" Text="-allowss" />
+                        <TextBlock Text="allow screen saver. No mouse/key sim" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Width="180" Text="-cpuX" />
+                        <TextBlock Text="deactivate when CPU below X% *" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Width="180" Text="-activewhenlocked" />
+                        <TextBlock Text="stay activate when computer is locked *" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Width="180" Text="-deactivateonbattery" />
+                        <TextBlock Text="deactivate when on battery *" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Width="180" Text="-noicon" />
+                        <TextBlock Text="Do not show the icon in system tray" />
+                    </StackPanel>
+                </StackPanel>
+
+                <TextBlock Text="*: When deactivated, it will stay inactive until manually activated again." Margin="0,0,0,4" />
+                <TextBlock Text="**: specifically designed for controlling existing instance in memory." />
+            </StackPanel>
+
+        </ScrollViewer>
 
     </Grid>
 </Window>

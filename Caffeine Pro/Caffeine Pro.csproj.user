@@ -1,17 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <_LastSelectedProfileId>E:\dev\Caffein Pro\Caffeine Pro\Properties\PublishProfiles\x86.pubxml</_LastSelectedProfileId>
+    <_LastSelectedProfileId>E:\dev\Caffein Pro\Caffeine Pro\Properties\PublishProfiles\x64.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="WindowsAndControls\StatusControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\Resources.resx">
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Page Update="WindowsAndControls\StatusControl.xaml">

@@ -1,111 +1,128 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows.Controls;
 
 namespace Caffeine_Pro.Classes;
 
-internal class AppSettings : INotifyPropertyChanged
+/// <summary>
+/// Settings class for the application
+/// </summary>
+public class AppSettings : INotifyPropertyChanged
 {
     private bool _startInactive;
     private bool _allowScreenSaver;
     private bool _noIcon;
-    private bool _deactivateWhenLocked;
+    private bool _activeWhenLocked;
     private bool _deactivateOnBattery;
     private bool _deactivateWhenCpuBelowPercentage;
     private bool _startWithWindows;
-    private int _cpuUsage;
-    private string _culture = "en";
-    public static AppSettings Default { get; } = new();
+    private int _cpuUsage = 5;
 
-    public AppSettings()
-    {
-        Load();
-    }
-
-
+    /// <summary>
+    /// Get/set the value of the start with windows setting
+    /// When true, the application will start with windows
+    /// </summary>
     public bool StartWithWindows
     {
-        get => _startWithWindows;
+        get => Routines.IsAddedToWindowsStartup();
         set
         {
-            Settings.Default.StartWithWindows = value;
             Routines.AddToWindowsStartup(value);
             SetField(ref _startWithWindows, value);
         }
     }
 
+    /// <summary>
+    /// Get/set the value of the start inactive setting
+    /// When true, the application will start inactive
+    /// </summary>
     public bool StartInactive
     {
         get => _startInactive;
-        set
-        {
-            Settings.Default.StartInactive = value;
-            SetField(ref _startInactive, value);
-        }
+        set => SetField(ref _startInactive, value);
     }
 
+    /// <summary>
+    /// Get/set the value of the allow screen saver setting
+    /// When true, the application will allow the screen saver to start
+    /// however, keystrokes will not be simulated. Therefore, applications
+    /// that track inactivity, such as Skype, will detect inactivity.
+    /// </summary>
     public bool AllowScreenSaver
     {
         get => _allowScreenSaver;
-        set
-        {
-            Settings.Default.AllowScreenSaver = value;
-            SetField(ref _allowScreenSaver, value);
-        }
+        set => SetField(ref _allowScreenSaver, value);
     }
 
+    /// <summary>
+    /// Get/set the value of the no icon setting
+    /// When true, the application will not show an icon in the system tray.
+    /// And the only way to interact with the application is through the command line.
+    /// </summary>
     public bool NoIcon
     {
         get => _noIcon;
         set => SetField(ref _noIcon, value);
     }
 
-    public bool DeactivateWhenLocked
+    /// <summary>
+    /// Get/set the value of deactivate when locked setting
+    /// When true, the application will deactivate when the computer is locked
+    /// When application is deactivated, it will have to be reactivated manually.
+    /// </summary>
+    public bool ActiveWhenLocked
     {
-        get => _deactivateWhenLocked;
-        set
-        {
-            Settings.Default.DeactivateWhenLocked = value;
-            SetField(ref _deactivateWhenLocked, value);
-        }
+        get => _activeWhenLocked;
+        set => SetField(ref _activeWhenLocked, value);
     }
 
+    /// <summary>
+    /// Get/set the value of deactivate on battery setting
+    /// When true, the application will deactivate when the computer is on battery.
+    /// When application is deactivated, it will have to be reactivated manually.
+    /// </summary>
     public bool DeactivateOnBattery
     {
         get => _deactivateOnBattery;
-        set
-        {
-            Settings.Default.DeactivateOnBattery = value;
-            SetField(ref _deactivateOnBattery, value);
-        }
+        set => SetField(ref _deactivateOnBattery, value);
     }
 
+    /// <summary>
+    /// Get/set the value of deactivate when CPU below percentage setting.
+    /// When true, the application will deactivate when the CPU usage is below the value defined in <see cref="CpuUsage"/> property
+    /// </summary>
     public bool DeactivateWhenCpuBelowPercentage
     {
         get => _deactivateWhenCpuBelowPercentage;
-        set
-        {
-            Settings.Default.DeactivateWhenCpuBelowPercentage = value;
-            SetField(ref _deactivateWhenCpuBelowPercentage, value);
-        }
+        set => SetField(ref _deactivateWhenCpuBelowPercentage, value);
     }
 
+    /// <summary>
+    /// Get/set the value of the CPU usage percentage.
+    /// When <see cref="DeactivateWhenCpuBelowPercentage"/> is True, this value determines
+    /// the CPU usage percentage below which the application will deactivate.
+    /// </summary>
     public int CpuUsage
     {
         get => _cpuUsage;
-        set
-        {
-            Settings.Default.CpuUsage = value;
-            SetField(ref _cpuUsage, value);
-        }
+        set => SetField(ref _cpuUsage, value);
     }
 
-    public string Culture
+    /// <summary>
+    /// Reset the settings to their default values
+    /// </summary>
+    public void Reset()
     {
-        get => _culture;
-        set => SetField(ref _culture, value);
+        var reset = new AppSettings();
+        StartInactive = reset.StartInactive;
+        AllowScreenSaver = reset.AllowScreenSaver;
+        NoIcon = reset.NoIcon;
+        ActiveWhenLocked = reset.ActiveWhenLocked;
+        DeactivateOnBattery = reset.DeactivateOnBattery;
+        DeactivateWhenCpuBelowPercentage = reset.DeactivateWhenCpuBelowPercentage;
+        CpuUsage = reset.CpuUsage;
     }
 
+    // INotifyPropertyChanged implementation -----------------------------------
     public event PropertyChangedEventHandler? PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
@@ -117,47 +134,8 @@ internal class AppSettings : INotifyPropertyChanged
     {
         if (EqualityComparer<T>.Default.Equals(field, value)) return false;
         field = value;
-        Settings.Default.Save();
         OnPropertyChanged(propertyName);
         return true;
     }
 
-    public void Reset()
-    {
-        var reset = new AppSettings();
-        StartWithWindows = reset.StartWithWindows;
-        StartInactive = reset.StartInactive;
-        AllowScreenSaver = reset.AllowScreenSaver;
-        NoIcon = reset.NoIcon;
-        DeactivateWhenLocked = reset.DeactivateWhenLocked;
-        DeactivateOnBattery = reset.DeactivateOnBattery;
-        DeactivateWhenCpuBelowPercentage = reset.DeactivateWhenCpuBelowPercentage;
-        CpuUsage = reset.CpuUsage;
-        Culture = reset.Culture;
-    }
-
-    public void Load()
-    {
-        StartWithWindows = Settings.Default.StartWithWindows;
-        StartInactive = Settings.Default.StartInactive;
-        AllowScreenSaver = Settings.Default.AllowScreenSaver;
-        DeactivateWhenLocked = Settings.Default.DeactivateWhenLocked;
-        DeactivateOnBattery = Settings.Default.DeactivateOnBattery;
-        DeactivateWhenCpuBelowPercentage = Settings.Default.DeactivateWhenCpuBelowPercentage;
-        CpuUsage = Settings.Default.CpuUsage;
-        Culture = Settings.Default.Culture;
-    }
-
-    public void Save()
-    {
-        Settings.Default.StartWithWindows = StartWithWindows;
-        Settings.Default.StartInactive = StartInactive;
-        Settings.Default.AllowScreenSaver = AllowScreenSaver;
-        Settings.Default.DeactivateWhenLocked = DeactivateWhenLocked;
-        Settings.Default.DeactivateOnBattery = DeactivateOnBattery;
-        Settings.Default.DeactivateWhenCpuBelowPercentage = DeactivateWhenCpuBelowPercentage;
-        Settings.Default.CpuUsage = CpuUsage;
-        Settings.Default.Culture = Culture;
-        Settings.Default.Save();
-    }
 }

@@ -2,17 +2,21 @@
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Windows;
-using System.Windows.Media;
 using System.Management;
 using System.Diagnostics;
-using System.Windows.Controls;
-
+using System.Drawing;
 
 namespace Caffeine_Pro.Classes;
 
+/// <summary>
+/// This class contains various routines used throughout the application
+/// </summary>
 public class Routines
 {
+    /// <summary>
+    /// Returns the current CPU usage of the system
+    /// </summary>
+    /// <returns></returns>
     public static float CpuUsage()
     {
         var cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
@@ -25,6 +29,9 @@ public class Routines
     [DllImport("kernel32.dll", SetLastError = true)]
     private static extern IntPtr GetStdHandle(int nStdHandle);
 
+    /// <summary>
+    /// Returns true if the application is running in a command line console
+    /// </summary>
     public static bool IsConsole()
     {
         try
@@ -38,6 +45,9 @@ public class Routines
         }
     }
 
+    /// <summary>
+    /// Determines if the system is running on battery
+    /// </summary>
     public static bool IsOnBattery()
     {
         var query = new ObjectQuery("SELECT * FROM Win32_Battery");
@@ -58,6 +68,10 @@ public class Routines
         return false;
     }
 
+    /// <summary>
+    /// Returns the text of a text file embedded in the application resources
+    /// </summary>
+    /// <param name="resourceName">Path to the resource</param>
     public static string GetResourceTextFile(string resourceName)
     {
         var assembly = Assembly.GetExecutingAssembly();
@@ -67,12 +81,33 @@ public class Routines
         return reader.ReadToEnd();
     }
 
+    /// <summary>
+    /// Returns a stream of a resource embedded in the application resources
+    /// </summary>
+    /// <param name="resourceName">Path to the resource</param>
     public static Stream GetResourceStream(string resourceName)
     {
         var assembly = Assembly.GetExecutingAssembly();
         return assembly.GetManifestResourceStream(resourceName) ?? throw new Exception("Resource not found: " + resourceName);
     }
 
+    /// <summary>
+    /// Returns an icon from a resource
+    /// </summary>
+    /// <param name="resourceName">Path to the icon resource</param>
+    public static Icon GetIconFromResource(string resourceName)
+    {
+        using var iconStream = Routines.GetResourceStream("Caffeine_Pro.Resources.CoffeeDot.ico");
+        return new Icon(iconStream);
+    }
+
+    /// <summary>
+    /// Returns text representation of a time. If the time is today, it will return the time only.
+    /// Depending on the date of the time, it will return "Yesterday", "Tomorrow", "In 2 days", "In 3 days"
+    /// plus the time.
+    /// </summary>
+    /// <param name="time"></param>
+    /// <returns></returns>
     public static string GetTimeString(DateTime time)
     {
         var day = (time.Date - DateTime.Today).Days switch
@@ -89,32 +124,10 @@ public class Routines
         return (string.IsNullOrEmpty(day) ? string.Empty : day + " ") + time.ToShortTimeString();
     }
 
-    public static T? FindChild<T>(DependencyObject? parent) where T : DependencyObject
-    {
-        if (parent == null) return null;
-
-        T? foundChild = null;
-
-        var childrenCount = VisualTreeHelper.GetChildrenCount(parent);
-        for (var i = 0; i < childrenCount; i++)
-        {
-            var child = VisualTreeHelper.GetChild(parent, i);
-            if (child is not T childType)
-            {
-                foundChild = FindChild<T>(child);
-
-                if (foundChild != null) break;
-            }
-            else
-            {
-                foundChild = childType;
-                break;
-            }
-        }
-
-        return foundChild;
-    }
-
+    /// <summary>
+    /// Adds or removes the program to/from the Windows startup
+    /// </summary>
+    /// <param name="active">When true, adds the program to Windows startups, and when false removes it</param>
     public static void AddToWindowsStartup(bool active)
     {
         var exePath = Assembly.GetExecutingAssembly().Location;
@@ -128,8 +141,35 @@ public class Routines
 
     }
 
+    /// <summary>
+    /// Determines if the application is added to the Windows startup
+    /// </summary>
+    public static bool IsAddedToWindowsStartup()
+    {
+        var exePath = Assembly.GetExecutingAssembly().Location;
+        var applicationName = Assembly.GetExecutingAssembly().GetName().Name!;
 
-    private static bool? _isWorkstationLocked = null;
+        using var key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
+        return key?.GetValue(applicationName)?.ToString() == exePath;
+    }
+
+    /// <summary>
+    /// Determines if workstation is locked. However, as Windows does not provide a direct way to determine
+    /// workstation is being locked, this method uses a workaround by monitoring session switch events.
+    /// </summary>
+    public static bool IsWorkstationLocked()
+    {
+        if (_isWorkstationLocked != null) return _isWorkstationLocked == true;
+
+        _isWorkstationLocked = IsWorkstationLockedInitial();
+
+        // setting up the session monitoring
+        SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
+
+        return _isWorkstationLocked == true;
+    }
+
+    private static bool? _isWorkstationLocked;
     [DllImport("user32.dll", SetLastError = true)]
     private static extern IntPtr OpenInputDesktop(int dwFlags, bool fInherit, int dwDesiredAccess);
 
@@ -172,32 +212,9 @@ public class Routines
         };
     }
 
-    public static bool IsWorkstationLocked()
-    {
-        if (_isWorkstationLocked == null)
-        {
-            _isWorkstationLocked = IsWorkstationLockedInitial();
-            // setting up the session monitoring
-            SystemEvents.SessionSwitch += SystemEvents_SessionSwitch;
-        }
-
-        return _isWorkstationLocked == true;
-    }
-
-    public static MenuItem? FindMenuItemByTag(ItemCollection menuItems, string tag)
-    {
-        foreach (MenuItem item in menuItems)
-        {
-            if ((string)item.Tag == tag) return item;
-
-            if (!item.HasItems) continue;
-            var foundItem = FindMenuItemByTag(item.Items, tag);
-            if (foundItem != null) return foundItem;
-        }
-
-        return null;
-    }
-
+    /// <summary>
+    /// Cleans up the session switch event
+    /// </summary>
     ~Routines()
     {
         SystemEvents.SessionSwitch -= SystemEvents_SessionSwitch;

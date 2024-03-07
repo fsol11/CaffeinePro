@@ -1,48 +1,30 @@
-﻿using System.ComponentModel;
-using System.Drawing;
-using System.Globalization;
-using System.Runtime.CompilerServices;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
+using System.Windows.Media.Imaging;
 using Caffeine_Pro.Classes;
 using Caffeine_Pro.WindowsAndControls;
 using Hardcodet.Wpf.TaskbarNotification;
-using StartupEventArgs = System.Windows.StartupEventArgs;
 
 namespace Caffeine_Pro;
 
-public partial class App : INotifyPropertyChanged
+/// <summary>
+/// Main application class
+/// </summary>
+public partial class App
 {
-    private TaskbarIcon? _trayIcon;
-    private ContextMenu? _menu;
-    private StatusControl? _statusControl;
-    private bool _isActive;
+    // Application services and settings
+    public static readonly KeepAwakeService KeepAwakeService = new();
+    public static readonly SingletonService SingletonService = new();
+    public static readonly ParameterProcessorService ParameterProcessorService = new(KeepAwakeService);
+    public static readonly AppSettings AppSettings = new();
 
-    private static readonly AboutWindow AboutWindow = new();
-    private static readonly KeepAwakeService KeepAwakeService = new();
-    private static readonly SingletonService SingletonService = new();
-    private static readonly ParameterProcessorService ParameterProcessorService = new(KeepAwakeService);
-    private static readonly Icon NormalIcon;
-    private static readonly Icon ActiveIcon;
-
-    static App()
-    {
-        using var iconStream1 = Routines.GetResourceStream("Caffeine_Pro.Resources.Coffee.ico");
-        NormalIcon = new Icon(iconStream1);
-        using var iconStream2 = Routines.GetResourceStream("Caffeine_Pro.Resources.CoffeeDot.ico");
-        ActiveIcon = new Icon(iconStream2);
-    }
-
-    public bool IsActive
-    {
-        get => _isActive;
-        set => SetField(ref _isActive, value);
-    }
-
+    /// <summary>
+    /// Called when the application starts
+    /// </summary>
     protected override void OnStartup(StartupEventArgs e)
     {
-        if (!SingletonService.CheckSingleton())
+        // If the application is already running, send the arguments to the running instance
+        if (!SingletonService.IsApplicationAlreadyRunning())
         {
             if (e.Args.Length == 0)
                 MessageBox.Show("An instance of the application is already running.");
@@ -52,68 +34,59 @@ public partial class App : INotifyPropertyChanged
             return;
         }
 
-        base.OnStartup(e);
+        if (e.Args.Length == 0)
 
-        Init();
-
-        ParameterProcessorService.ProcessArgs(e.Args, ParameterProcessorService.StartActions.Activate);
-        ApplyCommands();
-    }
-
-    private void ApplyCommands()
-    {
-        _trayIcon!.Visibility = AppSettings.Default.NoIcon ? Visibility.Collapsed : Visibility.Visible;
-    }
-
-    private void Init()
-    {
-        _trayIcon = (TaskbarIcon)FindResource("TrayIcon")!;
-        _menu = (ContextMenu)FindResource("TrayContextMenu")!;
-        _menu.DataContext = this;
-        _statusControl = (StatusControl)((MenuItem)_menu.Items[0]!).Header!;
-        KeepAwakeService.OnActivate += OnStatusChanged;
-        KeepAwakeService.OnDeactivate += OnStatusChanged;
-        KeepAwakeService.Tick += OnStatusChanged;
-
-        // When another instance starts, it will send its arguments to the running instance
-        SingletonService.CommandReceived += (command) =>
-        {
-            ParameterProcessorService.ProcessArgs(command.Split(" "), ParameterProcessorService.StartActions.DoNothing);
-            ApplyCommands();
-        };
-    }
-
-    private void OnStatusChanged(object? sender, EventArgs e)
-    {
-        RefreshStatus();
+            base.OnStartup(e);
+        Init(e);
     }
 
     /// <summary>
-    /// Sets tooltip and UI status based on the current date time
+    /// Initialize the application
     /// </summary>
-    private void RefreshStatus()
+    /// <param name="e"></param>
+    private void Init(StartupEventArgs e)
     {
-        IsActive = KeepAwakeService.IsActive;
-        _trayIcon!.Icon = IsActive ? ActiveIcon : NormalIcon;
-        _trayIcon.ToolTipText = "Caffeine Pro";
-        if (IsActive && KeepAwakeService.UntilDateTime != DateTime.MaxValue)
-            _trayIcon.ToolTipText += $"\r\nActive Until: {Routines.GetTimeString(KeepAwakeService.UntilDateTime)}";
+        // track status changes to update the tray icon
+        KeepAwakeService.OnStatusChanged += OnStatusChanged;
 
-        if (IsActive)
-            _statusControl!.SetActive(KeepAwakeService.UntilDateTime);
-        else
-            _statusControl!.SetInactive();
+        // When another instance starts, it will send
+        // its arguments to the running instance
+        SingletonService.CommandReceived += (command) =>
+        {
+            ParameterProcessorService.ProcessArgs(command.Split(" "), ParameterProcessorService.StartActions.DoNothing);
+        };
+
+        // process the command line arguments
+        ParameterProcessorService.ProcessArgs(e.Args, ParameterProcessorService.StartActions.Activate);
     }
 
+    /// <summary>
+    /// Track the status changes to update the tray icon
+    /// </summary>
+    private void OnStatusChanged(object? sender, EventArgs e)
+    {
+        // Updating icon
+        ((TaskbarIcon)FindResource("TrayIcon")!).IconSource = (BitmapImage)(
+                KeepAwakeService.IsActive
+                ? FindResource("ActiveIcon")
+                : FindResource("InactiveIcon")
+            )!;
+    }
+
+    /// <summary>
+    /// Called when the application exits to clean up the resources
+    /// </summary>
     protected override void OnExit(ExitEventArgs e)
     {
+        AboutWindow.CloseIt(); // <- About Window might be open or loaded when exit is called
+        SingletonService.Dispose(); // <- Disposing the singleton mutex
         base.OnExit(e);
-        _trayIcon?.Dispose();
-        NormalIcon.Dispose();
-        ActiveIcon.Dispose();
-        SingletonService.Dispose();
     }
 
+    /// <summary>
+    /// Handling all the menu items for "Active For X" where X is the minutes
+    /// All menu items have minutes as their tag
+    /// </summary>
     private void MenuItemOnClick_ActiveFor(object sender, RoutedEventArgs e)
     {
         var menu = (MenuItem)sender;
@@ -121,6 +94,10 @@ public partial class App : INotifyPropertyChanged
         KeepAwakeService.ActivateUntil(DateTime.Now.AddMinutes(minutes));
     }
 
+    /// <summary>
+    /// Handling all the menu items for "Activate Until X" where X is the time
+    /// All menu items have time in their header
+    /// </summary>
     private void MenuItemOnClick_ActivateUntil(object sender, RoutedEventArgs e)
     {
         var header = (string)((MenuItem)sender).Header;
@@ -131,100 +108,87 @@ public partial class App : INotifyPropertyChanged
         var date = DateTime.Now.Date;
         var time = new TimeSpan(hours, minutes, 0);
         if (time < DateTime.Now.TimeOfDay) date = date.AddDays(1);
-        KeepAwakeService.ActivateUntil(new DateTime(DateOnly.FromDateTime(date), TimeOnly.FromTimeSpan(time)));
+        KeepAwakeService.ActivateUntil(
+            new DateTime(DateOnly.FromDateTime(date), TimeOnly.FromTimeSpan(time)));
     }
 
-
+    /// <summary>
+    /// Handling the "About" menu item
+    /// </summary>
     private void OnAboutMenu(object sender, RoutedEventArgs e)
     {
-        AboutWindow.ShowDialog();
+        AboutWindow.ShowIt();
     }
 
+    /// <summary>
+    /// Handling the "Exit" menu item
+    /// </summary>
     private void OnExitMenu(object sender, RoutedEventArgs e)
     {
         Shutdown();
     }
 
-    public event PropertyChangedEventHandler? PropertyChanged;
-
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
-    {
-        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-        field = value;
-        OnPropertyChanged(propertyName);
-        return true;
-    }
-
+    /// <summary>
+    /// Handling +15 min button in the status control
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void OnPlus15(object? sender, EventArgs e)
     {
         KeepAwakeService.ActivateUntil(KeepAwakeService.UntilDateTime.AddMinutes(15));
     }
 
+    /// <summary>
+    /// Handling -15 min button in the status control
+    /// </summary>
     private void OnMinus15(object? sender, EventArgs e)
     {
         KeepAwakeService.ActivateUntil(KeepAwakeService.UntilDateTime.AddMinutes(-15));
     }
 
+    /// <summary>
+    /// Handles the "Activate" menu item
+    /// </summary>
     private void OnActivate(object sender, RoutedEventArgs e)
     {
         KeepAwakeService.ActivateUntil(DateTime.MaxValue);
     }
 
+    /// <summary>
+    /// Handles the "Cancel" menu item
+    /// </summary>
     private void OnCancel(object sender, RoutedEventArgs e)
     {
         KeepAwakeService.Deactivate();
     }
 
-    private void NumericTextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
-    {
-        if ((e.OriginalSource as TextBox)!.Text.Length + e.Text.Length > 2
-            || !decimal.TryParse(e.Text, out var num)
-            || num is > 99 or < 0)
-        {
-            // If not, cancel the input
-            e.Handled = true;
-        }
-
-    }
-
-    private void NumericTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
-    {
-        // Check if the key is a space
-        if (e.Key == Key.Space)
-        {
-            // If it is, cancel the key
-            e.Handled = true;
-        }
-    }
-
+    /// <summary>
+    /// Handling the "No Icon" menu item
+    /// The menu as well as Tray Icon's visibility is bound to AppSettings, and is automatically saved.
+    /// This function just confirms with the user that by removing the icon, the only way
+    /// to communicate with the program will be through the command line. If the user does not
+    /// want that, the icon is unhidden.
+    /// </summary>
     private void NoIconBtn(object sender, RoutedEventArgs e)
     {
-        if (MessageBox.Show(
-                "The icon will be removed from the tray. If you continue, the only way to access the application will be through the command line. Continue?",
-                "Alert",
-                MessageBoxButton.OKCancel) == MessageBoxResult.OK)
-            _trayIcon!.Visibility = Visibility.Collapsed;
+        if (AppSettings.NoIcon
+            && MessageBox.Show(
+                "If icon is removed, the only way to access the application will be through the command line. Continue?",
+                "Alert", MessageBoxButton.OKCancel,
+                MessageBoxImage.Warning,
+                MessageBoxResult.OK,
+                MessageBoxOptions.DefaultDesktopOnly) != MessageBoxResult.OK
+        )
+        {
+            AppSettings.NoIcon = false;
+        }
     }
 
-    private void CpuUsage_OnGotFocus(object sender, RoutedEventArgs e)
-    {
-        (sender as TextBox)?.SelectAll();
-    }
-
+    /// <summary>
+    /// Handles the "Reset Settings" menu item
+    /// </summary>
     private void ResetSettings(object sender, RoutedEventArgs e)
     {
-        AppSettings.Default.Reset();
-    }
-
-    private void SetLanguageMenu(object sender, RoutedEventArgs e)
-    {
-        if (((MenuItem)sender).Tag is not string culture) return;
-        AppSettings.Default.Culture = culture;
-        Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+        AppSettings.Reset();
     }
 }

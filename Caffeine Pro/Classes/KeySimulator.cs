@@ -2,6 +2,9 @@
 
 namespace Caffeine_Pro.Classes;
 
+/// <summary>
+/// This class implements a method to simulate a key press
+/// </summary>
 public class KeySimulator
 {
     [DllImport("user32.dll", SetLastError = true)]

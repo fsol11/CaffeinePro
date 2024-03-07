@@ -2,6 +2,9 @@
 
 namespace Caffeine_Pro.Classes;
 
+/// <summary>
+/// This class implements a method to simulate a mouse move
+/// </summary>
 public class MouseSimulator
 {
     [DllImport("user32.dll", SetLastError = true)]
