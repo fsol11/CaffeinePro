@@ -40,8 +40,12 @@ WindowStartupLocation
             </ui:TextBlock>
             <Separator Height="10" Margin="0,0,0,10" />
             <ui:TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top">
-                Written by and Copyrighted to:
+                Written by:
                 <Bold>Farshid Solimanpour</Bold>
+            </ui:TextBlock>
+            <ui:TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top">
+                License:
+                <Hyperlink NavigateUri="">MIT License</Hyperlink>
             </ui:TextBlock>
             <ui:TextBlock  HorizontalAlignment="Left" Width="134" Height="22" VerticalAlignment="Top">
                 <Hyperlink NavigateUri="mailto:caffinepro@farshid.ca" Click="Hyperlink_OnClick">caffinepro@farshid.ca</Hyperlink>
@@ -58,7 +62,7 @@ WindowStartupLocation
             <StackPanel HorizontalAlignment="Left">
                 <ui:TextBlock HorizontalAlignment="Left" FontWeight="Bold" Text="Command Line Usage:" Margin="0,0,0,8" Width="231" />
 
-                <ui:TextBlock Padding="5" TextAlignment="Center" Background="#d9d9d9" FontFamily="Courier New" Text="CaffeinePro.exe [Command] [options]" Margin="0,0,0,8" />
+                <ui:TextBlock Padding="5" TextAlignment="Center" Background="#FF909090" FontFamily="Courier New" Text="CaffeinePro.exe [Command] [options]" Margin="0,0,0,8" />
 
                 <ui:TextBlock TextWrapping="Wrap" Margin="0,0,0,8">
                     <Bold>NOTE:</Bold> If another instance of
