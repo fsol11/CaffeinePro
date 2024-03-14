@@ -33,3 +33,6 @@ if ($node -ne $null)
 	$node.Value = $newVersion
 }
 $setup.Save($setupfile)
+
+# Delete the EXE Files
+#Get-ChildItem -Path "bin" -Include *.exe -Recurse -File | Remove-Item -Force

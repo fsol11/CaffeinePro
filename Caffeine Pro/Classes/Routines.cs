@@ -2,9 +2,10 @@
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Management;
 using System.Diagnostics;
 using System.Drawing;
+using System.ComponentModel;
+using System.Windows.Forms;
 
 namespace Caffeine_Pro.Classes;
 
@@ -50,22 +51,7 @@ public class Routines
     /// </summary>
     public static bool IsOnBattery()
     {
-        var query = new ObjectQuery("SELECT * FROM Win32_Battery");
-        using var searcher = new ManagementObjectSearcher(query);
-        foreach (var mo in searcher.Get())
-        {
-            var status = mo["BatteryStatus"];
-            if (status != null && int.TryParse(status.ToString(), out var statusValue))
-            {
-                // According to the Win32_Battery documentation, a value of 1 means "Discharging"
-                if (statusValue == 1)
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return SystemInformation.PowerStatus.PowerLineStatus == PowerLineStatus.Offline;
     }
 
     /// <summary>
@@ -220,6 +206,28 @@ public class Routines
         using var key = Registry.CurrentUser.OpenSubKey(registryKeyPath);
         var registryValue = key?.GetValue(registryValueName);
         return registryValue is int and <= 0;
+    }
+
+    public static string GetEnumDescription<T>(T value) where T : Enum
+    {
+        var fi = value?.GetType().GetField(value.ToString() ?? string.Empty);
+
+        if (fi == null) return string.Empty;
+
+        var attributes =
+            (DescriptionAttribute[])fi.GetCustomAttributes(
+                typeof(DescriptionAttribute), false);
+
+        return (attributes.Length > 0 ? attributes[0].Description : value?.ToString()) ?? string.Empty;
+    }
+
+    public static void OpenHyperlink(string uri)
+    {
+        Process.Start(new ProcessStartInfo
+        {
+            FileName = uri.ToString(),
+            UseShellExecute = true
+        });
     }
 
 
