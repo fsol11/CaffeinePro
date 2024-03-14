@@ -1,7 +1,9 @@
-﻿using System.Diagnostics;
+﻿using Caffeine_Pro.Classes;
+using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Documents;
+using System.Windows.Input;
 
 namespace Caffeine_Pro.WindowsAndControls;
 
@@ -10,7 +12,7 @@ namespace Caffeine_Pro.WindowsAndControls;
 /// </summary>
 public partial class AboutWindow
 {
-    private static AboutWindow? _aboutWindow;
+    private static AboutWindow? _window;
     public static string AppName => Assembly.GetExecutingAssembly().GetName().Name!;
     public static string Version => Assembly.GetExecutingAssembly().GetName().Version!.ToString();
 
@@ -20,15 +22,15 @@ public partial class AboutWindow
     /// </summary>
     public static void ShowIt()
     {
-        if (_aboutWindow is { IsLoaded: true })
+        if (_window is { IsLoaded: true })
         {
-            _aboutWindow.Show();
-            _aboutWindow.Activate();
+            _window.Show();
+            _window.Activate();
         }
         else
         {
-            _aboutWindow = new AboutWindow();
-            _aboutWindow.Show();
+            _window = new AboutWindow();
+            _window.Show();
         }
     }
 
@@ -37,7 +39,7 @@ public partial class AboutWindow
     /// </summary>
     public static void CloseIt()
     {
-        if (_aboutWindow is { IsLoaded: true }) _aboutWindow.Close();
+        if (_window is { IsLoaded: true }) _window.Close();
     }
 
     /// <summary>
@@ -62,13 +64,13 @@ public partial class AboutWindow
     /// </summary>
     private void Hyperlink_OnClick(object sender, RoutedEventArgs e)
     {
-        var uri = ((Hyperlink)sender).NavigateUri;
-        Process.Start(new ProcessStartInfo
-        {
-            FileName = uri.ToString(),
-            UseShellExecute = true
-        });
+        Routines.OpenHyperlink(((Hyperlink)sender).NavigateUri.ToString());
     }
 
 
+    private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.ChangedButton == MouseButton.Left)
+            this.DragMove();
+    }
 }

@@ -15,6 +15,11 @@ public class KeepAwakeService : INotifyPropertyChanged
     private DateTime _untilDateTime = DateTime.MinValue;
 
     /// <summary>
+    /// This event is called when keep awake timer is enabled or disabled
+    /// </summary>
+    public event EventHandler? OnStatusChanged;
+
+    /// <summary>
     /// get/set activation status of the keep awake service
     /// </summary>
     public bool IsActive
@@ -23,10 +28,11 @@ public class KeepAwakeService : INotifyPropertyChanged
         set => SetField(ref _isActive, value);
     }
 
-    /// <summary>
-    /// This event is called when keep awake timer is enabled or disabled
-    /// </summary>
-    public event EventHandler? OnStatusChanged;
+    public WindowsSessionControl.SessionAction AfterwardsAction
+    {
+        get => _afterwardsAction;
+        set => SetField(ref _afterwardsAction, value);
+    }
 
     /// <summary>
     /// Declares the Windows function for setting thread properties
@@ -79,6 +85,8 @@ public class KeepAwakeService : INotifyPropertyChanged
         Enabled = false,
     };
 
+    private WindowsSessionControl.SessionAction _afterwardsAction;
+
     /// <summary>
     /// Constructor
     /// </summary>
@@ -112,13 +120,16 @@ public class KeepAwakeService : INotifyPropertyChanged
     /// <summary>
     /// Deactivate the keep awake service
     /// </summary>
-    public void Deactivate()
+    public void Deactivate(bool executeAfterwardsAction = false)
     {
         SetThreadExecutionState(EsContinuous);
         _timer.Stop();
         IsActive = false;
         UpdateStatusText();
         OnStatusChanged?.Invoke(this, EventArgs.Empty);
+
+        if (executeAfterwardsAction)
+            WindowsSessionControl.ExecuteSessionAction(AfterwardsAction);
     }
 
     private void UpdateStatusText()
@@ -126,8 +137,8 @@ public class KeepAwakeService : INotifyPropertyChanged
         StatusText =
                 "Caffeine Pro - " +
                 (IsActive ? "Active" : "Inactive") +
-                (IsActive && UntilDateTime != DateTime.MaxValue ? " until " + UntilDateTimeText : string.Empty)
-            ;
+                (IsActive && UntilDateTime != DateTime.MaxValue ? " until " + UntilDateTimeText + " - afterwards " + Routines.GetEnumDescription(AfterwardsAction) : string.Empty)
+                ;
     }
 
     /// <summary>
@@ -138,16 +149,16 @@ public class KeepAwakeService : INotifyPropertyChanged
     private void TimerFunction(object? sender, ElapsedEventArgs elapsedEventArgs)
     {
         // Handle DeactivateWhenLocked
-        if (!App.AppSettings.ActiveWhenLocked && Routines.IsWorkstationLocked())
+        if (App.AppSettings.DeactivateWhenLocked && Routines.IsWorkstationLocked())
         {
-            Deactivate();
+            Deactivate(true);
             return;
         }
 
         // Handle DeactivateOnBattery
         if (App.AppSettings.DeactivateOnBattery && Routines.IsOnBattery())
         {
-            Deactivate();
+            Deactivate(true);
             return;
         }
 
@@ -155,7 +166,14 @@ public class KeepAwakeService : INotifyPropertyChanged
         if (App.AppSettings.DeactivateWhenCpuBelowPercentage &&
             Routines.CpuUsage() < App.AppSettings.CpuUsage)
         {
-            Deactivate();
+            Deactivate(true);
+            return;
+        }
+
+        // Deactivate when the time is up
+        if (DateTime.Now >= UntilDateTime)
+        {
+            Deactivate(true);
             return;
         }
 
@@ -175,9 +193,6 @@ public class KeepAwakeService : INotifyPropertyChanged
             // This also prevents other programs to detect inactivity
             KeySimulator.PressF15();
         }
-
-        // Deactivate when the time is up
-        if (DateTime.Now >= UntilDateTime) Deactivate();
     }
 
     // INotifyPropertyChanged implementation ---------------------------------------------------

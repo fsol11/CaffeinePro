@@ -11,7 +11,7 @@ public class AppSettings : INotifyPropertyChanged
     private bool _startInactive;
     private bool _allowScreenSaver;
     private bool _noIcon;
-    private bool _activeWhenLocked;
+    private bool _deactivateWhenLocked;
     private bool _deactivateOnBattery;
     private bool _deactivateWhenCpuBelowPercentage;
     private bool _startWithWindows;
@@ -69,10 +69,10 @@ public class AppSettings : INotifyPropertyChanged
     /// When true, the application will deactivate when the computer is locked
     /// When application is deactivated, it will have to be reactivated manually.
     /// </summary>
-    public bool ActiveWhenLocked
+    public bool DeactivateWhenLocked
     {
-        get => _activeWhenLocked;
-        set => SetField(ref _activeWhenLocked, value);
+        get => _deactivateWhenLocked;
+        set => SetField(ref _deactivateWhenLocked, value);
     }
 
     /// <summary>
@@ -116,7 +116,7 @@ public class AppSettings : INotifyPropertyChanged
         StartInactive = reset.StartInactive;
         AllowScreenSaver = reset.AllowScreenSaver;
         NoIcon = reset.NoIcon;
-        ActiveWhenLocked = reset.ActiveWhenLocked;
+        DeactivateWhenLocked = reset.DeactivateWhenLocked;
         DeactivateOnBattery = reset.DeactivateOnBattery;
         DeactivateWhenCpuBelowPercentage = reset.DeactivateWhenCpuBelowPercentage;
         CpuUsage = reset.CpuUsage;

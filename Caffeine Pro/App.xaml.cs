@@ -84,12 +84,18 @@ public partial class App
     /// </summary>
     private void OnStatusChanged(object? sender, EventArgs e)
     {
+        Dispatcher.Invoke(UpdateTrayIcon);
+
+    }
+
+    private void UpdateTrayIcon()
+    {
         // Updating icon
         ((TaskbarIcon)FindResource("TrayIcon")!).IconSource = (BitmapImage)(
-                KeepAwakeService.IsActive
+            KeepAwakeService.IsActive
                 ? FindResource("ActiveIcon")
                 : FindResource("InactiveIcon")
-            )!;
+        )!;
     }
 
     /// <summary>
@@ -155,7 +161,10 @@ public partial class App
     /// <param name="e"></param>
     private void OnPlus15(object? sender, EventArgs e)
     {
-        KeepAwakeService.ActivateUntil(KeepAwakeService.UntilDateTime.AddMinutes(15));
+        var newDate = KeepAwakeService.UntilDateTime.AddMinutes(15);
+        if (newDate > DateTime.Now.AddHours(24))
+            newDate = DateTime.Now.AddHours(24);
+        KeepAwakeService.ActivateUntil(newDate);
     }
 
     /// <summary>
@@ -163,7 +172,10 @@ public partial class App
     /// </summary>
     private void OnMinus15(object? sender, EventArgs e)
     {
-        KeepAwakeService.ActivateUntil(KeepAwakeService.UntilDateTime.AddMinutes(-15));
+        var newDate = KeepAwakeService.UntilDateTime.AddMinutes(-15);
+        if (newDate < DateTime.Now.AddMinutes(15))
+            newDate = DateTime.Now.AddMinutes(15);
+        KeepAwakeService.ActivateUntil(newDate);
     }
 
     /// <summary>
@@ -210,5 +222,10 @@ public partial class App
     private void ResetSettings(object sender, RoutedEventArgs e)
     {
         AppSettings.Reset();
+    }
+
+    private void OnSendFeedback(object sender, RoutedEventArgs e)
+    {
+        Routines.OpenHyperlink("https://lotrasoft.com/caffeinepro/feedback?product=Caffeine%20Pro");
     }
 }

@@ -9,6 +9,7 @@
     <UserControl.Resources>
         <windowsAndControls:InvertableBooleanToVisibilityConverter x:Key="BoolToVis"/>
         <windowsAndControls:DateToVisibilityConverter x:Key="DateToVis"/>
+        <windowsAndControls:EnumToDescriptionConverter x:Key="EnumToDescription"/>
     </UserControl.Resources>
 
     <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Margin="5">
@@ -21,14 +22,22 @@
                 <Run Text="Active"/>
             </TextBlock>
 
-            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Visibility="{Binding Visibility, ElementName=ActiveUntilText}">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Center" Visibility="{Binding Source={x:Static local:App.KeepAwakeService}, Path=UntilDateTime, Converter={StaticResource DateToVis}}">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
                     <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="10" TextAlignment="Center" >
                         <Run Text="Until" />
                         <Run Text=" "/>
                     </TextBlock>
 
-                    <TextBlock x:Name="ActiveUntilText" Text="{Binding Source={x:Static local:App.KeepAwakeService}, Path=UntilDateTimeText}" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Bold" Visibility="{Binding Source={x:Static local:App.KeepAwakeService}, Path=UntilDateTime, Converter={StaticResource DateToVis}}" />
+                    <TextBlock Text="{Binding Source={x:Static local:App.KeepAwakeService}, Path=UntilDateTimeText}" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Bold"  />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" >
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center"  FontSize="10" TextAlignment="Center" >
+                        <Run Text="Afterwards" />
+                        <Run Text=" "/>
+                    </TextBlock>
+
+                    <TextBlock Text="{Binding Source={x:Static local:App.KeepAwakeService}, Path=AfterwardsAction, Converter={StaticResource EnumToDescription}}" VerticalAlignment="Center" TextAlignment="Center" FontWeight="Bold"  />
                 </StackPanel>
             </StackPanel>
             <StackPanel HorizontalAlignment="Center"  Visibility="{Binding ShowPlusMinusButtons, Converter={StaticResource BoolToVis}}" >

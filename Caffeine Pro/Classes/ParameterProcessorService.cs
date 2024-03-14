@@ -104,8 +104,8 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
                     break;
 
                 // ReSharper disable once StringLiteralTypo
-                case "-activewhenlocked":
-                    App.AppSettings.ActiveWhenLocked = true;
+                case "-deactivewhenlocked":
+                    App.AppSettings.DeactivateWhenLocked = true;
                     break;
 
                 // ReSharper disable once StringLiteralTypo

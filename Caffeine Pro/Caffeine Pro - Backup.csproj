@@ -1,0 +1,58 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <RootNamespace>Caffeine_Pro</RootNamespace>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <StartupObject>Caffeine_Pro.App</StartupObject>
+    <ApplicationIcon>Resources\Coffee.ico</ApplicationIcon>
+    <PackageProjectUrl>https://github.com/fsol11/Caffein-Pro</PackageProjectUrl>
+    <Copyright>Copyright (c) 2024 Farshid Solimanpour</Copyright>
+    <Description>Keeps Windows awake</Description>
+    <PackageIcon>Coffee.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/fsol11/Caffein-Pro</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <Version>1.1.540</Version>
+    <SignAssembly>True</SignAssembly>
+    <Deterministic>false</Deterministic>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
+    <PackageReference Include="System.Management" Version="8.0.0" />
+    <PackageReference Include="WPF-UI" Version="3.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="coffee-cup-brown 64x64.ico" />
+    <None Remove="coffee-cup-brown 16x16.ico" />
+    <None Remove="Coffee.ico" />
+    <None Remove="Coffee.png" />
+    <None Remove="CoffeeDot.ico" />
+    <Resource Include="Resources\Coffee.ico" />
+    <Resource Include="Resources\CoffeeDot.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Coffee.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </Resource>
+  </ItemGroup>
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="powershell.exe -File &quot;$(ProjectDir)incrementversion.ps1&quot;&#xA;" />
+  </Target>
+</Project>
