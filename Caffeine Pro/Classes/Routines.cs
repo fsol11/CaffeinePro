@@ -116,11 +116,11 @@ public class Routines
     /// <param name="active">When true, adds the program to Windows startups, and when false removes it</param>
     public static void AddToWindowsStartup(bool active)
     {
-        var exePath = Assembly.GetExecutingAssembly().Location;
+        var exePath = Process.GetCurrentProcess().MainModule?.FileName;
         const string applicationName = "Caffeine Pro";
 
         using var key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);
-        if (active)
+        if (active && !string.IsNullOrEmpty(exePath))
             key?.SetValue(applicationName, exePath);
         else
             key?.DeleteValue(applicationName, false);
@@ -132,7 +132,7 @@ public class Routines
     /// </summary>
     public static bool IsAddedToWindowsStartup()
     {
-        var exePath = Assembly.GetExecutingAssembly().Location;
+        var exePath = Process.GetCurrentProcess().MainModule?.FileName;
         var applicationName = Assembly.GetExecutingAssembly().GetName().Name!;
 
         using var key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", true);

@@ -16,14 +16,15 @@
     <RepositoryUrl>https://github.com/fsol11/Caffein-Pro</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <SignAssembly>True</SignAssembly>
+    <SignAssembly>False</SignAssembly>
     <Deterministic>false</Deterministic>
-    <AssemblyOriginatorKeyFile>E:\dev\SigningCertificate\LotrasoftStrongNamingKey.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>E:\dev\SigningCertificate\Strong Name Certificate\LotrasoftStrongNamingKey.snk</AssemblyOriginatorKeyFile>
     <Title>Caffeine Pro</Title>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <FileVersion>
     </FileVersion>
-    <Version>1.1.669</Version>
+    <Version>1.1.670</Version>
+    <DelaySign>False</DelaySign>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />

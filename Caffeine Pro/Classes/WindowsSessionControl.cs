@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace Caffeine_Pro.Classes
 {
@@ -88,8 +89,11 @@ namespace Caffeine_Pro.Classes
                     break;
                 case SessionAction.None:
                     break;
-                default:
+                case SessionAction.Exit:
+                    Application.Current.Shutdown();
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(action), action, null);
             }
         }
     }

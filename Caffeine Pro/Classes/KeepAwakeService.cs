@@ -182,12 +182,12 @@ public class KeepAwakeService : INotifyPropertyChanged
         {
             // Prevent windows from going to sleep, but allows screen saver
             // This line does *not* prevent other programs from detecting inactivity
-            SetThreadExecutionState(EsContinuous | EsSystemRequired);
+            _ = SetThreadExecutionState(EsContinuous | EsSystemRequired);
         }
         else
         {
             // This line allows Windows to go to sleep
-            SetThreadExecutionState(EsContinuous);
+            _ = SetThreadExecutionState(EsContinuous);
 
             // Simulate keypress to prevent Windows from going to sleep
             // This also prevents other programs to detect inactivity
