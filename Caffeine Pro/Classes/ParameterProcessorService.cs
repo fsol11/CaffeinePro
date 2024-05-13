@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Caffeine_Pro.Services;
 
 namespace Caffeine_Pro.Classes;
 
@@ -12,7 +13,7 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
     /// Start actions for the command processor. This important when the application is sending
     /// commands to the running instance vs when it is starting the first instance.
     /// </summary>
-    public enum StartActions
+    private enum StartActions
     {
         Activate,
         Deactivate,
@@ -22,9 +23,11 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
     /// <summary>
     /// Processes the command line arguments
     /// </summary>
-    public void ProcessArgs(string[] eArgs, StartActions defaultAction)
+    public void ProcessArgs(string[] eArgs)
     {
         var unrecognizedParameters = string.Empty;
+        var awakeness = new Awakeness();
+        var action = StartActions.DoNothing;
         foreach (var arg in eArgs)
         {
             switch (arg.Trim().ToLower())
@@ -34,13 +37,13 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
                     return;
 
                 case "activate":
-                    keepAwakeService.Activate();
-                    defaultAction = StartActions.Activate;
+                    awakeness = Awakeness.Indefinite;
+                    action = StartActions.Activate;
                     break;
 
                 case "deactivate":
                     keepAwakeService.Deactivate();
-                    defaultAction = StartActions.Deactivate;
+                    action = StartActions.Deactivate;
                     break;
 
                 case "-help":
@@ -48,20 +51,17 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
                     Application.Current.Shutdown();
                     break;
 
-                // ReSharper disable once StringLiteralTypo
-                case "-resetoptions":
-                    App.AppSettings.Reset();
-                    break;
-
                 case "-status":
-                    MessageBox.Show(App.KeepAwakeService.StatusText);
+                    MessageBox.Show((Application.Current as App)!.KeepAwakeService.StatusText);
                     break;
-
-
+                
                 // ReSharper disable once StringLiteralTypo
                 case { } s1 when s1.StartsWith("activefor") && s1.Length > 9:
                     if (int.TryParse(s1[9..], out var minutes))
-                        keepAwakeService.ActivateUntil(DateTime.Now.AddMinutes(minutes));
+                    {
+                        awakeness = new Awakeness(DateTime.Now.AddMinutes(minutes));
+                    }
+
                     break;
 
                 // ReSharper disable once StringLiteralTypo
@@ -70,47 +70,43 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
                     {
                         var until = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, untilTime.Hour, untilTime.Minute, 0);
                         if (until < DateTime.Now)
+                        {
                             until = until.AddDays(1);
-                        keepAwakeService.ActivateUntil(until);
+                        }
+                        awakeness = new Awakeness(until);
                     }
                     break;
 
                 // ReSharper disable once StringLiteralTypo
-                case "-startinactive":
-                    App.AppSettings.StartInactive = true;
-                    defaultAction = StartActions.Deactivate;
-                    break;
-
-                // ReSharper disable once StringLiteralTypo
                 case "-allowss":
-                    App.AppSettings.AllowScreenSaver = true;
+                    awakeness.Options.AllowScreenSaver = true;
                     break;
 
                 // ReSharper disable once StringLiteralTypo
                 case "-noicon":
-                    App.AppSettings.NoIcon = true;
+                    (Application.Current as App)!.AppSettings.NoIcon = true;
                     break;
 
                 case "-icon":
-                    App.AppSettings.NoIcon = false;
+                    (Application.Current as App)!.AppSettings.NoIcon = false;
                     break;
 
                 case { } s when arg.StartsWith("-cpu") && s.Length > 4:
                     if (int.TryParse(s[4..], out var cpuPercentage))
                     {
-                        App.AppSettings.CpuUsage = cpuPercentage;
-                        App.AppSettings.DeactivateWhenCpuBelowPercentage = true;
+                        awakeness.Options.CpuBelowPercentage = cpuPercentage;
+                        awakeness.Options.DeactivateWhenCpuBelowPercentage = true;
                     }
                     break;
 
                 // ReSharper disable once StringLiteralTypo
                 case "-deactivewhenlocked":
-                    App.AppSettings.DeactivateWhenLocked = true;
+                    awakeness.Options.DeactivateWhenLocked = true;
                     break;
 
                 // ReSharper disable once StringLiteralTypo
                 case "-deactivateonbattery":
-                    App.AppSettings.DeactivateOnBattery = true;
+                    awakeness.Options.DeactivateWhenOnBattery = true;
                     break;
 
                 default:
@@ -119,26 +115,27 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
             }
         }
 
-        switch (defaultAction)
+        if (!string.IsNullOrEmpty(unrecognizedParameters))
+        {
+            MessageBox.Show($"Unrecognized parameters:\n{unrecognizedParameters}\n\n{Help}");
+            return;
+        }        
+        
+        switch (action)
         {
             case StartActions.Activate:
-                keepAwakeService.Activate();
+                keepAwakeService.Activate(awakeness);
                 break;
             case StartActions.Deactivate:
                 keepAwakeService.Deactivate();
                 break;
-        }
-
-        if (!string.IsNullOrEmpty(unrecognizedParameters))
-        {
-            MessageBox.Show($"Unrecognized parameters:\n{unrecognizedParameters}\n\n{Help}");
         }
     }
 
     /// <summary>
     /// Title of the application
     /// </summary>
-    public static string Title =>
+    private static string Title =>
             $"Caffeine Pro Version: {System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}\n" +
             $"By Farshid Solimanpour (caffeinepro@farshid.ca)\r\n" +
             $"\r\n";
@@ -146,7 +143,7 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
     /// <summary>
     /// Help message
     /// </summary>
-    public static string Help =>
+    private static string Help =>
         $"Usage: CaffeinePro [Command] [options]\n" +
         $"\r\n" +
         $"Commands:\n" +

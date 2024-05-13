@@ -1,6 +1,5 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
-using TimePicker;
+using Caffeine_Pro.Classes;
 
 namespace Caffeine_Pro.Controls
 {
@@ -21,12 +20,6 @@ namespace Caffeine_Pro.Controls
         public TimePickerControl()
         {
             InitializeComponent();
-        }
-
-        // ReSharper disable once IdentifierTypo
-        private void AMFM_OnClick(object sender, RoutedEventArgs e)
-        {
-            //Time = new AnalogTime(Time.Hour, Time.Minute, Time.HalfDaySign == HalfDaySign.AM ? HalfDaySign.PM : HalfDaySign.AM);
         }
     }
 }

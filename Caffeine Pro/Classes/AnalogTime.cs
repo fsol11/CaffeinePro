@@ -1,4 +1,4 @@
-﻿namespace TimePicker;
+﻿namespace Caffeine_Pro.Classes;
 
 /// <summary>
 ///  Represents a time, rules for AM and PM from 
@@ -86,10 +86,7 @@ public readonly struct AnalogTime : IComparable<AnalogTime>, IEquatable<AnalogTi
                 throw new ArgumentException("Cannot create a time from a TimeSpan that represents more than 24 hours", nameof(time));
         }
     }
-
-    public AnalogTime(DigitalTime time)
-        : this(time.ToTimeSpan()) { }
-
+    
     public int Hour
     {
         get;
@@ -143,10 +140,6 @@ public readonly struct AnalogTime : IComparable<AnalogTime>, IEquatable<AnalogTi
         return day.Add(time);
     }
 
-    public DigitalTime ToDigitalTime()
-    {
-        return new DigitalTime(ToTimeSpan());
-    }
 
     public override int GetHashCode()
     {

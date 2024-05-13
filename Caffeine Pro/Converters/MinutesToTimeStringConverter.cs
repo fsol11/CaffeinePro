@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
 using Caffeine_Pro.Classes;
-using TimePicker;
 
 namespace Caffeine_Pro.Converters;
 
@@ -42,7 +41,7 @@ public class MinutesToTimeStringConverter : IValueConverter
                 minutes = i;
                 break;
             case AnalogTime at:
-                minutes = at.ToMinutes();
+                minutes = at.TotalMinutes;
                 break;
         }
 

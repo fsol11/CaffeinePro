@@ -40,7 +40,7 @@
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.SideBySideGuidComponent">
-    <ROW Component="AI_ExePath" Value="{C2DCD220-CED5-4016-A80F-07139948EB02}"/>
+    <ROW Component="AI_ExePath"/>
     <ROW Component="AI_INSTALLPERUSER" Value="{B50F548D-4841-4306-BD74-4BBC5F18D81F}"/>
     <ROW Component="APPDIR" Value="{352DBA18-3503-459E-B3E0-86D7B9CD8172}"/>
     <ROW Component="CaffeinePro.exe" Value="{4F292FDD-E7DA-4DBF-98D2-F5EC2D62A11F}"/>

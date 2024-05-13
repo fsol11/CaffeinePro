@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.ComponentModel;
 using System.Windows.Forms;
+using Caffeine_Pro.Converters;
 
 namespace Caffeine_Pro.Classes;
 
@@ -62,7 +63,8 @@ public class Routines
     {
         var assembly = Assembly.GetExecutingAssembly();
 
-        using var stream = assembly.GetManifestResourceStream(resourceName) ?? throw new Exception("Resource not found: " + resourceName);
+        using var stream = assembly.GetManifestResourceStream(resourceName) ??
+                           throw new Exception("Resource not found: " + resourceName);
         using StreamReader reader = new(stream);
         return reader.ReadToEnd();
     }
@@ -74,7 +76,8 @@ public class Routines
     public static Stream GetResourceStream(string resourceName)
     {
         var assembly = Assembly.GetExecutingAssembly();
-        return assembly.GetManifestResourceStream(resourceName) ?? throw new Exception("Resource not found: " + resourceName);
+        return assembly.GetManifestResourceStream(resourceName) ??
+               throw new Exception("Resource not found: " + resourceName);
     }
 
     /// <summary>
@@ -87,16 +90,63 @@ public class Routines
         return new Icon(iconStream);
     }
 
+    public static DateTime GetDateTimeFromTimeSpan(TimeSpan time)
+    {
+        var day = DateTime.Now.Date;
+        if (time < DateTime.Now.TimeOfDay)
+        {
+            day = day.AddDays(1);
+        }
+
+        return day.Add(time);
+    }
+
+    public static string GetTimeString(TimeSpan time, bool isRelative)
+    {
+        var h = time.Hours;
+        var m = time.Minutes;
+        if (isRelative)
+        {
+            return h == 0 ? $"{m:00}m" : $"{h:00}h : {m:00}m";
+        }
+
+        // Absolute
+        var z = "AM";
+        if (h > 12)
+        {
+            h -= 12;
+            z = "PM";
+        }
+
+        return $"{h:00}:{m:00} {z}";
+    }
+
+
+    public static string GetDateTimeString(TimeSpan time)
+    {
+        return GetDateTimeString(GetDateTimeFromTimeSpan(time));
+    }
+
     /// <summary>
     /// Returns text representation of a time. If the time is today, it will return the time only.
     /// Depending on the date of the time, it will return "Yesterday", "Tomorrow", "In 2 days", "In 3 days"
     /// plus the time.
     /// </summary>
-    /// <param name="time"></param>
+    /// <param name="datetime"></param>
     /// <returns></returns>
-    public static string GetTimeString(DateTime time)
+    public static string GetDateTimeString(DateTime datetime)
     {
-        var day = (time.Date - DateTime.Today).Days switch
+        if (datetime == DateTime.MaxValue)
+        {
+            return "Indefinitely";
+        }
+
+        if (datetime == DateTime.MinValue)
+        {
+            return "Inactive";
+        }
+
+        var day = (datetime.Date - DateTime.Today).Days switch
         {
             -3 => "3 days ago",
             -2 => "2 days ago",
@@ -107,7 +157,7 @@ public class Routines
             _ => string.Empty
         };
 
-        return (string.IsNullOrEmpty(day) ? string.Empty : day + " ") + time.ToShortTimeString();
+        return (string.IsNullOrEmpty(day) ? string.Empty : day + " ") + datetime.ToString("hh:mm tt");
     }
 
     /// <summary>
@@ -124,7 +174,6 @@ public class Routines
             key?.SetValue(applicationName, exePath);
         else
             key?.DeleteValue(applicationName, false);
-
     }
 
     /// <summary>
@@ -156,6 +205,7 @@ public class Routines
     }
 
     private static bool? _isWorkstationLocked;
+
     [DllImport("user32.dll", SetLastError = true)]
     private static extern IntPtr OpenInputDesktop(int dwFlags, bool fInherit, int dwDesiredAccess);
 
@@ -228,6 +278,14 @@ public class Routines
             FileName = uri.ToString(),
             UseShellExecute = true
         });
+    }
+
+    public static void ShowMessageBox(string message, MessageBoxIcon icon = MessageBoxIcon.Information)
+    {
+        MessageBox.Show(message,
+            Assembly.GetExecutingAssembly().GetName().Name,
+            MessageBoxButtons.OK,
+            icon);
     }
 
 

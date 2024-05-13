@@ -1,6 +1,17 @@
-﻿namespace Caffeine_Pro.Converters;
+﻿using System.Globalization;
+using System.Windows.Data;
 
-public class NotConver
-{
-    
-}
+namespace Caffeine_Pro.Converters;
+
+    public class NotConverter : IValueConverter
+    {
+        public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            return !(bool)(value ?? true);
+        }
+
+        public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        {
+            return !(bool)(value ?? true);
+        }
+    }

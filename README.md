@@ -78,7 +78,7 @@ CaffeinePro.exe [Command] [options]
 
 **Commands:**
 
-<table><tbody><tr><td style="width:200px">activate</td><td style="width:400px">activate</td></tr><tr><td>activeforX</td><td>activate for X min</td></tr><tr><td>activeuntilX</td><td>activate until X (X=hh:mmpp, e.g. 5:24PM)</td></tr><tr><td>deactivate</td><td>deactivate **</td></tr><tr><td>exit</td><td>exits the instance **</td></tr></tbody></table>
+<table><tbody><tr><td style="width:200px">activate</td><td style="width:400px">activate indefinitely</td></tr><tr><td>activeforX</td><td>activate for X min</td></tr><tr><td>activeuntilX</td><td>activate until X (X=hh:mmpp, e.g. 5:24PM)</td></tr><tr><td>deactivate</td><td>deactivate **</td></tr><tr><td>exit</td><td>exits the instance **</td></tr></tbody></table>
 
 **Options:**
 

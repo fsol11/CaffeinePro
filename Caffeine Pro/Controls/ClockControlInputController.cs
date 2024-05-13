@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using TimePicker;
-using static TimePicker.ClockControl;
+using Caffeine_Pro.Controls;
+using static Caffeine_Pro.Controls.ClockControl;
 
 namespace Caffeine_Pro.Classes;
 

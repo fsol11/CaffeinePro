@@ -11,7 +11,7 @@ public class KeySimulator
     private static extern uint SendInput(uint nInputs, Input[] pInputs, int cbSize);
 
     [StructLayout(LayoutKind.Sequential)]
-    struct Input
+    private struct Input
     {
         public uint type;
         public InputUnion U;
@@ -19,7 +19,7 @@ public class KeySimulator
     }
 
     [StructLayout(LayoutKind.Explicit)]
-    struct InputUnion
+    private struct InputUnion
     {
         [FieldOffset(0)]
         public MouseInput mi;
@@ -30,7 +30,7 @@ public class KeySimulator
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct MouseInput
+    private struct MouseInput
     {
         public int dx;
         public int dy;
@@ -41,7 +41,7 @@ public class KeySimulator
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct KeyboardInput
+    private struct KeyboardInput
     {
         public ushort wVk;
         public ushort wScan;
@@ -51,7 +51,7 @@ public class KeySimulator
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    struct HardwareInput
+    private struct HardwareInput
     {
         public uint uMsg;
         public ushort wParamL;
@@ -59,12 +59,12 @@ public class KeySimulator
     }
 
     // ReSharper disable once InconsistentNaming
-    const uint INPUT_KEYBOARD = 1;
+    private const uint INPUT_KEYBOARD = 1;
     // ReSharper disable once InconsistentNaming
     // ReSharper disable once IdentifierTypo
-    const uint KEYEVENTF_KEYUP = 0x0002;
+    private const uint KEYEVENTF_KEYUP = 0x0002;
     // ReSharper disable once InconsistentNaming
-    const uint VK_F15 = 0x7E;
+    private const uint VK_F15 = 0x7E;
 
     public static void PressF15()
     {

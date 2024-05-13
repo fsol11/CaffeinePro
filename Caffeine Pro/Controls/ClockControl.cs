@@ -1,12 +1,14 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using static TimePicker.ClockMath;
+using Caffeine_Pro.Classes;
+using static Caffeine_Pro.Classes.ClockMath;
 
-namespace TimePicker;
+namespace Caffeine_Pro.Controls;
 
 
 /// <summary>
+/// This is a modified version of this control:
 /// Clock-like TimePicker control https://github.com/roy-t/TimePicker    
 /// </summary>
 public class ClockControl : Control
@@ -16,11 +18,11 @@ public class ClockControl : Control
     public const double HourIndicatorRatio = 0.70;
     public const double MinuteIndicatorRatio = 0.95;
 
-    private readonly TimePickerInputController _inputController;
+    private readonly ClockControlInputController _inputController;
 
     public ClockControl()
     {
-        _inputController = new TimePickerInputController(this);
+        _inputController = new ClockControlInputController(this);
     }
 
     ~ClockControl()

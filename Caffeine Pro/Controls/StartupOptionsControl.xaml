@@ -1,35 +1,48 @@
 ﻿<UserControl x:Class="Caffeine_Pro.Controls.StartupOptionsControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:caffeinePro="clr-namespace:Caffeine_Pro"
              xmlns:controls="clr-namespace:Caffeine_Pro.Controls"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
         <StackPanel HorizontalAlignment="Left">
-            <TextBlock Text="Startup:"/>
-            <RadioButton Content="Inactive" GroupName="Startup"/>
-            <RadioButton Content="Active" GroupName="Startup" Name="ActiveRadioButton" IsChecked="{Binding StartupActivated}"/>
-            <controls:AwakenessControl AwakenessValue="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.Awakeness}" 
-                                        Margin="30 0 0 0" 
-                                        IsEnabled="{Binding ElementName=ActiveRadioButton, Path=IsChecked}">
-                    <controls:AwakenessControl.Style>
-                        <Style TargetType="{x:Type controls:AwakenessControl}">
-                            <Style.Triggers>
-                                <Trigger Property="IsEnabled" Value="False">
-                                    <Setter Property="Opacity" Value="0.35"/>
-                                </Trigger>
-                                <Trigger Property="IsEnabled" Value="True">
-                                    <Setter Property="Opacity" Value="1"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </controls:AwakenessControl.Style>
+            <TextBlock Text="Startup:" />
+            
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Margin="10 5">
+                <Hyperlink Click="SetToCurrentValue_Click">
+                    <Run Text="Copy from the current value"/>
+                </Hyperlink>
+            </TextBlock>
+            
+            <controls:AwakenessControl
+                x:Name="StartupAwakenessControl"
+                AwakenessValue="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartupAwakeness}"
+                HorizontalAlignment="Left">
+                <controls:AwakenessControl.Style>
+                    <Style TargetType="{x:Type controls:AwakenessControl}">
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.35" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="True">
+                                <Setter Property="Opacity" Value="1" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:AwakenessControl.Style>
 
-                
+
             </controls:AwakenessControl>
+            <StackPanel Orientation="Horizontal">
+                <RadioButton GroupName="Startup" Content="Start Active" 
+                             IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive}" />
+                <RadioButton GroupName="Startup" Content="Start Inactive"
+                             IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive, Converter={StaticResource Not}}" />
+            </StackPanel>
+
         </StackPanel>
     </Grid>
 </UserControl>

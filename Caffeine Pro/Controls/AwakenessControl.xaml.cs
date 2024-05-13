@@ -84,7 +84,10 @@ public sealed partial class AwakenessControl
 
     private void RelativeTimeApplyButton_OnClick(object sender, RoutedEventArgs e)
     {
-        AwakenessValue = new Awakeness( RelativeTimeSlider.Time.ToTimeSpan());
+        AwakenessValue = 
+            RelativeTimeDisabled
+            ? new Awakeness(DateTime.Now.Add(RelativeTimeSlider.Time.ToTimeSpan())) 
+            : new Awakeness(RelativeTimeSlider.Time.ToTimeSpan());
         SelectionMenu.IsOpen = false;
     }
 
@@ -100,5 +103,15 @@ public sealed partial class AwakenessControl
         }
 
         AwakenessValue = new Awakeness(Routines.GetDateTimeFromTimeSpan(new TimeSpan(hours, minutes, 0)));
+    }
+
+    private void ResetOptions(object sender, RoutedEventArgs e)
+    {
+        AwakenessValue.Options.Reset();
+    }
+
+    private void UntilMenuOpened(object sender, RoutedEventArgs e)
+    {
+        AbsoluteTimePicker.Time = AwakenessValue.UntilDateTime.TimeOfDay;
     }
 }

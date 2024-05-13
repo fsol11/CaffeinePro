@@ -3,13 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:tp="clr-namespace:TimePicker;assembly=TimePicker"
-             xmlns:local="clr-namespace:Caffeine_Pro.Controls"
              xmlns:s="clr-namespace:System;assembly=System.Runtime"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:classes="clr-namespace:Caffeine_Pro.Classes"
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
-             mc:Ignorable="d" 
-             Height="250">
+             mc:Ignorable="d"
+             >
     <UserControl.Resources>
         <x:Array Type="{x:Type s:Int32}" x:Key="Hours">
             <s:Int32>00</s:Int32>
@@ -95,17 +94,34 @@
             <s:Int32>59</s:Int32>
         </x:Array>
     </UserControl.Resources>
-    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
-
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+        
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top">
-            <RadioButton 
-                IsChecked="{Binding AMPM, Mode=TwoWay, Converter={StaticResource ValueEqualsParameter}, ConverterParameter={x:Static tp:HalfDaySign.AM}}"
-                GroupName="AMPM" Content="AM" MinWidth="10" Margin="0 0 15 0"/>
-            <RadioButton 
-                IsChecked="{Binding AMPM, Mode=TwoWay, Converter={StaticResource ValueEqualsParameter}, ConverterParameter={x:Static tp:HalfDaySign.PM}}"
-                GroupName="AMPM" Content="PM" MinWidth="10" >
-               
+            
+            <RadioButton GroupName="AMPM" Click="AM_Click" Content="AM" MinWidth="10" Margin="0 0 15 0">
+                <RadioButton.Style>
+                    <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding AMPM}" Value="{x:Static classes:HalfDaySign.AM}">
+                                <Setter Property="IsChecked" Value="True" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </RadioButton.Style>
             </RadioButton>
+
+            <RadioButton GroupName="AMPM" Click="PM_Click" Content="PM" MinWidth="10" Margin="0 0 15 0">
+                <RadioButton.Style>
+                    <Style TargetType="{x:Type RadioButton}" BasedOn="{StaticResource {x:Type RadioButton}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding AMPM}" Value="{x:Static classes:HalfDaySign.PM}">
+                                <Setter Property="IsChecked" Value="True" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </RadioButton.Style>
+            </RadioButton>
+
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="223">
             <StackPanel >

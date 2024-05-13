@@ -4,12 +4,36 @@
     <_LastSelectedProfileId>E:\dev\Caffein Pro\Caffeine Pro\Properties\PublishProfiles\x64.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Update="WindowsAndControls\StatusControl.xaml.cs">
+    <Compile Update="Controls\StartupOptionsControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\StatusControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\TimePickerControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\TimePickerDropdown.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\TimeSliderControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="WindowsAndControls\StatusControl.xaml">
+    <Page Update="Controls\StartupOptionsControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\StatusControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\TimePickerControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\TimePickerDropdown.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\TimeSliderControl.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

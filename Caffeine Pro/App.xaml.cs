@@ -1,9 +1,10 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Caffeine_Pro.Classes;
-using Caffeine_Pro.WindowsAndControls;
+using Caffeine_Pro.Services;
 using Hardcodet.Wpf.TaskbarNotification;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Win32;
 using Wpf.Ui.Appearance;
 using Wpf.Ui.Markup;
@@ -15,12 +16,48 @@ namespace Caffeine_Pro;
 /// </summary>
 public partial class App
 {
-    // Application services and settings
-    public static readonly KeepAwakeService KeepAwakeService = new();
-    public static readonly SingletonService SingletonService = new();
-    public static readonly ParameterProcessorService ParameterProcessorService = new(KeepAwakeService);
-    public static readonly AppSettings AppSettings = new();
-    //public static readonly ApplicationTheme ApplicationTheme = Routines.IsWindowsThemeDark() ? ApplicationTheme.Dark : ApplicationTheme.Light;
+    public static App CurrentApp => (App)Current;
+
+    public KeepAwakeService KeepAwakeService
+    {
+        get;
+    }
+
+    private SingletonService SingletonService
+    {
+        get;
+    }
+
+    private ParameterProcessorService ParameterProcessorService
+    {
+        get;
+    }
+
+    public AppSettings AppSettings
+    {
+        get;
+    }
+
+    private readonly IHost _host = Host.CreateDefaultBuilder()
+        .ConfigureServices((_, services) =>
+        {
+            // Register your services here
+            services.AddSingleton<WindowsSessionService>();
+            services.AddSingleton<KeepAwakeService>();
+            services.AddSingleton<SingletonService>();
+            services.AddSingleton<ParameterProcessorService>();
+            services.AddSingleton(AppSettings.Load());
+            // Add more services as needed
+        })
+        .Build();
+
+    public App()
+    {
+        KeepAwakeService = _host.Services.GetRequiredService<KeepAwakeService>();
+        ParameterProcessorService = _host.Services.GetRequiredService<ParameterProcessorService>();
+        SingletonService = _host.Services.GetRequiredService<SingletonService>();
+        AppSettings = _host.Services.GetRequiredService<AppSettings>();
+    }
 
     /// <summary>
     /// Called when the application starts
@@ -28,12 +65,18 @@ public partial class App
     protected override void OnStartup(StartupEventArgs e)
     {
         // If the application is already running, send the arguments to the running instance
-        if (!SingletonService.IsApplicationAlreadyRunning())
+        if (!SingletonService.IsThisTheOnlyInstance())
         {
-            if (e.Args.Length == 0)
-                MessageBox.Show("An instance of the application is already running.");
-            else
-                SingletonService.SendCommandToTheRunningInstance(string.Join(" ", e.Args));
+            switch (e.Args.Length)
+            {
+                case 0:
+                    Routines.ShowMessageBox("An instance of the application is already running.");
+                    break;
+                default:
+                    SingletonService.SendCommandToTheRunningInstance(string.Join(" ", e.Args));
+                    break;
+            }
+
             Shutdown();
             return;
         }
@@ -48,22 +91,19 @@ public partial class App
     /// <param name="e"></param>
     private void Init(StartupEventArgs e)
     {
-        // track status changes to update the tray icon
-        KeepAwakeService.OnStatusChanged += OnStatusChanged;
+        var keepAwakeService = _host.Services.GetRequiredService<KeepAwakeService>();
 
-        // When another instance starts, it will send
-        // its arguments to the running instance
-        SingletonService.CommandReceived += (command) =>
-        {
-            ParameterProcessorService.ProcessArgs(command.Split(" "), ParameterProcessorService.StartActions.DoNothing);
-        };
+        // track status changes to update the tray icon
+        keepAwakeService.OnStatusChanged += OnStatusChanged;
 
         // process the command line arguments
-        ParameterProcessorService.ProcessArgs(e.Args, ParameterProcessorService.StartActions.Activate);
+        ParameterProcessorService.ProcessArgs(e.Args);
 
         SetThemeColor();
 
         SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
+
+        OnStatusChanged(this, EventArgs.Empty);
     }
 
     private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
@@ -85,7 +125,6 @@ public partial class App
     private void OnStatusChanged(object? sender, EventArgs e)
     {
         Dispatcher.Invoke(UpdateTrayIcon);
-
     }
 
     private void UpdateTrayIcon()
@@ -105,39 +144,10 @@ public partial class App
     {
         SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
         AboutWindow.CloseIt(); // <- About Window might be open or loaded when exit is called
-        SingletonService.Dispose(); // <- Disposing the singleton mutex
         base.OnExit(e);
     }
 
-    /// <summary>
-    /// Handling all the menu items for "Active For X" where X is the minutes
-    /// All menu items have minutes as their tag
-    /// </summary>
-    private void MenuItemOnClick_ActiveFor(object sender, RoutedEventArgs e)
-    {
-        var menu = (MenuItem)sender;
-        var minutes = int.Parse((menu.Tag as string)!);
-        KeepAwakeService.ActivateUntil(DateTime.Now.AddMinutes(minutes));
-    }
-
-    /// <summary>
-    /// Handling all the menu items for "Activate Until X" where X is the time
-    /// All menu items have time in their header
-    /// </summary>
-    private void MenuItemOnClick_ActivateUntil(object sender, RoutedEventArgs e)
-    {
-        var header = (string)((MenuItem)sender).Header;
-        var hours = int.Parse(header[..2].Trim());
-        var minutes = int.Parse(header[3..5]);
-        var period = header[5..].Trim();
-        if (period == "PM") hours += 12;
-        var date = DateTime.Now.Date;
-        var time = new TimeSpan(hours, minutes, 0);
-        if (time < DateTime.Now.TimeOfDay) date = date.AddDays(1);
-        KeepAwakeService.ActivateUntil(
-            new DateTime(DateOnly.FromDateTime(date), TimeOnly.FromTimeSpan(time)));
-    }
-
+    
     /// <summary>
     /// Handling the "About" menu item
     /// </summary>
@@ -152,46 +162,6 @@ public partial class App
     private void OnExitMenu(object sender, RoutedEventArgs e)
     {
         Shutdown();
-    }
-
-    /// <summary>
-    /// Handling +15 min button in the status control
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    private void OnPlus15(object? sender, EventArgs e)
-    {
-        var newDate = KeepAwakeService.UntilDateTime.AddMinutes(15);
-        if (newDate > DateTime.Now.AddHours(24))
-            newDate = DateTime.Now.AddHours(24);
-        KeepAwakeService.ActivateUntil(newDate);
-    }
-
-    /// <summary>
-    /// Handling -15 min button in the status control
-    /// </summary>
-    private void OnMinus15(object? sender, EventArgs e)
-    {
-        var newDate = KeepAwakeService.UntilDateTime.AddMinutes(-15);
-        if (newDate < DateTime.Now.AddMinutes(15))
-            newDate = DateTime.Now.AddMinutes(15);
-        KeepAwakeService.ActivateUntil(newDate);
-    }
-
-    /// <summary>
-    /// Handles the "Activate" menu item
-    /// </summary>
-    private void OnActivate(object sender, RoutedEventArgs e)
-    {
-        KeepAwakeService.ActivateUntil(DateTime.MaxValue);
-    }
-
-    /// <summary>
-    /// Handles the "Cancel" menu item
-    /// </summary>
-    private void OnCancel(object sender, RoutedEventArgs e)
-    {
-        KeepAwakeService.Deactivate();
     }
 
     /// <summary>
@@ -210,19 +180,12 @@ public partial class App
                 MessageBoxImage.Warning,
                 MessageBoxResult.OK,
                 MessageBoxOptions.DefaultDesktopOnly) != MessageBoxResult.OK
-        )
+           )
         {
             AppSettings.NoIcon = false;
         }
     }
-
-    /// <summary>
-    /// Handles the "Reset Settings" menu item
-    /// </summary>
-    private void ResetSettings(object sender, RoutedEventArgs e)
-    {
-        AppSettings.Reset();
-    }
+    
 
     private void OnSendFeedback(object sender, RoutedEventArgs e)
     {
