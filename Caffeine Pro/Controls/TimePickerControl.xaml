@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="Caffeine_Pro.Controls.TimePickerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:tp="clr-namespace:TimePicker;assembly=TimePicker"
+             xmlns:controls="clr-namespace:Caffeine_Pro.Controls"
+             MinWidth="190"
+             MinHeight="170"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             mc:Ignorable="d" 
+             >
+
+    <Grid>
+
+        <StackPanel>
+            <tp:ClockControl  x:Name="AbsoluteTime"      
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Height="150"
+                            Padding="5"
+                            HourThickness="9" 
+                            MinuteThickness="7" 
+                            BorderThickness="2" 
+                            Time="{Binding Path=Time, Mode=TwoWay}"
+            />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock HorizontalAlignment="Center" FontFamily="Arial" 
+                       Padding="8 0 0 0" VerticalAlignment="Center" 
+                       Text="{Binding ElementName=TimePicker, Path=Time, StringFormat=D}"  />
+                <TextBlock HorizontalAlignment="Center" FontFamily="Arial" 
+                       Margin="8 0 0 0" VerticalAlignment="Center" 
+                       Text="{Binding ElementName=TimePicker, Path=Time, Converter={StaticResource MinutesToTimeString}}"  />
+
+            </StackPanel>
+            <controls:TimePickerDropdown 
+                x:Name="TimePicker"
+                Time="{Binding Time, ElementName=AbsoluteTime, Mode=TwoWay}" 
+                HorizontalAlignment="Stretch" 
+                VerticalAlignment="Top"
+                Height="250" 
+                Width="150"
+                Margin="0 5 0 0" />
+
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="Caffeine_Pro.Controls.StartupOptionsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:caffeinePro="clr-namespace:Caffeine_Pro"
+             xmlns:controls="clr-namespace:Caffeine_Pro.Controls"
+             mc:Ignorable="d" 
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Grid>
+        <StackPanel HorizontalAlignment="Left">
+            <TextBlock Text="Startup:"/>
+            <RadioButton Content="Inactive" GroupName="Startup"/>
+            <RadioButton Content="Active" GroupName="Startup" Name="ActiveRadioButton" IsChecked="{Binding StartupActivated}"/>
+            <controls:AwakenessControl AwakenessValue="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.Awakeness}" 
+                                        Margin="30 0 0 0" 
+                                        IsEnabled="{Binding ElementName=ActiveRadioButton, Path=IsChecked}">
+                    <controls:AwakenessControl.Style>
+                        <Style TargetType="{x:Type controls:AwakenessControl}">
+                            <Style.Triggers>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Opacity" Value="0.35"/>
+                                </Trigger>
+                                <Trigger Property="IsEnabled" Value="True">
+                                    <Setter Property="Opacity" Value="1"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </controls:AwakenessControl.Style>
+
+                
+            </controls:AwakenessControl>
+        </StackPanel>
+    </Grid>
+</UserControl>

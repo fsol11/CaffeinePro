@@ -1,0 +1,324 @@
+﻿<UserControl x:Class="Caffeine_Pro.Controls.AwakenessControl"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"  
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters1="clr-namespace:Caffeine_Pro.Converters"
+             xmlns:controls="clr-namespace:Caffeine_Pro.Controls"
+             xmlns:services="clr-namespace:Caffeine_Pro.Services"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             MinWidth="50"
+             MinHeight="50"
+             mc:Ignorable="d" Padding="0 0 0 0" >
+    <UserControl.Resources>
+        <converters1:EnumToDescriptionConverter x:Key="EnumToDescription"/>
+        <converters1:EnumToBooleanConverter x:Key="EnumToBooleanConverter"/>
+    </UserControl.Resources>
+
+    <Border CornerRadius="4" Padding="5 2" Background="Transparent" BorderThickness="1" BorderBrush="{DynamicResource {x:Static SystemColors.ControlBrushKey}}">
+        <StackPanel>
+
+            <StackPanel Orientation="Horizontal" >
+                <StackPanel Orientation="Horizontal" Visibility="{Binding AwakenessValue.IsRelative, ConverterParameter=Inverted, Converter={StaticResource BoolToVis}, IsAsync=True}">
+                    <TextBlock Width="50" Text="Until " 
+                               VerticalAlignment="Center" HorizontalAlignment="Left"  
+                               FontSize="10" TextAlignment="Right" />
+                    <Border  CornerRadius="4" Margin="4 2" Padding="8 1" >
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Width="140" Text="{Binding AwakenessValue.UntilDateTimeText}" 
+                                       VerticalAlignment="Center" TextAlignment="Left"   />
+                            <TextBlock Text=" "/>
+                            <Button Padding="0" Width="30" Height="20" Content="▲" Click="OnPlus15Btn" >
+                                <Button.LayoutTransform>
+                                    <ScaleTransform ScaleX=".7" ScaleY=".7" />
+                                </Button.LayoutTransform>
+                            </Button>
+                            <Button Padding="0" Width="30" Height="20" Content="▼" Click="OnMinus15Btn">
+                                <Button.LayoutTransform>
+                                    <ScaleTransform ScaleX=".7" ScaleY=".7" />
+                                </Button.LayoutTransform>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Visibility="{Binding AwakenessValue.IsRelative, Converter={StaticResource BoolToVis}}">
+                    <TextBlock Width="50" Text="For " VerticalAlignment="Center" HorizontalAlignment="Left"  FontSize="10" TextAlignment="Right" />
+                    <Border  CornerRadius="4" Margin="4 2" Padding="8 1" >
+                        <StackPanel Orientation="Horizontal">
+
+                            <TextBlock Width="140"  
+                                   VerticalAlignment="Center" TextAlignment="Left"   >
+                                <TextBlock.Text>
+                                    <MultiBinding StringFormat="{}{0}h : {1}m">
+                                        <Binding Path="AwakenessValue.RelativeSpan.Hours"/>
+                                        <Binding Path="AwakenessValue.RelativeSpan.Minutes"/>
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock Text=" "/>
+                            <Button Padding="0" Width="30" Height="20" Content="▲" Click="OnPlus15Btn" >
+                                <Button.LayoutTransform>
+                                    <ScaleTransform ScaleX=".7" ScaleY=".7" />
+                                </Button.LayoutTransform>
+                            </Button>
+                            <Button Padding="0" Width="30" Height="20" Content="▼" Click="OnMinus15Btn">
+                                <Button.LayoutTransform>
+                                    <ScaleTransform ScaleX=".7" ScaleY=".7" />
+                                </Button.LayoutTransform>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+                <ui:DropDownButton Background="Transparent" Height="20" BorderBrush="Transparent" Padding="3">
+                    <ui:DropDownButton.Flyout>
+
+                        <ContextMenu x:Name="SelectionMenu">
+                            <MenuItem Header="Indefinitely" Click="MenuItemOnClick_ActiveFor" Tag="{x:Null}"/>
+                            <MenuItem Header="For">
+                                <MenuItem.Items>
+                                    <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}" StaysOpenOnClick="True">
+                                        <MenuItem.Header>
+                                            <StackPanel HorizontalAlignment="Center">
+                                                <controls:TimeSliderControl 
+                                                        Time="{Binding AwakenessValue}"
+                                                        Width="150"
+                                                        x:Name="RelativeTimeSlider" />
+                                                <Button HorizontalAlignment="Center" Content="Apply" 
+                                                        Click="RelativeTimeApplyButton_OnClick"/>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+                                </MenuItem.Items>
+                            </MenuItem>
+                            <MenuItem Header="Until">
+                                <MenuItem.Items>
+                                    <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}" StaysOpenOnClick="True">
+                                        <MenuItem.Header>
+                                            <StackPanel HorizontalAlignment="Center">
+                                                <controls:TimePickerControl 
+                                                        Time="{Binding AwakenessValue}"
+                                                        x:Name="AbsoluteTimePicker" 
+                                                        />
+                                                <Button HorizontalAlignment="Center" Content="Apply" 
+                                                        Click="AbsoluteTimeApplyButton_OnClick" Margin="5"/>
+                                            </StackPanel>
+                                        </MenuItem.Header>
+                                    </MenuItem>
+                                </MenuItem.Items>
+                            </MenuItem>
+                        </ContextMenu>
+                    </ui:DropDownButton.Flyout>
+                </ui:DropDownButton>
+                <ui:DropDownButton Background="Transparent" BorderBrush="Transparent" HorizontalAlignment="Center" Padding="0">
+                    <ui:DropDownButton.Flyout>
+
+                        <ContextMenu>
+                            <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}">
+                                <MenuItem.HeaderTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <ItemsControl Grid.Column="0">
+                                                <MenuItem Header="12:00AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 1:00AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 2:00AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 3:00AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 4:00AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 5:00AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 6:00AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 7:00AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 8:00AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 9:00AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="10:00AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="11:00AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="12:00PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 1:00PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 2:00PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 3:00PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 4:00PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 5:00PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 6:00PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 7:00PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 8:00PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 9:00PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="10:00PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="11:00PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                            </ItemsControl>
+                                            <ItemsControl Grid.Column="1">
+                                                <MenuItem Header="12:15AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 1:15AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 2:15AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 3:15AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 4:15AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 5:15AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 6:15AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 7:15AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 8:15AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 9:15AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="10:15AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="11:15AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="12:15PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 1:15PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 2:15PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 3:15PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 4:15PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 5:15PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 6:15PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 7:15PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 8:15PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 9:15PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="10:15PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="11:15PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                            </ItemsControl>
+                                            <ItemsControl Grid.Column="2">
+                                                <MenuItem Header="12:30AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 1:30AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 2:30AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 3:30AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 4:30AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 5:30AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 6:30AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 7:30AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 8:30AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 9:30AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="10:30AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="11:30AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="12:30PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 1:30PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 2:30PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 3:30PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 4:30PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 5:30PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 6:30PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 7:30PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 8:30PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 9:30PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="10:30PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="11:30PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                            </ItemsControl>
+                                            <ItemsControl Grid.Column="3">
+                                                <MenuItem Header="12:45AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 1:45AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 2:45AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 3:45AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 4:45AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 5:45AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 6:45AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 7:45AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 8:45AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 9:45AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="10:45AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="11:45AM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="12:45PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 1:45PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 2:45PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 3:45PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 4:45PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 5:45PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 6:45PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 7:45PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 8:45PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header=" 9:45PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="10:45PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                                <MenuItem Header="11:45PM" Click="AbsoluteTimeOnClick_ActivateUntil"/>
+                                            </ItemsControl>
+                                        </Grid>
+                                    </DataTemplate>
+                                </MenuItem.HeaderTemplate>
+                            </MenuItem>
+                        </ContextMenu>
+                    </ui:DropDownButton.Flyout>
+                </ui:DropDownButton>
+
+            </StackPanel>
+
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                <TextBlock Text="Afterwards " Width ="50"  
+                           VerticalAlignment="Center" HorizontalAlignment="Right"  
+                           FontSize="10" TextAlignment="Right" />
+
+                <Border  CornerRadius="4" Margin="4 2" Padding="8 1" Background="Transparent" BorderBrush="Transparent" >
+                    <TextBlock Text="{Binding AwakenessValue.AfterwardsAction, Converter={StaticResource EnumToDescription}}" 
+                                       MinWidth="186" VerticalAlignment="Center" TextAlignment="Left"  />
+                </Border>
+
+                <ui:DropDownButton Background="Transparent" BorderBrush="Transparent" Padding="3">
+                    <ui:DropDownButton.Flyout>
+                        <ContextMenu>
+                            <MenuItem StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <RadioButton GroupName="Afterwards" IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.None}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}" Content="Do Nothing"/>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}" StaysOpenOnClick="True" Header="Program:"/>
+                            <MenuItem StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <RadioButton GroupName="Afterwards" IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Exit}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}" Content="Exit"/>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}" StaysOpenOnClick="True" Header="Session:"/>
+                            <MenuItem StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <RadioButton GroupName="Afterwards" IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Lock}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}" Content="Lock"/>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <RadioButton GroupName="Afterwards" IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.SignOut}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}" Content="Sign Out"/>
+                                </MenuItem.Header>
+                            </MenuItem>
+
+                            <MenuItem StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <RadioButton GroupName="Afterwards" IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Sleep}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}" Content="Sleep"/>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator/>
+                            <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}" StaysOpenOnClick="True" Header="System:"/>
+                            <MenuItem StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <RadioButton GroupName="Afterwards" IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Hibernate}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}" Content="Hibernate"/>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <RadioButton GroupName="Afterwards" IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Shutdown}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}" Content="Shutdown"/>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <RadioButton GroupName="Afterwards" IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.ForceShutdown}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}" Content="Force Shutdown"/>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <RadioButton GroupName="Afterwards" IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Restart}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}" Content="Restart"/>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem StaysOpenOnClick="True">
+                                <MenuItem.Header>
+                                    <RadioButton GroupName="Afterwards" IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.ForceRestart}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}" Content="Force Restart"/>
+                                </MenuItem.Header>
+                            </MenuItem>
+
+                        </ContextMenu>
+                    </ui:DropDownButton.Flyout>
+                </ui:DropDownButton>
+            </StackPanel>
+
+
+
+        </StackPanel>
+    </Border>
+
+</UserControl>
