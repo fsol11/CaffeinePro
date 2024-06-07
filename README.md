@@ -2,21 +2,22 @@
 
 This application is designed to prevent your Windows computer from going into sleep mode. It's useful for situations where you need your computer to stay awake, but can't change the system-wide sleep settings, or don't want to remember to change them back later.
 
+![Screenshot](https://lotrasoft.com/wp-content/uploads/2024/03/Screenshot-2024-03-15-084955.png "Screen Shot")
+![Screenshot](https://lotrasoft.com/wp-content/uploads/2024/03/Screenshot-2024-03-15-085027.png "Screen Shot")
+
 ## Features
 
 - **Keeps Windows Awake:** by simulating a key press every 59 seconds. This is enough to trick the system into thinking that the user is still active, so it doesn't go to sleep. This method also prevents programs to detect user inactivity.
-- **Screen Saver Allowed:** In this mode, instead of a keypress simulation, a special thread state is used to keep Windows awake, but this method does not prevent programs to detect user inactivity.
+- **Screen Saver Allowed:** In this mode, instead of a keypress simulation, a special thread state is used to keep Windows awake, but this method does not prevent programs like Microsoft Teams to detect user inactivity.
 - **Singleton Instance:** Only one instance of the application is allowed in memory. When starting a new instance, it detects the already running application and automatically exits; however, any commandline option that is passed to the second instance, is sent to the first instance through a names pipeline.
 - **Support Dark/Light themes:** It uses Microsoft Fluent UI and supports both light and dark themes.
-![Screenshot](https://lotrasoft.com/wp-content/uploads/2024/03/Screenshot-2024-03-15-084955.png "Screen Shot")
-![Screenshot](https://lotrasoft.com/wp-content/uploads/2024/03/Screenshot-2024-03-15-085027.png "Screen Shot")
 - **Auto Start With Windows:** The program can be set to start automatically with Window.
 - **Actions after Deactivation:** After the set time, program can make Windows session: 
     **Exit**, **Lock**, **Sign Out**, **Hibernate**, **Sleep**, **Shutdown**, **Force Shutdown**, **Restart**, **Force Restart**. 
-- **Deactivate on Battery:** The program can be set to deactivate when the computer is running on battery.
-- **Deactivate on CPU Idle:** The program can be set to deactivate when the CPU is below a certain percentage.
-- **Stay Active When Locked:** The program by default deactivates when locked.
-**NOTE:** When program is started, it becomes active (indefinitely) by default. If you want to start it inactive, you can use the commandline option `-startinactive`.
+- **Inactive on Battery:** The program can be set to temporarily become inactive when the computer is running on battery.
+- **Inactive on CPU Idle:** The program can be set to temporarily become inactive when the CPU is below a certain percentage.
+- **Inactive When Locked:** The program can be set to temporarily become inactive when locked.
+
 
 ## System Requirements
 
@@ -57,37 +58,3 @@ public static void PressF15()
      SendInput((uint)inputs.Length, inputs, Input.Size);
  }
 ```
-
-## Singleton Instance
-
-Only one instance of the application is allowed in memory. When starting a new instance, it detects the already running application and automatically exists; however, any option that is passed to the second instance, is sent to the first instance through a names pipeline.
-
-This method allows controlling the program through commandline. For example to instruct the program to exit, this command can be executed:
-
-```typescript
-"Caffeine Pro.exe" exit
-```
-
-## Commandline Usage
-
-```typescript
-CaffeinePro.exe [Command] [options]
-```
-
-**NOTE:** If another instance of _Caffeine Pro_ is already running all the command line commands and options are sent to that instance.
-
-**Commands:**
-
-<table><tbody><tr><td style="width:200px">activate</td><td style="width:400px">activate indefinitely</td></tr><tr><td>activeforX</td><td>activate for X min</td></tr><tr><td>activeuntilX</td><td>activate until X (X=hh:mmpp, e.g. 5:24PM)</td></tr><tr><td>deactivate</td><td>deactivate **</td></tr><tr><td>exit</td><td>exits the instance **</td></tr></tbody></table>
-
-**Options:**
-
-<table><tbody><tr><td style="width:200px">&nbsp; -help</td><td style="width:400px">Show help</td></tr><tr><td>&nbsp; -resetoptions</td><td>Reset all options to false **</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>&nbsp; -startinactive</td><td>starts inactive</td></tr><tr><td>&nbsp; -allowss</td><td>allow screen saver. No mouse/key sim</td></tr><tr><td>&nbsp; -cpuX</td><td>deactivate when CPU below X% *</td></tr><tr><td>&nbsp; -deactivewhenlocked</td><td>deactivate when computer is locked *</td></tr><tr><td>&nbsp; -deactivateonbattery</td><td>deactivate when on system is on battery *</td></tr><tr><td>&nbsp; -noicon</td><td>Do not show the icon in system tray</td></tr></tbody></table>
-
-\*: When deactivated, it it will stay inactive until manually activated again.
-
-\*\*: specifically designed for controlling existing instance in memory.
-
-## Installation
-
-To install the application, follow these steps:
