@@ -1,0 +1,193 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "E:\\dev\\CaffeinePro\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|e:\\dev\\caffeinepro\\caffeinepro\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|solutionrelative:caffeinepro\\app.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|e:\\dev\\caffeinepro\\caffeinepro\\classes\\parameterprocessorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|solutionrelative:caffeinepro\\classes\\parameterprocessorservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|e:\\dev\\caffeinepro\\caffeinepro\\classes\\appsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|solutionrelative:caffeinepro\\classes\\appsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|e:\\dev\\caffeinepro\\readme.md||{24510B54-A648-4D69-A6C5-F68CBDF07546}",
+      "RelativeMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|solutionrelative:readme.md||{24510B54-A648-4D69-A6C5-F68CBDF07546}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|e:\\dev\\caffeinepro\\caffeinepro\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|solutionrelative:caffeinepro\\app.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|e:\\dev\\caffeinepro\\caffeinepro\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|solutionrelative:caffeinepro\\app.config||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|e:\\dev\\caffeinepro\\caffeinepro\\aboutwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|solutionrelative:caffeinepro\\aboutwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{00000000-0000-0000-0000-000000000000}|\u003CSolution\u003E|CaffeinePro AdvInstaller Setup||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|e:\\dev\\caffeinepro\\caffeinepro\\caffeinepro.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|solutionrelative:caffeinepro\\caffeinepro.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|e:\\dev\\caffeinepro\\license.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{5A6B3720-B9E0-4EFF-A667-D0F96EEC39D4}|CaffeinePro\\CaffeinePro.csproj|solutionrelative:license.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{ED52285F-CC1A-404E-93ED-5B687EA11AF2}|CaffeinePro AdvInstaller Setup\\CaffeinePro AdvInstaller Setup.aiproj|E:\\dev\\CaffeinePro\\CaffeinePro AdvInstaller Setup\\CaffeinePro AdvInstaller Setup.aiproj||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|f84ac954-74b2-4d15-a450-b6de7b7d12c9",
+      "RelativeMoniker": "D:0:0:{ED52285F-CC1A-404E-93ED-5B687EA11AF2}|CaffeinePro AdvInstaller Setup\\CaffeinePro AdvInstaller Setup.aiproj|solutionrelative:CaffeinePro AdvInstaller Setup\\CaffeinePro AdvInstaller Setup.aiproj||{B270807C-D8C6-49EB-8EBE-8E8D566637A1}|f84ac954-74b2-4d15-a450-b6de7b7d12c9"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "App.config",
+              "DocumentMoniker": "E:\\dev\\CaffeinePro\\CaffeinePro\\App.config",
+              "RelativeDocumentMoniker": "CaffeinePro\\App.config",
+              "ToolTip": "E:\\dev\\CaffeinePro\\CaffeinePro\\App.config",
+              "RelativeToolTip": "CaffeinePro\\App.config",
+              "ViewState": "AQIAAA4AAAAAAAAAAAAWwCMAAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000601|",
+              "WhenOpened": "2024-06-04T18:28:18.51Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AboutWindow.xaml",
+              "DocumentMoniker": "E:\\dev\\CaffeinePro\\CaffeinePro\\AboutWindow.xaml",
+              "RelativeDocumentMoniker": "CaffeinePro\\AboutWindow.xaml",
+              "ToolTip": "E:\\dev\\CaffeinePro\\CaffeinePro\\AboutWindow.xaml",
+              "RelativeToolTip": "CaffeinePro\\AboutWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-06-04T18:27:55.023Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CaffeinePro AdvInstaller Setup",
+              "DocumentMoniker": "E:\\dev\\CaffeinePro\\CaffeinePro AdvInstaller Setup\\CaffeinePro AdvInstaller Setup.aiproj",
+              "RelativeDocumentMoniker": "CaffeinePro AdvInstaller Setup\\CaffeinePro AdvInstaller Setup.aiproj",
+              "ToolTip": "E:\\dev\\CaffeinePro\\CaffeinePro AdvInstaller Setup\\CaffeinePro AdvInstaller Setup.aiproj",
+              "RelativeToolTip": "CaffeinePro AdvInstaller Setup\\CaffeinePro AdvInstaller Setup.aiproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-06-04T18:25:31.865Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CaffeinePro",
+              "DocumentMoniker": "E:\\dev\\CaffeinePro\\CaffeinePro\\CaffeinePro.csproj",
+              "RelativeDocumentMoniker": "CaffeinePro\\CaffeinePro.csproj",
+              "ToolTip": "E:\\dev\\CaffeinePro\\CaffeinePro\\CaffeinePro.csproj",
+              "RelativeToolTip": "CaffeinePro\\CaffeinePro.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-06-04T18:25:17.299Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "LICENSE.txt",
+              "DocumentMoniker": "E:\\dev\\CaffeinePro\\LICENSE.txt",
+              "RelativeDocumentMoniker": "LICENSE.txt",
+              "ToolTip": "E:\\dev\\CaffeinePro\\LICENSE.txt",
+              "RelativeToolTip": "LICENSE.txt",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2024-06-04T18:20:21.152Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "README.md",
+              "DocumentMoniker": "E:\\dev\\CaffeinePro\\README.md",
+              "RelativeDocumentMoniker": "README.md",
+              "ToolTip": "E:\\dev\\CaffeinePro\\README.md",
+              "RelativeToolTip": "README.md",
+              "ViewState": "AQIAAD4AAAAAAAAAAAAtwFQAAABfAgAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2024-06-04T18:20:06.167Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "App.xaml",
+              "DocumentMoniker": "E:\\dev\\CaffeinePro\\CaffeinePro\\App.xaml",
+              "RelativeDocumentMoniker": "CaffeinePro\\App.xaml",
+              "ToolTip": "E:\\dev\\CaffeinePro\\CaffeinePro\\App.xaml",
+              "RelativeToolTip": "CaffeinePro\\App.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2024-06-04T18:18:55.054Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AppSettings.cs",
+              "DocumentMoniker": "E:\\dev\\CaffeinePro\\CaffeinePro\\Classes\\AppSettings.cs",
+              "RelativeDocumentMoniker": "CaffeinePro\\Classes\\AppSettings.cs",
+              "ToolTip": "E:\\dev\\CaffeinePro\\CaffeinePro\\Classes\\AppSettings.cs",
+              "RelativeToolTip": "CaffeinePro\\Classes\\AppSettings.cs",
+              "ViewState": "AQIAAAQAAAAAAAAAAAAnwCMAAAAhAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-04T18:19:07.27Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ParameterProcessorService.cs",
+              "DocumentMoniker": "E:\\dev\\CaffeinePro\\CaffeinePro\\Classes\\ParameterProcessorService.cs",
+              "RelativeDocumentMoniker": "CaffeinePro\\Classes\\ParameterProcessorService.cs",
+              "ToolTip": "E:\\dev\\CaffeinePro\\CaffeinePro\\Classes\\ParameterProcessorService.cs",
+              "RelativeToolTip": "CaffeinePro\\Classes\\ParameterProcessorService.cs",
+              "ViewState": "AQIAAKMAAAAAAAAAAAArwLoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-04T18:28:51.63Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "App.xaml.cs",
+              "DocumentMoniker": "E:\\dev\\CaffeinePro\\CaffeinePro\\App.xaml.cs",
+              "RelativeDocumentMoniker": "CaffeinePro\\App.xaml.cs",
+              "ToolTip": "E:\\dev\\CaffeinePro\\CaffeinePro\\App.xaml.cs",
+              "RelativeToolTip": "CaffeinePro\\App.xaml.cs",
+              "ViewState": "AQIAAKUAAAAAAAAAAAAewLkAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-04T18:28:27.33Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+﻿<ui:FluentWindow x:Class="CaffeinePro.AboutWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 mc:Ignorable="d"
+                 Title="About"
+                 Width="450"
+                 Height="350"
+                 WindowStartupLocation="CenterScreen"
+                 ExtendsContentIntoTitleBar="False"
+                 DataContext="{Binding RelativeSource={RelativeSource Self}}"
+                 KeyDown="AboutWindow_OnKeyDown"
+                 SizeToContent="Height">
+    <Window.Resources>
+        <BitmapImage x:Key="Coffee" UriSource="/Resources/Coffee.png" />
+    </Window.Resources>
+    <Border>
+
+        <StackPanel>
+            <ui:TitleBar Padding="0" />
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Height="Auto">
+                <Grid>
+                    <Image Source="{StaticResource Coffee}" Margin="20,10,0,0" HorizontalAlignment="Left" Width="128"
+                           Height="128" VerticalAlignment="Top">
+                        <Image.Clip>
+                            <RectangleGeometry RadiusX="10" RadiusY="10" Rect="0,0,128,128" />
+                        </Image.Clip>
+                    </Image>
+                    <StackPanel CanVerticallyScroll="True" Orientation="Vertical" Margin="171,0,25,33">
+                        <ui:TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Caffeine Pro"
+                                      VerticalAlignment="Top" FontSize="36" />
+                        <ui:TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top">
+                            <Run Text="Keep your Windows awake." FontSize="16" />
+                            <Bold />
+                        </ui:TextBlock>
+                        <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+                            <ui:TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Version"
+                                          VerticalAlignment="Top" />
+                            <ui:TextBlock Padding="5 0 0 0" HorizontalAlignment="Left" TextWrapping="Wrap"
+                                          Text="{Binding Version}" VerticalAlignment="Top" />
+                        </StackPanel>
+                        <Separator Height="10" Margin="0,10,0,0" />
+                        <ui:TextBlock TextWrapping="Wrap">
+                            <Run Text="License: " />
+                            <Hyperlink ToolTip="https://lotrasoft.com/caffeinepro/license/"
+                                       NavigateUri="https://lotrasoft.com/caffeinepro/license/"
+                                       Click="Hyperlink_OnClick">
+                                <Run Text="MIT License" />
+                            </Hyperlink>
+                        </ui:TextBlock>
+
+
+                        <ui:TextBlock HorizontalAlignment="Left" Width="134" Height="22" VerticalAlignment="Top">
+                            <Run Text="Source Code: " />
+                            <Hyperlink ToolTip="https://github.com/fsol11/Caffein-Pro"
+                                       NavigateUri="https://github.com/fsol11/Caffein-Pro" Click="Hyperlink_OnClick">
+                                GitHub...
+                            </Hyperlink>
+
+                        </ui:TextBlock>
+                        <Separator Height="10" Margin="0,0,0,10" />
+                        <ui:TextBlock Margin="0,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"
+                                      VerticalAlignment="Top">
+                            Copyright © 2024 Lotrasoft Inc.
+                        </ui:TextBlock>
+
+                        <ui:TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top">
+                            <Run Text="Written by: "></Run>
+                            <Run FontWeight="Bold" Text="Farshid Solimanpour"></Run>
+                        </ui:TextBlock>
+
+                        <ui:TextBlock HorizontalAlignment="Left" Width="134" Height="22" VerticalAlignment="Top">
+                            <Hyperlink NavigateUri="mailto:caffinepro@farshid.ca" Click="Hyperlink_OnClick">caffinepro@farshid.ca</Hyperlink>
+                        </ui:TextBlock>
+                        <Border CornerRadius="5" BorderThickness="1"
+                                BorderBrush="{x:Static SystemColors.ActiveBorderBrush}" HorizontalAlignment="Left"
+                                Padding="10 0">
+                            <ui:TextBlock HorizontalAlignment="Left" Height="30" Padding="5"
+                                          Foreground="{DynamicResource {x:Static SystemColors.InfoTextBrushKey}}">
+                                <Hyperlink ToolTip="https://www.buymeacoffee.com/fsol"
+                                           NavigateUri="https://www.buymeacoffee.com/fsol" Click="Hyperlink_OnClick">
+                                    Buy me a coffee...
+                                </Hyperlink>
+                            </ui:TextBlock>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </ScrollViewer>
+
+        </StackPanel>
+    </Border>
+</ui:FluentWindow>

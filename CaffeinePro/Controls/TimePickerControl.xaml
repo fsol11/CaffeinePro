@@ -1,0 +1,301 @@
+﻿<UserControl x:Class="CaffeinePro.Controls.TimePickerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+             xmlns:controls="clr-namespace:CaffeinePro.Controls"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             mc:Ignorable="d"
+             Width="300">
+    <UserControl.Resources>
+
+        <Style TargetType="Button" x:Key="HoverButtonStyle" BasedOn="{StaticResource DefaultButtonStyle}">
+            <Setter Property="FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}" />
+            <!--  Universal WPF UI focus  -->
+            <Setter Property="Background" Value="{DynamicResource ButtonBackground}" />
+            <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <!--{StaticResource ButtonBorderThemeThickness}-->
+            <Setter Property="Padding" Value="{StaticResource ButtonPadding}" />
+            <Setter Property="Margin" Value="3" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Center" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="{DynamicResource ControlContentThemeFontSize}" />
+            <Setter Property="FontWeight" Value="Normal" />
+            <Setter Property="Border.CornerRadius" Value="{DynamicResource ControlCornerRadius}" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="OverridesDefaultStyle" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border
+                                x:Name="ContentBorder"
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}"
+                                MinWidth="{TemplateBinding MinWidth}"
+                                MinHeight="{TemplateBinding MinHeight}"
+                                Padding="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="{TemplateBinding Border.CornerRadius}">
+
+                                <ContentPresenter
+                                    x:Name="ContentPresenter"
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    TextElement.Foreground="{TemplateBinding Foreground}" />
+                                <Border.Opacity>
+                                    <MultiBinding Converter="{StaticResource TimeIsPassedToOpacity}">
+                                        <Binding RelativeSource="{RelativeSource AncestorType=Button}" />
+                                        <Binding Path="Now"
+                                                 RelativeSource="{RelativeSource AncestorType=controls:TimePickerControl}" />
+                                    </MultiBinding>
+                                </Border.Opacity>
+                            </Border>
+                            <Popup x:Name="popup" Placement="Bottom" StaysOpen="True" AllowsTransparency="True"
+                                   IsOpen="False">
+                                <Border Background="{DynamicResource ApplicationBackgroundBrush}"
+                                        BorderBrush="{DynamicResource ControlElevationBorderBrush }"
+                                        BorderThickness="1"
+                                        CornerRadius="5">
+                                    <StackPanel>
+
+                                        <ui:Button BorderThickness="0" Tag=":00" Click="TimeButton_Click">
+                                            <ui:Button.Content>
+                                                <TextBlock>
+                                                    <Run Text="{TemplateBinding Content}" />
+                                                    <Run Text=":00" />
+                                                    <Run Text="{TemplateBinding Tag}" />
+
+                                                    <TextBlock.Opacity>
+                                                        <MultiBinding
+                                                            Converter="{StaticResource TimeIsPassedToOpacity}">
+                                                            <Binding RelativeSource="{RelativeSource Self}" />
+                                                            <Binding Path="Now" />
+                                                        </MultiBinding>
+                                                    </TextBlock.Opacity>
+                                                </TextBlock>
+                                            </ui:Button.Content>
+                                        </ui:Button>
+
+                                        <ui:Button BorderThickness="0" Tag=":15" Click="TimeButton_Click">
+                                            <ui:Button.Content>
+                                                <TextBlock>
+                                                    <Run Text="{TemplateBinding Content}" />
+                                                    <Run Text=":15" />
+                                                    <Run Text="{TemplateBinding Tag}" />
+
+                                                    <TextBlock.Opacity>
+                                                        <MultiBinding
+                                                            Converter="{StaticResource TimeIsPassedToOpacity}">
+                                                            <Binding RelativeSource="{RelativeSource Self}" />
+                                                            <Binding Path="Now" />
+                                                        </MultiBinding>
+                                                    </TextBlock.Opacity>
+                                                </TextBlock>
+                                            </ui:Button.Content>
+                                        </ui:Button>
+
+                                        <ui:Button BorderThickness="0" Tag=":30" Click="TimeButton_Click">
+                                            <ui:Button.Content>
+                                                <TextBlock>
+                                                    <Run Text="{TemplateBinding Content}" />
+                                                    <Run Text=":30" />
+                                                    <Run Text="{TemplateBinding Tag}" />
+
+                                                    <TextBlock.Opacity>
+                                                        <MultiBinding
+                                                            Converter="{StaticResource TimeIsPassedToOpacity}">
+                                                            <Binding RelativeSource="{RelativeSource Self}" />
+                                                            <Binding Path="Now" />
+                                                        </MultiBinding>
+                                                    </TextBlock.Opacity>
+                                                </TextBlock>
+                                            </ui:Button.Content>
+                                        </ui:Button>
+
+                                        <ui:Button BorderThickness="0" Tag=":45" Click="TimeButton_Click">
+                                            <ui:Button.Content>
+                                                <TextBlock>
+                                                    <Run Text="{TemplateBinding Content}" />
+                                                    <Run Text=":45" />
+                                                    <Run Text="{TemplateBinding Tag}" />
+
+                                                    <TextBlock.Opacity>
+                                                        <MultiBinding
+                                                            Converter="{StaticResource TimeIsPassedToOpacity}">
+                                                            <Binding RelativeSource="{RelativeSource Self}" />
+                                                            <Binding Path="Now" />
+                                                        </MultiBinding>
+                                                    </TextBlock.Opacity>
+                                                </TextBlock>
+                                            </ui:Button.Content>
+                                        </ui:Button>
+
+                                    </StackPanel>
+                                </Border>
+                                <Popup.Style>
+                                    <Style TargetType="Popup">
+                                        <Style.Triggers>
+                                            <DataTrigger
+                                                Binding="{Binding IsOpen, RelativeSource={RelativeSource Self}}"
+                                                Value="True">
+                                                <DataTrigger.EnterActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation
+                                                                Storyboard.TargetProperty="Child.(UIElement.Opacity)"
+                                                                From="0" To="1" Duration="0:0:0.3" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.EnterActions>
+                                                <DataTrigger.ExitActions>
+                                                    <BeginStoryboard>
+                                                        <Storyboard>
+                                                            <DoubleAnimation
+                                                                Storyboard.TargetProperty="Child.(UIElement.Opacity)"
+                                                                From="1" To="0" Duration="0:0:0.3" />
+                                                        </Storyboard>
+                                                    </BeginStoryboard>
+                                                </DataTrigger.ExitActions>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Popup.Style>
+                            </Popup>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="popup" Property="Popup.IsOpen" Value="True" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPointerOver}" />
+                                <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
+                                <Setter TargetName="ContentPresenter" Property="TextElement.Foreground"
+                                        Value="{DynamicResource ButtonForegroundPointerOver}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Background" Value="{DynamicResource ButtonBackgroundDisabled}" />
+                                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushDisabled}" />
+                                <Setter TargetName="ContentPresenter" Property="TextElement.Foreground"
+                                        Value="{DynamicResource ButtonForegroundDisabled}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Background" Value="{DynamicResource ButtonBackgroundPressed}" />
+                                <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrushPressed}" />
+                                <Setter TargetName="ContentPresenter" Property="TextElement.Foreground"
+                                        Value="{DynamicResource ButtonForegroundPressed}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Popup Placement="Bottom"
+               StaysOpen="False"
+               AllowsTransparency="True"
+               x:Name="TimesPopup">
+            <Popup.Child>
+                <StackPanel>
+                    <MenuItem Header="00" />
+                    <MenuItem Header="15" />
+                    <MenuItem Header="30" />
+                    <MenuItem Header="45" />
+                </StackPanel>
+            </Popup.Child>
+        </Popup>
+
+        <Line X1="0"
+              X2="{Binding Width}"
+              Y1="{Binding ActualHeight, Converter={StaticResource Half} }"
+              Y2="{Binding ActualHeight, Converter={StaticResource Half} }"
+              Stroke="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" StrokeThickness="1" />
+
+        <StackPanel HorizontalAlignment="Stretch">
+            <TextBlock>
+                <Run Text="Note:" FontWeight="Bold"/>
+                <Run Text="Past times are for Tomorrow"/>
+            </TextBlock>
+            <StackPanel Orientation="Horizontal">
+                <Grid VerticalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="AM" VerticalAlignment="Stretch" Margin="2" Padding="2"
+                               Foreground="{x:Static SystemColors.ActiveCaptionTextBrush}"
+                               Background="{x:Static SystemColors.ActiveCaptionBrush}" />
+                    <TextBlock Grid.Row="1" Text="PM" VerticalAlignment="Stretch" Margin="2" Padding="2"
+                               Foreground="{x:Static SystemColors.ActiveCaptionTextBrush}"
+                               Background="{x:Static SystemColors.ActiveCaptionBrush}" />
+                </Grid>
+
+                <StackPanel HorizontalAlignment="Stretch" MaxWidth="{Binding Width}">
+
+                    <WrapPanel HorizontalAlignment="Stretch">
+                        <ui:Button Tag="AM" Content="00" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="AM" Content="01" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="AM" Content="02" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="AM" Content="03" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="AM" Content="04" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="AM" Content="05" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="AM" Content="06" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="AM" Content="07" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="AM" Content="08" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="AM" Content="09" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="AM" Content="10" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="AM" Content="11" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="PM" Content="12" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="PM" Content="01" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="PM" Content="02" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="PM" Content="03" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="PM" Content="04" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="PM" Content="05" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="PM" Content="06" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="PM" Content="07" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="PM" Content="08" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="PM" Content="09" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="PM" Content="10" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                        <ui:Button Tag="PM" Content="11" Style="{StaticResource HoverButtonStyle}"
+                                   Click="TimeButton_Click" />
+                    </WrapPanel>
+                </StackPanel>
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

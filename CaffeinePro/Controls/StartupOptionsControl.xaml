@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="CaffeinePro.Controls.StartupOptionsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:caffeinePro="clr-namespace:CaffeinePro"
+             xmlns:controls="clr-namespace:CaffeinePro.Controls"
+             mc:Ignorable="d"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+    <Grid>
+        <StackPanel HorizontalAlignment="Left">
+            <TextBlock Text="Startup:" />
+
+            <controls:AwakenessViewControl
+                x:Name="StartupAwakenessControl"
+                AwakenessValue="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartupAwakeness, Mode=TwoWay}"
+                NoSpecificDate="True"
+                HorizontalAlignment="Left">
+                <controls:AwakenessViewControl.Style>
+                    <Style TargetType="{x:Type controls:AwakenessViewControl}">
+                        <Style.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.35" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="True">
+                                <Setter Property="Opacity" Value="1" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </controls:AwakenessViewControl.Style>
+
+            </controls:AwakenessViewControl>
+
+            <TextBlock TextWrapping="Wrap" HorizontalAlignment="Right" Margin="10 5">
+                <Hyperlink Click="SetToCurrentValue_Click">
+                    <Run Text="Copy from the current value" />
+                </Hyperlink>
+            </TextBlock>
+
+            <StackPanel Orientation="Vertical">
+                <RadioButton GroupName="Startup"
+                             IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive}"
+                             Click="StartActive_OnClick">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="Start Active" VerticalAlignment="Center"></TextBlock>
+                        <TextBlock FontSize="10" Padding="5 0 0 0" Text="(only if the time of day is not passed)"
+                                   VerticalAlignment="Center">
+                        </TextBlock>
+                    </StackPanel>
+                </RadioButton>
+                <RadioButton GroupName="Startup" Content="Start Inactive"
+                             IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive, Converter={StaticResource Not}}" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>
