@@ -147,6 +147,10 @@ public partial class App
 
     private void ApplyStartupAwakeness()
     {
+        KeepAwakeService.Awakeness = new Awakeness(Awakeness.AwakenessTypes.Relative, TimeSpan.FromHours(-72),
+            new AwakenessOptions(), SessionAction.None);
+        return;
+        
         // Process Startup Settings
         KeepAwakeService.Awakeness = AppSettings.StartupAwakeness;
 

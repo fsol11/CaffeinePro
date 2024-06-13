@@ -14,7 +14,7 @@
             <controls:AwakenessViewControl
                 x:Name="StartupAwakenessControl"
                 AwakenessValue="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartupAwakeness, Mode=TwoWay}"
-                NoSpecificDate="True"
+                InStartupOptions="True"
                 HorizontalAlignment="Left">
                 <controls:AwakenessViewControl.Style>
                     <Style TargetType="{x:Type controls:AwakenessViewControl}">

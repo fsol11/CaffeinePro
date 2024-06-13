@@ -23,7 +23,7 @@ public sealed partial class AwakenessViewControl
     {
         var awakeness = ((Awakeness)e.NewValue);
         var control = (AwakenessViewControl)d;
-        control.ShouldShowDate = awakeness.IsIndefinite || (!awakeness.IsRelative && !control.NoSpecificDate);
+        control.ShouldShowDate = awakeness.IsIndefinite || (!awakeness.IsRelative && !control.InStartupOptions);
     }
 
     public Awakeness AwakenessValue
@@ -44,8 +44,8 @@ public sealed partial class AwakenessViewControl
         set => SetValue(AwakenessValueProperty, value);
     }
 
-    public static readonly DependencyProperty NoSpecificDateProperty = DependencyProperty.Register(
-        nameof(NoSpecificDate),
+    public static readonly DependencyProperty InStartupOptionsProperty = DependencyProperty.Register(
+        nameof(InStartupOptions),
         typeof(bool),
         typeof(AwakenessViewControl),
         new FrameworkPropertyMetadata(false));
@@ -55,10 +55,10 @@ public sealed partial class AwakenessViewControl
         DependencyProperty.Register(nameof(ShouldShowDate), typeof(bool), typeof(AwakenessViewControl),
             new PropertyMetadata(default(bool)));
 
-    public bool NoSpecificDate
+    public bool InStartupOptions
     {
-        get => (bool)GetValue(NoSpecificDateProperty);
-        set => SetValue(NoSpecificDateProperty, value);
+        get => (bool)GetValue(InStartupOptionsProperty);
+        set => SetValue(InStartupOptionsProperty, value);
     }
 
     public bool ShouldShowDate

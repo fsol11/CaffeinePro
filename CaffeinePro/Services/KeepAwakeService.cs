@@ -161,6 +161,11 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
             Awakeness = awakeness;
         }
 
+        if (Awakeness.EndDateTime < DateTime.Now)
+        {
+            Awakeness = Awakeness.RenewDateTime(Awakeness);
+        }
+
         IsActive = true;
     }
 

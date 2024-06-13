@@ -69,7 +69,8 @@ public static class Routines
     /// </summary>
     public static bool IsOnBattery()
     {
-        return System.Windows.Forms.SystemInformation.PowerStatus.PowerLineStatus == System.Windows.Forms.PowerLineStatus.Offline;
+        return System.Windows.Forms.SystemInformation.PowerStatus.PowerLineStatus ==
+               System.Windows.Forms.PowerLineStatus.Offline;
     }
 
     /// <summary>
@@ -96,7 +97,7 @@ public static class Routines
         return assembly.GetManifestResourceStream(resourceName) ??
                throw new Exception("Resource not found: " + resourceName);
     }
-    
+
 
     public static DateTime GetDateTimeFromTimeSpan(TimeSpan time)
     {
@@ -395,6 +396,7 @@ public static class Routines
                         {
                             return TimeSpan.MaxValue;
                         }
+
                         hour = int.Parse(text[..i]);
                         minute = int.Parse(text[(i + 1)..(i + 3)]);
                         break;
@@ -412,22 +414,26 @@ public static class Routines
 
             case Button btn:
             {
-                var text = (btn.Content is TextBlock textBlock)
-                ? string.Concat(textBlock.Inlines.OfType<Run>().Select(r => r.Text.Trim()))
-                : btn.Content;
-                
-                if((string)btn.Tag == "AM" || (string)btn.Tag == "PM")
+                var text =
+                    (btn.Content is TextBlock textBlock)
+                        ? string.Concat(textBlock.Inlines.OfType<Run>().Select(r => r.Text.Trim()))
+                        : btn.Content;
+
+
+                if (btn.Tag is "AM" or "PM")
                 {
-                    text += (string) btn.Tag;
+                    text += (string)btn.Tag;
                 }
-                
+
                 return ContentToTimeSpan(text);
             }
-            
+
             case TextBlock textBlock: // <- Hours and minutes and AMPM (e.g. 05:30 PM)
             {
-                var text = string.Concat(textBlock.Inlines.OfType<Run>().Select(r => r.Text.Trim()));
-                return ContentToTimeSpan(text.Length != 0 ? text : textBlock.Text);
+                var text =
+                    string.Concat(textBlock.Inlines.OfType<Run>().Select(r => r.Text.Trim())) +
+                    Convert.ToString(textBlock.Tag);
+                return ContentToTimeSpan(text);
             }
         }
 

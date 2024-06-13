@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-             xmlns:controls="clr-namespace:CaffeinePro.Controls"
              DataContext="{Binding RelativeSource={RelativeSource Self}}"
              mc:Ignorable="d"
              Width="300">
@@ -43,24 +42,31 @@
                                 HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                 Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="{TemplateBinding Border.CornerRadius}">
+                                >
+                               
 
-                                <ContentPresenter
+                                <ContentPresenter 
                                     x:Name="ContentPresenter"
                                     HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                     VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                    Content="{TemplateBinding Content}"
                                     ContentTemplate="{TemplateBinding ContentTemplate}"
-                                    TextElement.Foreground="{TemplateBinding Foreground}" />
-                                <Border.Opacity>
-                                    <MultiBinding Converter="{StaticResource TimeIsPassedToOpacity}">
-                                        <Binding RelativeSource="{RelativeSource AncestorType=Button}" />
-                                        <Binding Path="Now"
-                                                 RelativeSource="{RelativeSource AncestorType=controls:TimePickerControl}" />
-                                    </MultiBinding>
-                                </Border.Opacity>
+                                    TextElement.Foreground="{TemplateBinding Foreground}" >
+                                    <ContentPresenter.Content>
+                                        <TextBlock 
+                                            Text="{TemplateBinding Content}"
+                                            Tag="{TemplateBinding Tag}">
+                                            <TextBlock.TextDecorations>
+                                                <MultiBinding
+                                                    Converter="{StaticResource TimeIsPassedToTextDecorations}">
+                                                    <Binding RelativeSource="{RelativeSource Self}" />
+                                                    <Binding Path="Now" />
+                                                    <Binding Path="InStartupOptions"/>
+                                                </MultiBinding>
+                                            </TextBlock.TextDecorations>
+                                        </TextBlock>
+                                    </ContentPresenter.Content>
+                                </ContentPresenter>
+
                             </Border>
                             <Popup x:Name="popup" Placement="Bottom" StaysOpen="True" AllowsTransparency="True"
                                    IsOpen="False">
@@ -72,18 +78,20 @@
 
                                         <ui:Button BorderThickness="0" Tag=":00" Click="TimeButton_Click">
                                             <ui:Button.Content>
+                                                
                                                 <TextBlock>
                                                     <Run Text="{TemplateBinding Content}" />
                                                     <Run Text=":00" />
                                                     <Run Text="{TemplateBinding Tag}" />
 
-                                                    <TextBlock.Opacity>
+                                                    <TextBlock.TextDecorations>
                                                         <MultiBinding
-                                                            Converter="{StaticResource TimeIsPassedToOpacity}">
+                                                            Converter="{StaticResource TimeIsPassedToTextDecorations}">
                                                             <Binding RelativeSource="{RelativeSource Self}" />
                                                             <Binding Path="Now" />
+                                                            <Binding Path="InStartupOptions"/>
                                                         </MultiBinding>
-                                                    </TextBlock.Opacity>
+                                                    </TextBlock.TextDecorations>
                                                 </TextBlock>
                                             </ui:Button.Content>
                                         </ui:Button>
@@ -95,13 +103,14 @@
                                                     <Run Text=":15" />
                                                     <Run Text="{TemplateBinding Tag}" />
 
-                                                    <TextBlock.Opacity>
+                                                    <TextBlock.TextDecorations>
                                                         <MultiBinding
-                                                            Converter="{StaticResource TimeIsPassedToOpacity}">
+                                                            Converter="{StaticResource TimeIsPassedToTextDecorations}">
                                                             <Binding RelativeSource="{RelativeSource Self}" />
                                                             <Binding Path="Now" />
+                                                            <Binding Path="InStartupOptions"/>
                                                         </MultiBinding>
-                                                    </TextBlock.Opacity>
+                                                    </TextBlock.TextDecorations>
                                                 </TextBlock>
                                             </ui:Button.Content>
                                         </ui:Button>
@@ -113,13 +122,14 @@
                                                     <Run Text=":30" />
                                                     <Run Text="{TemplateBinding Tag}" />
 
-                                                    <TextBlock.Opacity>
+                                                    <TextBlock.TextDecorations>
                                                         <MultiBinding
-                                                            Converter="{StaticResource TimeIsPassedToOpacity}">
+                                                            Converter="{StaticResource TimeIsPassedToTextDecorations}">
                                                             <Binding RelativeSource="{RelativeSource Self}" />
                                                             <Binding Path="Now" />
+                                                            <Binding Path="InStartupOptions"/>
                                                         </MultiBinding>
-                                                    </TextBlock.Opacity>
+                                                    </TextBlock.TextDecorations>
                                                 </TextBlock>
                                             </ui:Button.Content>
                                         </ui:Button>
@@ -131,13 +141,14 @@
                                                     <Run Text=":45" />
                                                     <Run Text="{TemplateBinding Tag}" />
 
-                                                    <TextBlock.Opacity>
+                                                    <TextBlock.TextDecorations>
                                                         <MultiBinding
-                                                            Converter="{StaticResource TimeIsPassedToOpacity}">
+                                                            Converter="{StaticResource TimeIsPassedToTextDecorations}">
                                                             <Binding RelativeSource="{RelativeSource Self}" />
                                                             <Binding Path="Now" />
+                                                            <Binding Path="InStartupOptions"/>
                                                         </MultiBinding>
-                                                    </TextBlock.Opacity>
+                                                    </TextBlock.TextDecorations>
                                                 </TextBlock>
                                             </ui:Button.Content>
                                         </ui:Button>
@@ -224,10 +235,6 @@
               Stroke="{DynamicResource {x:Static SystemColors.ActiveCaptionBrushKey}}" StrokeThickness="1" />
 
         <StackPanel HorizontalAlignment="Stretch">
-            <TextBlock>
-                <Run Text="Note:" FontWeight="Bold"/>
-                <Run Text="Past times are for Tomorrow"/>
-            </TextBlock>
             <StackPanel Orientation="Horizontal">
                 <Grid VerticalAlignment="Stretch">
                     <Grid.RowDefinitions>

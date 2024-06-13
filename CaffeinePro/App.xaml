@@ -17,13 +17,15 @@
                 <ResourceDictionary Source="Icons.xaml" />
                 <ResourceDictionary>
                     
-                    <SolidColorBrush x:Key="ActiveColor" Color="Red"></SolidColorBrush>
+                    <SolidColorBrush x:Key="ActiveColor" Color="#FF443E"></SolidColorBrush>
                     <SolidColorBrush x:Key="InactiveColor" Color="{x:Static SystemColors.GrayTextColor}"></SolidColorBrush>
                     <SolidColorBrush x:Key="TemporarilyInactiveColor" Color="Purple"></SolidColorBrush>
                     
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
 
+            <converters1:TimeIsPassedToTextDecorationsConverter x:Key="TimeIsPassedToTextDecorations" />
+            <converters1:TimeIsPassedToBorderBrushConverter x:Key="TimeIsPassedToBorderBrush" />
             <converters1:TimeIsPassedToOpacityConverter x:Key="TimeIsPassedToOpacity" />
             <converters1:BooleanToVisibilityConverter x:Key="BoolToVis" />
             <converters1:EnumToDescriptionConverter x:Key="EnumToDescription" />
@@ -64,7 +66,7 @@
                             <TextBlock x:Name="ReferenceTextBlock" ></TextBlock>
                             <StackPanel Orientation="Vertical">
                                 <controls:AwakenessViewControl
-                                    NoSpecificDate="False"
+                                    InStartupOptions="False"
                                     AwakenessValue="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.Awakeness, Mode=TwoWay}"
                                     NewAwakenessSelected="OnNewAwakenessSelected"
                                     Padding="0 5 0 0" />

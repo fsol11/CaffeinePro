@@ -124,7 +124,7 @@
                    Padding="5 0"
                    Text="{Binding ElementName=MinutesSlider, Path=Value, Converter={StaticResource MinutesToDate}, StringFormat={}({0})}"
                    
-                   Visibility="{Binding NoSpecificDate, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}"
+                   Visibility="{Binding InStartupOptions, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}"
                    />
     </StackPanel>
 </UserControl>

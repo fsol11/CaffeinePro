@@ -11,7 +11,7 @@ public partial class TimeSliderControl
     public static readonly DependencyProperty TimeProperty =
         DependencyProperty.Register(nameof(Time), typeof(TimeSpan), typeof(TimeSliderControl));
 
-    public static readonly DependencyProperty NoSpecificDateProperty = DependencyProperty.Register(nameof(NoSpecificDate), typeof(bool), typeof(TimeSliderControl), new PropertyMetadata(default(bool)));
+    public static readonly DependencyProperty InStartupOptionsProperty = DependencyProperty.Register(nameof(InStartupOptions), typeof(bool), typeof(TimeSliderControl), new PropertyMetadata(default(bool)));
 
     public TimeSliderControl()
     {
@@ -25,10 +25,10 @@ public partial class TimeSliderControl
         set => SetValue(TimeProperty, value);
     } 
 
-    public bool NoSpecificDate
+    public bool InStartupOptions
     {
-        get => (bool)GetValue(NoSpecificDateProperty);
-        set => SetValue(NoSpecificDateProperty, value);
+        get => (bool)GetValue(InStartupOptionsProperty);
+        set => SetValue(InStartupOptionsProperty, value);
     }
 
     private void MenuItemOnClick_ActiveFor(object sender, RoutedEventArgs e)

@@ -31,7 +31,7 @@
                                         <MultiDataTrigger.Conditions>
                                             <Condition Binding="{Binding AwakenessValue.AwakenessType}"
                                                        Value="{x:Static classes:Awakeness+AwakenessTypes.Relative}" />
-                                            <Condition Binding="{Binding NoSpecificDate}" Value="True" />
+                                            <Condition Binding="{Binding InStartupOptions}" Value="True" />
                                         </MultiDataTrigger.Conditions>
                                         <Setter Property="Visibility" Value="Visible" />
                                     </MultiDataTrigger>
@@ -64,7 +64,7 @@
                                     <MultiDataTrigger>
                                         <MultiDataTrigger.Conditions>
                                             <Condition Binding="{Binding AwakenessValue.IsRelative}" Value="True" />
-                                            <Condition Binding="{Binding NoSpecificDate}" Value="True" />
+                                            <Condition Binding="{Binding InStartupOptions}" Value="True" />
                                         </MultiDataTrigger.Conditions>
                                         <Setter Property="Visibility" Value="Collapsed" />
                                     </MultiDataTrigger>
@@ -104,7 +104,9 @@
                                 <MenuItem.Items>
                                     <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}">
                                         <MenuItem.Header>
-                                            <controls:TimePickerControl NewTimeSelected="OnNewTimeSelected" />
+                                            <controls:TimePickerControl 
+                                                NewTimeSelected="OnNewTimeSelected" 
+                                                InStartupOptions="{Binding InStartupOptions}"/>
                                         </MenuItem.Header>
                                     </MenuItem>
                                 </MenuItem.Items>
