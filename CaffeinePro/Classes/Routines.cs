@@ -73,36 +73,11 @@ public static class Routines
                System.Windows.Forms.PowerLineStatus.Offline;
     }
 
-    /// <summary>
-    /// Returns the text of a text file embedded in the application resources
-    /// </summary>
-    /// <param name="resourceName">Path to the resource</param>
-    public static string GetResourceTextFile(string resourceName)
+    public static DateTime GetDateTimeFromTimeSpan(TimeSpan timespan, Awakeness.AwakenessTypes type = Awakeness.AwakenessTypes.Absolute)
     {
-        var assembly = Assembly.GetExecutingAssembly();
-
-        using var stream = assembly.GetManifestResourceStream(resourceName) ??
-                           throw new Exception("Resource not found: " + resourceName);
-        using StreamReader reader = new(stream);
-        return reader.ReadToEnd();
-    }
-
-    /// <summary>
-    /// Returns a stream of a resource embedded in the application resources
-    /// </summary>
-    /// <param name="resourceName">Path to the resource</param>
-    private static Stream GetResourceStream(string resourceName)
-    {
-        var assembly = Assembly.GetExecutingAssembly();
-        return assembly.GetManifestResourceStream(resourceName) ??
-               throw new Exception("Resource not found: " + resourceName);
-    }
-
-
-    public static DateTime GetDateTimeFromTimeSpan(TimeSpan time)
-    {
-        var datetime = DateTime.Now.Date.Add(time);
-        if (datetime < DateTime.Now)
+        var baseDate = type == Awakeness.AwakenessTypes.Absolute ? DateTime.Now.Date : DateTime.Now;
+        var datetime = baseDate.Add(timespan);
+        while (datetime < DateTime.Now)
         {
             datetime = datetime.AddDays(1);
         }
@@ -130,11 +105,6 @@ public static class Routines
         return $"{h:00}:{m:00} {z}";
     }
 
-
-    public static string GetDateTimeString(TimeSpan time)
-    {
-        return GetDateTimeString(GetDateTimeFromTimeSpan(time));
-    }
 
     /// <summary>
     /// Returns text representation of a time. If the time is today, it will return the time only.
@@ -377,64 +347,64 @@ public static class Routines
         switch (content)
         {
             case string text:
-            {
-                int hour;
-                int minute;
-                text = text.Trim();
-                switch (text.Length)
                 {
-                    case 0:
-                        return TimeSpan.MaxValue;
-                    case <= 4:
-                        hour = int.Parse(text[0..2]);
-                        minute = 0;
-                        break;
-                    default:
+                    int hour;
+                    int minute;
+                    text = text.Trim();
+                    switch (text.Length)
                     {
-                        var i = text.IndexOf(':');
-                        if (i == -1)
-                        {
+                        case 0:
                             return TimeSpan.MaxValue;
-                        }
+                        case <= 4:
+                            hour = int.Parse(text[0..2]);
+                            minute = 0;
+                            break;
+                        default:
+                            {
+                                var i = text.IndexOf(':');
+                                if (i == -1)
+                                {
+                                    return TimeSpan.MaxValue;
+                                }
 
-                        hour = int.Parse(text[..i]);
-                        minute = int.Parse(text[(i + 1)..(i + 3)]);
-                        break;
+                                hour = int.Parse(text[..i]);
+                                minute = int.Parse(text[(i + 1)..(i + 3)]);
+                                break;
+                            }
                     }
+
+
+                    if (text.EndsWith("PM", StringComparison.CurrentCultureIgnoreCase) && hour < 12)
+                    {
+                        hour += 12;
+                    }
+
+                    return new TimeSpan(hour, minute, 0);
                 }
-
-
-                if (text.EndsWith("PM", StringComparison.CurrentCultureIgnoreCase) && hour < 12)
-                {
-                    hour += 12;
-                }
-
-                return new TimeSpan(hour, minute, 0);
-            }
 
             case Button btn:
-            {
-                var text =
-                    (btn.Content is TextBlock textBlock)
-                        ? string.Concat(textBlock.Inlines.OfType<Run>().Select(r => r.Text.Trim()))
-                        : btn.Content;
-
-
-                if (btn.Tag is "AM" or "PM")
                 {
-                    text += (string)btn.Tag;
+                    var text =
+                        (btn.Content is TextBlock textBlock)
+                            ? string.Concat(textBlock.Inlines.OfType<Run>().Select(r => r.Text.Trim()))
+                            : btn.Content;
+
+
+                    if (btn.Tag is "AM" or "PM")
+                    {
+                        text += (string)btn.Tag;
+                    }
+
+                    return ContentToTimeSpan(text);
                 }
 
-                return ContentToTimeSpan(text);
-            }
-
             case TextBlock textBlock: // <- Hours and minutes and AMPM (e.g. 05:30 PM)
-            {
-                var text =
-                    string.Concat(textBlock.Inlines.OfType<Run>().Select(r => r.Text.Trim())) +
-                    Convert.ToString(textBlock.Tag);
-                return ContentToTimeSpan(text);
-            }
+                {
+                    var text =
+                        string.Concat(textBlock.Inlines.OfType<Run>().Select(r => r.Text.Trim())) +
+                        Convert.ToString(textBlock.Tag);
+                    return ContentToTimeSpan(text);
+                }
         }
 
         return TimeSpan.MaxValue;

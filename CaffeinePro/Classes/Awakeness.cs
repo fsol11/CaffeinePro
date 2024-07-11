@@ -39,10 +39,7 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
         }
         else
         {
-            EndDateTime =
-                awakenessType == AwakenessTypes.Relative
-                    ? DateTime.Now.Add(relativeSpan)
-                    : Routines.GetDateTimeFromTimeSpan(relativeSpan);
+            EndDateTime = Routines.GetDateTimeFromTimeSpan(relativeSpan, awakenessType);
         }
 
         UpdateTexts();

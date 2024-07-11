@@ -5,7 +5,7 @@
              xmlns:tb="http://www.hardcodet.net/taskbar"
              xmlns:caffeinePro="clr-namespace:CaffeinePro"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-             xmlns:converters1="clr-namespace:CaffeinePro.Converters"
+             xmlns:converters="clr-namespace:CaffeinePro.Converters"
              xmlns:controls="clr-namespace:CaffeinePro.Controls"
              >
 
@@ -16,28 +16,29 @@
                 <ui:ControlsDictionary />
                 <ResourceDictionary Source="Icons.xaml" />
                 <ResourceDictionary>
-                    
+
                     <SolidColorBrush x:Key="ActiveColor" Color="#FF443E"></SolidColorBrush>
                     <SolidColorBrush x:Key="InactiveColor" Color="{x:Static SystemColors.GrayTextColor}"></SolidColorBrush>
                     <SolidColorBrush x:Key="TemporarilyInactiveColor" Color="Purple"></SolidColorBrush>
-                    
+
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
 
-            <converters1:TimeIsPassedToTextDecorationsConverter x:Key="TimeIsPassedToTextDecorations" />
-            <converters1:TimeIsPassedToBorderBrushConverter x:Key="TimeIsPassedToBorderBrush" />
-            <converters1:TimeIsPassedToOpacityConverter x:Key="TimeIsPassedToOpacity" />
-            <converters1:BooleanToVisibilityConverter x:Key="BoolToVis" />
-            <converters1:EnumToDescriptionConverter x:Key="EnumToDescription" />
-            <converters1:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
-            <converters1:DateToEnabledConverter x:Key="DateToEnabled" />
-            <converters1:MinutesToTimeStringConverter x:Key="MinutesToTimeString" />
-            <converters1:DoubleToIntConverter x:Key="DoubleToInt" />
-            <converters1:ValueEqualsParameterConverter x:Key="ValueEqualsParameter" />
-            <converters1:ValueNotEqualsParameterConverter x:Key="ValueNotEqualsParameter" />
-            <converters1:ValueNotEqualsParameterToVisibilityConverter x:Key="ValueNotEqualsParameterToVisibility" />
-            <converters1:NotConverter x:Key="Not" />
-            <converters1:HalfConverter x:Key="Half" />
+            <converters:TimeIsPassedToTextDecorationsConverter x:Key="TimeIsPassedToTextDecorations" />
+            <converters:TimeIsPassedToBorderBrushConverter x:Key="TimeIsPassedToBorderBrush" />
+            <converters:TimeIsPassedToOpacityConverter x:Key="TimeIsPassedToOpacity" />
+            <converters:BooleanToVisibilityConverter x:Key="BoolToVis" />
+            <converters:EnumToDescriptionConverter x:Key="EnumToDescription" />
+            <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+            <converters:DateToEnabledConverter x:Key="DateToEnabled" />
+            <converters:MinutesToTimeStringConverter x:Key="MinutesToTimeString" />
+            <converters:DoubleToIntConverter x:Key="DoubleToInt" />
+            <converters:ValueEqualsParameterConverter x:Key="ValueEqualsParameter" />
+            <converters:ValueNotEqualsParameterConverter x:Key="ValueNotEqualsParameter" />
+            <converters:ValueNotEqualsParameterToVisibilityConverter x:Key="ValueNotEqualsParameterToVisibility" />
+            <converters:NotConverter x:Key="Not" />
+            <converters:HalfConverter x:Key="Half" />
+            <converters:TwoValuesNotEqualToVisibility x:Key="TwoValuesNotEqualToVisibility" />
 
             <Style x:Key="NoHighlightMenuItemStyle" TargetType="{x:Type MenuItem}">
                 <Setter Property="Template">
@@ -62,21 +63,7 @@
                 <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}" StaysOpenOnClick="True"
                           HorizontalContentAlignment="Center">
                     <MenuItem.Header>
-                        <StackPanel>
-                            <TextBlock x:Name="ReferenceTextBlock" ></TextBlock>
-                            <StackPanel Orientation="Vertical">
-                                <controls:AwakenessViewControl
-                                    InStartupOptions="False"
-                                    AwakenessValue="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.Awakeness, Mode=TwoWay}"
-                                    NewAwakenessSelected="OnNewAwakenessSelected"
-                                    Padding="0 5 0 0" />
-                            </StackPanel>
-                            <Border Padding="10 ">
-                                <controls:StatusControl
-                                    Awakeness="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.Awakeness}" />
-                            </Border>
-
-                        </StackPanel>
+                        <controls:StatusControl />
                     </MenuItem.Header>
                 </MenuItem>
                 <Separator />
@@ -106,21 +93,21 @@
                 <!-- Base Icon -->
                 <Image Source="pack://application:,,,/Resources/Coffee16.ico" Width="16" Height="16" />
             </Canvas>
-            
+
             <Canvas x:Key="ActiveIconCanvas" Width="16" Height="16">
                 <!-- Base Icon -->
                 <Image Source="pack://application:,,,/Resources/Coffee16.ico" Width="16" Height="16" />
                 <!-- Overlay Circle -->
                 <Ellipse Width="6" Height="6" Fill="{StaticResource ActiveColor}" Canvas.Left="12" Canvas.Top="12" />
             </Canvas>
-            
+
             <Canvas x:Key="TemporarilyInactiveIconCanvas" Width="16" Height="16">
                 <!-- Base Icon -->
                 <Image Source="pack://application:,,,/Resources/Coffee16.ico" Width="16" Height="16" />
                 <!-- Overlay Circle -->
                 <Ellipse Width="6" Height="6" Fill="{StaticResource TemporarilyInactiveColor}" Canvas.Left="12" Canvas.Top="12" />
             </Canvas>
-            
+
 
             <tb:TaskbarIcon
                 x:Key="TrayIcon"

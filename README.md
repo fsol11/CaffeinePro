@@ -2,12 +2,12 @@
 
 This application is designed to prevent your Windows computer from going into sleep mode. It's useful for situations where you need your computer to stay awake, but can't change the system-wide sleep settings, or don't want to remember to change them back later.
 
-![Screenshot](https://lotrasoft.com/wp-content/uploads/2024/03/Screenshot-2024-03-15-084955.png "Screen Shot")
-![Screenshot](https://lotrasoft.com/wp-content/uploads/2024/03/Screenshot-2024-03-15-085027.png "Screen Shot")
+![Screenshot](https://lotrasoft.com/wp-content/uploads/2024/07/CaffeinePro-2.1.523-Light.webp "Light Screen Shot")
+![Screenshot](https://lotrasoft.com/wp-content/uploads/2024/07/CaffeinePro-2.1.523-Dark.webp "Dark Screen Shot")
 
 ## Features
 
-- **Keeps Windows Awake:** by simulating a key press every 59 seconds. This is enough to trick the system into thinking that the user is still active, so it doesn't go to sleep. This method also prevents programs to detect user inactivity.
+- **Keeps Windows Awake:** by simulating a key press every at random intervals. This is enough to trick the system into thinking that the user is still active, so it doesn't go to sleep. This method also prevents programs to detect user inactivity.
 - **Screen Saver Allowed:** In this mode, instead of a keypress simulation, a special thread state is used to keep Windows awake, but this method does not prevent programs like Microsoft Teams to detect user inactivity.
 - **Singleton Instance:** Only one instance of the application is allowed in memory. When starting a new instance, it detects the already running application and automatically exits; however, any commandline option that is passed to the second instance, is sent to the first instance through a names pipeline.
 - **Support Dark/Light themes:** It uses Microsoft Fluent UI and supports both light and dark themes.
