@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <_LastSelectedProfileId>E:\dev\CaffeinePro\CaffeinePro\Properties\PublishProfiles\x64.pubxml</_LastSelectedProfileId>
+    <_LastSelectedProfileId>E:\dev\CaffeinePro\CaffeinePro\Properties\PublishProfiles\x86.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="Controls\StartupOptionsControl.xaml.cs">
@@ -16,6 +16,9 @@
     <Compile Update="Controls\TimeSliderControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Controls\StartupLink.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\StartupOptionsControl.xaml">
@@ -28,6 +31,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\TimeSliderControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Controls\StartupLink.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

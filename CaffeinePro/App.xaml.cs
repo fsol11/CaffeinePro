@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Windows;
 using CaffeinePro.Classes;
 using CaffeinePro.Services;
@@ -20,6 +21,7 @@ namespace CaffeinePro;
 /// </summary>
 public partial class App
 {
+    public int TimerInterval => RandomNumberGenerator.GetInt32(30, 59); 
     public static App CurrentApp => (App)Current;
 
     public static string AppName => Assembly.GetExecutingAssembly().GetName().Name!;
@@ -147,10 +149,6 @@ public partial class App
 
     private void ApplyStartupAwakeness()
     {
-        KeepAwakeService.Awakeness = new Awakeness(Awakeness.AwakenessTypes.Relative, TimeSpan.FromHours(-72),
-            new AwakenessOptions(), SessionAction.None);
-        return;
-        
         // Process Startup Settings
         KeepAwakeService.Awakeness = AppSettings.StartupAwakeness;
 
@@ -204,7 +202,7 @@ public partial class App
             ;
     }
 
-    private TaskbarIcon? TrayIcon
+    internal TaskbarIcon? TrayIcon
     {
         get;
         set;
@@ -246,9 +244,5 @@ public partial class App
         Routines.OpenHyperlink("https://lotrasoft.com/caffeinepro/feedback?product=Caffeine%20Pro");
     }
 
-    private void OnNewAwakenessSelected(object? sender, Awakeness aw)
-    {
-        KeepAwakeService.Activate(aw);
-        TrayIcon!.ContextMenu!.IsOpen = false;
-    }
+
 }

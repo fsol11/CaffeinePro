@@ -26,7 +26,7 @@ namespace CaffeinePro.Controls
         {
             if (App.CurrentApp.AppSettings.StartActive 
                 && App.CurrentApp.AppSettings.StartupAwakeness.IsIndefinite
-                && App.CurrentApp.KeepAwakeService.Awakeness != App.CurrentApp.AppSettings.StartupAwakeness)
+                && App.CurrentApp.KeepAwakeService.Awakeness.RelativeSpan != App.CurrentApp.AppSettings.StartupAwakeness.RelativeSpan)
             {
                 if (
                     MessageBox.Show(

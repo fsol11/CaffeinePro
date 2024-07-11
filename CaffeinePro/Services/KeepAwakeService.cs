@@ -139,7 +139,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     /// <summary>
     /// The timer that keeps Windows awake
     /// </summary>
-    private readonly Timer _timer = new(2000) // 59 seconds
+    private readonly Timer _timer = new(App.CurrentApp.TimerInterval)
     {
         AutoReset = true,
         Enabled = false,
@@ -270,22 +270,28 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
         if (IsActive
             || ShouldSkipUnlockNotificationToday()
             || App.CurrentApp.AppSettings.StartActive == false
-            || Awakeness.EndDateTime.TimeOfDay < DateTime.Now.TimeOfDay)
+            || App.CurrentApp.AppSettings.StartupAwakeness.EndDateTime.TimeOfDay < DateTime.Now.TimeOfDay)
         {
             return;
         }
 
+
         // Ask user if the program should be activated
+        var aw = Awakeness.RenewDateTime(App.CurrentApp.AppSettings.StartupAwakeness);
+        
+        // Setting the Awakeness to startup Awakeness
+        Awakeness = aw;
+        
         App.CurrentApp.Dispatcher.Invoke(() =>
         {
             var content = new NotificationContent
             {
                 Title = App.AppName,
-                Message = $"Click Activate to keep your computer awake {Awakeness.GetAwakenessDescription()}.",
+                Message = $"Click Activate to keep your computer awake {aw.GetAwakenessDescription()}.",
                 Type = NotificationType.Information,
 
                 LeftButtonContent = "Activate",
-                LeftButtonAction = () => Activate(), // <- Activate if user clicks Activate
+                LeftButtonAction = () => Activate(aw), // <- Activate if user clicks Activate
 
                 RightButtonContent = " Ignore for Today ",
                 RightButtonAction = SetSkipUnlockNotificationToday, // <- Ignore if user clicks Ignore

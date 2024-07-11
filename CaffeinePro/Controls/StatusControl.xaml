@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:caffeinePro="clr-namespace:CaffeinePro"
+             xmlns:controls="clr-namespace:CaffeinePro.Controls"
              mc:Ignorable="d"
              d:DesignWidth="400">
     <UserControl.Resources>
@@ -12,12 +13,26 @@
         <DrawingImage Drawing="{StaticResource Battery}" x:Key="BatteryIcon" />
         <DrawingImage Drawing="{StaticResource Cpu}" x:Key="CpuIcon" />
     </UserControl.Resources>
-    <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
-        <Border BorderThickness="2" CornerRadius="4" Width="Auto" HorizontalAlignment="Center">
-            <Border.BorderBrush>
-                <SolidColorBrush x:Name="AnimatedBrush" Color="Transparent" />
-            </Border.BorderBrush>
+    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
+        <controls:AwakenessViewControl
+            InStartupOptions="False"
+            AwakenessValue="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.Awakeness, Mode=TwoWay}"
+            NewAwakenessSelected="OnNewAwakenessSelected"
+            Padding="0 5 0 0" />
 
+        <TextBlock Name="CopyLink" TextWrapping="Wrap" HorizontalAlignment="Right" Margin="10 5">
+            <TextBlock.Visibility>
+                <MultiBinding Converter="{StaticResource TwoValuesNotEqualToVisibility}">
+                    <Binding Path="AppSettings.StartupAwakeness" Source="{x:Static caffeinePro:App.CurrentApp}"/>
+                    <Binding Path="KeepAwakeService.Awakeness" Source="{x:Static caffeinePro:App.CurrentApp}"/>
+                </MultiBinding>
+            </TextBlock.Visibility>
+            <Hyperlink Click="SetToStartupValue_Click">
+                <Run Text="Copy from the startup value" />
+            </Hyperlink>
+        </TextBlock>
+
+        <Border BorderThickness="0" CornerRadius="4" Width="Auto" HorizontalAlignment="Center" Padding="10">
 
             <Grid HorizontalAlignment="Center">
 
@@ -108,5 +123,5 @@
             </Grid>
         </Border>
 
-    </Grid>
+    </StackPanel>
 </UserControl>

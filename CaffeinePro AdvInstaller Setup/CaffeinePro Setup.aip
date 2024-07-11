@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DOCUMENT Type="Advanced Installer" CreateVersion="21.5" version="21.5.1" Modules="simple" RootPath="." Language="en" Id="{6CA7052E-A37F-4004-A650-EE2AF1078774}">
-  <COMPONENT cid="caphyon.advinst.msicomp.ProjectOptionsComponent">
-    <ROW Name="HiddenItems" Value="AppXProductDetailsComponent;AppXDependenciesComponent;AppXAppDetailsComponent;AppXVisualAssetsComponent;AppXCapabilitiesComponent;AppXAppDeclarationsComponent;AppXUriRulesComponent;FixupComponent;MsiXDiffComponent;MsixManifestEditorComponent"/>
-  </COMPONENT>
+<DOCUMENT Type="Advanced Installer" CreateVersion="21.5" version="21.9" Modules="simple" RootPath="." Language="en" Id="{6CA7052E-A37F-4004-A650-EE2AF1078774}">
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
     <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
     <ROW Property="AI_PREDEF_LCONDS_PROPS" Value="AI_DETECTED_ADMIN_USER;AI_DETECTED_DOTNET_CORE_VERSION"/>
     <ROW Property="AI_REQUIRED_DOTNET_CORE_DISPLAY" MultiBuildValue="DefaultBuild:8.0" ValueLocId="-"/>
     <ROW Property="AI_REQUIRED_DOTNET_CORE_VERSION" MultiBuildValue="DefaultBuild:8.0" ValueLocId="-"/>
     <ROW Property="ALLUSERS" Value="1" MultiBuildValue="DefaultBuild:2"/>
-    <ROW Property="ARPCOMMENTS" Value="This program installs [|ProductName]." ValueLocId="*"/>
+    <ROW Property="ARPCOMMENTS" Value="This program installs [|ProductName] [|ProductVersion]." ValueLocId="*"/>
     <ROW Property="ARPNOMODIFY" MultiBuildValue="DefaultBuild:1"/>
     <ROW Property="ARPNOREPAIR" Value="1"/>
     <ROW Property="ARPPRODUCTICON" Value="Coffee.exe" Type="8"/>
@@ -59,7 +56,7 @@
     <ATTRIBUTE name="CurrentFeature" value="MainFeature"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
-    <ROW File="CaffeinePro.exe" Component_="CaffeinePro.exe" FileName="CAFFEI~1.EXE|CaffeinePro.exe" Attributes="0" SourcePath="..\CaffeinePro\bin\publish-release\CaffeinePro.exe" SelfReg="false" DigSign="true"/>
+    <ROW File="CaffeinePro.exe" Component_="CaffeinePro.exe" FileName="CAFFEI~1.EXE|CaffeinePro.exe" Attributes="0" SourcePath="..\CaffeinePro\bin\publish\win-x86\CaffeinePro.exe" SelfReg="false" DigSign="true"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.AiPersistentPropComponent">
     <ROW Property="AI_INSTALLPERUSER" Registry="AI_INSTALLPERUSER" HklmSearch="AI_INSTALLPERUSER" HkcuSearch="AI_INSTALLPERUSER_1" Hklm64Search="AI_INSTALLPERUSER_2" Hkcu64Search="AI_INSTALLPERUSER_3"/>
@@ -171,6 +168,7 @@
     <ROW Feature_="MainFeature" Component_="AI_INSTALLPERUSER"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiIconsComponent">
+    <ROW Name="CaffeinePro.exe" SourcePath="..\CaffeinePro\bin\publish\win-x86\CaffeinePro.exe" Index="0"/>
     <ROW Name="Coffee.exe" SourcePath="..\CaffeinePro\Resources\Coffee.ico" Index="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstExSeqComponent">
@@ -218,7 +216,7 @@
     <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
-    <ROW Shortcut="CaffeinePro" Directory_="SHORTCUTDIR" Name="CAFFEI~1|Caffeine Pro" Component_="CaffeinePro.exe" Target="[#CaffeinePro.exe]" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
+    <ROW Shortcut="CaffeinePro" Directory_="SHORTCUTDIR" Name="CAFFEI~1|Caffeine Pro" Component_="CaffeinePro.exe" Target="[#CaffeinePro.exe]" Hotkey="0" Icon_="CaffeinePro.exe" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiThemeComponent">
     <ATTRIBUTE name="UsedTheme" value="classic"/>
