@@ -11,7 +11,7 @@
     <WorkingDirectory>.</WorkingDirectory>
     <IsWindowsApplication>True</IsWindowsApplication>
     <AssemblyName>CaffeinePro Setup</AssemblyName>
-    <Name>CaffeinePro AdvInstaller Setup</Name>
+    <Name>CaffeinePro AdvInstaller MSI Setup</Name>
     <RootNamespace>CaffeinePro Setup</RootNamespace>
     <LoadFromTemplate>
     </LoadFromTemplate>

@@ -4,7 +4,8 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 .vs
-CaffeinePro AdvInstaller Setup/CaffeinePro Setup-BuildUwpAppX-SetupFiles/
-CaffeinePro AdvInstaller Setup/CaffeinePro Setup-SetupFiles/
-CaffeinePro AdvInstaller Setup/CaffeinePro Setup-cache/
-CaffeinePro AdvInstaller Setup/Generated Assets/
+CaffeinePro Setup-BuildUwpAppX-SetupFiles/
+CaffeinePro Setup-SetupFiles/
+CaffeinePro Setup-cache/
+Generated Assets/
+AppPackages/

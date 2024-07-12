@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Source>E:\dev\CaffeinePro\CaffeinePro\Resources\Coffee.png</Source>
+    <SmallTileSource>E:\dev\CaffeinePro\CaffeinePro\Resources\Coffee.png</SmallTileSource>
+    <MediumTileSource>E:\dev\CaffeinePro\CaffeinePro\Resources\Coffee.png</MediumTileSource>
+    <WideTileSource>E:\dev\CaffeinePro\CaffeinePro\Resources\Coffee.png</WideTileSource>
+    <LargeTileSource>E:\dev\CaffeinePro\CaffeinePro\Resources\Coffee.png</LargeTileSource>
+    <AppIconSource>E:\dev\CaffeinePro\CaffeinePro\Resources\Coffee.png</AppIconSource>
+    <SplashScreenSource>E:\dev\CaffeinePro\CaffeinePro\Resources\Coffee.png</SplashScreenSource>
+    <BadgeLogoSource>E:\dev\CaffeinePro\CaffeinePro\Resources\Coffee.png</BadgeLogoSource>
+    <PackageLogoSource>E:\dev\CaffeinePro\CaffeinePro\Resources\Coffee.png</PackageLogoSource>
+    <UapAppxPackageBuildMode>StoreAndSideload</UapAppxPackageBuildMode>
+    <AppxShowAllApps>False</AppxShowAllApps>
+    <AppxBuildConfigurationSelection>x86</AppxBuildConfigurationSelection>
+    <PackageOptionalProjectsInIdeBuilds>False</PackageOptionalProjectsInIdeBuilds>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebuggerFlavor>AppHostLocalDebugger</DebuggerFlavor>
+    <RemoteDebugEnabled>False</RemoteDebugEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <DebuggerFlavor>AppHostLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebuggerFlavor>AppHostLocalDebugger</DebuggerFlavor>
+    <RemoteDebugEnabled>False</RemoteDebugEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <DebuggerFlavor>AppHostLocalDebugger</DebuggerFlavor>
+    <RemoteDebugEnabled>False</RemoteDebugEnabled>
+  </PropertyGroup>
+</Project>

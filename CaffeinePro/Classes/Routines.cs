@@ -5,12 +5,14 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Drawing;
 using System.ComponentModel;
+using System.Management;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using Size = System.Windows.Size;
+using CaffeinePro.Services;
 
 namespace CaffeinePro.Classes;
 
@@ -19,6 +21,9 @@ namespace CaffeinePro.Classes;
 /// </summary>
 public static class Routines
 {
+    [DllImport("Shell32.dll")]
+    private static extern int ShellExecuteA(IntPtr hwnd, string lpOperation, string lpFile, string lpParameters, string lpDirectory, int nShowCmd);
+
     public static T? FindAncestor<T>(DependencyObject child) where T : DependencyObject
     {
         var parent = VisualTreeHelper.GetParent(child);
@@ -274,7 +279,7 @@ public static class Routines
 
         using var key = Registry.CurrentUser.OpenSubKey(registryKeyPath);
         var registryValue = key?.GetValue(registryValueName);
-        return registryValue is int and <= 0;
+        return registryValue is <= 0;
     }
 
     public static string GetEnumDescription<T>(T value) where T : Enum
@@ -293,13 +298,9 @@ public static class Routines
 
     public static void OpenHyperlink(string uri)
     {
-        Process.Start(
-            new ProcessStartInfo
-            {
-                FileName = uri,
-                UseShellExecute = true
-            });
+        ShellExecuteA(IntPtr.Zero, "open", uri, "", "", 1);
     }
+
 
     private static T LoadXamlFromResource<T>(string resourceKey)
     {

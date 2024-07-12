@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel;
-using System.Windows;
+using System.Runtime.InteropServices;
 using Microsoft.Win32;
 
 namespace CaffeinePro.Services;
@@ -10,6 +10,7 @@ public enum SessionAction
     [Description("Exit Program")] Exit,
     [Description("Lock")] Lock,
     [Description("Sign Out")] SignOut,
+    [Description("Force Sign Out")] ForceSignOut,
     [Description("Shutdown")] Shutdown,
     [Description("Force Shutdown")] ForceShutdown,
     [Description("Restart")] Restart,
@@ -34,11 +35,33 @@ public sealed class WindowsSessionService
     public event EventHandler? OnUnlock;
     public event EventHandler? OnLock;
 
-    // P/Invoke declaration for SendMessage
-    [System.Runtime.InteropServices.DllImport("user32.dll")]
-    private static extern IntPtr SendMessage(int hWnd, int hMsg, int wParam, int lParam);
+    [DllImport("user32")]
+    public static extern bool ExitWindowsEx(uint uFlags, uint dwReason);
+    // ReSharper disable once InconsistentNaming
+    // ReSharper disable once IdentifierTypo
+    private const int EWX_LOGOFF = 0x0;
+    // ReSharper disable once InconsistentNaming
+    // ReSharper disable once IdentifierTypo
+    private const int EWX_POWEROFF = 0x00000008;
+    // ReSharper disable once InconsistentNaming
+    // ReSharper disable once IdentifierTypo
+    private const int EWX_REBOOT = 0x00000002;
+    // ReSharper disable once InconsistentNaming
+    // ReSharper disable once IdentifierTypo
+    private const int EWX_FORCE = 0x00000004;
+    // ReSharper disable once InconsistentNaming
+    // ReSharper disable once IdentifierTypo
+    private const int EWX_FORCEIFHUNG = 0x00000010;
 
-    [System.Runtime.InteropServices.DllImport("PowrProf.dll", CharSet = System.Runtime.InteropServices.CharSet.Auto,
+
+
+    // P/Invoke declaration for SendMessage
+    [DllImport("user32.dll")]
+    private static extern IntPtr SendMessage(int hWnd, int hMsg, int wParam, int lParam);
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern bool LockWorkStation();
+
+    [DllImport("PowrProf.dll", CharSet = CharSet.Auto,
         ExactSpelling = true)]
     private static extern bool SetSuspendState(bool hibernate, bool forceCritical, bool disableWakeEvent);
 
@@ -60,14 +83,33 @@ public sealed class WindowsSessionService
 
     public void ExecuteSessionAction(SessionAction action)
     {
+        bool result;
         switch (action)
         {
-            case SessionAction.Lock:
-                System.Diagnostics.Process.Start("rundll32.exe", "user32.dll,LockWorkStation");
-                break;
+            case SessionAction.None: break;
+
+            case SessionAction.Exit:
+                App.CurrentApp.Shutdown(); break;
+
             case SessionAction.SignOut:
-                System.Diagnostics.Process.Start("shutdown", "/l");
-                break;
+                result = ExitWindowsEx(EWX_LOGOFF, 0); break;
+
+            case SessionAction.ForceSignOut:
+                result = ExitWindowsEx(EWX_LOGOFF, EWX_FORCEIFHUNG); break;
+
+            //case SessionAction.Shutdown:
+            //    result = ExitWindowsEx(EWX_POWEROFF, 0); break;
+
+            //case SessionAction.ForceShutdown:
+            //    result=ExitWindowsEx(EWX_POWEROFF, EWX_FORCEIFHUNG); break;
+
+            //case SessionAction.Restart:
+            //    result = ExitWindowsEx(EWX_REBOOT, 0); break;
+
+            //case SessionAction.ForceRestart:
+            //    result = ExitWindowsEx(EWX_REBOOT, EWX_FORCEIFHUNG); break;
+
+
             case SessionAction.Shutdown:
                 System.Diagnostics.Process.Start("shutdown", "/s");
                 break;
@@ -80,20 +122,19 @@ public sealed class WindowsSessionService
             case SessionAction.ForceRestart:
                 System.Diagnostics.Process.Start("shutdown", "/r /f");
                 break;
-            case SessionAction.Hibernate:
-                System.Diagnostics.Process.Start("shutdown", "/h /f");
-                break;
-            case SessionAction.Sleep:
-                SetSuspendState(false, true, false);
-                break;
-            case SessionAction.MonitorOff:
-                SendMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_MONITORPOWER, MONITOR_OFF);
-                break;
-            case SessionAction.None:
-                break;
-            case SessionAction.Exit:
-                Application.Current.Shutdown();
-                break;
+
+
+            case SessionAction.Lock: LockWorkStation(); break;
+
+            case SessionAction.Hibernate: 
+                SetSuspendState(true, false, false); break;
+
+            case SessionAction.Sleep: 
+                SetSuspendState(false, false, false); break;
+
+            case SessionAction.MonitorOff: 
+                SendMessage(HWND_BROADCAST, WM_SYSCOMMAND, SC_MONITORPOWER, MONITOR_OFF); break;
+
             default:
                 throw new ArgumentOutOfRangeException(nameof(action), action, null);
         }

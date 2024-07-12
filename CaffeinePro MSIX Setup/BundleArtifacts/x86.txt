@@ -1,0 +1,6 @@
+MainPackage=E:\dev\CaffeinePro\CaffeineProSetup\bin\x86\Release\CaffeineProSetup_2.1.523.0_x86.msix
+SymbolPackage=E:\dev\CaffeinePro\CaffeineProSetup\obj\x86\Release\Symbols\CaffeineProSetup_2.1.523.0_x86.appxsym
+ResourcePack=E:\dev\CaffeinePro\CaffeineProSetup\bin\x86\Release\CaffeineProSetup_2.1.523.0_scale-100.msix
+ResourcePack=E:\dev\CaffeinePro\CaffeineProSetup\bin\x86\Release\CaffeineProSetup_2.1.523.0_scale-125.msix
+ResourcePack=E:\dev\CaffeinePro\CaffeineProSetup\bin\x86\Release\CaffeineProSetup_2.1.523.0_scale-150.msix
+ResourcePack=E:\dev\CaffeinePro\CaffeineProSetup\bin\x86\Release\CaffeineProSetup_2.1.523.0_scale-400.msix
