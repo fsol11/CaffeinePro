@@ -96,11 +96,6 @@ public partial class App
         SingletonService = _host.Services.GetRequiredService<SingletonService>();
         AppSettings = _host.Services.GetRequiredService<AppSettings>();
         _host.Services.GetRequiredService<NotificationManager>();
-
-
-        var     w = _host.Services.GetRequiredService<WindowsSessionService>();
-        w.ExecuteSessionAction(SessionAction.Restart);
-        //Shutdown();
     }
 
     /// <summary>
