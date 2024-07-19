@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -16,7 +17,12 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     private bool _isActive;
     private Awakeness _awakeness;
     private string _statusText = string.Empty;
+    private readonly WindowsKeyboardMouseCapture _windowsKeyboardMouseCapture = new();
 
+    ~KeepAwakeService()
+    {
+        Deactivate(false);
+    }
 
     public bool IsTemporarilyInactive
     {
@@ -137,7 +143,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     private const uint EsContinuous = 0x80000000;
     private const uint EsSystemRequired = 0x00000001;
 
-    private static int GetRandomTimerInterval() => RandomNumberGenerator.GetInt32(45000, 59500);
+    private static int GetRandomTimerInterval() => RandomNumberGenerator.GetInt32(35000, 59900);
 
     /// <summary>
     /// The timer that keeps Windows awake
@@ -169,9 +175,10 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
             Awakeness = Awakeness.RenewDateTime(Awakeness);
         }
 
+        _windowsKeyboardMouseCapture.Hook();
+
         IsActive = true;
     }
-
 
     /// <summary>
     /// Deactivate the keep awake service
@@ -183,6 +190,8 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
             _ = SetThreadExecutionState(EsContinuous); // <- Setting thread state to normal
             IsActive = false;
         }
+
+        _windowsKeyboardMouseCapture.Unhook();
 
         if (executeAfterwardsAction)
         {
@@ -230,6 +239,21 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
             return;
         }
 
+        SendKeepAwakeSignal();
+    }
+
+    private void SendKeepAwakeSignal()
+    {
+        var timeSinceLastActivity = (DateTime.Now - _windowsKeyboardMouseCapture.LastActivity).TotalMilliseconds;
+
+        // If the time since last keyboard/mouse activity is less than the timer interval, wait for the next tick
+        if (timeSinceLastActivity < _timer.Interval)
+        {
+            _timer.Interval = GetRandomTimerInterval() - timeSinceLastActivity;
+            return;
+        }
+
+        // Setting a new random interval for next tick
         _timer.Interval = GetRandomTimerInterval();
 
         // Handle AllowScreenSaver
