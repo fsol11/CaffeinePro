@@ -1,5 +1,5 @@
-MainPackage=E:\dev\CaffeinePro\CaffeinePro MSIX Setup\bin\x86\Release\Upload\CaffeinePro MSIX Setup_2.1.523.0_x86.msix
-ResourcePack=E:\dev\CaffeinePro\CaffeinePro MSIX Setup\bin\x86\Release\Upload\CaffeinePro MSIX Setup_2.1.523.0_scale-100.msix
-ResourcePack=E:\dev\CaffeinePro\CaffeinePro MSIX Setup\bin\x86\Release\Upload\CaffeinePro MSIX Setup_2.1.523.0_scale-125.msix
-ResourcePack=E:\dev\CaffeinePro\CaffeinePro MSIX Setup\bin\x86\Release\Upload\CaffeinePro MSIX Setup_2.1.523.0_scale-150.msix
-ResourcePack=E:\dev\CaffeinePro\CaffeinePro MSIX Setup\bin\x86\Release\Upload\CaffeinePro MSIX Setup_2.1.523.0_scale-400.msix
+MainPackage=E:\dev\CaffeinePro\CaffeinePro MSIX Setup\bin\x86\Release\Upload\CaffeinePro MSIX Setup_2.1.554.0_x86.msix
+ResourcePack=E:\dev\CaffeinePro\CaffeinePro MSIX Setup\bin\x86\Release\Upload\CaffeinePro MSIX Setup_2.1.554.0_scale-100.msix
+ResourcePack=E:\dev\CaffeinePro\CaffeinePro MSIX Setup\bin\x86\Release\Upload\CaffeinePro MSIX Setup_2.1.554.0_scale-125.msix
+ResourcePack=E:\dev\CaffeinePro\CaffeinePro MSIX Setup\bin\x86\Release\Upload\CaffeinePro MSIX Setup_2.1.554.0_scale-150.msix
+ResourcePack=E:\dev\CaffeinePro\CaffeinePro MSIX Setup\bin\x86\Release\Upload\CaffeinePro MSIX Setup_2.1.554.0_scale-400.msix

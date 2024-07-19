@@ -1,0 +1,1 @@
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x86\signtool.exe" sign /fd sha256 /tr http://ts.ssl.com /td sha256 /n "Lotrasoft Inc." "bin\x86\Release\*.msix"

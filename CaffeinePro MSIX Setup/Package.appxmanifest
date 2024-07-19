@@ -9,7 +9,7 @@
   <Identity
     Name="LotrasoftInc.CaffeinePro"
     Publisher="CN=Lotrasoft Inc., O=Lotrasoft Inc., L=North York, S=Ontario, C=CA"
-    Version="2.1.523.0" />
+    Version="2.1.554.0" />
 
   <Properties>
     <DisplayName>Caffeine Pro</DisplayName>
