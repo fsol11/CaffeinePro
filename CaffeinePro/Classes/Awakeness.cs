@@ -1,7 +1,9 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Text.Json;
 using System.Text.Json.Serialization;
 using CaffeinePro.Services;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace CaffeinePro.Classes;
 
@@ -53,6 +55,7 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
     {
     }
 
+
     public Awakeness(DateTime untilDateTime, AwakenessOptions options, SessionAction afterwardsAction) : this(
         AwakenessTypes.Absolute, untilDateTime.TimeOfDay, options, afterwardsAction)
     {
@@ -67,6 +70,8 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
         awakeness.AfterwardsAction)
     {
     }
+
+
 
     /// <summary>
     /// Gets a value indicating whether the awakeness is indefinite.
@@ -192,6 +197,11 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
         EndDateTimeText = Routines.GetDateTimeString(EndDateTime);
     }
 
+    public override string ToString()
+    {
+        return JsonSerializer.Serialize(this);
+    }
+
     public string GetAwakenessDescription()
     {
         var s = $"Until {EndDateTimeText}";
@@ -201,5 +211,41 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
         }
 
         return s;
+    }
+
+    public Awakeness(string json)
+    {
+        var tempAwakeness = JsonSerializer.Deserialize<Awakeness>(json);
+        if (tempAwakeness == null)
+        {
+            throw new ArgumentException("Invalid JSON for Awakeness.");
+        }
+
+        // Assuming Routines and other necessary methods are static and can be accessed here.
+        // Manually copying properties from the deserialized object to this instance.
+        // This approach is necessary because many properties are read-only and can't be set directly outside of the constructor.
+        IsRelative = tempAwakeness.IsRelative;
+        AwakenessType = tempAwakeness.AwakenessType;
+        RelativeSpan = tempAwakeness.RelativeSpan;
+        Options = tempAwakeness.Options;
+        AfterwardsAction = tempAwakeness.AfterwardsAction;
+
+        // Directly setting fields that back read-only properties since constructors can't access other constructors' parameters directly.
+        _endDateTimeText = tempAwakeness.EndDateTimeText;
+        _endDateText = tempAwakeness.EndDateText;
+        _endTimeText = tempAwakeness.EndTimeText;
+
+        // Handling properties that depend on other properties or need special initialization.
+        if (tempAwakeness.IsIndefinite)
+        {
+            EndDateTime = DateTime.MaxValue;
+            IsIndefinite = true;
+        }
+        else
+        {
+            EndDateTime = Routines.GetDateTimeFromTimeSpan(RelativeSpan, AwakenessType);
+        }
+
+        UpdateTexts(); // Ensure all text representations are updated.
     }
 }

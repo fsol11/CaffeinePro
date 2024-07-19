@@ -5,14 +5,12 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.Drawing;
 using System.ComponentModel;
-using System.Management;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using Size = System.Windows.Size;
-using CaffeinePro.Services;
 
 namespace CaffeinePro.Classes;
 
@@ -300,7 +298,6 @@ public static class Routines
     {
         ShellExecuteA(IntPtr.Zero, "open", uri, "", "", 1);
     }
-
 
     private static T LoadXamlFromResource<T>(string resourceKey)
     {

@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Security.Cryptography;
 using System.Timers;
 using System.Windows;
 using CaffeinePro.Classes;
@@ -60,7 +61,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
             {
                 SetField(ref _awakeness, value);
             }
-            
+
             UpdateStatusText();
         }
     }
@@ -136,10 +137,12 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     private const uint EsContinuous = 0x80000000;
     private const uint EsSystemRequired = 0x00000001;
 
+    private static int GetRandomTimerInterval() => RandomNumberGenerator.GetInt32(45000, 59500);
+
     /// <summary>
     /// The timer that keeps Windows awake
     /// </summary>
-    private readonly Timer _timer = new(App.CurrentApp.TimerInterval)
+    private readonly Timer _timer = new(GetRandomTimerInterval())
     {
         AutoReset = true,
         Enabled = false,
@@ -227,6 +230,8 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
             return;
         }
 
+        _timer.Interval = GetRandomTimerInterval();
+
         // Handle AllowScreenSaver
         if (Awakeness.Options.AllowScreenSaver)
         {
@@ -247,7 +252,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
 
     // INotifyPropertyChanged implementation ---------------------------------------------------
     public event PropertyChangedEventHandler? PropertyChanged;
-    
+
     private void OnLock()
     {
         if (Awakeness.Options.InactiveWhenLocked)
@@ -278,10 +283,10 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
 
         // Ask user if the program should be activated
         var aw = Awakeness.RenewDateTime(App.CurrentApp.AppSettings.StartupAwakeness);
-        
+
         // Setting the Awakeness to startup Awakeness
         Awakeness = aw;
-        
+
         App.CurrentApp.Dispatcher.Invoke(() =>
         {
             var content = new NotificationContent
@@ -315,7 +320,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     {
         return App.CurrentApp.AppSettings.IgnoreUnlockNotificationDate == DateTime.Today;
     }
-    
+
     // INotifyPropertyChanged implementation ---------------------------------------------------
     private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {

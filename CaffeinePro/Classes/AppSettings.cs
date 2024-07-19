@@ -12,8 +12,10 @@
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Configuration;
+using System.Globalization;
+using System.Text.Json;
 using System.Windows.Threading;
 using System.Windows;
 
@@ -22,18 +24,43 @@ namespace CaffeinePro.Classes;
 /// <summary>
 /// Represents the settings for the application.
 /// </summary>
-public sealed class AppSettings(bool isLoading) : INotifyPropertyChanged
+public sealed class AppSettings : INotifyPropertyChanged
 {
     // Fields for storing the settings values
     private bool _startActive;
+    private bool _isLoading = true;
     private bool _startWithWindows;
     private Awakeness _startupAwakeness = Awakeness.Indefinite;
     private DateTime _ignoreUnlockNotificationDate = DateTime.MaxValue;
-
-    public AppSettings() : this(true)
+    private Configuration _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoaming);
+    private static readonly string ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "CaffeinePro", "CaffeineProConfig.json");
+    public AppSettings()
     {
+
+        //_isLoading = true;
+        //StartupAwakeness = GetSettings(nameof(StartupAwakeness), Awakeness.Indefinite);
+        //StartWithWindows = GetSettings(nameof(StartWithWindows), false);
+        //StartActive = GetSettings(nameof(StartActive), false);
+        //IgnoreUnlockNotificationDate = GetSettings(nameof(IgnoreUnlockNotificationDate), DateTime.MaxValue);
+        //_isLoading = false;
     }
-    
+
+    public static AppSettings Load()
+    {
+        if (!File.Exists(ConfigPath))
+        {
+            return new AppSettings
+            {
+                _isLoading = false
+            };
+        }
+
+        var s = JsonSerializer.Deserialize<AppSettings>(File.OpenRead(ConfigPath)) ?? new AppSettings();
+        s._isLoading = false;
+        return s;
+
+    }
+
     /// <summary>
     /// Gets or sets the awakeness setting at startup.
     /// </summary>
@@ -98,25 +125,15 @@ public sealed class AppSettings(bool isLoading) : INotifyPropertyChanged
     /// <param name="propertyName">The name of the property that changed.</param>
     private void SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
     {
-        if (EqualityComparer<T>.Default.Equals(field, value))
+        if (EqualityComparer<T>.Default.Equals(field, value) || propertyName == null)
         {
             return;
         }
 
+        //SetSettings(propertyName, value); // Saving the setting
         field = value;
+        Save();
         OnPropertyChanged(propertyName);
-
-        // Save the settings when a property changes
-        // The following check is necessary to prevent saving the settings when they are being loaded
-        if (!isLoading)
-        {
-            App.CurrentApp.AppSettings.Save();
-        }
-    }
-
-    private static string GetSettingsFilename()
-    {
-        return Path.ChangeExtension(Routines.GetExePath(), "settings");
     }
 
     /// <summary>
@@ -124,7 +141,7 @@ public sealed class AppSettings(bool isLoading) : INotifyPropertyChanged
     /// </summary>
     private void Save()
     {
-        if (isLoading)
+        if (_isLoading)
         {
             return;
         }
@@ -136,10 +153,11 @@ public sealed class AppSettings(bool isLoading) : INotifyPropertyChanged
             IgnoreReadOnlyFields = true,
             PropertyNameCaseInsensitive = true,
         };
+
         var json = JsonSerializer.Serialize(this, options);
         try
         {
-            File.WriteAllText(GetSettingsFilename(), json);
+            File.WriteAllText(ConfigPath, json);
         }
         catch (Exception ex)
         {
@@ -149,49 +167,45 @@ public sealed class AppSettings(bool isLoading) : INotifyPropertyChanged
             }));
         }
     }
-    
-    public void LoadingFinished()
+
+    public void SetSettings<T>(string key, T value)
     {
-        isLoading = false;
+        if (_isLoading)
+        {
+            return;
+        }
+
+        var item = _config.AppSettings.Settings[key];
+        if (item == null)
+        {
+            _config.AppSettings.Settings.Add(key, Convert.ToString(value));
+        }
+        else
+        {
+            item.Value = Convert.ToString(value);
+        }
+
+        _config.Save(ConfigurationSaveMode.Full);
+        ConfigurationManager.RefreshSection("appSettings");
     }
 
-    public static AppSettings Load()
+    public T GetSettings<T>(string key, T defaultValue) where T : new()
     {
-        var filename = GetSettingsFilename();
-        var blankAppSettings = new AppSettings(false);
-        if (!File.Exists(filename))
+        if (defaultValue == null)
         {
-            return blankAppSettings;
+            throw new ArgumentNullException(nameof(defaultValue));
         }
 
-        try
+        var item = _config.AppSettings.Settings[key];
+        if (item?.Value is null)
         {
-            var json = File.ReadAllText(filename);
-            var options = new JsonSerializerOptions(JsonSerializerDefaults.General)
-            {
-                IncludeFields = false,
-                UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
-                IgnoreReadOnlyFields = true,
-                PropertyNameCaseInsensitive = true,
-            };
+            return defaultValue;
+        }
 
-            var newSettings = JsonSerializer.Deserialize<AppSettings>(json, options) ?? blankAppSettings;
-            newSettings.LoadingFinished();
-            return newSettings;
-        }
-        catch (IOException ex)
+        if (typeof(T) == typeof(Awakeness))
         {
-            App.CurrentApp.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Action)(() =>
-            {
-                MessageBox.Show(ex.Message, "Error Reading Settings File", MessageBoxButton.OK, MessageBoxImage.Error);
-            }));
-            return blankAppSettings;
+            return new T();
         }
-        catch (Exception)
-
-        {
-            // Ignored
-            return blankAppSettings;
-        }
+        return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFrom(item.Value);
     }
 }

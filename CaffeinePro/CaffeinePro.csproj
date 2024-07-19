@@ -23,7 +23,7 @@
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<FileVersion>
 		</FileVersion>
-		<Version>2.1.532</Version>
+		<Version>2.1.554</Version>
 		<DelaySign>False</DelaySign>
 	</PropertyGroup>
 	<ItemGroup>
@@ -58,6 +58,11 @@
 	  </Page>
 	</ItemGroup>
 	<ItemGroup>
+	  <Compile Update="App.Designer.cs">
+	    <DesignTimeSharedInput>True</DesignTimeSharedInput>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>App.settings</DependentUpon>
+	  </Compile>
 	  <Compile Update="Controls\AwakenessViewControl.xaml.cs">
 	    <SubType>Code</SubType>
 	    <DependentUpon>AwakenessViewControl.xaml</DependentUpon>

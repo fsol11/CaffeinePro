@@ -21,7 +21,6 @@ namespace CaffeinePro;
 /// </summary>
 public partial class App
 {
-    public int TimerInterval => RandomNumberGenerator.GetInt32(30, 59); 
     public static App CurrentApp => (App)Current;
 
     public static string AppName => Assembly.GetExecutingAssembly().GetName().Name!;
