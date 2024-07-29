@@ -23,7 +23,7 @@
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<FileVersion>
 		</FileVersion>
-		<Version>2.1.554</Version>
+		<Version>2.1.689</Version>
 		<DelaySign>False</DelaySign>
 	</PropertyGroup>
 	<ItemGroup>

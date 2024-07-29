@@ -157,6 +157,11 @@ public sealed class AppSettings : INotifyPropertyChanged
         var json = JsonSerializer.Serialize(this, options);
         try
         {
+            var dir = Path.GetDirectoryName(ConfigPath)!;
+            if (!Directory.Exists(dir))
+            {
+                Directory.CreateDirectory(dir);
+            }
             File.WriteAllText(ConfigPath, json);
         }
         catch (Exception ex)
