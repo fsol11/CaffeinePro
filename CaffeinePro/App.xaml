@@ -39,6 +39,7 @@
             <converters:NotConverter x:Key="Not" />
             <converters:HalfConverter x:Key="Half" />
             <converters:TwoValuesNotEqualToVisibility x:Key="TwoValuesNotEqualToVisibility" />
+            <converters:AwakenessTimeNotEqualsToVisibilityConverter x:Key="AwakenessTimeNotEqualsToVisibilityConverter" />
 
             <Style x:Key="NoHighlightMenuItemStyle" TargetType="{x:Type MenuItem}">
                 <Setter Property="Template">

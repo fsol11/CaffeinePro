@@ -23,18 +23,18 @@
 		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
 		<FileVersion>
 		</FileVersion>
-		<Version>2.1.689</Version>
+		<Version>2.1.723</Version>
 		<DelaySign>False</DelaySign>
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
 		<PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
 		<PackageReference Include="Notification.Wpf" Version="8.0.0" />
-		<PackageReference Include="Serilog" Version="4.0.0" />
+		<PackageReference Include="Serilog" Version="4.0.1" />
 		<PackageReference Include="Serilog.Extensions.Hosting" Version="8.0.0" />
 		<PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
 		<PackageReference Include="System.Management" Version="8.0.0" />
-		<PackageReference Include="WPF-UI" Version="3.0.4" />
+		<PackageReference Include="WPF-UI" Version="3.0.5" />
 	</ItemGroup>
 	<ItemGroup>
 		<Resource Include="Resources\Coffee.png">

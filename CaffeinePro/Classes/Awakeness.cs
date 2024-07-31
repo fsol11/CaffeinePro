@@ -159,6 +159,15 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
                 Options.Equals(other.Options));
     }
 
+    //------------------------------------------------------------------------------------------
+    public bool EqualsExceptDate(Awakeness? other)
+    {
+        return (other != null &&
+                EndDateTime.TimeOfDay == other.EndDateTime.TimeOfDay &&
+                AfterwardsAction == other.AfterwardsAction &&
+                Options.Equals(other.Options));
+    }
+
     public override bool Equals(object? obj) => Equals(obj as Awakeness);
 
     public override int GetHashCode() => HashCode.Combine(AwakenessType, RelativeSpan, AfterwardsAction, Options);

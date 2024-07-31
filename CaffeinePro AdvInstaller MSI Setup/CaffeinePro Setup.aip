@@ -12,10 +12,10 @@
     <ROW Property="AiLicenseAgreementLink" Value="https://lotrasoft.com/caffeinepro/license" Type="4"/>
     <ROW Property="IAgree" Value="No" Type="4"/>
     <ROW Property="Manufacturer" Value="Lotrasoft Inc."/>
-    <ROW Property="ProductCode" Value="1033:{463BFB90-7BB6-474A-974A-32D2DEDFD065} " Type="16"/>
+    <ROW Property="ProductCode" Value="1033:{8DABA6FA-94EE-4F99-8D36-426A720A5C17} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1033"/>
     <ROW Property="ProductName" Value="Caffeine Pro [|ProductVersion]"/>
-    <ROW Property="ProductVersion" Value="2.1.689" Options="32"/>
+    <ROW Property="ProductVersion" Value="2.1.723" Options="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND"/>
     <ROW Property="UpgradeCode" Value="{39865116-A848-4D38-A33C-52A2A9E235F5}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>

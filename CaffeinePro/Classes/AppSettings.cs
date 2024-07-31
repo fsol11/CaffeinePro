@@ -13,8 +13,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
-using System.Configuration;
-using System.Globalization;
 using System.Text.Json;
 using System.Windows.Threading;
 using System.Windows;
@@ -32,18 +30,7 @@ public sealed class AppSettings : INotifyPropertyChanged
     private bool _startWithWindows;
     private Awakeness _startupAwakeness = Awakeness.Indefinite;
     private DateTime _ignoreUnlockNotificationDate = DateTime.MaxValue;
-    private Configuration _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoaming);
     private static readonly string ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "CaffeinePro", "CaffeineProConfig.json");
-    public AppSettings()
-    {
-
-        //_isLoading = true;
-        //StartupAwakeness = GetSettings(nameof(StartupAwakeness), Awakeness.Indefinite);
-        //StartWithWindows = GetSettings(nameof(StartWithWindows), false);
-        //StartActive = GetSettings(nameof(StartActive), false);
-        //IgnoreUnlockNotificationDate = GetSettings(nameof(IgnoreUnlockNotificationDate), DateTime.MaxValue);
-        //_isLoading = false;
-    }
 
     public static AppSettings Load()
     {
@@ -171,46 +158,5 @@ public sealed class AppSettings : INotifyPropertyChanged
                 MessageBox.Show(ex.Message, "Error Saving Settings File", MessageBoxButton.OK, MessageBoxImage.Error);
             }));
         }
-    }
-
-    public void SetSettings<T>(string key, T value)
-    {
-        if (_isLoading)
-        {
-            return;
-        }
-
-        var item = _config.AppSettings.Settings[key];
-        if (item == null)
-        {
-            _config.AppSettings.Settings.Add(key, Convert.ToString(value));
-        }
-        else
-        {
-            item.Value = Convert.ToString(value);
-        }
-
-        _config.Save(ConfigurationSaveMode.Full);
-        ConfigurationManager.RefreshSection("appSettings");
-    }
-
-    public T GetSettings<T>(string key, T defaultValue) where T : new()
-    {
-        if (defaultValue == null)
-        {
-            throw new ArgumentNullException(nameof(defaultValue));
-        }
-
-        var item = _config.AppSettings.Settings[key];
-        if (item?.Value is null)
-        {
-            return defaultValue;
-        }
-
-        if (typeof(T) == typeof(Awakeness))
-        {
-            return new T();
-        }
-        return (T)TypeDescriptor.GetConverter(typeof(T)).ConvertFrom(item.Value);
     }
 }
