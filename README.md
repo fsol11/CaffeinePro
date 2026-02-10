@@ -2,8 +2,8 @@
 
 This application is designed to prevent your Windows computer from going into sleep mode. It's useful for situations where you need your computer to stay awake, but can't change the system-wide sleep settings, or don't want to remember to change them back later.
 
-![Screenshot](https://lotrasoft.com/wp-content/uploads/2024/07/CaffeinePro-2.1.523-Light.webp "Light Screen Shot")
-![Screenshot](https://lotrasoft.com/wp-content/uploads/2024/07/CaffeinePro-2.1.523-Dark.webp "Dark Screen Shot")
+![Screenshot](https://lotrasoft.com/assets/caffeine-pro-light-BlS7Td5k.webp "Light Screen Shot")
+![Screenshot](https://lotrasoft.com/assets/caffeine-pro-dark-DYYnqE2s.webp "Dark Screen Shot")
 
 ## Features
 
