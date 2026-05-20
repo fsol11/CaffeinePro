@@ -48,7 +48,7 @@ public class MinutesToTimeStringConverter : IValueConverter
         var h = minutes / 60;
         var m = minutes % 60;
 
-        return Routines.GetTimeString(new TimeSpan((int) h, (int) m, 0), parameter is TimeStringFormat.Relative);
+        return Routines.GetTimeString(new TimeSpan((int) h, (int) m, 0));
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

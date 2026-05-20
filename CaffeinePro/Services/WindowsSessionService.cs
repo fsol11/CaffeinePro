@@ -36,19 +36,10 @@ public sealed class WindowsSessionService
     public event EventHandler? OnLock;
 
     [DllImport("user32")]
-    public static extern bool ExitWindowsEx(uint uFlags, uint dwReason);
+    private static extern bool ExitWindowsEx(uint uFlags, uint dwReason);
     // ReSharper disable once InconsistentNaming
     // ReSharper disable once IdentifierTypo
     private const int EWX_LOGOFF = 0x0;
-    // ReSharper disable once InconsistentNaming
-    // ReSharper disable once IdentifierTypo
-    private const int EWX_POWEROFF = 0x00000008;
-    // ReSharper disable once InconsistentNaming
-    // ReSharper disable once IdentifierTypo
-    private const int EWX_REBOOT = 0x00000002;
-    // ReSharper disable once InconsistentNaming
-    // ReSharper disable once IdentifierTypo
-    private const int EWX_FORCE = 0x00000004;
     // ReSharper disable once InconsistentNaming
     // ReSharper disable once IdentifierTypo
     private const int EWX_FORCEIFHUNG = 0x00000010;
@@ -81,9 +72,8 @@ public sealed class WindowsSessionService
     // ReSharper disable once IdentifierTypo
     private const int HWND_BROADCAST = 0xFFFF;
 
-    public void ExecuteSessionAction(SessionAction action)
+    public static void ExecuteSessionAction(SessionAction action)
     {
-        bool result;
         switch (action)
         {
             case SessionAction.None: break;
@@ -92,23 +82,10 @@ public sealed class WindowsSessionService
                 App.CurrentApp.Shutdown(); break;
 
             case SessionAction.SignOut:
-                result = ExitWindowsEx(EWX_LOGOFF, 0); break;
+                ExitWindowsEx(EWX_LOGOFF, 0); break;
 
             case SessionAction.ForceSignOut:
-                result = ExitWindowsEx(EWX_LOGOFF, EWX_FORCEIFHUNG); break;
-
-            //case SessionAction.Shutdown:
-            //    result = ExitWindowsEx(EWX_POWEROFF, 0); break;
-
-            //case SessionAction.ForceShutdown:
-            //    result=ExitWindowsEx(EWX_POWEROFF, EWX_FORCEIFHUNG); break;
-
-            //case SessionAction.Restart:
-            //    result = ExitWindowsEx(EWX_REBOOT, 0); break;
-
-            //case SessionAction.ForceRestart:
-            //    result = ExitWindowsEx(EWX_REBOOT, EWX_FORCEIFHUNG); break;
-
+                ExitWindowsEx(EWX_LOGOFF, EWX_FORCEIFHUNG); break;
 
             case SessionAction.Shutdown:
                 System.Diagnostics.Process.Start("shutdown", "/s");
@@ -142,14 +119,14 @@ public sealed class WindowsSessionService
 
     private void SystemEvents_SessionSwitch(object sender, SessionSwitchEventArgs e)
     {
-        switch (e.Reason)
+        switch (e)
         {
-            case SessionSwitchReason.SessionLogoff:
-            case SessionSwitchReason.SessionLock:
+            case { Reason: SessionSwitchReason.SessionLogoff }:
+            case { Reason: SessionSwitchReason.SessionLock }:
                 OnLock?.Invoke(this, EventArgs.Empty);
                 break;
-            case SessionSwitchReason.SessionLogon:
-            case SessionSwitchReason.SessionUnlock:
+            case { Reason: SessionSwitchReason.SessionLogon }:
+            case { Reason: SessionSwitchReason.SessionUnlock }:
                 OnUnlock?.Invoke(this, EventArgs.Empty);
                 break;
         }

@@ -8,7 +8,7 @@ namespace CaffeinePro.Converters;
 /// <summary>
 /// Converts minutes to a string
 /// </summary>
-public class RelativeMinutesToDateTimeStringConverter : IValueConverter
+public class MinutesToActualDateTimeStringConverter : IValueConverter
 {
 
 

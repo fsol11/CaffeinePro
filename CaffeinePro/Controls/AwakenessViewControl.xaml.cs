@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using CaffeinePro.Classes;
 using CaffeinePro.Services;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace CaffeinePro.Controls;
 
@@ -85,7 +85,7 @@ public sealed partial class AwakenessViewControl
         NewAwakenessSelected?.Invoke(this, AwakenessValue);
     }
 
-    private void RelativeTimeApplyButton_OnClick(object sender, RoutedEventArgs e)
+    private void RelativeTimeApplyButton_OnClick(object? sender, EventArgs eventArgs)
     {
         AwakenessValue = new Awakeness(
             Awakeness.AwakenessTypes.Relative,

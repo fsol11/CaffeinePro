@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Diagnostics;
-using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Security.Cryptography;
 using System.Timers;
 using System.Windows;
@@ -21,7 +21,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
 
     ~KeepAwakeService()
     {
-        Deactivate(false);
+        Deactivate();
     }
 
     public bool IsTemporarilyInactive
@@ -143,7 +143,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     private const uint EsContinuous = 0x80000000;
     private const uint EsSystemRequired = 0x00000001;
 
-    private static int GetRandomTimerInterval() => RandomNumberGenerator.GetInt32(35000, 59900);
+    private static int GetRandomTimerInterval() => RandomNumberGenerator.GetInt32(35000, 119900);
 
     /// <summary>
     /// The timer that keeps Windows awake
@@ -195,7 +195,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
 
         if (executeAfterwardsAction)
         {
-            _windowsSessionService.ExecuteSessionAction(_awakeness.AfterwardsAction);
+            WindowsSessionService.ExecuteSessionAction(_awakeness.AfterwardsAction);
         }
     }
 
@@ -223,7 +223,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     private void TimerFunction(object? sender, ElapsedEventArgs elapsedEventArgs)
     {
         // Handle DeactivateWhenLocked
-        Debug.Assert(Awakeness.Options != null, "Awakeness.Options != null");
+        Debug.Assert(Awakeness.Options != null);
 
         UpdateIsTemporarilyInactive();
 
@@ -249,7 +249,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
         // If the time since last keyboard/mouse activity is less than the timer interval, wait for the next tick
         if (timeSinceLastActivity < _timer.Interval)
         {
-            _timer.Interval = GetRandomTimerInterval() - timeSinceLastActivity;
+            _timer.Interval = GetRandomTimerInterval();
             return;
         }
 
@@ -291,19 +291,17 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
         ShowUnlockNotification();
     }
 
-    /// <summary>
-    /// When unlocking Windows session, show a notification to ask user if the program should be activated
-    /// </summary>
+    // Replace the ShowUnlockNotification method with the following implementation
+
     private void ShowUnlockNotification()
     {
         if (IsActive
-            || ShouldSkipUnlockNotificationToday()
+            || App.CurrentApp.AppSettings.IgnoreUnlockNotificationDate == DateTime.Today
             || App.CurrentApp.AppSettings.StartActive == false
             || App.CurrentApp.AppSettings.StartupAwakeness.EndDateTime.TimeOfDay < DateTime.Now.TimeOfDay)
         {
             return;
         }
-
 
         // Ask user if the program should be activated
         var aw = Awakeness.RenewDateTime(App.CurrentApp.AppSettings.StartupAwakeness);
@@ -313,10 +311,11 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
 
         App.CurrentApp.Dispatcher.Invoke(() =>
         {
+#pragma warning disable CA1416 // Validate platform compatibility
             var content = new NotificationContent
             {
                 Title = App.AppName,
-                Message = $"Click Activate to keep your computer awake {aw.GetAwakenessDescription()}.",
+                Message = $"Keep computer awake {aw.GetAwakenessDescription().Trim()}.",
                 Type = NotificationType.Information,
 
                 LeftButtonContent = "Activate",
@@ -328,21 +327,17 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
                 CloseOnClick = true,
                 Background = SystemColors.ControlBrush,
                 Foreground = SystemColors.ControlTextBrush,
-                Icon = App.CurrentApp.InactiveIcon,
+                Icon = Routines.ConvertXamlToIcon("InactiveIconCanvas"),
             };
 
             _notificationManager.Show(content, expirationTime: TimeSpan.FromMinutes(10));
+#pragma warning restore CA1416 // Validate platform compatibility
         });
     }
 
     private void SetSkipUnlockNotificationToday()
     {
         App.CurrentApp.AppSettings.IgnoreUnlockNotificationDate = DateTime.Today;
-    }
-
-    private bool ShouldSkipUnlockNotificationToday()
-    {
-        return App.CurrentApp.AppSettings.IgnoreUnlockNotificationDate == DateTime.Today;
     }
 
     // INotifyPropertyChanged implementation ---------------------------------------------------

@@ -117,11 +117,12 @@
                                         <MenuItem.Header>
                                             <StackPanel HorizontalAlignment="Center">
                                                 <controls:TimeSliderControl
-                                                    Width="150"
-                                                    x:Name="RelativeTimeSlider" />
+                                                    
+                                                    x:Name="RelativeTimeSlider" OnSelected="RelativeTimeApplyButton_OnClick" />
                                                 <Button HorizontalAlignment="Center"
                                                         Content="Apply"
-                                                        Click="RelativeTimeApplyButton_OnClick" />
+                                                        Click="RelativeTimeApplyButton_OnClick"
+                                                        Margin="10"/>
                                             </StackPanel>
                                         </MenuItem.Header>
                                     </MenuItem>

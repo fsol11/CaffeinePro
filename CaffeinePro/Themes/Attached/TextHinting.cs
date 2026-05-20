@@ -1,7 +1,7 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
+using Control = System.Windows.Controls.Control;
+using TextBoxBase = System.Windows.Controls.Primitives.TextBoxBase;
 
 namespace FramePFX.Themes.Attached {
     /// <summary>

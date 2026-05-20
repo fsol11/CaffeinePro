@@ -3,8 +3,8 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
-using System.Drawing;
 using System.ComponentModel;
+using System.Drawing;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,7 +20,8 @@ namespace CaffeinePro.Classes;
 public static class Routines
 {
     [DllImport("Shell32.dll")]
-    private static extern int ShellExecuteA(IntPtr hwnd, string lpOperation, string lpFile, string lpParameters, string lpDirectory, int nShowCmd);
+    private static extern int ShellExecuteA(IntPtr hwnd, string lpOperation, string lpFile, string lpParameters,
+        string lpDirectory, int nShowCmd);
 
     public static T? FindAncestor<T>(DependencyObject child) where T : DependencyObject
     {
@@ -33,6 +34,11 @@ public static class Routines
         }
 
         return parent as T;
+    }
+
+    public static T? FindResource<T>(string resourceKey)
+    {
+        return (T?)App.CurrentApp.FindResource(resourceKey);
     }
 
     /// <summary>
@@ -76,7 +82,8 @@ public static class Routines
                System.Windows.Forms.PowerLineStatus.Offline;
     }
 
-    public static DateTime GetDateTimeFromTimeSpan(TimeSpan timespan, Awakeness.AwakenessTypes type = Awakeness.AwakenessTypes.Absolute)
+    public static DateTime GetDateTimeFromTimeSpan(TimeSpan timespan,
+        Awakeness.AwakenessTypes type = Awakeness.AwakenessTypes.Absolute)
     {
         var baseDate = type == Awakeness.AwakenessTypes.Absolute ? DateTime.Now.Date : DateTime.Now;
         var datetime = baseDate.Add(timespan);
@@ -88,24 +95,13 @@ public static class Routines
         return datetime;
     }
 
-    public static string GetTimeString(TimeSpan time, bool isRelative)
+    public static string GetTimeString(TimeSpan time)
     {
         var h = time.Hours;
         var m = time.Minutes;
-        if (isRelative)
-        {
-            return h == 0 ? $"{m:00}m" : $"{h:00}h : {m:00}m";
-        }
-
-        // Absolute
-        var z = "AM";
-        if (h > 12)
-        {
-            h -= 12;
-            z = "PM";
-        }
-
-        return $"{h:00}:{m:00} {z}";
+        return (h == 0 ? string.Empty : $"{h}h") +
+               (h == 0 || m == 0 ? string.Empty : " : ") +
+               (m == 0 && h > 0 ? string.Empty : $"{m}m");
     }
 
 
@@ -340,69 +336,91 @@ public static class Routines
         return Icon.FromHandle(bitmap.GetHicon());
     }
 
+    public static ImageSource ConvertXamlToImageSource(string resourceKey)
+    {
+        var element = LoadXamlFromResource<FrameworkElement>(resourceKey);
+
+        // Set the desired size
+        element.Width = 16;
+        element.Height = 16;
+
+        // Measure and arrange the element
+        element.Measure(new Size(element.Width, element.Height));
+        element.Arrange(new Rect(0, 0, element.Width, element.Height));
+
+        // Render the element to a RenderTargetBitmap
+        var renderTarget = new RenderTargetBitmap(
+            (int)element.Width, (int)element.Height,
+            96, 96,
+            PixelFormats.Pbgra32);
+        renderTarget.Render(element);
+
+        return renderTarget;
+    }
+
     public static TimeSpan ContentToTimeSpan(object? content)
     {
         switch (content)
         {
             case string text:
+            {
+                int hour;
+                int minute;
+                text = text.Trim();
+                switch (text.Length)
                 {
-                    int hour;
-                    int minute;
-                    text = text.Trim();
-                    switch (text.Length)
+                    case 0:
+                        return TimeSpan.MaxValue;
+                    case <= 4:
+                        hour = int.Parse(text[0..2]);
+                        minute = 0;
+                        break;
+                    default:
                     {
-                        case 0:
+                        var i = text.IndexOf(':');
+                        if (i == -1)
+                        {
                             return TimeSpan.MaxValue;
-                        case <= 4:
-                            hour = int.Parse(text[0..2]);
-                            minute = 0;
-                            break;
-                        default:
-                            {
-                                var i = text.IndexOf(':');
-                                if (i == -1)
-                                {
-                                    return TimeSpan.MaxValue;
-                                }
+                        }
 
-                                hour = int.Parse(text[..i]);
-                                minute = int.Parse(text[(i + 1)..(i + 3)]);
-                                break;
-                            }
+                        hour = int.Parse(text[..i]);
+                        minute = int.Parse(text[(i + 1)..(i + 3)]);
+                        break;
                     }
-
-
-                    if (text.EndsWith("PM", StringComparison.CurrentCultureIgnoreCase) && hour < 12)
-                    {
-                        hour += 12;
-                    }
-
-                    return new TimeSpan(hour, minute, 0);
                 }
+
+
+                if (text.EndsWith("PM", StringComparison.CurrentCultureIgnoreCase) && hour < 12)
+                {
+                    hour += 12;
+                }
+
+                return new TimeSpan(hour, minute, 0);
+            }
 
             case Button btn:
+            {
+                var text =
+                    (btn.Content is TextBlock textBlock)
+                        ? string.Concat(textBlock.Inlines.OfType<Run>().Select(r => r.Text.Trim()))
+                        : btn.Content;
+
+
+                if (btn.Tag is "AM" or "PM")
                 {
-                    var text =
-                        (btn.Content is TextBlock textBlock)
-                            ? string.Concat(textBlock.Inlines.OfType<Run>().Select(r => r.Text.Trim()))
-                            : btn.Content;
-
-
-                    if (btn.Tag is "AM" or "PM")
-                    {
-                        text += (string)btn.Tag;
-                    }
-
-                    return ContentToTimeSpan(text);
+                    text += (string)btn.Tag;
                 }
+
+                return ContentToTimeSpan(text);
+            }
 
             case TextBlock textBlock: // <- Hours and minutes and AMPM (e.g. 05:30 PM)
-                {
-                    var text =
-                        string.Concat(textBlock.Inlines.OfType<Run>().Select(r => r.Text.Trim())) +
-                        Convert.ToString(textBlock.Tag);
-                    return ContentToTimeSpan(text);
-                }
+            {
+                var text =
+                    string.Concat(textBlock.Inlines.OfType<Run>().Select(r => r.Text.Trim())) +
+                    Convert.ToString(textBlock.Tag);
+                return ContentToTimeSpan(text);
+            }
         }
 
         return TimeSpan.MaxValue;

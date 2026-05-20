@@ -2,7 +2,9 @@
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Threading;
 using CaffeinePro.Classes;
+using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace CaffeinePro;
 
@@ -12,6 +14,11 @@ namespace CaffeinePro;
 public partial class AboutWindow
 {
     private static AboutWindow? _window;
+
+    private bool _isPlayingForward = true;
+    // Change the declaration of _reverseTimer to nullable to fix CS8618
+    private DispatcherTimer? _reverseTimer;
+
     public static string AppName => Assembly.GetExecutingAssembly().GetName().Name!;
     public static string Version => Assembly.GetExecutingAssembly().GetName().Version!.ToString();
 
@@ -50,6 +57,9 @@ public partial class AboutWindow
     public AboutWindow()
     {
         InitializeComponent();
+
+        PingPongMedia.Source = new Uri("pack://application:,,,/Resources/about.mp4");
+        PingPongMedia.Play();
     }
 
     /// <summary>
@@ -65,6 +75,51 @@ public partial class AboutWindow
         if (e.Key == Key.Escape)
         {
             Close();
+        }
+    }
+
+    private void PingPongMedia_MediaOpened(object sender, RoutedEventArgs e)
+    {
+        // Optionally handle when media is ready
+    }
+
+    private void PingPongMedia_MediaEnded(object sender, RoutedEventArgs e)
+    {
+        if (_isPlayingForward)
+        {
+            // Start reverse playback
+            _isPlayingForward = false;
+            StartReversePlayback();
+        }
+        else
+        {
+            // Start forward playback
+            _isPlayingForward = true;
+            PingPongMedia.Position = TimeSpan.Zero;
+            PingPongMedia.Play();
+        }
+    }
+
+    private void StartReversePlayback()
+    {
+        _reverseTimer = new DispatcherTimer();
+        _reverseTimer.Interval = TimeSpan.FromMilliseconds(50);
+        _reverseTimer.Tick += ReverseTimer_Tick;
+        _reverseTimer.Start();
+    }
+
+    private void ReverseTimer_Tick(object sender, EventArgs e)
+    {
+        if (PingPongMedia.Position > TimeSpan.Zero)
+        {
+            PingPongMedia.Position -= TimeSpan.FromMilliseconds(100);
+        }
+        else
+        {
+            _reverseTimer.Stop();
+            PingPongMedia.Position = TimeSpan.Zero;
+            _isPlayingForward = true;
+            PingPongMedia.Play();
         }
     }
 }

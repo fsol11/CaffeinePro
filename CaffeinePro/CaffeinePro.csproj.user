@@ -4,6 +4,9 @@
     <_LastSelectedProfileId>E:\dev\CaffeinePro\CaffeinePro\Properties\PublishProfiles\x86.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Update="Controls\RelativeTime.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Controls\StartupOptionsControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

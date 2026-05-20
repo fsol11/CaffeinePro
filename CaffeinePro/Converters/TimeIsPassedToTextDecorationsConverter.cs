@@ -1,10 +1,7 @@
-﻿using System.Drawing;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 using CaffeinePro.Classes;
-using Brushes = System.Windows.Media.Brushes;
-using SystemColors = System.Windows.SystemColors;
 
 namespace CaffeinePro.Converters;
 

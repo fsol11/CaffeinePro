@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using CaffeinePro.Classes;
-using CaffeinePro.Services;
 
 namespace CaffeinePro.Controls
 {

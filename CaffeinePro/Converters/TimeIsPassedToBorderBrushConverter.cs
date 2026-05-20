@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Data;
 using CaffeinePro.Classes;
 using Brushes = System.Windows.Media.Brushes;

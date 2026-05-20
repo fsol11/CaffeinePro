@@ -3,7 +3,6 @@ using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using CaffeinePro.Services;
-using Microsoft.VisualBasic.CompilerServices;
 
 namespace CaffeinePro.Classes;
 

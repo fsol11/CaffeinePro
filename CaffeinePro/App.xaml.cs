@@ -1,7 +1,5 @@
 ﻿using System.Drawing;
-using System.IO;
 using System.Reflection;
-using System.Security.Cryptography;
 using System.Windows;
 using CaffeinePro.Classes;
 using CaffeinePro.Services;
@@ -9,10 +7,10 @@ using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Serilog;
 using Microsoft.Win32;
 using Notification.Wpf;
 using Wpf.Ui.Appearance;
+using MessageBox = System.Windows.MessageBox;
 
 namespace CaffeinePro;
 
@@ -26,9 +24,13 @@ public partial class App
     public static string AppName => Assembly.GetExecutingAssembly().GetName().Name!;
     public static string Version => Assembly.GetExecutingAssembly().GetName().Version!.ToString();
 
-    private Icon? _activeIcon;
-    public Icon? InactiveIcon;
-    private Icon? _temporarilyInactiveIcon;
+    //private ImageSource _activeIcon;
+    //private ImageSource _inactiveIcon;
+    //private ImageSource _temporarilyInactiveIcon;
+    private Icon _activeIcon = null!;
+    private Icon _inactiveIcon = null!;
+    private Icon _temporarilyInactiveIcon = null!;
+
     private readonly ILogger<App> _logger;
 
     public KeepAwakeService KeepAwakeService
@@ -69,22 +71,10 @@ public partial class App
                         logging
                             .SetMinimumLevel(LogLevel.Information)
                             .AddEventLog()
-                            .AddDebug()
-                            .AddSerilog();
+                            .AddDebug();
                     });
             })
-            .UseSerilog((_, loggerConfiguration) =>
-            {
-                loggerConfiguration
-                    .WriteTo.File(
-                        Path.ChangeExtension(Routines.GetExePath(), "log"),
-                        rollingInterval: RollingInterval.Year,
-                        rollOnFileSizeLimit: true,
-                        fileSizeLimitBytes: 10 ^ 7, // 10MB
-                        outputTemplate:
-                        "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}"
-                    );
-            })
+            
             .Build();
 
     public App()
@@ -95,6 +85,7 @@ public partial class App
         SingletonService = _host.Services.GetRequiredService<SingletonService>();
         AppSettings = _host.Services.GetRequiredService<AppSettings>();
         _host.Services.GetRequiredService<NotificationManager>();
+
     }
 
     /// <summary>
@@ -102,9 +93,16 @@ public partial class App
     /// </summary>
     protected override void OnStartup(StartupEventArgs e)
     {
+        //_activeIcon = Routines.ConvertXamlToImageSource("ActiveIconCanvas");
+        //_inactiveIcon = Routines.ConvertXamlToImageSource("InactiveIconCanvas");
+        //_temporarilyInactiveIcon = Routines.ConvertXamlToImageSource("TemporarilyInactiveIconCanvas");
+
+        _activeIcon = Routines.ConvertXamlToIcon("ActiveIconCanvas");
+        _inactiveIcon = Routines.ConvertXamlToIcon("InactiveIconCanvas");
+        _temporarilyInactiveIcon = Routines.ConvertXamlToIcon("TemporarilyInactiveIconCanvas");
+
         ParameterProcessorService.ShowHelpAndExitIfRequested(e.Args);
         SingletonService.IfAnotherInstanceExistsSendArgsAndExit(e.Args);
-
         ParameterProcessorService.ProcessArgs(e.Args);
         Init();
         base.OnStartup(e);
@@ -116,13 +114,12 @@ public partial class App
     private void Init()
     {
         SetThemeColor();
-        CreateTrayIcons();
 
         // Track Events
         KeepAwakeService.OnStatusChanged += OnStatusChanged;
         SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
         AppDomain.CurrentDomain.UnhandledException += HandleException;
-        TrayIcon = (TaskbarIcon)FindResource("TrayIcon")!;
+        TrayIcon = Routines.FindResource<TaskbarIcon>("TrayIcon")!;
 
         ApplyStartupAwakeness();
 
@@ -166,13 +163,6 @@ public partial class App
         Routines.AddToWindowsStartup(AppSettings.StartWithWindows);
     }
 
-    private void CreateTrayIcons()
-    {
-        _activeIcon = Routines.ConvertXamlToIcon("ActiveIconCanvas");
-        InactiveIcon = Routines.ConvertXamlToIcon("InactiveIconCanvas");
-        _temporarilyInactiveIcon = Routines.ConvertXamlToIcon("TemporarilyInactiveIconCanvas");
-    }
-
     private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
     {
         //SetThemeColor();
@@ -197,14 +187,21 @@ public partial class App
         TrayIcon!.Icon =
             (KeepAwakeService.IsActive
                 ? (KeepAwakeService.IsTemporarilyInactive ? _temporarilyInactiveIcon : _activeIcon)
-                : InactiveIcon)
+                : _inactiveIcon)
             ;
+
+
+        //TrayIcon!.Icon =
+        //    KeepAwakeService.IsActive
+        //        ? (KeepAwakeService.IsTemporarilyInactive ? _temporarilyInactiveIcon : _activeIcon)
+        //        : _inactiveIcon
+        //    ;
     }
 
     internal TaskbarIcon? TrayIcon
     {
         get;
-        set;
+        private set;
     }
 
     /// <summary>
@@ -214,9 +211,9 @@ public partial class App
     {
         SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
         AboutWindow.CloseIt(); // <- About Window might be open or loaded when exit is called
-        _activeIcon!.Dispose();
-        InactiveIcon!.Dispose();
-        _temporarilyInactiveIcon!.Dispose();
+        //_activeIcon!.Dispose();
+        //InactiveIcon!.Dispose();
+        //_temporarilyInactiveIcon!.Dispose();
         base.OnExit(e);
     }
 

@@ -1,0 +1,55 @@
+﻿<ui:FluentWindow x:Class="CaffeinePro.NotificationWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 mc:Ignorable="d"
+                 Title="{Binding }"
+                 Width="450"
+                 WindowStartupLocation="CenterScreen"
+                 ExtendsContentIntoTitleBar="False"
+                 DataContext="{Binding RelativeSource={RelativeSource Self}}"
+                 KeyDown="NotificationWindow_OnKeyDown"
+                 SizeToContent="Height">
+    <Window.Resources>
+        <BitmapImage x:Key="Coffee" UriSource="/Resources/Coffee.png" />
+    </Window.Resources>
+
+    <StackPanel>
+        <ui:TitleBar Padding="0" ShowMinimize="False" ShowMaximize="False" Height="28" />
+
+
+        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10">
+            <ui:TextBlock HorizontalAlignment="Center" TextWrapping="NoWrap" VerticalAlignment="Top" FontSize="16" >
+                <Run Text="Keep the computer awake"/>
+                <Run Text=" "/>
+                <Run Text=" "/>
+                <Run Text=" "/>
+                <Run x:Name="TxtAwakeness"/>
+                <Run Text=" "/>
+                <Run Text="?"/>
+            </ui:TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="0 20 0 0" HorizontalAlignment="Center">
+                <ui:TextBlock Padding="5 0 0 0" HorizontalAlignment="Left" TextWrapping="Wrap"
+                              Text="{Binding Version}" VerticalAlignment="Top" />
+
+                <Button Height="40" Width="140">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <Image Source="{StaticResource Coffee}" HorizontalAlignment="Left"
+                               Width="25" Height="25"
+                               VerticalAlignment="Center">
+                            <Image.Clip>
+                                <RectangleGeometry RadiusX="3" RadiusY="3" Rect="0,0,25,25" />
+                            </Image.Clip>
+                        </Image>
+                        <TextBlock Text="Activate" VerticalAlignment="Center" Margin="10,0,0,0" />
+                    </StackPanel>
+                </Button>
+                <Button Content="Ignore For Today" Height="40" Margin="20 0 0 0" Width="140" />
+            </StackPanel>
+            <CheckBox HorizontalAlignment="Center">Always do this without asking</CheckBox>
+        </StackPanel>
+
+    </StackPanel>
+</ui:FluentWindow>
