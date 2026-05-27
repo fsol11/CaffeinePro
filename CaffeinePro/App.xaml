@@ -68,7 +68,13 @@
                 </MenuItem>
                 <Separator />
 
-                <MenuItem Header="Settings">
+                <MenuItem>
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <ui:SymbolIcon Symbol="Settings24" Margin="0,0,6,0" />
+                            <TextBlock Text="Settings" />
+                        </StackPanel>
+                    </MenuItem.Header>
                     <MenuItem.Items>
                         <MenuItem Header="Start With Windows" IsCheckable="True"
                                   IsChecked="{Binding Mode=TwoWay,Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartWithWindows}"
@@ -86,7 +92,14 @@
 
                 <MenuItem Header="Send Feedback..." Click="OnSendFeedback" />
                 <MenuItem Header="About..." Click="OnAboutMenu" />
-                <MenuItem Header="Exit" Click="OnExitMenu" />
+                <MenuItem Click="OnExitMenu">
+                    <MenuItem.Header>
+                        <StackPanel Orientation="Horizontal">
+                            <ui:SymbolIcon Symbol="ArrowExit20" Margin="0,0,6,0" />
+                            <TextBlock Text="Exit" />
+                        </StackPanel>
+                    </MenuItem.Header>
+                </MenuItem>
             </ContextMenu>
 
             <Canvas x:Key="InactiveIconCanvas" Width="16" Height="16">

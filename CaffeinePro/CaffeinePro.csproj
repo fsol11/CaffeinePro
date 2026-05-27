@@ -2,7 +2,7 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
-    <RuntimeIdentifiers>win-x86</RuntimeIdentifiers>
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <RootNamespace>CaffeinePro</RootNamespace>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -10,7 +10,7 @@
     <StartupObject>CaffeinePro.App</StartupObject>
     <ApplicationIcon>Resources\Coffee.ico</ApplicationIcon>
     <PackageProjectUrl>https://github.com/fsol11/CaffeinePro</PackageProjectUrl>
-    <Copyright>Copyright (c) 2024 Lotrsoft Inc.</Copyright>
+    <Copyright>Copyright (c) 2026 Lotrasoft Inc.</Copyright>
     <Description>Keeps Windows awake</Description>
     <PackageIcon>Coffee.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>

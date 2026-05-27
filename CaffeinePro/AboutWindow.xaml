@@ -12,7 +12,7 @@
                  ExtendsContentIntoTitleBar="False"
                  DataContext="{Binding RelativeSource={RelativeSource Self}}"
                  KeyDown="AboutWindow_OnKeyDown"
-                 SizeToContent="Height">
+                 SizeToContent="Height" ResizeMode="NoResize">
     <Window.Resources>
         <BitmapImage x:Key="Coffee" UriSource="/Resources/Coffee.png" />
     </Window.Resources>
@@ -61,7 +61,7 @@
                         </ui:TextBlock>
 
 
-                        <ui:TextBlock HorizontalAlignment="Left" Width="134" Height="22" VerticalAlignment="Top">
+                        <ui:TextBlock HorizontalAlignment="Left" Width="253" Height="22">
                             <Run Text="Source Code: " />
                             <Run Text=" "/>
                             <Hyperlink ToolTip="https://github.com/fsol11/Caffein-Pro"
@@ -72,7 +72,7 @@
                         <Separator Height="10" Margin="0,0,0,10" />
                         <ui:TextBlock Margin="0,0,0,10" HorizontalAlignment="Left" TextWrapping="Wrap"
                                       VerticalAlignment="Top">
-                            <Run Text="Copyright © 2025 Lotrasoft Inc."/>
+                            <Run Text="Copyright © 2026 Lotrasoft Inc."/>
                         </ui:TextBlock>
 
                         <ui:TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" VerticalAlignment="Top">

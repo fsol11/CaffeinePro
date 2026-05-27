@@ -1,6 +1,6 @@
 ﻿// -----------------------------------------------------------------------
 // <copyright file="AppSettings.cs" company="Lotrasoft Inc.">
-//     Copyright (c) 2024 Lotrasoft Inc. All rights reserved.
+//     Copyright (c) 2026 Lotrasoft Inc. All rights reserved.
 // </copyright>
 // <author>Farshid Solimanpour</author>
 // -----------------------------------------------------------------------

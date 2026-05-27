@@ -94,7 +94,7 @@
                                    ToolTip="Config"
                                    VerticalAlignment="Top">
                     <ui:DropDownButton.Icon>
-                        <ui:SymbolIcon Symbol="Settings48" Height="24" Filled="True" FontSize="24" />
+                        <ui:SymbolIcon Symbol="Clock24" Filled="False" Height="24"/>
                     </ui:DropDownButton.Icon>
                     <ui:DropDownButton.Flyout>
 
@@ -232,45 +232,75 @@
                                 </MenuItem>
                             </MenuItem>
                             <MenuItem Header="Options">
-                                <MenuItem IsCheckable="True"
-                                          IsChecked="{Binding AwakenessValue.Options.AllowScreenSaver, Mode=OneWay}"
-                                          Click="ToggleAwakenessOptionMenu_Click"
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="ToggleLeft20" />
+                                </MenuItem.Icon>
+                                <MenuItem StaysOpenOnClick="True"
                                           Tag="AllowScreenSaver"
-                                          StaysOpenOnClick="True">
+                                          Click="ToggleAwakenessOptionMenu_Click">
+                                    <MenuItem.Icon>
+                                        <Image Source="{StaticResource AllowScreenSaverIcon}" Height="20" />
+                                    </MenuItem.Icon>
                                     <MenuItem.Header>
-                                        <TextBlock>
-                                            <Run Text="Allow Screen Saver " />
-                                            <Run FontSize="10" Text="(Doesn't prevent inactivity detection)"></Run>
-                                        </TextBlock>
+                                        <ui:ToggleSwitch IsChecked="{Binding AwakenessValue.Options.AllowScreenSaver, Mode=OneWay}"
+                                                        IsHitTestVisible="False">
+                                            <ui:ToggleSwitch.Content>
+                                                <TextBlock>
+                                                    <Run Text="Allow Screen Saver " />
+                                                    <Run FontSize="10" Text="(Doesn't prevent inactivity detection)" />
+                                                </TextBlock>
+                                            </ui:ToggleSwitch.Content>
+                                        </ui:ToggleSwitch>
                                     </MenuItem.Header>
                                 </MenuItem>
-                                <MenuItem Header="Inactive When Locked" IsCheckable="True"
-                                          IsChecked="{Binding AwakenessValue.Options.InactiveWhenLocked, Mode=OneWay}"
-                                          Click="ToggleAwakenessOptionMenu_Click"
+                                <MenuItem StaysOpenOnClick="True"
                                           Tag="InactiveWhenLocked"
-                                          StaysOpenOnClick="True" />
-                                <MenuItem Header="Inactive When On Battery" IsCheckable="True"
-                                          IsChecked="{Binding  AwakenessValue.Options.InactiveWhenOnBattery, Mode=OneWay}"
-                                          Click="ToggleAwakenessOptionMenu_Click"
+                                          Click="ToggleAwakenessOptionMenu_Click">
+                                    <MenuItem.Icon>
+                                        <Image Source="{StaticResource CancelOnLockIcon}" Height="20" />
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <ui:ToggleSwitch Content="Inactive When Locked"
+                                                        IsChecked="{Binding AwakenessValue.Options.InactiveWhenLocked, Mode=OneWay}"
+                                                        IsHitTestVisible="False" />
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem StaysOpenOnClick="True"
                                           Tag="InactiveWhenOnBattery"
-                                          StaysOpenOnClick="True" />
-                                <MenuItem IsCheckable="True"
-                                          IsChecked="{Binding AwakenessValue.Options.InactiveWhenCpuBelowPercentage, Mode=OneWay}"
-                                          Click="ToggleAwakenessOptionMenu_Click"
+                                          Click="ToggleAwakenessOptionMenu_Click">
+                                    <MenuItem.Icon>
+                                        <Image Source="{StaticResource CancelOnBatteryIcon}" Height="20" />
+                                    </MenuItem.Icon>
+                                    <MenuItem.Header>
+                                        <ui:ToggleSwitch Content="Inactive When On Battery"
+                                                        IsChecked="{Binding AwakenessValue.Options.InactiveWhenOnBattery, Mode=OneWay}"
+                                                        IsHitTestVisible="False" />
+                                    </MenuItem.Header>
+                                </MenuItem>
+                                <MenuItem StaysOpenOnClick="True"
                                           Tag="InactiveWhenCpuBelowPercentage"
-                                          StaysOpenOnClick="True">
+                                          Click="ToggleAwakenessOptionMenu_Click">
+                                    <MenuItem.Icon>
+                                        <Image Source="{StaticResource CancelOnCpuIcon}" Height="20" />
+                                    </MenuItem.Icon>
                                     <MenuItem.Header>
                                         <StackPanel Orientation="Horizontal">
-                                            <TextBlock>Inactive When CPU Below</TextBlock>
+                                            <ui:ToggleSwitch IsChecked="{Binding AwakenessValue.Options.InactiveWhenCpuBelowPercentage, Mode=OneWay}"
+                                                            IsHitTestVisible="False" />
+                                            <TextBlock VerticalAlignment="Center" Margin="4,0,0,0">Inactive When Idle - CPU Below</TextBlock>
                                             <controls:NumericTextBox MaxLength="2" Width="50" Margin="5,0,0,0"
                                                                      Text="{Binding AwakenessValue.Options.CpuBelowPercentage, Mode=OneWay}"
                                                                      KeyUp="CpuPercentageChanged" />
-                                            <TextBlock>%</TextBlock>
+                                            <TextBlock VerticalAlignment="Center">%</TextBlock>
                                         </StackPanel>
                                     </MenuItem.Header>
                                 </MenuItem>
                                 <Separator />
-                                <MenuItem StaysOpenOnClick="True" Header="Reset Options" Click="ResetOptions" />
+                                <MenuItem StaysOpenOnClick="True" Header="Reset Options" Click="ResetOptions">
+                                    <MenuItem.Icon>
+                                        <ui:SymbolIcon Symbol="ArrowReset20" />
+                                    </MenuItem.Icon>
+                                </MenuItem>
                             </MenuItem>
                         </ContextMenu>
                     </ui:DropDownButton.Flyout>
@@ -308,7 +338,7 @@
                             BorderBrush="Transparent">
                         <StackPanel Orientation="Horizontal">
                             <Image
-                                ToolTip="Allow screen saver (prevents sleep but would not emulate keypress)"
+                                ToolTip="Allow screen saver (prevents sleep but would not emulate keypress and does not prevent communication software to detect inactivity)"
                                 Width="25" Height="25"
                                 Visibility="{Binding AwakenessValue.Options.AllowScreenSaver, Converter={StaticResource BoolToVis}, Mode=OneWay}"
                                 Margin="8 0 0 0" Source="{StaticResource AllowScreenSaverIcon}" />
@@ -323,7 +353,7 @@
                                 Visibility="{Binding AwakenessValue.Options.InactiveWhenLocked, Converter={StaticResource BoolToVis}, Mode=OneWay}"
                                 Margin="8 0 0 0" Source="{StaticResource CancelOnLockIcon}" />
                             <StackPanel
-                                ToolTip="Inactive when CPU below percentage"
+                                ToolTip="Inactive when idle (CPU below percentage)"
                                 Visibility="{Binding AwakenessValue.Options.InactiveWhenCpuBelowPercentage, Converter={StaticResource BoolToVis}, Mode=OneWay}"
                                 Orientation="Horizontal">
                                 <Image

@@ -93,6 +93,9 @@ public partial class App
     /// </summary>
     protected override void OnStartup(StartupEventArgs e)
     {
+        DispatcherUnhandledException += OnDispatcherUnhandledException;
+        AppDomain.CurrentDomain.UnhandledException += OnCurrentDomainUnhandledException;
+        System.Threading.Tasks.TaskScheduler.UnobservedTaskException += OnUnobservedTaskException;
         //_activeIcon = Routines.ConvertXamlToImageSource("ActiveIconCanvas");
         //_inactiveIcon = Routines.ConvertXamlToImageSource("InactiveIconCanvas");
         //_temporarilyInactiveIcon = Routines.ConvertXamlToImageSource("TemporarilyInactiveIconCanvas");
@@ -223,7 +226,32 @@ public partial class App
     /// </summary>
     private void OnAboutMenu(object sender, RoutedEventArgs e)
     {
-        AboutWindow.ShowIt();
+        try
+        {
+            AboutWindow.ShowIt();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to open About window");
+        }
+    }
+
+    private void OnDispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+    {
+        _logger.LogError(e.Exception, "Unhandled dispatcher exception");
+        e.Handled = true;
+    }
+
+    private void OnCurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
+    {
+        if (e.ExceptionObject is Exception ex)
+            _logger.LogError(ex, "Unhandled AppDomain exception (terminating: {IsTerminating})", e.IsTerminating);
+    }
+
+    private void OnUnobservedTaskException(object? sender, System.Threading.Tasks.UnobservedTaskExceptionEventArgs e)
+    {
+        _logger.LogError(e.Exception, "Unobserved task exception");
+        e.SetObserved();
     }
 
     /// <summary>
@@ -237,7 +265,7 @@ public partial class App
 
     private void OnSendFeedback(object sender, RoutedEventArgs e)
     {
-        Routines.OpenHyperlink("https://lotrasoft.com/caffeinepro/feedback?product=Caffeine%20Pro");
+        Routines.OpenHyperlink("https://lotrasoft.com/feedback?product=Caffeine%20Pro");
     }
 
 

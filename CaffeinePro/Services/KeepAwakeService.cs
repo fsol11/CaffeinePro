@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
 using System.Security.Cryptography;
 using System.Timers;
 using System.Windows;
@@ -239,38 +238,38 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
             return;
         }
 
-        SendKeepAwakeSignal();
-    }
 
-    private void SendKeepAwakeSignal()
-    {
         var timeSinceLastActivity = (DateTime.Now - _windowsKeyboardMouseCapture.LastActivity).TotalMilliseconds;
-
-        // If the time since last keyboard/mouse activity is less than the timer interval, wait for the next tick
-        if (timeSinceLastActivity < _timer.Interval)
-        {
-            _timer.Interval = GetRandomTimerInterval();
-            return;
-        }
+        var dontSendAwakeSignal = timeSinceLastActivity < _timer.Interval;
 
         // Setting a new random interval for next tick
         _timer.Interval = GetRandomTimerInterval();
 
+        // If the time since last keyboard/mouse activity is less than the timer interval, wait for the next tick
+        if (dontSendAwakeSignal)
+        {
+            return;
+        }
+
         // Handle AllowScreenSaver
         if (Awakeness.Options.AllowScreenSaver)
         {
-            // Prevent windows from going to sleep, but allows screen saver
-            // This line does *not* prevent other programs from detecting inactivity
+            // Prevent Windows from going to sleep, but allow screen saver.
+            // NOTE: SetThreadExecutionState does NOT update GetLastInputInfo,
+            // so communication apps (Teams, Slack, etc.) will still detect inactivity
+            // and show the user as Away when this option is enabled.
             _ = SetThreadExecutionState(EsContinuous | EsSystemRequired);
         }
         else
         {
-            // This line allows Windows to go to sleep
+            // Allow Windows to manage sleep normally (SendInput below keeps it awake indirectly
+            // by resetting the idle timer through actual simulated input).
             _ = SetThreadExecutionState(EsContinuous);
 
-            // Simulate keypress to prevent Windows from going to sleep
-            // This also prevents other programs to detect inactivity
-            KeySimulator.PressF15();
+            // Simulate input (key press or mouse move) via SendInput.
+            // This updates GetLastInputInfo, which is the primary mechanism used by
+            // communication apps (Teams, Slack, etc.) to detect user inactivity.
+            KeyMouseSimulator.SendKeepAwakeSignal();
         }
     }
 

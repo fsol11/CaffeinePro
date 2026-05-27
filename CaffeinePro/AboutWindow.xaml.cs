@@ -58,6 +58,9 @@ public partial class AboutWindow
     {
         InitializeComponent();
 
+        Icon = new System.Windows.Media.Imaging.BitmapImage(
+            new Uri("pack://application:,,,/Resources/Coffee.png"));
+
         PingPongMedia.Source = new Uri("pack://application:,,,/Resources/about.mp4");
         PingPongMedia.Play();
     }
@@ -108,7 +111,7 @@ public partial class AboutWindow
         _reverseTimer.Start();
     }
 
-    private void ReverseTimer_Tick(object sender, EventArgs e)
+    private void ReverseTimer_Tick(object? sender, EventArgs e)
     {
         if (PingPongMedia.Position > TimeSpan.Zero)
         {
@@ -116,7 +119,7 @@ public partial class AboutWindow
         }
         else
         {
-            _reverseTimer.Stop();
+            _reverseTimer?.Stop();
             PingPongMedia.Position = TimeSpan.Zero;
             _isPlayingForward = true;
             PingPongMedia.Play();
