@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net10.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows10.0.17763.0</TargetFramework>
     <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
     <RootNamespace>CaffeinePro</RootNamespace>
     <Nullable>enable</Nullable>
@@ -44,7 +44,6 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </Resource>
-    <None Remove="Resources\About.mp4" />
     <None Remove="Resources\Coffee16.ico" />
     <Resource Include="Resources\Coffee16.ico" />
     <None Remove="Resources\Coffee32.ico" />
@@ -52,7 +51,6 @@
     <None Remove="Resources\CoffeeDot.ico" />
     <None Remove="Resources\Software-Install.ico" />
     <Content Include="Resources\Coffee.ico" />
-    <EmbeddedResource Include="Resources\About.mp4" />
     <Resource Include="Resources\Software-Install.ico" />
   </ItemGroup>
   <ItemGroup>

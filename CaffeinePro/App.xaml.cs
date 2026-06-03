@@ -19,7 +19,7 @@ namespace CaffeinePro;
 /// </summary>
 public partial class App
 {
-    public static App CurrentApp => (App)Current;
+    public static App CurrentApp => (Current as App)!;
 
     public static string AppName => Assembly.GetExecutingAssembly().GetName().Name!;
     public static string Version => Assembly.GetExecutingAssembly().GetName().Version!.ToString();
