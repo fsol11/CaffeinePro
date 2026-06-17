@@ -6,11 +6,20 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Hardcodet.NotifyIcon.Wpf" Version="2.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.8" />
-    <PackageVersion Include="Microsoft.Extensions.Localization" Version="10.0.8" />
+    <PackageVersion Include="Microsoft.Extensions.DependencyInjection">
+      <Version>10.0.9</Version>
+    </PackageVersion>
+    <PackageVersion Include="Microsoft.Extensions.Hosting" Version="10.0.9" />
+    <PackageVersion Include="Microsoft.Extensions.Localization" Version="10.0.9" />
+    <PackageVersion Include="Microsoft.Extensions.Logging">
+      <Version>10.0.9</Version>
+    </PackageVersion>
     <PackageVersion Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.28000.1839" />
-    <PackageVersion Include="Notification.Wpf" Version="8.0.0" />
-    <PackageVersion Include="System.Management" Version="10.0.8" />
+    <PackageVersion Include="Newtonsoft.Json">
+      <Version>13.0.4</Version>
+    </PackageVersion>
+    <PackageVersion Include="Notification.Wpf" Version="10.1.0" />
+    <PackageVersion Include="System.Management" Version="10.0.9" />
     <PackageVersion Include="WPF-UI" Version="4.3.0" />
     <PackageVersion Include="WPF-UI.Tray" Version="4.0.3" />
   </ItemGroup>

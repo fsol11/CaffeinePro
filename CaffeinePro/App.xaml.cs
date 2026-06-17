@@ -151,7 +151,7 @@ public partial class App
         // Process Startup Settings
         KeepAwakeService.Awakeness = AppSettings.StartupAwakeness;
 
-        if (AppSettings.StartActive
+        if (AppSettings.StartActive == true
             &&
             (
                 KeepAwakeService.Awakeness.IsIndefinite

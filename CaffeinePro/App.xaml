@@ -37,6 +37,7 @@
             <converters:ValueNotEqualsParameterConverter x:Key="ValueNotEqualsParameter" />
             <converters:ValueNotEqualsParameterToVisibilityConverter x:Key="ValueNotEqualsParameterToVisibility" />
             <converters:NotConverter x:Key="Not" />
+            <converters:IsNullConverter x:Key="IsNull" />
             <converters:HalfConverter x:Key="Half" />
             <converters:TwoValuesNotEqualToVisibility x:Key="TwoValuesNotEqualToVisibility" />
             <converters:AwakenessTimeNotEqualsToVisibilityConverter x:Key="AwakenessTimeNotEqualsToVisibilityConverter" />
@@ -76,9 +77,13 @@
                         </StackPanel>
                     </MenuItem.Header>
                     <MenuItem.Items>
-                        <MenuItem Header="Start With Windows" IsCheckable="True"
-                                  IsChecked="{Binding Mode=TwoWay,Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartWithWindows}"
-                                  StaysOpenOnClick="True" />
+                        <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}"
+                                  StaysOpenOnClick="True">
+                            <MenuItem.Header>
+                                <ui:ToggleSwitch Content="Start With Windows"
+                                                 IsChecked="{Binding Mode=TwoWay, Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartWithWindows}" />
+                            </MenuItem.Header>
+                        </MenuItem>
                         <Separator />
                         <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}"
                                   StaysOpenOnClick="True">
@@ -130,49 +135,7 @@
                 ToolTipText="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.StatusText}"
                 ContextMenu="{StaticResource TrayContextMenu}" />
 
-            <!--<tray:NotifyIcon
-                x:Key="TrayIcon"
-                FocusOnLeftClick="True"
-                Icon="pack://application:,,,/Resources/Coffee.png"
-                IsEnabled="true"
-                Visibility="Visible"
-                MenuOnRightClick="True"
-                TooltipText="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.StatusText}">
-                <tray:NotifyIcon.Menu>
-
-                    <ContextMenu
-                        DataContext="{Binding Source={x:Static caffeinePro:App.CurrentApp}}">
-                        <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}" StaysOpenOnClick="True"
-                                  HorizontalContentAlignment="Center">
-                            <MenuItem.Header>
-                                <controls:StatusControl />
-                            </MenuItem.Header>
-                        </MenuItem>
-                        <Separator />
-
-                        <MenuItem Header="Settings">
-                            <MenuItem.Items>
-                                <MenuItem Header="Start With Windows" IsCheckable="True"
-                                          IsChecked="{Binding Mode=TwoWay,Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartWithWindows}"
-                                          StaysOpenOnClick="True" />
-                                <Separator />
-                                <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}"
-                                          StaysOpenOnClick="True">
-                                    <MenuItem.Header>
-                                        <controls:StartupOptionsControl />
-                                    </MenuItem.Header>
-                                </MenuItem>
-                            </MenuItem.Items>
-                        </MenuItem>
-                        <Separator />
-
-                        <MenuItem Header="Send Feedback..." Click="OnSendFeedback" />
-                        <MenuItem Header="About..." Click="OnAboutMenu" />
-                        <MenuItem Header="Exit" Click="OnExitMenu" />
-                    </ContextMenu>
-
-                </tray:NotifyIcon.Menu>
-            </tray:NotifyIcon>-->
+            
 
         </ResourceDictionary>
     </Application.Resources>

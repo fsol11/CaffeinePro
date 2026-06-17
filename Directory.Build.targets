@@ -1,0 +1,32 @@
+<Project>
+  <!--
+	NETSDK1005 / NETSDK1004 workaround for CaffeinePro Setup.wapproj:
+
+	The WAP packaging project's SetPublishProperties task (Microsoft.Build.DesktopBridge.Tasks.dll)
+	may create the NuGet restore context in obj\wappublish\win-x86 with a stripped TFM
+	("net10.0-windows" instead of "net10.0-windows10.0.17763.0"), causing NETSDK1005 at build time.
+
+	This target runs before the WAP project builds and pre-populates the wappublish restore context
+	using the correct TFM from the entry-point project. It only runs when the assets file is missing
+	(e.g. after a fresh clone or a manual obj\ clean), so it adds no overhead to incremental builds.
+  -->
+  <Target Name="EnsureWapPublishRestoreContext"
+		  BeforeTargets="Build"
+		  Condition="'$(MSBuildProjectExtension)' == '.wapproj' AND '$(EntryPointProjectUniqueName)' != ''">
+
+	<PropertyGroup>
+	  <_EntryPointProjectDir>$([System.IO.Path]::GetDirectoryName('$(EntryPointProjectUniqueName)'))</_EntryPointProjectDir>
+	  <_WapPublishWin86Assets>$(_EntryPointProjectDir)\obj\wappublish\win-x86\project.assets.json</_WapPublishWin86Assets>
+	</PropertyGroup>
+
+	<Message Text="[CaffeinePro Setup] wappublish/win-x86 restore context not found — running pre-restore..."
+			 Importance="High"
+			 Condition="!Exists('$(_WapPublishWin86Assets)')" />
+
+	<Exec Command="dotnet restore &quot;$(EntryPointProjectUniqueName)&quot; /p:BaseIntermediateOutputPath=obj\wappublish\win-x86\ /p:RuntimeIdentifier=win-x86 --verbosity quiet"
+		  WorkingDirectory="$(_EntryPointProjectDir)"
+		  Condition="!Exists('$(_WapPublishWin86Assets)')"
+		  ContinueOnError="false" />
+
+  </Target>
+</Project>

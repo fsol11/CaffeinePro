@@ -9,7 +9,7 @@
              DataContext="{Binding RelativeSource={RelativeSource Self}}">
     <Grid>
         <StackPanel HorizontalAlignment="Left">
-            <TextBlock Text="Startup:" />
+            <TextBlock Text="Default:" />
 
             <controls:AwakenessViewControl
                 x:Name="StartupAwakenessControl"
@@ -47,14 +47,16 @@
                 <RadioButton GroupName="Startup"
                              IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive}"
                              Click="StartActive_OnClick">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="Start Active" VerticalAlignment="Center"></TextBlock>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                        <TextBlock Text="Auto-set to default at startup and unlock" VerticalAlignment="Center"></TextBlock>
                         <TextBlock FontSize="10" Padding="5 0 0 0" Text="(only if the time of day is not passed)"
                                    VerticalAlignment="Center">
                         </TextBlock>
                     </StackPanel>
                 </RadioButton>
-                <RadioButton GroupName="Startup" Content="Start Inactive"
+                <RadioButton GroupName="Startup" Content="Ask me"
+                             IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive, Converter={StaticResource IsNull}}" />
+                <RadioButton GroupName="Startup" Content="Stay inactive"
                              IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive, Converter={StaticResource Not}}" />
             </StackPanel>
         </StackPanel>

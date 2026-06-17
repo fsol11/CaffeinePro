@@ -50,13 +50,14 @@
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.props" />
   <PropertyGroup>
     <ProjectGuid>be2ca1af-88d0-4553-8f45-63b6de5976e0</ProjectGuid>
-    <TargetPlatformVersion>10.0.26100.0</TargetPlatformVersion>
+    <TargetPlatformVersion>10.0.28000.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <DefaultLanguage>en-US</DefaultLanguage>
     <AppxBundle>Never</AppxBundle>
     <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
-    <NoWarn>$(NoWarn);NU1702</NoWarn>
+    <!-- NU1702: Package restored using non-UAP compat framework. NU1701: same but at restore level. -->
+    <NoWarn>$(NoWarn);NU1701;NU1702</NoWarn>
     <MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3270</MSBuildWarningsAsMessages>
     <EntryPointProjectUniqueName>..\CaffeinePro\CaffeinePro.csproj</EntryPointProjectUniqueName>
     <GenerateAppInstallerFile>True</GenerateAppInstallerFile>
@@ -120,6 +121,8 @@
     <ProjectReference Include="..\CaffeinePro\CaffeinePro.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Logging" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" PrivateAssets="all" />
+    <PackageReference Include="Newtonsoft.Json" />
   </ItemGroup>
 </Project>

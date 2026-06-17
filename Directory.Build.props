@@ -1,5 +1,13 @@
 <Project>
-  <PropertyGroup>
-	<MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3270</MSBuildWarningsAsMessages>
-  </PropertyGroup>
+	<PropertyGroup>
+		<!--
+			MSB3270: Architecture mismatch warning/error.
+			The WAP packaging project (CaffeinePro Setup.wapproj) builds as AnyCPU/MSIL but intentionally
+			references platform-specific (x86/x64/ARM64) DLLs during packaging. Microsoft.AppxPackage.Targets
+			promotes this to an error by default — suppress it globally by pre-setting the property here
+			(Directory.Build.props is imported before any SDK/platform targets, so this wins the race).
+		-->
+		<ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>None</ResolveAssemblyWarnOrErrorOnTargetArchitectureMismatch>
+		<MSBuildWarningsAsMessages>$(MSBuildWarningsAsMessages);MSB3270</MSBuildWarningsAsMessages>
+	</PropertyGroup>
 </Project>

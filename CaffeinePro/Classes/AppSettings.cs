@@ -12,10 +12,10 @@
 using System.ComponentModel;
 using System.IO;
 using System.Runtime.CompilerServices;
-using System.Text.Json.Serialization;
 using System.Text.Json;
-using System.Windows.Threading;
 using System.Windows;
+using System.Windows.Threading;
+using System.Text.Json.Serialization;
 
 namespace CaffeinePro.Classes;
 
@@ -25,7 +25,7 @@ namespace CaffeinePro.Classes;
 public sealed class AppSettings : INotifyPropertyChanged
 {
     // Fields for storing the settings values
-    private bool _startActive;
+    private bool? _startActive;
     private bool _isLoading = true;
     private bool _startWithWindows;
     private Awakeness _startupAwakeness = Awakeness.Indefinite;
@@ -42,7 +42,7 @@ public sealed class AppSettings : INotifyPropertyChanged
             };
         }
 
-        var s = JsonSerializer.Deserialize<AppSettings>(File.OpenRead(ConfigPath)) ?? new AppSettings();
+        var s = JsonSerializer.Deserialize(File.OpenRead(ConfigPath), AppSettingsJsonContext.Default.AppSettings) ?? new AppSettings();
         s._isLoading = false;
         return s;
 
@@ -76,7 +76,7 @@ public sealed class AppSettings : INotifyPropertyChanged
     /// Gets or sets a value indicating whether the application starts in active state.
     /// </summary>
     [JsonInclude]
-    public bool StartActive
+    public bool? StartActive
     {
         get => _startActive;
         set => SetField(ref _startActive, value);
@@ -133,15 +133,7 @@ public sealed class AppSettings : INotifyPropertyChanged
             return;
         }
 
-        var options = new JsonSerializerOptions(JsonSerializerDefaults.General)
-        {
-            IncludeFields = false,
-            UnmappedMemberHandling = JsonUnmappedMemberHandling.Skip,
-            IgnoreReadOnlyFields = true,
-            PropertyNameCaseInsensitive = true,
-        };
-
-        var json = JsonSerializer.Serialize(this, options);
+        var json = JsonSerializer.Serialize(this, AppSettingsJsonContext.Default.AppSettings);
         try
         {
             var dir = Path.GetDirectoryName(ConfigPath)!;
@@ -160,3 +152,4 @@ public sealed class AppSettings : INotifyPropertyChanged
         }
     }
 }
+

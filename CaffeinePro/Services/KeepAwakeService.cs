@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Timers;
 using System.Windows;
 using CaffeinePro.Classes;
+using Notification.Core;
 using Notification.Wpf;
 using Timer = System.Timers.Timer;
 
@@ -310,7 +311,6 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
 
         App.CurrentApp.Dispatcher.Invoke(() =>
         {
-#pragma warning disable CA1416 // Validate platform compatibility
             var content = new NotificationContent
             {
                 Title = App.AppName,
@@ -319,6 +319,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
 
                 LeftButtonContent = "Activate",
                 LeftButtonAction = () => Activate(aw), // <- Activate if user clicks Activate
+                MessageTextSettings = { FontWeight = FontWeights.Bold },
 
                 RightButtonContent = " Ignore for Today ",
                 RightButtonAction = SetSkipUnlockNotificationToday, // <- Ignore if user clicks Ignore
@@ -330,7 +331,6 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
             };
 
             _notificationManager.Show(content, expirationTime: TimeSpan.FromMinutes(10));
-#pragma warning restore CA1416 // Validate platform compatibility
         });
     }
 

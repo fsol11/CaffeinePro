@@ -24,7 +24,7 @@ namespace CaffeinePro.Controls
         
         private void CheckAwakenessUpdate()
         {
-            if (App.CurrentApp.AppSettings.StartActive 
+            if (App.CurrentApp.AppSettings.StartActive == true
                 && App.CurrentApp.AppSettings.StartupAwakeness.IsIndefinite
                 && App.CurrentApp.KeepAwakeService.Awakeness.RelativeSpan != App.CurrentApp.AppSettings.StartupAwakeness.RelativeSpan)
             {

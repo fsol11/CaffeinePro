@@ -48,7 +48,6 @@
                 </Button>
                 <Button Content="Ignore For Today" Height="40" Margin="20 0 0 0" Width="140" />
             </StackPanel>
-            <CheckBox HorizontalAlignment="Center">Always do this without asking</CheckBox>
         </StackPanel>
 
     </StackPanel>
