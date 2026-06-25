@@ -1,5 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using CaffeinePro.Classes;
 
 namespace CaffeinePro.Controls;
 
@@ -8,28 +10,39 @@ namespace CaffeinePro.Controls;
 /// </summary>
 public partial class TimeSliderControl
 {
-    public static string[] PredefinedTimes1 { get; }= ["15", "30", "45"];
-    public static string[] PredefinedTimes2 { get; } = ["60", "120", "180", "240", "300", "360", "420", "480", "540", "600", "720"];
-    public static string[] PredefinedTimes3 { get; } = ["90", "150", "210", "270", "330", "390", "450", "510", "570", "630", "690"];
+    public static IReadOnlyList<HourItem> AmHours { get; } = GenerateHours(0);
+    public static IReadOnlyList<HourItem> PmHours { get; } = GenerateHours(12);
 
-    public static readonly DependencyProperty TimeProperty =
-        DependencyProperty.Register(nameof(Time), typeof(TimeSpan), typeof(TimeSliderControl));
+    private static HourItem[] GenerateHours(int startHour) =>
+        Enumerable.Range(startHour, 12)
+            .Select(h =>
+            {
+                var d = (h % 12 == 0 && startHour > 0) ? 12 : h % 12;
+                var ampm = startHour == 0 ? "AM" : "PM";
+                return new HourItem(d.ToString(), ampm, []);
+            })
+            .ToArray();
+
+    public static string[] Minutes1 => ["15", "30", "45"];
+
+    public static string?[] Minutes2 { get; } = GenerateMinutes2();
+
+    private static string?[] GenerateMinutes2() =>
+        [
+            .. Enumerable.Range(2, 23)
+                .Select(i => (string?)(i * 30).ToString())
+,
+            "1440",
+        ];
+
+    public TimeSpan TotalMinutes => TimeSpan.FromMinutes(MinutesSlider.Value);
 
     public static readonly DependencyProperty InStartupOptionsProperty = DependencyProperty.Register(nameof(InStartupOptions), typeof(bool), typeof(TimeSliderControl), new PropertyMetadata(default(bool)));
-
-    public event EventHandler? OnSelected;
 
     public TimeSliderControl()
     {
         InitializeComponent();
-        Time  = TimeSpan.FromHours(8); // <- Default Value
     }
-
-    public TimeSpan Time
-    {
-        get => (TimeSpan)GetValue(TimeProperty);
-        set => SetValue(TimeProperty, value);
-    } 
 
     public bool InStartupOptions
     {
@@ -40,16 +53,45 @@ public partial class TimeSliderControl
     private void MenuItemOnClick_ActiveFor(object sender, RoutedEventArgs e)
     {
         var menu = (MenuItem)sender;
-        Time = TimeSpan.FromMinutes(int.Parse((menu.Tag as string)!));
-        OnSelected?.Invoke(this, EventArgs.Empty);
+        if (menu.Tag == null)
+        {
+            return;
+        }
+
+        MinutesSlider.Value = int.Parse((menu.Tag as string)!);
     }
 
-    private void MinutesSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    private void QuarterButton_Click(object sender, RoutedEventArgs e)
     {
-        if (Math.Abs(Time.TotalMinutes - e.NewValue) > .01)
+        var time = Routines.ContentToTimeSpan(sender);
+        if (time != TimeSpan.MaxValue)
         {
-            Time = TimeSpan.FromMinutes((int)e.NewValue);
+            var dt = Routines.GetDateTimeFromTimeSpan(time, Awakeness.AwakenessTypes.Absolute);
+            var ts = Routines.GetRelativeTimeSpanFromDateTime(dt);
+            MinutesSlider.Value = (int) ts.TotalMinutes;
         }
+        e.Handled = true;
+    }
+
+    internal void SetRelativeTime(TimeSpan relativeSpan) => MinutesSlider.Value = (int) relativeSpan.TotalMinutes;
+
+    private void HourButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender == null)
+        {
+            return;
+        }
+
+        var button = (Button)sender;
+        var ampm = button.Tag as string ?? string.Empty;
+        var hour = int.Parse(button.Content.ToString() ?? "0") + (ampm == "PM" ? 12 : 0);
+        var dt = Routines.GetDateTimeFromTimeSpan(TimeSpan.FromHours(hour), Awakeness.AwakenessTypes.Absolute);
+        var ts = Routines.GetRelativeTimeSpanFromDateTime(dt);
+        MinutesSlider.Value = ts.TotalMinutes;
+        e.Handled = true;
     }
 }
+
+public record QuarterItem(string Label, string Minutes);
+public record HourItem(string HourLabel, string AmPm, IReadOnlyList<QuarterItem> Quarters);
 

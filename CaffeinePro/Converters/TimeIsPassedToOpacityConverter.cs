@@ -23,7 +23,7 @@ public class TimeIsPassedToOpacityConverter : IMultiValueConverter
             throw new ArgumentException($"The value must be a DateTime object: {values[1]}");
         }
         
-        return datetime.TimeOfDay.Add(TimeSpan.FromMinutes(15)) < time ? 1.0 : 0.4;
+        return datetime.TimeOfDay.Add(TimeSpan.FromMinutes(5)) < time ? 1.0 : 0.4;
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

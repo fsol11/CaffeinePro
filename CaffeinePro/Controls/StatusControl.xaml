@@ -1,57 +1,75 @@
-﻿<UserControl x:Class="CaffeinePro.Controls.StatusControl"
-             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:caffeinePro="clr-namespace:CaffeinePro"
-             xmlns:controls="clr-namespace:CaffeinePro.Controls"
-             mc:Ignorable="d"
-             d:DesignWidth="400">
+﻿<UserControl
+    x:Class="CaffeinePro.Controls.StatusControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:caffeinePro="clr-namespace:CaffeinePro"
+    xmlns:controls="clr-namespace:CaffeinePro.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    d:DesignWidth="400"
+    mc:Ignorable="d">
     <UserControl.Resources>
-        <DrawingImage Drawing="{StaticResource Lock}" x:Key="LockIcon" />
-        <DrawingImage Drawing="{StaticResource Battery}" x:Key="BatteryIcon" />
-        <DrawingImage Drawing="{StaticResource Cpu}" x:Key="CpuIcon" />
+        <DrawingImage x:Key="LockIcon" Drawing="{StaticResource Lock}" />
+        <DrawingImage x:Key="BatteryIcon" Drawing="{StaticResource Battery}" />
+        <DrawingImage x:Key="CpuIcon" Drawing="{StaticResource Cpu}" />
     </UserControl.Resources>
     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
         <controls:AwakenessViewControl
-            InStartupOptions="False"
+            Padding="0,5,0,0"
             AwakenessValue="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.Awakeness, Mode=TwoWay}"
-            NewAwakenessSelected="OnNewAwakenessSelected"
-            Padding="0 5 0 0" />
+            InStartupOptions="False"
+            NewAwakenessSelected="OnNewAwakenessSelected" />
 
-        <TextBlock Name="CopyLink" TextWrapping="Wrap" HorizontalAlignment="Right" Margin="10 5">
+        <TextBlock
+            Name="CopyLink"
+            Margin="10,5"
+            HorizontalAlignment="Right"
+            TextWrapping="Wrap">
             <TextBlock.Visibility>
                 <MultiBinding Converter="{StaticResource AwakenessTimeNotEqualsToVisibilityConverter}">
-                    <Binding Path="AppSettings.StartupAwakeness" Source="{x:Static caffeinePro:App.CurrentApp}"/>
-                    <Binding Path="KeepAwakeService.Awakeness" Source="{x:Static caffeinePro:App.CurrentApp}"/>
+                    <Binding Path="AppSettings.StartupAwakeness" Source="{x:Static caffeinePro:App.CurrentApp}" />
+                    <Binding Path="KeepAwakeService.Awakeness" Source="{x:Static caffeinePro:App.CurrentApp}" />
                 </MultiBinding>
             </TextBlock.Visibility>
             <Hyperlink Click="SetToStartupValue_Click">
-                <Run Text="Copy from the startup value" />
+                <Run Text="Set to default" />
             </Hyperlink>
         </TextBlock>
 
-        <Border BorderThickness="0" CornerRadius="4" Width="Auto" HorizontalAlignment="Center" Padding="10">
+        <StackPanel
+            Margin="10"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
 
             <Grid HorizontalAlignment="Center">
 
-                <ui:Button HorizontalAlignment="Center" Click="OnCancel"
-                           MinWidth="110" Padding="0" Height="40"
-                           Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsActive, Converter={StaticResource BoolToVis}}">
+                <ui:Button
+                    Height="40"
+                    MinWidth="110"
+                    Padding="0"
+                    HorizontalAlignment="Center"
+                    Click="OnCancel"
+                    Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsActive, Converter={StaticResource BoolToVis}}">
                     <Button.Content>
-                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center"
-                                    HorizontalAlignment="Center">
+                        <StackPanel
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
 
 
-                            <TextBlock VerticalAlignment="Center" TextAlignment="Center"
-                                       Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactive, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
-                                <Run Text="●" Foreground="{StaticResource ActiveColor}" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                TextAlignment="Center"
+                                Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactive, Converter={StaticResource BoolToVis}, ConverterParameter=Invert}">
+                                <Run Foreground="{StaticResource ActiveColor}" Text="●" />
                                 <Run Text=" " />
                             </TextBlock>
-                            <TextBlock VerticalAlignment="Center" TextAlignment="Center"
-                                       Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactive, Converter={StaticResource BoolToVis}}">
-                                <Run Text="●" Foreground="{StaticResource TemporarilyInactiveColor}" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                TextAlignment="Center"
+                                Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactive, Converter={StaticResource BoolToVis}}">
+                                <Run Foreground="{StaticResource TemporarilyInactiveColor}" Text="●" />
                                 <Run Text=" " />
                             </TextBlock>
 
@@ -59,17 +77,13 @@
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Style.Triggers>
-                                            <DataTrigger
-                                                Binding="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactive}"
-                                                Value="True">
+                                            <DataTrigger Binding="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactive}" Value="True">
                                                 <Setter Property="TextDecorations" Value="StrikeThrough" />
-                                                <Setter Property="ToolTip" Value="Temporarily Inactive"></Setter>
+                                                <Setter Property="ToolTip" Value="Temporarily Inactive" />
                                             </DataTrigger>
-                                            <DataTrigger
-                                                Binding="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactive}"
-                                                Value="False">
+                                            <DataTrigger Binding="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactive}" Value="False">
                                                 <Setter Property="TextDecorations" Value="{x:Null}" />
-                                                <Setter Property="ToolTip" Value=""></Setter>
+                                                <Setter Property="ToolTip" Value="" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
@@ -78,50 +92,52 @@
                         </StackPanel>
                     </Button.Content>
                 </ui:Button>
-                <ui:Button HorizontalAlignment="Center" Click="OnActivate"
-                           Width="110" Padding="0" Height="40"
-                           Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsActive, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
+                <ui:Button
+                    Height="40"
+                    MinWidth="110"
+                    Padding="5"
+                    HorizontalAlignment="Center"
+                    Click="OnActivate"
+                    Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsActive, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
                     <Button.Content>
-                        <Grid>
-                            <TextBlock VerticalAlignment="Center" TextAlignment="Center"
-                                       Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsActive, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
-                                <Run Text="●" Foreground="{StaticResource InactiveColor}" />
-                                <Run Text=" " />
-                                <Run Text="Inactive" />
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock VerticalAlignment="Center" TextAlignment="Center">
+                                <Run Foreground="{StaticResource InactiveColor}" Text="●" />
+                                <Run Text=" Inactive" />
                             </TextBlock>
+                            <Image
+                                Width="18"
+                                Margin="5,0,0,0"
+                                Opacity="1"
+                                Source="{StaticResource CpuIcon}"
+                                ToolTip="Temporarily inactive cpu is below threshold."
+                                Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactiveBecauseCpuBelowPercentage, Converter={StaticResource BoolToVis}, Mode=OneWay}" />
+                            <Image
+                                Width="18"
+                                Margin="5,0,0,0"
+                                Opacity="1"
+                                Source="{StaticResource BatteryIcon}"
+                                ToolTip="Temporarily inactive because system is on battery."
+                                Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactiveBecauseOnBattery, Converter={StaticResource BoolToVis}, Mode=OneWay}" />
+                            <Image
+                                Width="18"
+                                Margin="5,0,0,0"
+                                Opacity="1"
+                                Source="{StaticResource LockIcon}"
+                                ToolTip="Temporarily inactive because session is locked."
+                                Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactiveBecauseSessionLocked, Converter={StaticResource BoolToVis}, Mode=OneWay}" />
 
-                        </Grid>
+                            <ui:TextBlock
+                                Margin="5,0,0,0"
+                                FontSize="20"
+                                Opacity="1"
+                                Text="🤫"
+                                ToolTip="Notifications on are ignored Today."
+                                Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.IsUnlockNotificationIgnoredToday, Converter={StaticResource BoolToVis}, Mode=OneWay}" />
+                        </StackPanel>
                     </Button.Content>
                 </ui:Button>
-
-                <Border
-                    Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsActive, Converter={StaticResource BoolToVis}}">
-                    <Border HorizontalAlignment="Right" VerticalAlignment="Top" Margin="1"
-                            CornerRadius="5"
-                            Padding="0 1"
-                            Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactive, Converter={StaticResource BoolToVis}}">
-                        <StackPanel Orientation="Vertical" Width="20">
-                            <Image
-                                ToolTip="Temporarily inactive cpu is below threshold."
-                                Width="12" Height="15"
-                                Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactiveBecauseCpuBelowPercentage, Converter={StaticResource BoolToVis}, Mode=OneWay}"
-                                Margin="0" Source="{StaticResource CpuIcon}" Opacity="1" />
-                            <Image
-                                ToolTip="Temporarily inactive because system is on battery."
-                                Width="12" Height="15"
-                                Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactiveBecauseOnBattery, Converter={StaticResource BoolToVis}, Mode=OneWay}"
-                                Margin="0" Source="{StaticResource BatteryIcon}" Opacity="1" />
-                            <Image
-                                ToolTip="Temporarily inactive because session is locked."
-                                Width="12" Height="15"
-                                Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactiveBecauseSessionLocked, Converter={StaticResource BoolToVis}, Mode=OneWay}"
-                                Margin="0" Source="{StaticResource LockIcon}" Opacity="1" />
-                        </StackPanel>
-
-                    </Border>
-                </Border>
             </Grid>
-        </Border>
-
+        </StackPanel>
     </StackPanel>
 </UserControl>

@@ -1,36 +1,47 @@
-﻿<UserControl x:Class="CaffeinePro.Controls.AwakenessViewControl"
-             xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:converters1="clr-namespace:CaffeinePro.Converters"
-             xmlns:controls="clr-namespace:CaffeinePro.Controls"
-             xmlns:services="clr-namespace:CaffeinePro.Services"
-             xmlns:classes="clr-namespace:CaffeinePro.Classes"
-             DataContext="{Binding RelativeSource={RelativeSource Self}}"
-             MinWidth="50"
-             mc:Ignorable="d" Padding="0 0 0 0">
+﻿<UserControl
+    x:Class="CaffeinePro.Controls.AwakenessViewControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:classes="clr-namespace:CaffeinePro.Classes"
+    xmlns:controls="clr-namespace:CaffeinePro.Controls"
+    xmlns:converters1="clr-namespace:CaffeinePro.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:services="clr-namespace:CaffeinePro.Services"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    MinWidth="50"
+    Padding="0,0,0,0"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <converters1:EnumToDescriptionConverter x:Key="EnumToDescription" />
         <converters1:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
-
+        <Style
+            x:Key="AfterwardsItemStyle"
+            BasedOn="{StaticResource {x:Type MenuItem}}"
+            TargetType="{x:Type MenuItem}">
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
     </UserControl.Resources>
 
-    <Border CornerRadius="4" Padding="5 2" Background="Transparent" BorderThickness="1"
-            BorderBrush="{DynamicResource TextControlElevationBorderBrush}">
+    <Border
+        Padding="5,2"
+        Background="Transparent"
+        BorderBrush="{DynamicResource TextControlElevationBorderBrush}"
+        BorderThickness="1"
+        CornerRadius="4">
         <StackPanel>
             <StackPanel Orientation="Horizontal">
                 <StackPanel>
-                    <StackPanel Orientation="Horizontal" x:Name="RelativeTimePanel">
+                    <StackPanel x:Name="RelativeTimePanel" Orientation="Horizontal">
                         <StackPanel.Style>
                             <Style TargetType="StackPanel">
                                 <Setter Property="Visibility" Value="Collapsed" />
                                 <Style.Triggers>
                                     <MultiDataTrigger>
                                         <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding AwakenessValue.AwakenessType}"
-                                                       Value="{x:Static classes:Awakeness+AwakenessTypes.Relative}" />
+                                            <Condition Binding="{Binding AwakenessValue.AwakenessType}" Value="{x:Static classes:Awakeness+AwakenessTypes.Relative}" />
                                             <Condition Binding="{Binding InStartupOptions}" Value="True" />
                                         </MultiDataTrigger.Conditions>
                                         <Setter Property="Visibility" Value="Visible" />
@@ -39,9 +50,17 @@
                             </Style>
                         </StackPanel.Style>
 
-                        <TextBlock Width="75" Text="For |" VerticalAlignment="Center" HorizontalAlignment="Left"
-                                   TextAlignment="Right" />
-                        <Border CornerRadius="4" Margin="4 2" Padding="8 1" Width="150">
+                        <TextBlock
+                            Width="75"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Text="For |"
+                            TextAlignment="Right" />
+                        <Border
+                            Width="150"
+                            Margin="4,2"
+                            Padding="8,1"
+                            CornerRadius="4">
                             <StackPanel Orientation="Horizontal">
 
                                 <TextBlock VerticalAlignment="Center" TextAlignment="Left">
@@ -72,235 +91,337 @@
                             </Style>
                         </StackPanel.Style>
 
-                        <TextBlock Width="75" Text="Until |"
-                                   VerticalAlignment="Center" HorizontalAlignment="Left"
-                                   TextAlignment="Right" />
+                        <TextBlock
+                            Width="75"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Text="Until |"
+                            TextAlignment="Right" />
 
-                        <Border CornerRadius="4" Margin="4 2" Padding="8 1" Width="150">
+                        <Border
+                            Width="150"
+                            Margin="4,2"
+                            Padding="8,1"
+                            CornerRadius="4">
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding AwakenessValue.EndDateText}"
-                                           Margin="0 0 8 0"
-                                           Visibility="{Binding ShouldShowDate, Converter={StaticResource BoolToVis}}" />
-                                <TextBlock Text="{Binding AwakenessValue.EndTimeText}"
-                                           Visibility="{Binding AwakenessValue.IsIndefinite, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}" />
+                                <TextBlock
+                                    Margin="0,0,8,0"
+                                    Text="{Binding AwakenessValue.EndDateText}"
+                                    Visibility="{Binding ShouldShowDate, Converter={StaticResource BoolToVis}}" />
+                                <TextBlock Text="{Binding AwakenessValue.EndTimeText}" Visibility="{Binding AwakenessValue.IsIndefinite, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}" />
                             </StackPanel>
                         </Border>
 
                     </StackPanel>
                 </StackPanel>
-                <ui:DropDownButton Background="Transparent"
-                                   Padding="5 0"
-                                   BorderBrush="Transparent"
-                                   ToolTip="Config"
-                                   VerticalAlignment="Top">
+                <ui:DropDownButton
+                    Padding="5,0"
+                    VerticalAlignment="Top"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    ToolTip="Options">
                     <ui:DropDownButton.Icon>
-                        <ui:SymbolIcon Symbol="Clock24" Filled="False" Height="24"/>
+                        <ui:SymbolIcon
+                            Height="24"
+                            Filled="False"
+                            Symbol="ToggleLeft20" />
                     </ui:DropDownButton.Icon>
                     <ui:DropDownButton.Flyout>
 
                         <ContextMenu>
-                            <MenuItem Header="Indefinitely" Click="MenuItemIndefinitely_OnClick" Tag="{x:Null}" />
-                            <MenuItem Header="Until">
-                                <MenuItem.Items>
-                                    <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}">
-                                        <MenuItem.Header>
-                                            <controls:TimePickerControl 
-                                                NewTimeSelected="OnNewTimeSelected" 
-                                                InStartupOptions="{Binding InStartupOptions}"/>
-                                        </MenuItem.Header>
-                                    </MenuItem>
-                                </MenuItem.Items>
-                            </MenuItem>
-                            <MenuItem Header="For">
-                                <MenuItem.Items>
-                                    <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}" StaysOpenOnClick="True">
-                                        <MenuItem.Header>
-                                            <StackPanel HorizontalAlignment="Center">
-                                                <controls:TimeSliderControl
-                                                    
-                                                    x:Name="RelativeTimeSlider" OnSelected="RelativeTimeApplyButton_OnClick" />
-                                                <Button HorizontalAlignment="Center"
-                                                        Content="Apply"
-                                                        Click="RelativeTimeApplyButton_OnClick"
-                                                        Margin="10"/>
-                                            </StackPanel>
-                                        </MenuItem.Header>
-                                    </MenuItem>
-                                </MenuItem.Items>
-                            </MenuItem>
-
-                            <MenuItem Header="Afterwards">
-                                <MenuItem StaysOpenOnClick="True">
-                                    <MenuItem.Header>
-                                        <RadioButton GroupName="Afterwards"
-                                                     IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.None}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
-                                                     Click="AfterwardsAction_Click"
-                                                     Tag="{x:Static services:SessionAction.None}"
-                                                     Content="Do Nothing" />
-                                    </MenuItem.Header>
-                                </MenuItem>
-                                <Separator />
-                                <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}" StaysOpenOnClick="True"
-                                          Header="Program:" />
-                                <MenuItem StaysOpenOnClick="True">
-                                    <MenuItem.Header>
-                                        <RadioButton GroupName="Afterwards"
-                                                     IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Exit}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
-                                                     Click="AfterwardsAction_Click"
-                                                     Tag="{x:Static services:SessionAction.Exit}"
-                                                     Content="Exit" />
-                                    </MenuItem.Header>
-                                </MenuItem>
-                                <Separator />
-                                <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}" StaysOpenOnClick="True"
-                                          Header="Session:" />
-                                <MenuItem StaysOpenOnClick="True">
-                                    <MenuItem.Header>
-                                        <RadioButton GroupName="Afterwards"
-                                                     IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Lock}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
-                                                     Click="AfterwardsAction_Click"
-                                                     Tag="{x:Static services:SessionAction.Lock}"
-                                                     Content="Lock" />
-                                    </MenuItem.Header>
-                                </MenuItem>
-                                <MenuItem StaysOpenOnClick="True">
-                                    <MenuItem.Header>
-                                        <RadioButton GroupName="Afterwards"
-                                                     IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.SignOut}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
-                                                     Click="AfterwardsAction_Click"
-                                                     Tag="{x:Static services:SessionAction.SignOut}"
-                                                     Content="Sign Out" />
-                                    </MenuItem.Header>
-                                </MenuItem>
-
-                                <MenuItem StaysOpenOnClick="True">
-                                    <MenuItem.Header>
-                                        <RadioButton GroupName="Afterwards"
-                                                     IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Sleep}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
-                                                     Click="AfterwardsAction_Click"
-                                                     Tag="{x:Static services:SessionAction.Sleep}"
-                                                     Content="Sleep" />
-                                    </MenuItem.Header>
-                                </MenuItem>
-                                <Separator />
-                                <MenuItem Style="{StaticResource NoHighlightMenuItemStyle}" StaysOpenOnClick="True"
-                                          Header="System:" />
-                                <MenuItem StaysOpenOnClick="True">
-                                    <MenuItem.Header>
-                                        <RadioButton GroupName="Afterwards"
-                                                     IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Hibernate}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
-                                                     Click="AfterwardsAction_Click"
-                                                     Tag="{x:Static services:SessionAction.Hibernate}"
-                                                     Content="Hibernate" />
-                                    </MenuItem.Header>
-                                </MenuItem>
-                                <MenuItem StaysOpenOnClick="True">
-                                    <MenuItem.Header>
-                                        <RadioButton GroupName="Afterwards"
-                                                     IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Shutdown}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
-                                                     Click="AfterwardsAction_Click"
-                                                     Tag="{x:Static services:SessionAction.Shutdown}"
-                                                     Content="Shutdown" />
-                                    </MenuItem.Header>
-                                </MenuItem>
-                                <MenuItem StaysOpenOnClick="True">
-                                    <MenuItem.Header>
-                                        <RadioButton GroupName="Afterwards"
-                                                     IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.ForceShutdown}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
-                                                     Click="AfterwardsAction_Click"
-                                                     Tag="{x:Static services:SessionAction.ForceShutdown}"
-                                                     Content="Force Shutdown" />
-                                    </MenuItem.Header>
-                                </MenuItem>
-                                <MenuItem StaysOpenOnClick="True">
-                                    <MenuItem.Header>
-                                        <RadioButton GroupName="Afterwards"
-                                                     IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Restart}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
-                                                     Click="AfterwardsAction_Click"
-                                                     Tag="{x:Static services:SessionAction.Restart}"
-                                                     Content="Restart" />
-                                    </MenuItem.Header>
-                                </MenuItem>
-                                <MenuItem StaysOpenOnClick="True">
-                                    <MenuItem.Header>
-                                        <RadioButton GroupName="Afterwards"
-                                                     IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.ForceRestart}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
-                                                     Click="AfterwardsAction_Click"
-                                                     Tag="{x:Static services:SessionAction.ForceRestart}"
-                                                     Content="Force Restart" />
-                                    </MenuItem.Header>
-                                </MenuItem>
-                            </MenuItem>
-                            <MenuItem Header="Options">
+                            <MenuItem
+                                Header="Options:"
+                                StaysOpenOnClick="True"
+                                Style="{StaticResource NoHighlightMenuItemStyle}" />
+                            <MenuItem
+                                Click="ToggleAwakenessOptionMenu_Click"
+                                StaysOpenOnClick="True"
+                                Tag="AllowScreenSaver">
                                 <MenuItem.Icon>
-                                    <ui:SymbolIcon Symbol="ToggleLeft20" />
+                                    <Image Height="20" Source="{StaticResource AllowScreenSaverIcon}" />
                                 </MenuItem.Icon>
-                                <MenuItem StaysOpenOnClick="True"
-                                          Tag="AllowScreenSaver"
-                                          Click="ToggleAwakenessOptionMenu_Click">
-                                    <MenuItem.Icon>
-                                        <Image Source="{StaticResource AllowScreenSaverIcon}" Height="20" />
-                                    </MenuItem.Icon>
-                                    <MenuItem.Header>
-                                        <ui:ToggleSwitch IsChecked="{Binding AwakenessValue.Options.AllowScreenSaver, Mode=OneWay}"
-                                                        IsHitTestVisible="False">
-                                            <ui:ToggleSwitch.Content>
-                                                <TextBlock>
-                                                    <Run Text="Allow Screen Saver " />
-                                                    <Run FontSize="10" Text="(Doesn't prevent inactivity detection)" />
-                                                </TextBlock>
-                                            </ui:ToggleSwitch.Content>
-                                        </ui:ToggleSwitch>
-                                    </MenuItem.Header>
-                                </MenuItem>
-                                <MenuItem StaysOpenOnClick="True"
-                                          Tag="InactiveWhenLocked"
-                                          Click="ToggleAwakenessOptionMenu_Click">
-                                    <MenuItem.Icon>
-                                        <Image Source="{StaticResource CancelOnLockIcon}" Height="20" />
-                                    </MenuItem.Icon>
-                                    <MenuItem.Header>
-                                        <ui:ToggleSwitch Content="Inactive When Locked"
-                                                        IsChecked="{Binding AwakenessValue.Options.InactiveWhenLocked, Mode=OneWay}"
-                                                        IsHitTestVisible="False" />
-                                    </MenuItem.Header>
-                                </MenuItem>
-                                <MenuItem StaysOpenOnClick="True"
-                                          Tag="InactiveWhenOnBattery"
-                                          Click="ToggleAwakenessOptionMenu_Click">
-                                    <MenuItem.Icon>
-                                        <Image Source="{StaticResource CancelOnBatteryIcon}" Height="20" />
-                                    </MenuItem.Icon>
-                                    <MenuItem.Header>
-                                        <ui:ToggleSwitch Content="Inactive When On Battery"
-                                                        IsChecked="{Binding AwakenessValue.Options.InactiveWhenOnBattery, Mode=OneWay}"
-                                                        IsHitTestVisible="False" />
-                                    </MenuItem.Header>
-                                </MenuItem>
-                                <MenuItem StaysOpenOnClick="True"
-                                          Tag="InactiveWhenCpuBelowPercentage"
-                                          Click="ToggleAwakenessOptionMenu_Click">
-                                    <MenuItem.Icon>
-                                        <Image Source="{StaticResource CancelOnCpuIcon}" Height="20" />
-                                    </MenuItem.Icon>
-                                    <MenuItem.Header>
-                                        <StackPanel Orientation="Horizontal">
-                                            <ui:ToggleSwitch IsChecked="{Binding AwakenessValue.Options.InactiveWhenCpuBelowPercentage, Mode=OneWay}"
-                                                            IsHitTestVisible="False" />
-                                            <TextBlock VerticalAlignment="Center" Margin="4,0,0,0">Inactive When Idle - CPU Below</TextBlock>
-                                            <controls:NumericTextBox MaxLength="2" Width="50" Margin="5,0,0,0"
-                                                                     Text="{Binding AwakenessValue.Options.CpuBelowPercentage, Mode=OneWay}"
-                                                                     KeyUp="CpuPercentageChanged" />
-                                            <TextBlock VerticalAlignment="Center">%</TextBlock>
-                                        </StackPanel>
-                                    </MenuItem.Header>
-                                </MenuItem>
-                                <Separator />
-                                <MenuItem StaysOpenOnClick="True" Header="Reset Options" Click="ResetOptions">
-                                    <MenuItem.Icon>
-                                        <ui:SymbolIcon Symbol="ArrowReset20" />
-                                    </MenuItem.Icon>
-                                </MenuItem>
+                                <MenuItem.Header>
+                                    <ui:ToggleSwitch IsChecked="{Binding AwakenessValue.Options.AllowScreenSaver, Mode=OneWay}" IsHitTestVisible="True">
+                                        <ui:ToggleSwitch.Content>
+                                            <TextBlock>
+                                                <Run Text="Allow Screen Saver " />
+                                                <Run FontSize="10" Text="(Doesn't prevent inactivity detection)" />
+                                            </TextBlock>
+                                        </ui:ToggleSwitch.Content>
+                                    </ui:ToggleSwitch>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem
+                                Click="ToggleAwakenessOptionMenu_Click"
+                                StaysOpenOnClick="True"
+                                Tag="InactiveWhenLocked">
+                                <MenuItem.Icon>
+                                    <Image Height="20" Source="{StaticResource CancelOnLockIcon}" />
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <ui:ToggleSwitch
+                                        Content="Inactive When Locked"
+                                        IsChecked="{Binding AwakenessValue.Options.InactiveWhenLocked, Mode=OneWay}"
+                                        IsHitTestVisible="True" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem
+                                Click="ToggleAwakenessOptionMenu_Click"
+                                StaysOpenOnClick="True"
+                                Tag="InactiveWhenOnBattery">
+                                <MenuItem.Icon>
+                                    <Image Height="20" Source="{StaticResource CancelOnBatteryIcon}" />
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <ui:ToggleSwitch
+                                        Content="Inactive When On Battery"
+                                        IsChecked="{Binding AwakenessValue.Options.InactiveWhenOnBattery, Mode=OneWay}"
+                                        IsHitTestVisible="True" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem
+                                Click="ToggleAwakenessOptionMenu_Click"
+                                StaysOpenOnClick="True"
+                                Tag="InactiveWhenCpuBelowPercentage">
+                                <MenuItem.Icon>
+                                    <Image Height="20" Source="{StaticResource CancelOnCpuIcon}" />
+                                </MenuItem.Icon>
+                                <MenuItem.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <ui:ToggleSwitch IsChecked="{Binding AwakenessValue.Options.InactiveWhenCpuBelowPercentage, Mode=OneWay}" IsHitTestVisible="True" />
+                                        <TextBlock Margin="4,0,0,0" VerticalAlignment="Center">Inactive When Idle - CPU Below</TextBlock>
+                                        <controls:NumericTextBox
+                                            Width="50"
+                                            Margin="5,0,0,0"
+                                            KeyUp="CpuPercentageChanged"
+                                            MaxLength="2"
+                                            Text="{Binding AwakenessValue.Options.CpuBelowPercentage, Mode=OneWay}" />
+                                        <TextBlock VerticalAlignment="Center">%</TextBlock>
+                                    </StackPanel>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator />
+                            <MenuItem
+                                Header="Afterwards:"
+                                StaysOpenOnClick="True"
+                                Style="{StaticResource NoHighlightMenuItemStyle}" />
+                            <MenuItem StaysOpenOnClick="True" Style="{StaticResource NoHighlightMenuItemStyle}">
+                                <MenuItem.Resources>
+                                    <Style BasedOn="{StaticResource {x:Type RadioButton}}" TargetType="{x:Type RadioButton}">
+                                        <Setter Property="MinHeight" Value="0" />
+                                        <Setter Property="MinWidth" Value="0" />
+                                        <Setter Property="Margin" Value="0,2" />
+                                        <Setter Property="Padding" Value="0,2" />
+                                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                    </Style>
+                                </MenuItem.Resources>
+                                <MenuItem.Header>
+                                    <StackPanel Margin="0,2">
+                                        <!--  Group 1: Do Nothing  -->
+                                        <UniformGrid Columns="2">
+                                            <RadioButton
+                                                Click="AfterwardsAction_Click"
+                                                GroupName="Afterwards"
+                                                IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.None}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
+                                                Tag="{x:Static services:SessionAction.None}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:SymbolIcon
+                                                        Margin="0,0,4,0"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="14"
+                                                        Symbol="Prohibited20" />
+                                                    <TextBlock VerticalAlignment="Center" Text="Do Nothing" />
+                                                </StackPanel>
+                                            </RadioButton>
+                                        </UniformGrid>
+                                        <Separator Margin="0,2" />
+                                        <!--  Group 2: Lock, Sign Out, Exit, Sleep  -->
+                                        <UniformGrid Columns="2">
+                                            <RadioButton
+                                                Click="AfterwardsAction_Click"
+                                                GroupName="Afterwards"
+                                                IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Lock}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
+                                                Tag="{x:Static services:SessionAction.Lock}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:SymbolIcon
+                                                        Margin="0,0,4,0"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="14"
+                                                        Symbol="LockClosed20" />
+                                                    <TextBlock VerticalAlignment="Center" Text="Lock" />
+                                                </StackPanel>
+                                            </RadioButton>
+                                            <RadioButton
+                                                Click="AfterwardsAction_Click"
+                                                GroupName="Afterwards"
+                                                IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.SignOut}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
+                                                Tag="{x:Static services:SessionAction.SignOut}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:SymbolIcon
+                                                        Margin="0,0,4,0"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="14"
+                                                        Symbol="PersonArrowLeft20" />
+                                                    <TextBlock VerticalAlignment="Center" Text="Sign Out" />
+                                                </StackPanel>
+                                            </RadioButton>
+                                            <RadioButton
+                                                Click="AfterwardsAction_Click"
+                                                GroupName="Afterwards"
+                                                IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Exit}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
+                                                Tag="{x:Static services:SessionAction.Exit}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:SymbolIcon
+                                                        Margin="0,0,4,0"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="14"
+                                                        Symbol="ArrowExit20" />
+                                                    <TextBlock VerticalAlignment="Center" Text="Exit" />
+                                                </StackPanel>
+                                            </RadioButton>
+                                            <RadioButton
+                                                Click="AfterwardsAction_Click"
+                                                GroupName="Afterwards"
+                                                IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Sleep}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
+                                                Tag="{x:Static services:SessionAction.Sleep}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:SymbolIcon
+                                                        Margin="0,0,4,0"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="14"
+                                                        Symbol="WeatherMoon20" />
+                                                    <TextBlock VerticalAlignment="Center" Text="Sleep" />
+                                                </StackPanel>
+                                            </RadioButton>
+                                        </UniformGrid>
+                                        <Separator Margin="0,2" />
+                                        <!--  Group 4: Hibernate, Shutdown, Force Shutdown, Restart, Force Restart  -->
+                                        <UniformGrid Columns="2">
+                                            <RadioButton
+                                                Click="AfterwardsAction_Click"
+                                                GroupName="Afterwards"
+                                                IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Hibernate}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
+                                                Tag="{x:Static services:SessionAction.Hibernate}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:SymbolIcon
+                                                        Margin="0,0,4,0"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="14"
+                                                        Symbol="WeatherSnowflake20" />
+                                                    <TextBlock VerticalAlignment="Center" Text="Hibernate" />
+                                                </StackPanel>
+                                            </RadioButton>
+                                            <RadioButton
+                                                Click="AfterwardsAction_Click"
+                                                GroupName="Afterwards"
+                                                IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Shutdown}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
+                                                Tag="{x:Static services:SessionAction.Shutdown}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:SymbolIcon
+                                                        Margin="0,0,4,0"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="14"
+                                                        Symbol="Power20" />
+                                                    <TextBlock VerticalAlignment="Center" Text="Shutdown" />
+                                                </StackPanel>
+                                            </RadioButton>
+                                            <RadioButton
+                                                Click="AfterwardsAction_Click"
+                                                GroupName="Afterwards"
+                                                IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.ForceShutdown}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
+                                                Tag="{x:Static services:SessionAction.ForceShutdown}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:SymbolIcon
+                                                        Margin="0,0,4,0"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="14"
+                                                        Symbol="Flash20" />
+                                                    <TextBlock VerticalAlignment="Center" Text="Force Shutdown" />
+                                                </StackPanel>
+                                            </RadioButton>
+                                            <RadioButton
+                                                Click="AfterwardsAction_Click"
+                                                GroupName="Afterwards"
+                                                IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Restart}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
+                                                Tag="{x:Static services:SessionAction.Restart}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:SymbolIcon
+                                                        Margin="0,0,4,0"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="14"
+                                                        Symbol="ArrowCounterclockwise20" />
+                                                    <TextBlock VerticalAlignment="Center" Text="Restart" />
+                                                </StackPanel>
+                                            </RadioButton>
+                                            <RadioButton
+                                                Click="AfterwardsAction_Click"
+                                                GroupName="Afterwards"
+                                                IsChecked="{Binding AwakenessValue.AfterwardsAction, ConverterParameter={x:Static services:SessionAction.ForceRestart}, Converter={StaticResource EnumToBooleanConverter}, Mode=OneWay}"
+                                                Tag="{x:Static services:SessionAction.ForceRestart}">
+                                                <StackPanel Orientation="Horizontal">
+                                                    <ui:SymbolIcon
+                                                        Margin="0,0,4,0"
+                                                        VerticalAlignment="Center"
+                                                        FontSize="14"
+                                                        Symbol="ArrowCounterclockwiseDashes20" />
+                                                    <TextBlock VerticalAlignment="Center" Text="Force Restart" />
+                                                </StackPanel>
+                                            </RadioButton>
+                                        </UniformGrid>
+                                    </StackPanel>
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <Separator />
+                            <MenuItem
+                                Click="ResetOptions"
+                                Header="Reset"
+                                StaysOpenOnClick="True">
+                                <MenuItem.Icon>
+                                    <ui:SymbolIcon Symbol="ArrowReset20" />
+                                </MenuItem.Icon>
+                            </MenuItem>
+                        </ContextMenu>
+                    </ui:DropDownButton.Flyout>
+                </ui:DropDownButton>
+                <ui:DropDownButton
+                    Padding="5,0"
+                    VerticalAlignment="Top"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    ToolTip="Set the Time">
+                    <ui:DropDownButton.Icon>
+                        <ui:SymbolIcon
+                            Height="24"
+                            Filled="False"
+                            Symbol="Clock24" />
+                    </ui:DropDownButton.Icon>
+                    <ui:DropDownButton.Flyout>
+
+                        <ContextMenu Opened="SetTimeMenuOpened">
+                            <MenuItem
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                Click="MenuItemIndefinitely_OnClick"
+                                Tag="{x:Null}">
+                                <MenuItem.Header>
+                                    <TextBlock HorizontalAlignment="Center" Text="♾️ Indefinitely" />
+                                </MenuItem.Header>
+                            </MenuItem>
+                            <MenuItem StaysOpenOnClick="True" Style="{StaticResource NoHighlightMenuItemStyle}">
+                                <MenuItem.Header>
+                                    <StackPanel HorizontalAlignment="Stretch">
+
+                                        <controls:TimeSliderControl x:Name="RelativeTimeSlider" HorizontalAlignment="Stretch" />
+
+                                        <Button
+                                            Margin="10"
+                                            HorizontalAlignment="Center"
+                                            Click="ApplyButton_OnClick"
+                                            Content="Apply &amp; Activate" />
+                                    </StackPanel>
+                                </MenuItem.Header>
+
                             </MenuItem>
                         </ContextMenu>
                     </ui:DropDownButton.Flyout>
@@ -309,56 +430,76 @@
 
 
             <StackPanel
-                ToolTip="Afterward action to be taken when the timer expires."
-                Orientation="Horizontal"
-                HorizontalAlignment="Left"
                 Height="20"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal"
+                ToolTip="Afterward action to be taken when the timer expires."
                 Visibility="{Binding AwakenessValue.AfterwardsAction, Converter={StaticResource ValueNotEqualsParameterToVisibility}, ConverterParameter={x:Static services:SessionAction.None}, Mode=OneWay}">
-                <TextBlock Text="Afterward |" Width="75"
-                           VerticalAlignment="Center" HorizontalAlignment="Right"
-                           TextAlignment="Right" />
+                <TextBlock
+                    Width="75"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Text="Afterward |"
+                    TextAlignment="Right" />
 
-                <Border CornerRadius="4 " Margin="4 2 0 0" Padding="8 0" Background="Transparent"
-                        BorderBrush="Transparent">
-                    <TextBlock
-                        Text="{Binding AwakenessValue.AfterwardsAction, Converter={StaticResource EnumToDescription}, Mode=OneWay}" />
+                <Border
+                    Margin="4,2,0,0"
+                    Padding="8,0"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    CornerRadius="4 ">
+                    <TextBlock Text="{Binding AwakenessValue.AfterwardsAction, Converter={StaticResource EnumToDescription}, Mode=OneWay}" />
                 </Border>
             </StackPanel>
 
             <StackPanel Visibility="{Binding AwakenessValue.Options.AnyOptionsSet, Converter={StaticResource BoolToVis}, Mode=OneWay}">
                 <ui:NavigationViewItemSeparator />
 
-                <StackPanel Orientation="Horizontal"
-                            HorizontalAlignment="Left">
-                    <TextBlock Text="Options |" Width="75"
-                               VerticalAlignment="Center" HorizontalAlignment="Right"
-                               TextAlignment="Right" />
+                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                    <TextBlock
+                        Width="75"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Text="Options |"
+                        TextAlignment="Right" />
 
-                    <Border CornerRadius="4 " Margin="4 2 0 0" Padding="8 0" Background="Transparent"
-                            BorderBrush="Transparent">
+                    <Border
+                        Margin="4,2,0,0"
+                        Padding="8,0"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        CornerRadius="4 ">
                         <StackPanel Orientation="Horizontal">
                             <Image
+                                Width="25"
+                                Height="25"
+                                Margin="8,0,0,0"
+                                Source="{StaticResource AllowScreenSaverIcon}"
                                 ToolTip="Allow screen saver (prevents sleep but would not emulate keypress and does not prevent communication software to detect inactivity)"
-                                Width="25" Height="25"
-                                Visibility="{Binding AwakenessValue.Options.AllowScreenSaver, Converter={StaticResource BoolToVis}, Mode=OneWay}"
-                                Margin="8 0 0 0" Source="{StaticResource AllowScreenSaverIcon}" />
+                                Visibility="{Binding AwakenessValue.Options.AllowScreenSaver, Converter={StaticResource BoolToVis}, Mode=OneWay}" />
                             <Image
+                                Width="25"
+                                Height="25"
+                                Margin="8,0,0,0"
+                                Source="{StaticResource CancelOnBatteryIcon}"
                                 ToolTip="Inactive when on battery"
-                                Width="25" Height="25"
-                                Visibility="{Binding AwakenessValue.Options.InactiveWhenOnBattery, Converter={StaticResource BoolToVis}, Mode=OneWay}"
-                                Margin="8 0 0 0" Source="{StaticResource CancelOnBatteryIcon}" />
+                                Visibility="{Binding AwakenessValue.Options.InactiveWhenOnBattery, Converter={StaticResource BoolToVis}, Mode=OneWay}" />
                             <Image
+                                Width="25"
+                                Height="25"
+                                Margin="8,0,0,0"
+                                Source="{StaticResource CancelOnLockIcon}"
                                 ToolTip="Inactive when locked"
-                                Width="25" Height="25"
-                                Visibility="{Binding AwakenessValue.Options.InactiveWhenLocked, Converter={StaticResource BoolToVis}, Mode=OneWay}"
-                                Margin="8 0 0 0" Source="{StaticResource CancelOnLockIcon}" />
+                                Visibility="{Binding AwakenessValue.Options.InactiveWhenLocked, Converter={StaticResource BoolToVis}, Mode=OneWay}" />
                             <StackPanel
+                                Orientation="Horizontal"
                                 ToolTip="Inactive when idle (CPU below percentage)"
-                                Visibility="{Binding AwakenessValue.Options.InactiveWhenCpuBelowPercentage, Converter={StaticResource BoolToVis}, Mode=OneWay}"
-                                Orientation="Horizontal">
+                                Visibility="{Binding AwakenessValue.Options.InactiveWhenCpuBelowPercentage, Converter={StaticResource BoolToVis}, Mode=OneWay}">
                                 <Image
-                                    Width="25" Height="25"
-                                    Margin="8 0 0 0" Source="{StaticResource CancelOnCpuIcon}" />
+                                    Width="25"
+                                    Height="25"
+                                    Margin="8,0,0,0"
+                                    Source="{StaticResource CancelOnCpuIcon}" />
                                 <TextBlock>
                                     <Run Text="&lt;" />
                                     <Run Text="{Binding AwakenessValue.Options.CpuBelowPercentage, Mode=OneWay}" />

@@ -85,24 +85,10 @@ public sealed partial class AwakenessViewControl
         NewAwakenessSelected?.Invoke(this, AwakenessValue);
     }
 
-    private void RelativeTimeApplyButton_OnClick(object? sender, EventArgs eventArgs)
-    {
-        AwakenessValue = new Awakeness(
-            Awakeness.AwakenessTypes.Relative,
-            RelativeTimeSlider.Time,
-            AwakenessValue.Options,
-            AwakenessValue.AfterwardsAction);
-
-        NewAwakenessSelected?.Invoke(this, AwakenessValue);
-    }
 
     private void ResetOptions(object sender, RoutedEventArgs e)
     {
-        AwakenessValue = new Awakeness(
-            AwakenessValue.AwakenessType,
-            AwakenessValue.RelativeSpan,
-            new AwakenessOptions(),
-            AwakenessValue.AfterwardsAction);
+        AwakenessValue = new Awakeness(AwakenessValue.AwakenessType, AwakenessValue.RelativeSpan, new AwakenessOptions(), SessionAction.None);
     }
 
     private void ToggleAwakenessOptionMenu_Click(object sender, RoutedEventArgs e)
@@ -134,6 +120,7 @@ public sealed partial class AwakenessViewControl
                 AwakenessValue.AfterwardsAction),
             _ => AwakenessValue
         };
+        NewAwakenessSelected?.Invoke(this, AwakenessValue);
     }
 
     private void CpuPercentageChanged(object sender, KeyEventArgs keyEventArgs)
@@ -164,15 +151,28 @@ public sealed partial class AwakenessViewControl
         }
     }
 
-    private void OnNewTimeSelected(object? sender, TimeSpan t)
+    private void OnNewTimeSelected(object? _, TimeSpan t)
     {
-        AwakenessValue =
-            new Awakeness(
-                Awakeness.AwakenessTypes.Absolute,
-                t,
-                AwakenessValue.Options,
-                AwakenessValue.AfterwardsAction);
-        
+        var dt = Routines.GetDateTimeFromTimeSpan(t, Awakeness.AwakenessTypes.Absolute);
+        var ts = Routines.GetRelativeTimeSpanFromDateTime(dt);
+
+        RelativeTimeSlider.SetRelativeTime(ts);
+    }
+
+    private void ApplyButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        AwakenessValue = new Awakeness(
+            Awakeness.AwakenessTypes.Relative,
+            RelativeTimeSlider.TotalMinutes,
+            AwakenessValue.Options,
+            AwakenessValue.AfterwardsAction);
+
         NewAwakenessSelected?.Invoke(this, AwakenessValue);
+    }
+
+    private void SetTimeMenuOpened(object sender, RoutedEventArgs e)
+    {
+        RelativeTimeSlider.SetRelativeTime(
+            Routines.GetRelativeTimeSpanFromDateTime(App.CurrentApp.AppSettings.StartupAwakeness.EndDateTime));
     }
 }

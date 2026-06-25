@@ -26,7 +26,7 @@ public partial class RelativeTime : UserControl
         set => SetValue(MinutesProperty, value);
     }
 
-    public string DisplayTime => Routines.GetDateTimeString(DateTime.Now.Add(new TimeSpan(0,0,Minutes, 0)));
+    public string DisplayTime => Routines.GetDateTimeString(Awakeness.GetNow().Add(new TimeSpan(0,0,Minutes, 0)));
 
     public RelativeTime()
     {

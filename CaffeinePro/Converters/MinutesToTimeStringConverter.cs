@@ -19,7 +19,7 @@ public class MinutesToTimeStringConverter : IValueConverter
 
     public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
     {
-        if(value == null)
+        if (value == null)
         {
             return string.Empty;
         }
@@ -35,7 +35,7 @@ public class MinutesToTimeStringConverter : IValueConverter
                 minutes = (int)Math.Round(d);
                 break;
             case decimal dec:
-                minutes = (int) dec;
+                minutes = (int)dec;
                 break;
             case int i:
                 minutes = i;
@@ -48,7 +48,18 @@ public class MinutesToTimeStringConverter : IValueConverter
         var h = minutes / 60;
         var m = minutes % 60;
 
-        return Routines.GetTimeString(new TimeSpan((int) h, (int) m, 0));
+        if (m == 0)
+        {
+            return h.ToString("0h");
+        }
+        else if (h < 1)
+        {
+            return m.ToString("0m");
+        }
+        else
+        {
+            return h.ToString("0.0h");
+        }
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

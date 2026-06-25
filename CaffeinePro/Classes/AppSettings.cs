@@ -85,10 +85,22 @@ public sealed class AppSettings : INotifyPropertyChanged
     /// <summary>
     /// Gets or sets the date to ignore unlock notifications.
     /// </summary>
+    [JsonIgnore]
     public DateTime IgnoreUnlockNotificationDate
     {
         get => _ignoreUnlockNotificationDate;
         set => SetField(ref _ignoreUnlockNotificationDate, value);
+    }
+
+    [JsonIgnore]
+    public bool IsUnlockNotificationIgnoredToday
+    {
+        get => IgnoreUnlockNotificationDate == DateTime.Today;
+        set
+        {
+            IgnoreUnlockNotificationDate = value ? DateTime.Today : DateTime.MinValue;
+            OnPropertyChanged(nameof(IsUnlockNotificationIgnoredToday));
+        }
     }
 
     // INotifyPropertyChanged implementation -----------------------------------
@@ -110,7 +122,7 @@ public sealed class AppSettings : INotifyPropertyChanged
     /// <param name="field">The field to set.</param>
     /// <param name="value">The value to set.</param>
     /// <param name="propertyName">The name of the property that changed.</param>
-    private void SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null)
+    private void SetField<T>(ref T field, T value, [CallerMemberName] string? propertyName = null, bool save = true)
     {
         if (EqualityComparer<T>.Default.Equals(field, value) || propertyName == null)
         {
@@ -119,7 +131,11 @@ public sealed class AppSettings : INotifyPropertyChanged
 
         //SetSettings(propertyName, value); // Saving the setting
         field = value;
-        Save();
+        if (save)
+        {
+            Save();
+        }
+
         OnPropertyChanged(propertyName);
     }
 

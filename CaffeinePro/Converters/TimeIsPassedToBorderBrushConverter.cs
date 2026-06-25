@@ -27,7 +27,7 @@ public class TimeIsPassedToBorderBrushConverter : IMultiValueConverter
 
         var disabled = values.Length > 2 || values[2] is true;
 
-        return !disabled && datetime.TimeOfDay.Add(TimeSpan.FromMinutes(15)) < time
+        return !disabled && datetime.TimeOfDay.Add(TimeSpan.FromMinutes(5)) < time
             ? SystemColors.ActiveBorderBrush
             : Brushes.Transparent;
     }

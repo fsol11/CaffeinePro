@@ -39,7 +39,6 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
         }
     }
 
-
     public bool IsTemporarilyInactiveBecauseSessionLocked
     {
         get => _isTemporarilyInactiveBecauseSessionLocked;
@@ -160,6 +159,17 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     private bool _isTemporarilyInactiveBecauseCpuBelowPercentage;
 
     /// <summary>
+    /// Activate the keep awake service to the default time
+    /// </summary>
+    public void ActivateDefault()
+    {
+        if (App.CurrentApp.AppSettings.StartupAwakeness != null)
+        {
+            Activate(App.CurrentApp.AppSettings.StartupAwakeness);
+        }
+    }
+
+    /// <summary>
     /// Activate the keep awake service until a specific date and time
     /// </summary>
     /// <param name="awakeness"></param>
@@ -170,13 +180,14 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
             Awakeness = awakeness;
         }
 
-        if (Awakeness.EndDateTime < DateTime.Now)
+        if (Awakeness.EndDateTime < Awakeness.GetNow())
         {
             Awakeness = Awakeness.RenewDateTime(Awakeness);
         }
 
         _windowsKeyboardMouseCapture.Hook();
 
+        ResetIgnoreUnlockNotificationDate();
         IsActive = true;
     }
 
@@ -233,7 +244,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
         }
 
         // Deactivate when the time is up
-        if (DateTime.Now >= Awakeness.EndDateTime)
+        if (Awakeness.GetNow() >= Awakeness.EndDateTime)
         {
             Deactivate(true);
             return;
@@ -288,55 +299,42 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     private void OnUnlock()
     {
         IsTemporarilyInactiveBecauseSessionLocked = false;
-        ShowUnlockNotification();
+        ConfirmAndSetDefaultAwakeness();
     }
 
-    // Replace the ShowUnlockNotification method with the following implementation
-
-    private void ShowUnlockNotification()
+    /// <summary>
+    /// Confirms with the user if the program should be activated on startup and sets the default awakeness accordingly.
+    /// </summary>
+    public void ConfirmAndSetDefaultAwakeness()
     {
         if (IsActive
-            || App.CurrentApp.AppSettings.IgnoreUnlockNotificationDate == DateTime.Today
+            || App.CurrentApp.AppSettings.IsUnlockNotificationIgnoredToday
             || App.CurrentApp.AppSettings.StartActive == false
-            || App.CurrentApp.AppSettings.StartupAwakeness.EndDateTime.TimeOfDay < DateTime.Now.TimeOfDay)
+            || App.CurrentApp.AppSettings.StartupAwakeness.EndDateTime.TimeOfDay < Awakeness.GetTimeOfDay())
         {
             return;
         }
 
-        // Ask user if the program should be activated
-        var aw = Awakeness.RenewDateTime(App.CurrentApp.AppSettings.StartupAwakeness);
-
-        // Setting the Awakeness to startup Awakeness
-        Awakeness = aw;
-
-        App.CurrentApp.Dispatcher.Invoke(() =>
+        if (App.CurrentApp.AppSettings.StartActive == true)
         {
-            var content = new NotificationContent
-            {
-                Title = App.AppName,
-                Message = $"Keep computer awake {aw.GetAwakenessDescription().Trim()}.",
-                Type = NotificationType.Information,
+            ActivateDefault();
+            return;
+        }
 
-                LeftButtonContent = "Activate",
-                LeftButtonAction = () => Activate(aw), // <- Activate if user clicks Activate
-                MessageTextSettings = { FontWeight = FontWeights.Bold },
-
-                RightButtonContent = " Ignore for Today ",
-                RightButtonAction = SetSkipUnlockNotificationToday, // <- Ignore if user clicks Ignore
-
-                CloseOnClick = true,
-                Background = SystemColors.ControlBrush,
-                Foreground = SystemColors.ControlTextBrush,
-                Icon = Routines.ConvertXamlToIcon("InactiveIconCanvas"),
-            };
-
-            _notificationManager.Show(content, expirationTime: TimeSpan.FromMinutes(10));
-        });
+        // Ask user if the program should be activated
+        //   When reaching here => App.CurrentApp.AppSettings.StartActive is null
+        //   Which means user has selected "Ask Me"
+        NotificationWindow.OpenIt(Awakeness.RenewDateTime(App.CurrentApp.AppSettings.StartupAwakeness));
     }
 
-    private void SetSkipUnlockNotificationToday()
+    public void SetIgnoreUnlockNotificationToToday()
     {
-        App.CurrentApp.AppSettings.IgnoreUnlockNotificationDate = DateTime.Today;
+        App.CurrentApp.AppSettings.IsUnlockNotificationIgnoredToday = true;
+    }
+
+    public void ResetIgnoreUnlockNotificationDate()
+    {
+        App.CurrentApp.AppSettings.IsUnlockNotificationIgnoredToday = false;
     }
 
     // INotifyPropertyChanged implementation ---------------------------------------------------

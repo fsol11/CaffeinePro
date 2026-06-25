@@ -7,19 +7,25 @@ namespace FramePFX.Themes
         private void CloseWindow_Event(object sender, RoutedEventArgs e)
         {
             if (e.Source != null)
+            {
                 this.CloseWind(Window.GetWindow((FrameworkElement)e.Source));
+            }
         }
 
         private void AutoMinimize_Event(object sender, RoutedEventArgs e)
         {
             if (e.Source != null)
+            {
                 this.MaximizeRestore(Window.GetWindow((FrameworkElement)e.Source));
+            }
         }
 
         private void Minimize_Event(object sender, RoutedEventArgs e)
         {
             if (e.Source != null)
+            {
                 this.MinimizeWind(Window.GetWindow((FrameworkElement)e.Source));
+            }
         }
 
         public void CloseWind(Window window) => window?.Close();
@@ -27,7 +33,10 @@ namespace FramePFX.Themes
         public void MaximizeRestore(Window window)
         {
             if (window == null)
+            {
                 return;
+            }
+
             switch (window.WindowState)
             {
                 case WindowState.Normal:
@@ -43,7 +52,9 @@ namespace FramePFX.Themes
         public void MinimizeWind(Window window)
         {
             if (window != null)
+            {
                 window.WindowState = WindowState.Minimized;
+            }
         }
     }
 }

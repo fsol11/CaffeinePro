@@ -122,11 +122,13 @@ public partial class App
         KeepAwakeService.OnStatusChanged += OnStatusChanged;
         SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
         AppDomain.CurrentDomain.UnhandledException += HandleException;
+        
         TrayIcon = Routines.FindResource<TaskbarIcon>("TrayIcon")!;
+        Routines.AddToWindowsStartup(AppSettings.StartWithWindows);
 
-        ApplyStartupAwakeness();
+        KeepAwakeService.ConfirmAndSetDefaultAwakeness();
 
-        // Update everything for the first time
+        // Update icon
         OnStatusChanged(this, EventArgs.Empty);
     }
 
@@ -146,32 +148,12 @@ public partial class App
     }
 
 
-    private void ApplyStartupAwakeness()
-    {
-        // Process Startup Settings
-        KeepAwakeService.Awakeness = AppSettings.StartupAwakeness;
-
-        if (AppSettings.StartActive == true
-            &&
-            (
-                KeepAwakeService.Awakeness.IsIndefinite
-                ||
-                KeepAwakeService.Awakeness.EndDateTime.TimeOfDay > DateTime.Now.TimeOfDay
-            )
-           )
-        {
-            KeepAwakeService.Activate();
-        }
-
-        Routines.AddToWindowsStartup(AppSettings.StartWithWindows);
-    }
-
     private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
     {
         //SetThemeColor();
     }
 
-    private void SetThemeColor()
+    private static void SetThemeColor()
     {
         var isWindowsThemeDark = Routines.IsWindowsThemeDark();
         ApplicationThemeManager.Apply(isWindowsThemeDark ? ApplicationTheme.Dark : ApplicationTheme.Light);
@@ -192,13 +174,6 @@ public partial class App
                 ? (KeepAwakeService.IsTemporarilyInactive ? _temporarilyInactiveIcon : _activeIcon)
                 : _inactiveIcon)
             ;
-
-
-        //TrayIcon!.Icon =
-        //    KeepAwakeService.IsActive
-        //        ? (KeepAwakeService.IsTemporarilyInactive ? _temporarilyInactiveIcon : _activeIcon)
-        //        : _inactiveIcon
-        //    ;
     }
 
     internal TaskbarIcon? TrayIcon
@@ -245,7 +220,9 @@ public partial class App
     private void OnCurrentDomainUnhandledException(object sender, UnhandledExceptionEventArgs e)
     {
         if (e.ExceptionObject is Exception ex)
+        {
             _logger.LogError(ex, "Unhandled AppDomain exception (terminating: {IsTerminating})", e.IsTerminating);
+        }
     }
 
     private void OnUnobservedTaskException(object? sender, System.Threading.Tasks.UnobservedTaskExceptionEventArgs e)
@@ -257,6 +234,11 @@ public partial class App
     /// <summary>
     /// Handling the "Exit" menu item
     /// </summary>
+    private void OnTrayContextMenuOpened(object sender, RoutedEventArgs e)
+    {
+        NotificationWindow.CloseIt();
+    }
+
     private void OnExitMenu(object sender, RoutedEventArgs e)
     {
         Shutdown();

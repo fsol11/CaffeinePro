@@ -55,23 +55,6 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
     }
 
 
-    public Awakeness(DateTime untilDateTime, AwakenessOptions options, SessionAction afterwardsAction) : this(
-        AwakenessTypes.Absolute, untilDateTime.TimeOfDay, options, afterwardsAction)
-    {
-    }
-
-    public Awakeness(TimeSpan relativeSpan, AwakenessOptions options, SessionAction afterwardsAction) : this(
-        AwakenessTypes.Relative, relativeSpan, options, afterwardsAction)
-    {
-    }
-
-    public Awakeness(Awakeness awakeness) : this(awakeness.AwakenessType, awakeness.RelativeSpan, awakeness.Options,
-        awakeness.AfterwardsAction)
-    {
-    }
-
-
-
     /// <summary>
     /// Gets a value indicating whether the awakeness is indefinite.
     /// </summary>
@@ -136,13 +119,15 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
         get;
     }
 
-
+    public static TimeSpan GetTimeOfDay() => new(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, 0);
+    public static TimeOnly GetTimeOnly() => new(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, 0);
+    public static DateTime GetNow() => new(DateOnly.FromDateTime(DateTime.Now), GetTimeOnly());
     /// <summary>
     /// Decreases the duration of the awakeness by 15 minutes.
     /// </summary>
     public Awakeness AddMinutes(int minutes)
     {
-        var newTime = IsIndefinite ? DateTime.Now.TimeOfDay : RelativeSpan;
+        var newTime = IsIndefinite ? GetTimeOfDay() : RelativeSpan;
         newTime = newTime.Add(new TimeSpan(0, minutes, 0));
 
         return new Awakeness(AwakenessType, newTime, Options, AfterwardsAction);
@@ -177,7 +162,7 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
 
     public static Awakeness RenewDateTime(Awakeness awakeness)
     {
-        return new Awakeness(awakeness);
+        return new Awakeness(awakeness.AwakenessType, awakeness.RelativeSpan, awakeness.Options, awakeness.AfterwardsAction);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;

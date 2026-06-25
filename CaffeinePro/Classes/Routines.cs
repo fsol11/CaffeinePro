@@ -85,7 +85,7 @@ public static class Routines
     public static DateTime GetDateTimeFromTimeSpan(TimeSpan timespan,
         Awakeness.AwakenessTypes type = Awakeness.AwakenessTypes.Absolute)
     {
-        var baseDate = type == Awakeness.AwakenessTypes.Absolute ? DateTime.Now.Date : DateTime.Now;
+        var baseDate = type == Awakeness.AwakenessTypes.Absolute ? DateTime.Now.Date : Awakeness.GetNow();
         var datetime = baseDate.Add(timespan);
         while (datetime < DateTime.Now)
         {
@@ -95,13 +95,9 @@ public static class Routines
         return datetime;
     }
 
-    public static string GetTimeString(TimeSpan time)
+    public static TimeSpan GetRelativeTimeSpanFromDateTime(DateTime datetime)
     {
-        var h = time.Hours;
-        var m = time.Minutes;
-        return (h == 0 ? string.Empty : $"{h}h") +
-               (h == 0 || m == 0 ? string.Empty : " : ") +
-               (m == 0 && h > 0 ? string.Empty : $"{m}m");
+        return datetime - Awakeness.GetNow();
     }
 
 

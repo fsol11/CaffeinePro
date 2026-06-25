@@ -41,7 +41,7 @@ public class MinutesToActualDateTimeStringConverter : IValueConverter
         var m = minutes % 60;
 
 
-        return Routines.GetDateTimeString(DateTime.Now.Add(new TimeSpan(h, m, 0)));
+        return Routines.GetDateTimeString(Awakeness.GetNow().Add(new TimeSpan(h, m, 0)));
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

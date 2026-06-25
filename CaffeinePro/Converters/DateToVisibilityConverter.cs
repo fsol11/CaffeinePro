@@ -21,7 +21,11 @@ public class DateToVisibilityConverter : IValueConverter
         var boolValue = !DateTime.MaxValue.Equals(value);
 
         var direction = parameter is string or Parameter ? (Parameter)Enum.Parse(typeof(Parameter), (string)parameter) : Parameter.Normal;
-        if (direction == Parameter.Inverted) boolValue = !boolValue;
+        if (direction == Parameter.Inverted)
+        {
+            boolValue = !boolValue;
+        }
+
         return boolValue ? Visibility.Visible : Visibility.Collapsed;
     }
 
