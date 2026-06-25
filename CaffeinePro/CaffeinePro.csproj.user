@@ -4,9 +4,6 @@
     <_LastSelectedProfileId>D:\dev\CaffeinePro\CaffeinePro\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Update="Controls\RelativeTime.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Controls\StartupOptionsControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -14,9 +11,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Controls\TimeSliderControl.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Controls\StartupLink.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -28,9 +22,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Controls\TimeSliderControl.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Controls\StartupLink.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
