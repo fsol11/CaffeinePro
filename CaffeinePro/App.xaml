@@ -44,11 +44,19 @@
             <converters:AwakenessTimeNotEqualsToVisibilityConverter x:Key="AwakenessTimeNotEqualsToVisibilityConverter" />
 
             <Style x:Key="NoHighlightMenuItemStyle" TargetType="{x:Type MenuItem}">
+                <Setter Property="HorizontalAlignment" Value="Stretch" />
+                <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                 <Setter Property="Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type MenuItem}">
-                            <Border x:Name="Border" Background="{TemplateBinding Background}">
-                                <ContentPresenter Margin="10,2" ContentSource="Header" />
+                            <Border
+                                x:Name="Border"
+                                HorizontalAlignment="Stretch"
+                                Background="Transparent">
+                                <ContentPresenter
+                                    Margin="10,2"
+                                    HorizontalAlignment="Stretch"
+                                    ContentSource="Header" />
                             </Border>
                             <ControlTemplate.Triggers>
                                 <Trigger Property="IsMouseOver" Value="true" />
@@ -73,17 +81,19 @@
                 </MenuItem>
                 <Separator />
 
-                <MenuItem>
-                    <MenuItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <ui:SymbolIcon Margin="0,0,6,0" Symbol="Settings24" />
-                            <TextBlock Text="Settings" />
-                        </StackPanel>
-                    </MenuItem.Header>
+                <MenuItem Header="Settings">
+                    <MenuItem.Icon>
+                        <ui:SymbolIcon Margin="0,0,6,0" Symbol="Settings24" />
+                    </MenuItem.Icon>
+
                     <MenuItem.Items>
                         <MenuItem StaysOpenOnClick="True" Style="{StaticResource NoHighlightMenuItemStyle}">
                             <MenuItem.Header>
-                                <ui:ToggleSwitch Content="Start With Windows" IsChecked="{Binding Mode=TwoWay, Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartWithWindows}" />
+                                <ui:ToggleSwitch
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Stretch"
+                                    Content="Start With Windows"
+                                    IsChecked="{Binding Mode=TwoWay, Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartWithWindows}" />
                             </MenuItem.Header>
                         </MenuItem>
                         <Separator />
@@ -98,13 +108,10 @@
 
                 <MenuItem Click="OnSendFeedback" Header="Send Feedback..." />
                 <MenuItem Click="OnAboutMenu" Header="About..." />
-                <MenuItem Click="OnExitMenu">
-                    <MenuItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <ui:SymbolIcon Margin="0,0,6,0" Symbol="ArrowExit20" />
-                            <TextBlock Text="Exit" />
-                        </StackPanel>
-                    </MenuItem.Header>
+                <MenuItem Click="OnExitMenu" Header="Exit">
+                    <MenuItem.Icon>
+                        <ui:SymbolIcon Margin="0,0,6,0" Symbol="ArrowExit20" />
+                    </MenuItem.Icon>
                 </MenuItem>
             </ContextMenu>
 
@@ -162,8 +169,6 @@
                 DataContext=""
                 MenuActivation="LeftOrRightClick"
                 ToolTipText="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.StatusText}" />
-
-
 
         </ResourceDictionary>
     </Application.Resources>
