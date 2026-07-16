@@ -229,6 +229,7 @@
                 FontSize="11"
                 FontWeight="SemiBold"
                 Text="For:" />
+                        <SolidColorBrush Color="{DynamicResource ControlElevationBorderBrush}" />
         </Grid>
         <ItemsControl ItemsSource="{Binding Minutes1}">
             <ItemsControl.ItemsPanel>
