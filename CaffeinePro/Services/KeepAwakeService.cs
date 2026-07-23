@@ -80,17 +80,21 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     /// <summary>
     /// Constructor
     /// </summary>
-    public KeepAwakeService(WindowsSessionService windowsSessionService, NotificationManager notificationManager)
+    public KeepAwakeService(WindowsSessionService windowsSessionService,
+        SystemActivityService systemActivityService, NotificationManager notificationManager)
     {
         _windowsSessionService = windowsSessionService;
         _windowsSessionService.OnUnlock += (_, _) => OnUnlock();
         _windowsSessionService.OnLock += (_, _) => OnLock();
+        _systemActivityService = systemActivityService;
+        _systemActivityService.OnUserBecameActive += (_, _) => OnUserBecameActive();
         _notificationManager = notificationManager;
         _timer.Elapsed += TimerFunction;
         Awakeness = _awakeness = Awakeness.Indefinite;
     }
 
     private readonly WindowsSessionService _windowsSessionService;
+    private readonly SystemActivityService _systemActivityService;
     private readonly NotificationManager _notificationManager;
 
     /// <summary>
@@ -303,6 +307,15 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     private void OnUnlock()
     {
         IsTemporarilyInactiveBecauseSessionLocked = false;
+        ConfirmAndSetDefaultAwakeness();
+    }
+
+    /// <summary>
+    /// Called when the computer becomes active again after the display was turned off
+    /// or a screen saver was running because of inactivity.
+    /// </summary>
+    private void OnUserBecameActive()
+    {
         ConfirmAndSetDefaultAwakeness();
     }
 

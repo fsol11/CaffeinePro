@@ -61,6 +61,7 @@ public partial class App
                 // Register your services here
                 services
                     .AddSingleton<WindowsSessionService>()
+                    .AddSingleton<SystemActivityService>()
                     .AddSingleton<SingletonService>()
                     .AddSingleton<ParameterProcessorService>()
                     .AddSingleton<NotificationManager>()
