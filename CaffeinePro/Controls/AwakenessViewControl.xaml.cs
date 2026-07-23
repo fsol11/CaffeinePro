@@ -93,8 +93,7 @@ public sealed partial class AwakenessViewControl
 
     private void ToggleAwakenessOptionMenu_Click(object sender, RoutedEventArgs e)
     {
-        var menu = (MenuItem)sender;
-        var tag = menu.Tag as string;
+        var tag = (sender as FrameworkElement)?.Tag as string;
         AwakenessValue = tag switch
         {
             "InactiveWhenCpuBelowPercentage" => new Awakeness(AwakenessValue.AwakenessType,
@@ -120,7 +119,7 @@ public sealed partial class AwakenessViewControl
                 AwakenessValue.AfterwardsAction),
             _ => AwakenessValue
         };
-        NewAwakenessSelected?.Invoke(this, AwakenessValue);
+        e.Handled = true;
     }
 
     private void CpuPercentageChanged(object sender, KeyEventArgs keyEventArgs)

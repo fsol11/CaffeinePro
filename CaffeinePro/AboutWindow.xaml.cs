@@ -16,7 +16,7 @@ public partial class AboutWindow
     private static AboutWindow? _window;
 
     public static string AppName => Assembly.GetExecutingAssembly().GetName().Name!;
-    public static string Version => Assembly.GetExecutingAssembly().GetName().Version!.ToString();
+    public static string Version => Assembly.GetExecutingAssembly().GetName().Version!.ToString(2);
 
     /// <summary>
     /// A static function to create and show the About window. If the window is already open,

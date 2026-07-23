@@ -142,6 +142,10 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     private const uint EsContinuous = 0x80000000;
     private const uint EsSystemRequired = 0x00000001;
 
+    /// <summary>
+    /// Returns a random timer interval between 35 and 120 seconds
+    /// </summary>
+    /// <returns></returns>
     private static int GetRandomTimerInterval() => RandomNumberGenerator.GetInt32(35000, 119900);
 
     /// <summary>

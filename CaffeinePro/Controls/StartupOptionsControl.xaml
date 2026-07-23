@@ -1,64 +1,105 @@
-﻿<UserControl x:Class="CaffeinePro.Controls.StartupOptionsControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:caffeinePro="clr-namespace:CaffeinePro"
-             xmlns:controls="clr-namespace:CaffeinePro.Controls"
-             mc:Ignorable="d"
-             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+﻿<UserControl
+    x:Class="CaffeinePro.Controls.StartupOptionsControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:caffeinePro="clr-namespace:CaffeinePro"
+    xmlns:controls="clr-namespace:CaffeinePro.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    mc:Ignorable="d">
     <Grid>
         <StackPanel HorizontalAlignment="Left">
-            <TextBlock Text="Default:" />
+            <Grid Margin="0,4,0,0">
+                <Border
+                    Margin="0,9,0,0"
+                    BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+                    BorderThickness="4"
+                    CornerRadius="8" />
+                <Border
+                    Margin="18,2,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Background="{DynamicResource TextFillColorSecondaryBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5">
+                    <TextBlock
+                        Padding="16,1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        FontSize="10.5"
+                        FontWeight="SemiBold"
+                        Foreground="{DynamicResource SystemColorWindowTextColorBrush}"
+                        Opacity="0.7"
+                        Text="DEFAULT" />
+                </Border>
+                <Border Margin="0,9,0,0" Padding="12,16,12,12">
+                    <StackPanel>
+                        <controls:AwakenessViewControl
+                            x:Name="StartupAwakenessControl"
+                            HorizontalAlignment="Left"
+                            AwakenessValue="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartupAwakeness, Mode=TwoWay}"
+                            InStartupOptions="True">
+                            <controls:AwakenessViewControl.Style>
+                                <Style TargetType="{x:Type controls:AwakenessViewControl}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Opacity" Value="0.35" />
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="True">
+                                            <Setter Property="Opacity" Value="1" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </controls:AwakenessViewControl.Style>
 
-            <controls:AwakenessViewControl
-                x:Name="StartupAwakenessControl"
-                AwakenessValue="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartupAwakeness, Mode=TwoWay}"
-                InStartupOptions="True"
-                HorizontalAlignment="Left">
-                <controls:AwakenessViewControl.Style>
-                    <Style TargetType="{x:Type controls:AwakenessViewControl}">
-                        <Style.Triggers>
-                            <Trigger Property="IsEnabled" Value="False">
-                                <Setter Property="Opacity" Value="0.35" />
-                            </Trigger>
-                            <Trigger Property="IsEnabled" Value="True">
-                                <Setter Property="Opacity" Value="1" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </controls:AwakenessViewControl.Style>
+                        </controls:AwakenessViewControl>
 
-            </controls:AwakenessViewControl>
-
-            <TextBlock Name="CopyLink" TextWrapping="Wrap" HorizontalAlignment="Right" Margin="10 5">
-                <TextBlock.Visibility>
-                    <MultiBinding Converter="{StaticResource AwakenessTimeNotEqualsToVisibilityConverter}">
-                        <Binding Path="AppSettings.StartupAwakeness" Source="{x:Static caffeinePro:App.CurrentApp}"/>
-                        <Binding Path="KeepAwakeService.Awakeness" Source="{x:Static caffeinePro:App.CurrentApp}"/>
-                    </MultiBinding>
-                </TextBlock.Visibility>
-                <Hyperlink Click="SetToCurrentValue_Click">
-                    <Run Text="Copy from the current value" />
-                </Hyperlink>
-            </TextBlock>
-
-            <StackPanel Orientation="Vertical">
-                <RadioButton GroupName="Startup"
-                             IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive}"
-                             Click="StartActive_OnClick">
-                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                        <TextBlock Text="Auto-set to default at startup and unlock" VerticalAlignment="Center"></TextBlock>
-                        <TextBlock FontSize="10" Padding="5 0 0 0" Text="(only if the time of day is not passed)"
-                                   VerticalAlignment="Center">
+                        <TextBlock
+                            Name="CopyLink"
+                            Margin="10,5"
+                            HorizontalAlignment="Right"
+                            TextWrapping="Wrap">
+                            <TextBlock.Visibility>
+                                <MultiBinding Converter="{StaticResource AwakenessTimeNotEqualsToVisibilityConverter}">
+                                    <Binding Path="AppSettings.StartupAwakeness" Source="{x:Static caffeinePro:App.CurrentApp}" />
+                                    <Binding Path="KeepAwakeService.Awakeness" Source="{x:Static caffeinePro:App.CurrentApp}" />
+                                </MultiBinding>
+                            </TextBlock.Visibility>
+                            <Hyperlink Click="SetToCurrentValue_Click">
+                                <Run Text="Copy from the current value" />
+                            </Hyperlink>
                         </TextBlock>
+
+                        <StackPanel Margin="0,6,0,0" Orientation="Vertical">
+                            <RadioButton
+                                Margin="0,2"
+                                Click="StartActive_OnClick"
+                                GroupName="Startup"
+                                IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive}">
+                                <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                                    <TextBlock VerticalAlignment="Center" Text="Auto-set to default at startup and unlock" />
+                                    <TextBlock
+                                        Padding="5,0,0,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="10"
+                                        Text="(only if the time of day is not passed)" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                Margin="0,2"
+                                Content="Ask me"
+                                GroupName="Startup"
+                                IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive, Converter={StaticResource IsNull}}" />
+                            <RadioButton
+                                Margin="0,2"
+                                Content="Stay inactive"
+                                GroupName="Startup"
+                                IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive, Converter={StaticResource Not}}" />
+                        </StackPanel>
                     </StackPanel>
-                </RadioButton>
-                <RadioButton GroupName="Startup" Content="Ask me"
-                             IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive, Converter={StaticResource IsNull}}" />
-                <RadioButton GroupName="Startup" Content="Stay inactive"
-                             IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive, Converter={StaticResource Not}}" />
-            </StackPanel>
+                </Border>
+            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>
