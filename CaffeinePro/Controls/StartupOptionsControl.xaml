@@ -78,9 +78,11 @@
                                 GroupName="Startup"
                                 IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive}">
                                 <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                                    <TextBlock VerticalAlignment="Center" Text="Auto-set to default at startup and unlock" />
                                     <TextBlock
-                                        Padding="5,0,0,0"
+                                        Padding="0,10,0,0"
+                                        VerticalAlignment="Center"
+                                        Text="Auto-set to default at startup and unlock" />
+                                    <TextBlock
                                         VerticalAlignment="Center"
                                         FontSize="10"
                                         Text="(only if the time of day is not passed)" />
@@ -97,6 +99,55 @@
                                 GroupName="Startup"
                                 IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive, Converter={StaticResource Not}}" />
                         </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Grid Margin="0,10,0,0">
+                <Border
+                    Margin="0,9,0,0"
+                    BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+                    BorderThickness="4"
+                    CornerRadius="8" />
+                <Border
+                    Margin="18,2,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Background="{DynamicResource TextFillColorSecondaryBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5">
+                    <TextBlock
+                        Padding="16,1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        FontSize="10.5"
+                        FontWeight="SemiBold"
+                        Foreground="{DynamicResource SystemColorWindowTextColorBrush}"
+                        Opacity="0.7"
+                        Text="METHOD" />
+                </Border>
+                <Border Margin="0,9,0,0" Padding="12,16,12,12">
+                    <StackPanel>
+                        <RadioButton
+                            Margin="0,2"
+                            Content="Simulate keyboard and mouse usage"
+                            GroupName="AwakeMethod"
+                            IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.AllowScreenSaver, Converter={StaticResource Not}, Mode=TwoWay}" />
+                        <RadioButton
+                            Margin="0,2"
+                            GroupName="AwakeMethod"
+                            IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.AllowScreenSaver, Mode=TwoWay}">
+                            <StackPanel VerticalAlignment="Top" Orientation="Vertical">
+                                <TextBlock
+                                    Padding="0,10,0,0"
+                                    VerticalAlignment="Center"
+                                    Text="Allow screensaver" />
+                                <TextBlock
+                                    VerticalAlignment="Top"
+                                    FontSize="10"
+                                    Text="(doesn't prevent inactivity detection)" />
+                            </StackPanel>
+                        </RadioButton>
                     </StackPanel>
                 </Border>
             </Grid>

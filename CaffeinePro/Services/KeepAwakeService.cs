@@ -226,8 +226,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
         IsTemporarilyInactiveBecauseOnBattery = Awakeness.Options.InactiveWhenOnBattery && Routines.IsOnBattery();
         IsTemporarilyInactiveBecauseCpuBelowPercentage = Awakeness.Options.InactiveWhenCpuBelowPercentage &&
                                                          Routines.CpuUsage() < Awakeness.Options.CpuBelowPercentage;
-        IsTemporarilyInactiveBecauseSessionLocked =
-            Awakeness.Options.InactiveWhenLocked && Routines.IsWorkstationLocked();
+        IsTemporarilyInactiveBecauseSessionLocked = Routines.IsWorkstationLocked();
 
         IsTemporarilyInactive = IsTemporarilyInactiveBecauseOnBattery
                                 || IsTemporarilyInactiveBecauseCpuBelowPercentage
@@ -272,7 +271,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
         }
 
         // Handle AllowScreenSaver
-        if (Awakeness.Options.AllowScreenSaver)
+        if (App.CurrentApp.AppSettings.AllowScreenSaver)
         {
             // Prevent Windows from going to sleep, but allow screen saver.
             // NOTE: SetThreadExecutionState does NOT update GetLastInputInfo,
@@ -298,10 +297,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
 
     private void OnLock()
     {
-        if (Awakeness.Options.InactiveWhenLocked)
-        {
-            IsTemporarilyInactiveBecauseSessionLocked = true;
-        }
+        IsTemporarilyInactiveBecauseSessionLocked = true;
     }
 
     private void OnUnlock()
@@ -312,7 +308,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
 
     /// <summary>
     /// Called when the computer becomes active again after the display was turned off
-    /// or a screen saver was running because of inactivity.
+    /// because of inactivity.
     /// </summary>
     private void OnUserBecameActive()
     {

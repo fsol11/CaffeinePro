@@ -9,11 +9,6 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     d:DesignWidth="400"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <DrawingImage x:Key="LockIcon" Drawing="{StaticResource Lock}" />
-        <DrawingImage x:Key="BatteryIcon" Drawing="{StaticResource Battery}" />
-        <DrawingImage x:Key="CpuIcon" Drawing="{StaticResource Cpu}" />
-    </UserControl.Resources>
     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
         <controls:AwakenessViewControl
             Padding="0,5,0,0"

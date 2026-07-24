@@ -162,35 +162,7 @@
                                                     <Image
                                                         Height="20"
                                                         Margin="0,0,8,0"
-                                                        Source="{StaticResource AllowScreenSaverIcon}" />
-                                                    <CheckBox
-                                                        Click="ToggleAwakenessOptionMenu_Click"
-                                                        Cursor="Arrow"
-                                                        IsChecked="{Binding AwakenessValue.Options.AllowScreenSaver, Mode=OneWay}"
-                                                        Tag="AllowScreenSaver">
-                                                        <TextBlock>
-                                                            <Run Text="Allow Screen Saver" />
-                                                            <Run FontSize="10" Text="(Doesn't prevent inactivity detection)" />
-                                                        </TextBlock>
-                                                    </CheckBox>
-                                                </StackPanel>
-                                                <StackPanel Margin="0,4" Orientation="Horizontal">
-                                                    <Image
-                                                        Height="20"
-                                                        Margin="0,0,8,0"
-                                                        Source="{StaticResource CancelOnLockIcon}" />
-                                                    <CheckBox
-                                                        Click="ToggleAwakenessOptionMenu_Click"
-                                                        Content="Inactive When Locked"
-                                                        Cursor="Arrow"
-                                                        IsChecked="{Binding AwakenessValue.Options.InactiveWhenLocked, Mode=OneWay}"
-                                                        Tag="InactiveWhenLocked" />
-                                                </StackPanel>
-                                                <StackPanel Margin="0,4" Orientation="Horizontal">
-                                                    <Image
-                                                        Height="20"
-                                                        Margin="0,0,8,0"
-                                                        Source="{StaticResource CancelOnBatteryIcon}" />
+                                                        Source="{StaticResource BatteryIcon}" />
                                                     <CheckBox
                                                         Click="ToggleAwakenessOptionMenu_Click"
                                                         Content="Inactive When On Battery"
@@ -202,7 +174,7 @@
                                                     <Image
                                                         Height="20"
                                                         Margin="0,0,8,0"
-                                                        Source="{StaticResource CancelOnCpuIcon}" />
+                                                        Source="{StaticResource CpuIcon}" />
                                                     <CheckBox
                                                         Click="ToggleAwakenessOptionMenu_Click"
                                                         Content="Inactive When Idle - CPU Below"
@@ -474,96 +446,79 @@
             </StackPanel>
 
 
-            <StackPanel Visibility="{Binding AwakenessValue.Options.AnyOptionsSet, Converter={StaticResource BoolToVis}, Mode=OneWay}">
-                <ui:NavigationViewItemSeparator />
+            <StackPanel
+                HorizontalAlignment="Left"
+                Orientation="Horizontal"
+                Visibility="{Binding AwakenessValue.Options.AnyOptionsSet, Converter={StaticResource BoolToVis}, Mode=OneWay}">
+                <TextBlock
+                    Width="75"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Opacity="0.5"
+                    Text="Options |"
+                    TextAlignment="Right" />
 
-                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-                    <TextBlock
-                        Width="75"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Opacity="0.5"
-                        Text="Options |"
-                        TextAlignment="Right" />
-
-                    <Border
-                        Margin="4,2,0,0"
-                        Padding="8,0"
-                        Background="Transparent"
-                        BorderBrush="Transparent"
-                        CornerRadius="4 ">
-                        <StackPanel Orientation="Horizontal">
+                <Border
+                    Margin="4,2,0,0"
+                    Padding="8,0"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    CornerRadius="4 ">
+                    <StackPanel Orientation="Horizontal">
+                        <Image
+                            Width="25"
+                            Height="25"
+                            Margin="8,0,0,0"
+                            Source="{StaticResource BatteryIcon}"
+                            ToolTip="Inactive when on battery"
+                            Visibility="{Binding AwakenessValue.Options.InactiveWhenOnBattery, Converter={StaticResource BoolToVis}, Mode=OneWay}" />
+                        <StackPanel
+                            Orientation="Horizontal"
+                            ToolTip="Inactive when idle (CPU below percentage)"
+                            Visibility="{Binding AwakenessValue.Options.InactiveWhenCpuBelowPercentage, Converter={StaticResource BoolToVis}, Mode=OneWay}">
                             <Image
                                 Width="25"
                                 Height="25"
                                 Margin="8,0,0,0"
-                                Source="{StaticResource AllowScreenSaverIcon}"
-                                ToolTip="Allow screen saver (prevents sleep but would not emulate keypress and does not prevent communication software to detect inactivity)"
-                                Visibility="{Binding AwakenessValue.Options.AllowScreenSaver, Converter={StaticResource BoolToVis}, Mode=OneWay}" />
-                            <Image
-                                Width="25"
-                                Height="25"
-                                Margin="8,0,0,0"
-                                Source="{StaticResource CancelOnBatteryIcon}"
-                                ToolTip="Inactive when on battery"
-                                Visibility="{Binding AwakenessValue.Options.InactiveWhenOnBattery, Converter={StaticResource BoolToVis}, Mode=OneWay}" />
-                            <Image
-                                Width="25"
-                                Height="25"
-                                Margin="8,0,0,0"
-                                Source="{StaticResource CancelOnLockIcon}"
-                                ToolTip="Inactive when locked"
-                                Visibility="{Binding AwakenessValue.Options.InactiveWhenLocked, Converter={StaticResource BoolToVis}, Mode=OneWay}" />
-                            <StackPanel
-                                Orientation="Horizontal"
-                                ToolTip="Inactive when idle (CPU below percentage)"
-                                Visibility="{Binding AwakenessValue.Options.InactiveWhenCpuBelowPercentage, Converter={StaticResource BoolToVis}, Mode=OneWay}">
-                                <Image
-                                    Width="25"
-                                    Height="25"
-                                    Margin="8,0,0,0"
-                                    Source="{StaticResource CancelOnCpuIcon}" />
-                                <TextBlock Margin="0,3,0,0">
-                                    <Run Text="&lt;" />
-                                    <Run Text="{Binding AwakenessValue.Options.CpuBelowPercentage, Mode=OneWay}" />
-                                    <Run Text="%" />
-                                </TextBlock>
-                            </StackPanel>
+                                Source="{StaticResource CpuIcon}" />
+                            <TextBlock Margin="0,3,0,0">
+                                <Run Text="&lt;" />
+                                <Run Text="{Binding AwakenessValue.Options.CpuBelowPercentage, Mode=OneWay}" />
+                                <Run Text="%" />
+                            </TextBlock>
                         </StackPanel>
-                    </Border>
-                </StackPanel>
-                <StackPanel
-                    Height="20"
-                    HorizontalAlignment="Left"
-                    Orientation="Horizontal"
-                    ToolTip="Afterward action to be taken when the timer expires."
-                    Visibility="{Binding AwakenessValue.AfterwardsAction, Converter={StaticResource ValueNotEqualsParameterToVisibility}, ConverterParameter={x:Static services:SessionAction.None}, Mode=OneWay}">
-                    <TextBlock
-                        Width="75"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"
-                        Opacity="0.5"
-                        Text="Afterwards |"
-                        TextAlignment="Right" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+            <StackPanel
+                Height="20"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal"
+                ToolTip="Afterward action to be taken when the timer expires."
+                Visibility="{Binding AwakenessValue.AfterwardsAction, Converter={StaticResource ValueNotEqualsParameterToVisibility}, ConverterParameter={x:Static services:SessionAction.None}, Mode=OneWay}">
+                <TextBlock
+                    Width="75"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Opacity="0.5"
+                    Text="Afterwards |"
+                    TextAlignment="Right" />
 
-                    <Border
-                        Margin="4,2,0,0"
-                        Padding="8,0"
-                        Background="Transparent"
-                        BorderBrush="Transparent"
-                        CornerRadius="4 ">
-                        <StackPanel Orientation="Horizontal">
-                            <ui:SymbolIcon
-                                Margin="0,0,4,0"
-                                VerticalAlignment="Center"
-                                FontSize="14"
-                                Symbol="{Binding AwakenessValue.AfterwardsAction, Converter={StaticResource SessionActionToSymbol}, Mode=OneWay}" />
-                            <TextBlock Text="{Binding AwakenessValue.AfterwardsAction, Converter={StaticResource EnumToDescription}, Mode=OneWay}" />
-                        </StackPanel>
-                    </Border>
-                </StackPanel>
-
-
+                <Border
+                    Margin="4,2,0,0"
+                    Padding="8,0"
+                    Background="Transparent"
+                    BorderBrush="Transparent"
+                    CornerRadius="4 ">
+                    <StackPanel Orientation="Horizontal">
+                        <ui:SymbolIcon
+                            Margin="0,0,4,0"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Symbol="{Binding AwakenessValue.AfterwardsAction, Converter={StaticResource SessionActionToSymbol}, Mode=OneWay}" />
+                        <TextBlock Text="{Binding AwakenessValue.AfterwardsAction, Converter={StaticResource EnumToDescription}, Mode=OneWay}" />
+                    </StackPanel>
+                </Border>
             </StackPanel>
 
         </StackPanel>

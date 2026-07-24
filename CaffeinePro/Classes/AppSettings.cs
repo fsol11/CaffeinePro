@@ -28,6 +28,7 @@ public sealed class AppSettings : INotifyPropertyChanged
     private bool? _startActive;
     private bool _isLoading = true;
     private bool _startWithWindows;
+    private bool _allowScreenSaver;
     private Awakeness _startupAwakeness = Awakeness.Indefinite;
     private DateTime _ignoreUnlockNotificationDate = DateTime.MaxValue;
     private static readonly string ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "CaffeinePro", "CaffeineProConfig.json");
@@ -70,6 +71,18 @@ public sealed class AppSettings : INotifyPropertyChanged
             Routines.AddToWindowsStartup(value);
             SetField(ref _startWithWindows, value);
         }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the screen saver is allowed to run while
+    /// keeping the system awake. When enabled, the system is kept awake without simulating
+    /// input, so inactivity is still detectable by communication software.
+    /// </summary>
+    [JsonInclude]
+    public bool AllowScreenSaver
+    {
+        get => _allowScreenSaver;
+        set => SetField(ref _allowScreenSaver, value);
     }
 
     /// <summary>

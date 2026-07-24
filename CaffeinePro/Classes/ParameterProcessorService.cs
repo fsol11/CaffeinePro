@@ -84,12 +84,7 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
 
         if (Has(eArgs, "-allowSS"))
         {
-            options = new AwakenessOptions(
-                true,
-                options.InactiveWhenLocked,
-                options.InactiveWhenOnBattery,
-                options.InactiveWhenCpuBelowPercentage,
-                options.CpuBelowPercentage);
+            App.CurrentApp.AppSettings.AllowScreenSaver = true;
         }
 
         if (Has(eArgs, "-cpu"))
@@ -98,29 +93,15 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
             if (s.Length > 4 && int.TryParse(s[4..], out var cpuPercentage))
             {
                 options = new AwakenessOptions(
-                    options.AllowScreenSaver,
-                    options.InactiveWhenLocked,
                     options.InactiveWhenOnBattery,
                     true,
                     cpuPercentage);
             }
         }
 
-        if (Has(eArgs, "-inactiveWhenLocked"))
-        {
-            options = new AwakenessOptions(
-                options.AllowScreenSaver,
-                true,
-                options.InactiveWhenOnBattery,
-                options.InactiveWhenCpuBelowPercentage,
-                options.CpuBelowPercentage);
-        }
-
         if (Has(eArgs, "-inactiveOnBattery"))
         {
             options = new AwakenessOptions(
-                options.AllowScreenSaver,
-                options.InactiveWhenLocked,
                 true,
                 options.InactiveWhenCpuBelowPercentage,
                 options.CpuBelowPercentage);
@@ -180,7 +161,6 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
         $"\r\n" +
         $"  -allowss\t\tallow screen saver. No mouse/key sim (default: false)\r\n" +
         $"  -cpuX\t\t\tinactive when CPU below X% (default: false)\r\n" +
-        $"  -inactivewhenlocked\tinactive when computer is locked (default: false)\r\n" +
         $"  -inactiveOnBattery\tinactive when on battery (default: false)\r\n";
 }
 

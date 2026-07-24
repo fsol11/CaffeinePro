@@ -1,33 +1,29 @@
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
-using System.Windows.Threading;
 
 namespace CaffeinePro.Services;
 
 /// <summary>
 /// Detects when the user returns to an idle machine, i.e. the computer becomes
-/// active right after the display was turned off because of inactivity, or right
-/// after a screen saver was running.
+/// active right after the display was turned off because of inactivity.
 ///
 /// This complements <see cref="WindowsSessionService"/> (which only reports session
-/// lock/unlock) by monitoring the two cases that do not raise a session switch:
-///   * the monitor powering off/on (GUID_CONSOLE_DISPLAY_STATE via WM_POWERBROADCAST)
-///   * a screen saver starting/stopping (polled via SPI_GETSCREENSAVERRUNNING)
+/// lock/unlock) by monitoring the monitor powering off/on
+/// (GUID_CONSOLE_DISPLAY_STATE via WM_POWERBROADCAST), which does not raise a
+/// session switch.
 /// </summary>
 public sealed class SystemActivityService : IDisposable
 {
     /// <summary>
-    /// Raised when the computer becomes active again after the display was off
-    /// or a screen saver was running due to inactivity.
+    /// Raised when the computer becomes active again after the display was turned
+    /// off due to inactivity.
     /// </summary>
     public event EventHandler? OnUserBecameActive;
 
     private HwndSource? _messageWindow;
     private IntPtr _displayNotificationHandle = IntPtr.Zero;
-    private readonly DispatcherTimer _screenSaverTimer;
 
     private DisplayState _lastDisplayState = DisplayState.On;
-    private bool _wasScreenSaverRunning;
 
     public SystemActivityService()
     {
@@ -37,13 +33,6 @@ public sealed class SystemActivityService : IDisposable
         _displayNotificationHandle =
             RegisterPowerSettingNotification(_messageWindow.Handle,
                 ref GuidConsoleDisplayState, DeviceNotifyWindowHandle);
-
-        _screenSaverTimer = new DispatcherTimer(DispatcherPriority.Background)
-        {
-            Interval = TimeSpan.FromSeconds(1)
-        };
-        _screenSaverTimer.Tick += CheckScreenSaver;
-        _screenSaverTimer.Start();
     }
 
     private enum DisplayState
@@ -80,22 +69,6 @@ public sealed class SystemActivityService : IDisposable
         _lastDisplayState = state;
     }
 
-    // -- Screen saver ---------------------------------------------------------------------------
-
-    private void CheckScreenSaver(object? sender, EventArgs e)
-    {
-        var running = false;
-        _ = SystemParametersInfo(SpiGetScreenSaverRunning, 0, ref running, 0);
-
-        // A running -> stopped transition means the user dismissed the screen saver.
-        if (_wasScreenSaverRunning && !running)
-        {
-            OnUserBecameActive?.Invoke(this, EventArgs.Empty);
-        }
-
-        _wasScreenSaverRunning = running;
-    }
-
     // -- Message-only window --------------------------------------------------------------------
 
     private static HwndSource CreateMessageOnlyWindow()
@@ -115,7 +88,6 @@ public sealed class SystemActivityService : IDisposable
     private const int WmPowerBroadcast = 0x0218;
     private const int PbtPowerSettingChange = 0x8013;
     private const int DeviceNotifyWindowHandle = 0x00000000;
-    private const uint SpiGetScreenSaverRunning = 0x0072;
     private static readonly IntPtr HwndMessage = new(-3);
 
     // ReSharper disable once InconsistentNaming
@@ -136,16 +108,10 @@ public sealed class SystemActivityService : IDisposable
     [DllImport("user32.dll", SetLastError = true)]
     private static extern bool UnregisterPowerSettingNotification(IntPtr handle);
 
-    [DllImport("user32.dll", SetLastError = true)]
-    private static extern bool SystemParametersInfo(uint uiAction, uint uiParam,
-        ref bool pvParam, uint fWinIni);
-
     // -- Cleanup --------------------------------------------------------------------------------
 
     public void Dispose()
     {
-        _screenSaverTimer.Stop();
-
         if (_displayNotificationHandle != IntPtr.Zero)
         {
             UnregisterPowerSettingNotification(_displayNotificationHandle);
