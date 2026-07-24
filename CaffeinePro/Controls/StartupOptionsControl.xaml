@@ -6,8 +6,23 @@
     xmlns:controls="clr-namespace:CaffeinePro.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:services="clr-namespace:CaffeinePro.Services"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style
+            x:Key="AfterwardsRadioButtonStyle"
+            BasedOn="{StaticResource {x:Type RadioButton}}"
+            TargetType="{x:Type RadioButton}">
+            <Setter Property="MinHeight" Value="0" />
+            <Setter Property="MinWidth" Value="0" />
+            <Setter Property="Margin" Value="0,2" />
+            <Setter Property="Padding" Value="0,2" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <StackPanel HorizontalAlignment="Left">
             <Grid Margin="0,4,0,0">
@@ -37,7 +52,7 @@
                     <StackPanel>
                         <controls:AwakenessViewControl
                             x:Name="StartupAwakenessControl"
-                            HorizontalAlignment="Left"
+                            HorizontalAlignment="Center"
                             AwakenessValue="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartupAwakeness, Mode=TwoWay}"
                             InStartupOptions="True">
                             <controls:AwakenessViewControl.Style>
@@ -148,6 +163,235 @@
                                     Text="(doesn't prevent inactivity detection)" />
                             </StackPanel>
                         </RadioButton>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!--  OPTIONS  -->
+            <Grid Margin="0,10,0,0">
+                <Border
+                    Margin="0,9,0,0"
+                    BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+                    BorderThickness="4"
+                    CornerRadius="8" />
+                <Border
+                    Margin="18,2,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Background="{DynamicResource TextFillColorSecondaryBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5">
+                    <TextBlock
+                        Padding="16,1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        FontSize="10.5"
+                        FontWeight="SemiBold"
+                        Foreground="{DynamicResource SystemColorWindowTextColorBrush}"
+                        Opacity="0.7"
+                        Text="OPTIONS" />
+                </Border>
+                <Border Margin="0,9,0,0" Padding="12,16,12,12">
+                    <StackPanel DataContext="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings}">
+                        <StackPanel Margin="0,4" Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Margin="0,0,8,0"
+                                Source="{StaticResource BatteryIcon}" />
+                            <CheckBox
+                                VerticalAlignment="Center"
+                                Content="Inactive When On Battery"
+                                IsChecked="{Binding InactiveWhenOnBattery, Mode=TwoWay}" />
+                        </StackPanel>
+                        <StackPanel Margin="0,4" Orientation="Horizontal">
+                            <Image
+                                Width="20"
+                                Margin="0,0,8,0"
+                                Source="{StaticResource CpuIcon}" />
+                            <CheckBox
+                                VerticalAlignment="Center"
+                                Content="Inactive When Idle - CPU Below"
+                                IsChecked="{Binding InactiveWhenCpuBelowPercentage, Mode=TwoWay}" />
+                            <controls:NumericTextBox
+                                Width="50"
+                                Margin="5,0,0,0"
+                                Padding="0,5"
+                                MaxLength="2"
+                                Text="{Binding CpuBelowPercentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                TextAlignment="Center" />
+                            <TextBlock VerticalAlignment="Center" Text="%" />
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <!--  AFTERWARDS  -->
+            <Grid Margin="0,10,0,0">
+                <Border
+                    Margin="0,9,0,0"
+                    BorderBrush="{DynamicResource ControlElevationBorderBrush}"
+                    BorderThickness="4"
+                    CornerRadius="8" />
+                <Border
+                    Margin="18,2,0,0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    Background="{DynamicResource TextFillColorSecondaryBrush}"
+                    BorderThickness="1"
+                    CornerRadius="5">
+                    <TextBlock
+                        Padding="16,1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        FontSize="10.5"
+                        FontWeight="SemiBold"
+                        Foreground="{DynamicResource SystemColorWindowTextColorBrush}"
+                        Opacity="0.7"
+                        Text="AFTERWARDS" />
+                </Border>
+                <Border Margin="0,9,0,0" Padding="12,16,12,12">
+                    <StackPanel Margin="0,2" DataContext="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings}">
+                        <!--  Group 1: Do Nothing  -->
+                        <UniformGrid Columns="2">
+                            <RadioButton
+                                GroupName="Afterwards"
+                                IsChecked="{Binding AfterwardsAction, ConverterParameter={x:Static services:SessionAction.None}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}"
+                                Style="{StaticResource AfterwardsRadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon
+                                        Margin="0,0,4,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Symbol="Prohibited20" />
+                                    <TextBlock VerticalAlignment="Center" Text="Do Nothing" />
+                                </StackPanel>
+                            </RadioButton>
+                        </UniformGrid>
+                        <Separator Margin="0,2" />
+                        <!--  Group 2: Lock, Sign Out, Exit, Sleep  -->
+                        <UniformGrid Columns="2">
+                            <RadioButton
+                                GroupName="Afterwards"
+                                IsChecked="{Binding AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Lock}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}"
+                                Style="{StaticResource AfterwardsRadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon
+                                        Margin="0,0,4,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Symbol="LockClosed20" />
+                                    <TextBlock VerticalAlignment="Center" Text="Lock" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                GroupName="Afterwards"
+                                IsChecked="{Binding AfterwardsAction, ConverterParameter={x:Static services:SessionAction.SignOut}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}"
+                                Style="{StaticResource AfterwardsRadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon
+                                        Margin="0,0,4,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Symbol="PersonArrowLeft20" />
+                                    <TextBlock VerticalAlignment="Center" Text="Sign Out" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                GroupName="Afterwards"
+                                IsChecked="{Binding AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Exit}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}"
+                                Style="{StaticResource AfterwardsRadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon
+                                        Margin="0,0,4,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Symbol="ArrowExit20" />
+                                    <TextBlock VerticalAlignment="Center" Text="Exit" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                GroupName="Afterwards"
+                                IsChecked="{Binding AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Sleep}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}"
+                                Style="{StaticResource AfterwardsRadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon
+                                        Margin="0,0,4,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Symbol="WeatherMoon20" />
+                                    <TextBlock VerticalAlignment="Center" Text="Sleep" />
+                                </StackPanel>
+                            </RadioButton>
+                        </UniformGrid>
+                        <Separator Margin="0,2" />
+                        <!--  Group 3: Hibernate, Shutdown, Force Shutdown, Restart, Force Restart  -->
+                        <UniformGrid Columns="2">
+                            <RadioButton
+                                GroupName="Afterwards"
+                                IsChecked="{Binding AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Hibernate}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}"
+                                Style="{StaticResource AfterwardsRadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon
+                                        Margin="0,0,4,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Symbol="WeatherSnowflake20" />
+                                    <TextBlock VerticalAlignment="Center" Text="Hibernate" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                GroupName="Afterwards"
+                                IsChecked="{Binding AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Shutdown}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}"
+                                Style="{StaticResource AfterwardsRadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon
+                                        Margin="0,0,4,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Symbol="Power20" />
+                                    <TextBlock VerticalAlignment="Center" Text="Shutdown" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                GroupName="Afterwards"
+                                IsChecked="{Binding AfterwardsAction, ConverterParameter={x:Static services:SessionAction.ForceShutdown}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}"
+                                Style="{StaticResource AfterwardsRadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon
+                                        Margin="0,0,4,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Symbol="Flash20" />
+                                    <TextBlock VerticalAlignment="Center" Text="Force Shutdown" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                GroupName="Afterwards"
+                                IsChecked="{Binding AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Restart}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}"
+                                Style="{StaticResource AfterwardsRadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon
+                                        Margin="0,0,4,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Symbol="ArrowCounterclockwise20" />
+                                    <TextBlock VerticalAlignment="Center" Text="Restart" />
+                                </StackPanel>
+                            </RadioButton>
+                            <RadioButton
+                                GroupName="Afterwards"
+                                IsChecked="{Binding AfterwardsAction, ConverterParameter={x:Static services:SessionAction.ForceRestart}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}"
+                                Style="{StaticResource AfterwardsRadioButtonStyle}">
+                                <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon
+                                        Margin="0,0,4,0"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Symbol="ArrowCounterclockwiseDashes20" />
+                                    <TextBlock VerticalAlignment="Center" Text="Force Restart" />
+                                </StackPanel>
+                            </RadioButton>
+                        </UniformGrid>
                     </StackPanel>
                 </Border>
             </Grid>

@@ -23,14 +23,11 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
     }
 
     [JsonConstructor]
-    public Awakeness(AwakenessTypes awakenessType, TimeSpan relativeSpan, AwakenessOptions options,
-        SessionAction afterwardsAction)
+    public Awakeness(AwakenessTypes awakenessType, TimeSpan relativeSpan)
     {
         IsRelative = awakenessType == AwakenessTypes.Relative;
         RelativeSpan = relativeSpan;
         AwakenessType = awakenessType;
-        Options = options;
-        AfterwardsAction = afterwardsAction;
 
         if (relativeSpan == TimeSpan.Zero || relativeSpan == TimeSpan.MaxValue)
         {
@@ -50,7 +47,7 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
     /// <summary>
     /// Initializes a new instance of the <see cref="Awakeness"/> class.
     /// </summary>
-    public Awakeness() : this(AwakenessTypes.Absolute, TimeSpan.Zero, new(), new()) // Indefinite
+    public Awakeness() : this(AwakenessTypes.Absolute, TimeSpan.Zero) // Indefinite
     {
     }
 
@@ -103,22 +100,6 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
         private set => SetField(ref _endTimeText, value);
     }
 
-    /// <summary>
-    /// Gets the action to be performed after the awakeness.
-    /// </summary>
-    public SessionAction AfterwardsAction
-    {
-        get;
-    }
-
-    /// <summary>
-    /// Gets the options for the awakeness.
-    /// </summary>
-    public AwakenessOptions Options
-    {
-        get;
-    }
-
     public static TimeSpan GetTimeOfDay() => new(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, 0);
     public static TimeOnly GetTimeOnly() => new(DateTime.Now.TimeOfDay.Hours, DateTime.Now.TimeOfDay.Minutes, 0);
     public static DateTime GetNow() => new(DateOnly.FromDateTime(DateTime.Now), GetTimeOnly());
@@ -130,7 +111,7 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
         var newTime = IsIndefinite ? GetTimeOfDay() : RelativeSpan;
         newTime = newTime.Add(new TimeSpan(0, minutes, 0));
 
-        return new Awakeness(AwakenessType, newTime, Options, AfterwardsAction);
+        return new Awakeness(AwakenessType, newTime);
     }
 
 
@@ -138,23 +119,19 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
     public bool Equals(Awakeness? other)
     {
         return (other != null &&
-                EndDateTime == other.EndDateTime &&
-                AfterwardsAction == other.AfterwardsAction &&
-                Options.Equals(other.Options));
+                EndDateTime == other.EndDateTime);
     }
 
     //------------------------------------------------------------------------------------------
     public bool EqualsExceptDate(Awakeness? other)
     {
         return (other != null &&
-                EndDateTime.TimeOfDay == other.EndDateTime.TimeOfDay &&
-                AfterwardsAction == other.AfterwardsAction &&
-                Options.Equals(other.Options));
+                EndDateTime.TimeOfDay == other.EndDateTime.TimeOfDay);
     }
 
     public override bool Equals(object? obj) => Equals(obj as Awakeness);
 
-    public override int GetHashCode() => HashCode.Combine(AwakenessType, RelativeSpan, AfterwardsAction, Options);
+    public override int GetHashCode() => HashCode.Combine(AwakenessType, RelativeSpan);
 
     public static bool operator ==(Awakeness? left, Awakeness? right) => Equals(left, right);
 
@@ -162,7 +139,7 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
 
     public static Awakeness RenewDateTime(Awakeness awakeness)
     {
-        return new Awakeness(awakeness.AwakenessType, awakeness.RelativeSpan, awakeness.Options, awakeness.AfterwardsAction);
+        return new Awakeness(awakeness.AwakenessType, awakeness.RelativeSpan);
     }
 
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -198,9 +175,10 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
     public string GetAwakenessDescription()
     {
         var s = $"Until {EndDateTimeText}";
-        if (AfterwardsAction != SessionAction.None)
+        var afterwardsAction = App.CurrentApp.AppSettings.AfterwardsAction;
+        if (afterwardsAction != SessionAction.None)
         {
-            s += $" - afterwards {Routines.GetEnumDescription(AfterwardsAction)}";
+            s += $" - afterwards {Routines.GetEnumDescription(afterwardsAction)}";
         }
 
         return s;
@@ -220,8 +198,6 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
         IsRelative = tempAwakeness.IsRelative;
         AwakenessType = tempAwakeness.AwakenessType;
         RelativeSpan = tempAwakeness.RelativeSpan;
-        Options = tempAwakeness.Options;
-        AfterwardsAction = tempAwakeness.AfterwardsAction;
 
         // Directly setting fields that back read-only properties since constructors can't access other constructors' parameters directly.
         _endDateTimeText = tempAwakeness.EndDateTimeText;

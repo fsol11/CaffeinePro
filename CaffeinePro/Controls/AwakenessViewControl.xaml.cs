@@ -1,8 +1,5 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
 using CaffeinePro.Classes;
-using CaffeinePro.Services;
-using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
 namespace CaffeinePro.Controls;
 
@@ -77,63 +74,10 @@ public sealed partial class AwakenessViewControl
     {
         AwakenessValue = new Awakeness(
             Awakeness.AwakenessTypes.Absolute,
-            TimeSpan.MaxValue,
-            AwakenessValue.Options,
-            AwakenessValue.AfterwardsAction
+            TimeSpan.MaxValue
         );
-        
+
         NewAwakenessSelected?.Invoke(this, AwakenessValue);
-    }
-
-
-    private void ResetOptions(object sender, RoutedEventArgs e)
-    {
-        AwakenessValue = new Awakeness(AwakenessValue.AwakenessType, AwakenessValue.RelativeSpan, new AwakenessOptions(), SessionAction.None);
-    }
-
-    private void ToggleAwakenessOptionMenu_Click(object sender, RoutedEventArgs e)
-    {
-        var tag = (sender as FrameworkElement)?.Tag as string;
-        AwakenessValue = tag switch
-        {
-            "InactiveWhenCpuBelowPercentage" => new Awakeness(AwakenessValue.AwakenessType,
-                AwakenessValue.RelativeSpan,
-                new AwakenessOptions(AwakenessValue.Options.InactiveWhenOnBattery,
-                    !AwakenessValue.Options.InactiveWhenCpuBelowPercentage,
-                    AwakenessValue.Options.CpuBelowPercentage), AwakenessValue.AfterwardsAction),
-            "InactiveWhenOnBattery" => new Awakeness(AwakenessValue.AwakenessType, AwakenessValue.RelativeSpan,
-                new AwakenessOptions(!AwakenessValue.Options.InactiveWhenOnBattery,
-                    AwakenessValue.Options.InactiveWhenCpuBelowPercentage, AwakenessValue.Options.CpuBelowPercentage),
-                AwakenessValue.AfterwardsAction),
-            _ => AwakenessValue
-        };
-        e.Handled = true;
-    }
-
-    private void CpuPercentageChanged(object sender, KeyEventArgs keyEventArgs)
-    {
-        var numericBox = (NumericTextBox)sender;
-
-        AwakenessValue = new Awakeness(AwakenessValue.AwakenessType,
-            AwakenessValue.RelativeSpan,
-            new AwakenessOptions(
-                AwakenessValue.Options.InactiveWhenOnBattery,
-                AwakenessValue.Options.InactiveWhenCpuBelowPercentage,
-                numericBox.Number),
-            AwakenessValue.AfterwardsAction);
-    }
-
-    private void AfterwardsAction_Click(object sender, RoutedEventArgs e)
-    {
-        if (((Control)sender).Tag is SessionAction action)
-        {
-            AwakenessValue =
-                new Awakeness(
-                    AwakenessValue.AwakenessType,
-                    AwakenessValue.RelativeSpan,
-                    AwakenessValue.Options,
-                    action);
-        }
     }
 
     private void OnNewTimeSelected(object? _, TimeSpan t)
@@ -148,9 +92,7 @@ public sealed partial class AwakenessViewControl
     {
         AwakenessValue = new Awakeness(
             Awakeness.AwakenessTypes.Relative,
-            RelativeTimeSlider.TotalMinutes,
-            AwakenessValue.Options,
-            AwakenessValue.AfterwardsAction);
+            RelativeTimeSlider.TotalMinutes);
 
         NewAwakenessSelected?.Invoke(this, AwakenessValue);
     }

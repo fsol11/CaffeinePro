@@ -37,9 +37,7 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
         var unrecognizedParameters = string.Empty;
         var action = StartActions.DoNothing;
         var timespan = TimeSpan.Zero;
-        var options = new AwakenessOptions();
         var type = Awakeness.AwakenessTypes.Absolute;
-        var afterwards = SessionAction.None;
 
 
         if (Has(eArgs, "exit"))
@@ -92,19 +90,14 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
             var s = Item(eArgs, "-cpu");
             if (s.Length > 4 && int.TryParse(s[4..], out var cpuPercentage))
             {
-                options = new AwakenessOptions(
-                    options.InactiveWhenOnBattery,
-                    true,
-                    cpuPercentage);
+                App.CurrentApp.AppSettings.InactiveWhenCpuBelowPercentage = true;
+                App.CurrentApp.AppSettings.CpuBelowPercentage = cpuPercentage;
             }
         }
 
         if (Has(eArgs, "-inactiveOnBattery"))
         {
-            options = new AwakenessOptions(
-                true,
-                options.InactiveWhenCpuBelowPercentage,
-                options.CpuBelowPercentage);
+            App.CurrentApp.AppSettings.InactiveWhenOnBattery = true;
         }
 
         if (!string.IsNullOrEmpty(unrecognizedParameters))
@@ -113,7 +106,7 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
             return;
         }
 
-        var awakeness = new Awakeness(type, timespan, options, afterwards);
+        var awakeness = new Awakeness(type, timespan);
 
         switch (action)
         {

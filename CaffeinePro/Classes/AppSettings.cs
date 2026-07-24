@@ -16,6 +16,7 @@ using System.Text.Json;
 using System.Windows;
 using System.Windows.Threading;
 using System.Text.Json.Serialization;
+using CaffeinePro.Services;
 
 namespace CaffeinePro.Classes;
 
@@ -29,6 +30,10 @@ public sealed class AppSettings : INotifyPropertyChanged
     private bool _isLoading = true;
     private bool _startWithWindows;
     private bool _allowScreenSaver;
+    private bool _inactiveWhenOnBattery;
+    private bool _inactiveWhenCpuBelowPercentage;
+    private int _cpuBelowPercentage = 8;
+    private SessionAction _afterwardsAction = SessionAction.None;
     private Awakeness _startupAwakeness = Awakeness.Indefinite;
     private DateTime _ignoreUnlockNotificationDate = DateTime.MaxValue;
     private static readonly string ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "CaffeinePro", "CaffeineProConfig.json");
@@ -84,6 +89,62 @@ public sealed class AppSettings : INotifyPropertyChanged
         get => _allowScreenSaver;
         set => SetField(ref _allowScreenSaver, value);
     }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether keeping awake is paused while the system is on battery.
+    /// </summary>
+    [JsonInclude]
+    public bool InactiveWhenOnBattery
+    {
+        get => _inactiveWhenOnBattery;
+        set
+        {
+            SetField(ref _inactiveWhenOnBattery, value);
+            OnPropertyChanged(nameof(AnyOptionsSet));
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether keeping awake is paused while the CPU usage is below
+    /// <see cref="CpuBelowPercentage"/>.
+    /// </summary>
+    [JsonInclude]
+    public bool InactiveWhenCpuBelowPercentage
+    {
+        get => _inactiveWhenCpuBelowPercentage;
+        set
+        {
+            SetField(ref _inactiveWhenCpuBelowPercentage, value);
+            OnPropertyChanged(nameof(AnyOptionsSet));
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the CPU usage percentage below which keeping awake is paused
+    /// (when <see cref="InactiveWhenCpuBelowPercentage"/> is enabled).
+    /// </summary>
+    [JsonInclude]
+    public int CpuBelowPercentage
+    {
+        get => _cpuBelowPercentage;
+        set => SetField(ref _cpuBelowPercentage, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the action performed after an active timer expires.
+    /// </summary>
+    [JsonInclude]
+    public SessionAction AfterwardsAction
+    {
+        get => _afterwardsAction;
+        set => SetField(ref _afterwardsAction, value);
+    }
+
+    /// <summary>
+    /// Gets a value indicating whether any of the inactivity options are enabled.
+    /// </summary>
+    [JsonIgnore]
+    public bool AnyOptionsSet => InactiveWhenOnBattery || InactiveWhenCpuBelowPercentage;
 
     /// <summary>
     /// Gets or sets a value indicating whether the application starts in active state.

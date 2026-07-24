@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -214,7 +213,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
 
         if (executeAfterwardsAction)
         {
-            WindowsSessionService.ExecuteSessionAction(_awakeness.AfterwardsAction);
+            WindowsSessionService.ExecuteSessionAction(App.CurrentApp.AppSettings.AfterwardsAction);
         }
     }
 
@@ -223,9 +222,10 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     /// </summary>
     private void UpdateIsTemporarilyInactive()
     {
-        IsTemporarilyInactiveBecauseOnBattery = Awakeness.Options.InactiveWhenOnBattery && Routines.IsOnBattery();
-        IsTemporarilyInactiveBecauseCpuBelowPercentage = Awakeness.Options.InactiveWhenCpuBelowPercentage &&
-                                                         Routines.CpuUsage() < Awakeness.Options.CpuBelowPercentage;
+        var settings = App.CurrentApp.AppSettings;
+        IsTemporarilyInactiveBecauseOnBattery = settings.InactiveWhenOnBattery && Routines.IsOnBattery();
+        IsTemporarilyInactiveBecauseCpuBelowPercentage = settings.InactiveWhenCpuBelowPercentage &&
+                                                         Routines.CpuUsage() < settings.CpuBelowPercentage;
         IsTemporarilyInactiveBecauseSessionLocked = Routines.IsWorkstationLocked();
 
         IsTemporarilyInactive = IsTemporarilyInactiveBecauseOnBattery
@@ -240,9 +240,6 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     /// <param name="elapsedEventArgs"></param>
     private void TimerFunction(object? sender, ElapsedEventArgs elapsedEventArgs)
     {
-        // Handle DeactivateWhenLocked
-        Debug.Assert(Awakeness.Options != null);
-
         UpdateIsTemporarilyInactive();
 
         if (IsTemporarilyInactive)
