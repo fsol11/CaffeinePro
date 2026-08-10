@@ -31,8 +31,6 @@ public sealed class AppSettings : INotifyPropertyChanged
     private bool _startWithWindows;
     private bool _allowScreenSaver;
     private bool _inactiveWhenOnBattery;
-    private bool _inactiveWhenCpuBelowPercentage;
-    private int _cpuBelowPercentage = 8;
     private SessionAction _afterwardsAction = SessionAction.None;
     private Awakeness _startupAwakeness = Awakeness.Indefinite;
     private DateTime _ignoreUnlockNotificationDate = DateTime.MaxValue;
@@ -97,37 +95,7 @@ public sealed class AppSettings : INotifyPropertyChanged
     public bool InactiveWhenOnBattery
     {
         get => _inactiveWhenOnBattery;
-        set
-        {
-            SetField(ref _inactiveWhenOnBattery, value);
-            OnPropertyChanged(nameof(AnyOptionsSet));
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets a value indicating whether keeping awake is paused while the CPU usage is below
-    /// <see cref="CpuBelowPercentage"/>.
-    /// </summary>
-    [JsonInclude]
-    public bool InactiveWhenCpuBelowPercentage
-    {
-        get => _inactiveWhenCpuBelowPercentage;
-        set
-        {
-            SetField(ref _inactiveWhenCpuBelowPercentage, value);
-            OnPropertyChanged(nameof(AnyOptionsSet));
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the CPU usage percentage below which keeping awake is paused
-    /// (when <see cref="InactiveWhenCpuBelowPercentage"/> is enabled).
-    /// </summary>
-    [JsonInclude]
-    public int CpuBelowPercentage
-    {
-        get => _cpuBelowPercentage;
-        set => SetField(ref _cpuBelowPercentage, value);
+        set => SetField(ref _inactiveWhenOnBattery, value);
     }
 
     /// <summary>
@@ -139,12 +107,6 @@ public sealed class AppSettings : INotifyPropertyChanged
         get => _afterwardsAction;
         set => SetField(ref _afterwardsAction, value);
     }
-
-    /// <summary>
-    /// Gets a value indicating whether any of the inactivity options are enabled.
-    /// </summary>
-    [JsonIgnore]
-    public bool AnyOptionsSet => InactiveWhenOnBattery || InactiveWhenCpuBelowPercentage;
 
     /// <summary>
     /// Gets or sets a value indicating whether the application starts in active state.

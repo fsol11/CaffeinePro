@@ -7,7 +7,7 @@ namespace CaffeinePro.Services;
 public enum SessionAction
 {
     [Description("Do Nothing")] None,
-    [Description("Exit Program")] Exit,
+    [Description("Quit Program")] Quit,
     [Description("Lock")] Lock,
     [Description("Sign Out")] SignOut,
     [Description("Force Sign Out")] ForceSignOut,
@@ -78,7 +78,7 @@ public sealed class WindowsSessionService
         {
             case SessionAction.None: break;
 
-            case SessionAction.Exit:
+            case SessionAction.Quit:
                 App.CurrentApp.Shutdown(); break;
 
             case SessionAction.SignOut:

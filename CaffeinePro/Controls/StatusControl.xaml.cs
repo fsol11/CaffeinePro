@@ -26,7 +26,6 @@ namespace CaffeinePro.Controls
         private void OnNewAwakenessSelected(object? sender, Awakeness aw)
         {
             App.CurrentApp.KeepAwakeService.Activate(aw);
-            App.CurrentApp.TrayIcon!.ContextMenu!.IsOpen = false;
         }
 
         private void SetToStartupValue_Click(object sender, RoutedEventArgs e)

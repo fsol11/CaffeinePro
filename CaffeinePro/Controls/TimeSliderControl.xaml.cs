@@ -17,7 +17,7 @@ public partial class TimeSliderControl
         Enumerable.Range(startHour, 12)
             .Select(h =>
             {
-                var d = (h % 12 == 0 && startHour > 0) ? 12 : h % 12;
+                var d = h % 12 == 0 ? 12 : h % 12; // <- 0 and 12 are both displayed as "12"
                 var ampm = startHour == 0 ? "AM" : "PM";
                 return new HourItem(d.ToString(), ampm, []);
             })
@@ -39,6 +39,10 @@ public partial class TimeSliderControl
 
     public static readonly DependencyProperty InStartupOptionsProperty = DependencyProperty.Register(nameof(InStartupOptions), typeof(bool), typeof(TimeSliderControl), new PropertyMetadata(default(bool)));
 
+    public static readonly DependencyProperty IsForSelectionProperty = DependencyProperty.Register(nameof(IsForSelection), typeof(bool), typeof(TimeSliderControl), new PropertyMetadata(default(bool)));
+
+    private bool _isProgrammaticSliderChange;
+
     public TimeSliderControl()
     {
         InitializeComponent();
@@ -50,6 +54,35 @@ public partial class TimeSliderControl
         set => SetValue(InStartupOptionsProperty, value);
     }
 
+    /// <summary>
+    /// True when the current slider value was picked from the FOR section (quick picks or the slider itself),
+    /// false when it was picked from the UNTIL section (absolute hour/quarter buttons).
+    /// </summary>
+    public bool IsForSelection
+    {
+        get => (bool)GetValue(IsForSelectionProperty);
+        set => SetValue(IsForSelectionProperty, value);
+    }
+
+    private void SetSliderValue(double minutes, bool isForSelection)
+    {
+        _isProgrammaticSliderChange = true;
+        // An indefinite awakeness maps to TimeSpan.MaxValue, which is far outside the slider range.
+        MinutesSlider.Value = Math.Clamp(Math.Round(minutes), MinutesSlider.Minimum, MinutesSlider.Maximum);
+        _isProgrammaticSliderChange = false;
+        IsForSelection = isForSelection;
+    }
+
+    private void MinutesSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        if (_isProgrammaticSliderChange)
+        {
+            return;
+        }
+
+        IsForSelection = true;
+    }
+
     private void MenuItemOnClick_ActiveFor(object sender, RoutedEventArgs e)
     {
         var menu = (MenuItem)sender;
@@ -58,7 +91,7 @@ public partial class TimeSliderControl
             return;
         }
 
-        MinutesSlider.Value = int.Parse((menu.Tag as string)!);
+        SetSliderValue(int.Parse((menu.Tag as string)!), true);
     }
 
     private void QuarterButton_Click(object sender, RoutedEventArgs e)
@@ -67,27 +100,25 @@ public partial class TimeSliderControl
         if (time != TimeSpan.MaxValue)
         {
             var dt = Routines.GetDateTimeFromTimeSpan(time, Awakeness.AwakenessTypes.Absolute);
-            var ts = Routines.GetRelativeTimeSpanFromDateTime(dt);
-            MinutesSlider.Value = (int) ts.TotalMinutes;
+            SetSliderValue(Routines.ToRelativeTime(dt).TotalMinutes, false);
         }
         e.Handled = true;
     }
 
-    internal void SetRelativeTime(TimeSpan relativeSpan) => MinutesSlider.Value = (int) relativeSpan.TotalMinutes;
+    internal void SetRelativeTime(TimeSpan relativeSpan) => SetSliderValue(relativeSpan.TotalMinutes, false);
 
     private void HourButton_Click(object sender, RoutedEventArgs e)
     {
-        if (sender == null)
+        if (sender is not Button button || !int.TryParse(button.Content?.ToString(), out var hour12))
         {
             return;
         }
 
-        var button = (Button)sender;
-        var ampm = button.Tag as string ?? string.Empty;
-        var hour = int.Parse(button.Content.ToString() ?? "0") + (ampm == "PM" ? 12 : 0);
-        var dt = Routines.GetDateTimeFromTimeSpan(TimeSpan.FromHours(hour), Awakeness.AwakenessTypes.Absolute);
-        var ts = Routines.GetRelativeTimeSpanFromDateTime(dt);
-        MinutesSlider.Value = ts.TotalMinutes;
+        // The buttons are labelled 12, 1 ... 11 in both rows, so 12 AM is 0:00 and 12 PM is 12:00.
+        var hour24 = (hour12 % 12) + ((button.Tag as string) == "PM" ? 12 : 0);
+
+        var dt = Routines.GetDateTimeFromTimeSpan(TimeSpan.FromHours(hour24), Awakeness.AwakenessTypes.Absolute);
+        SetSliderValue(Routines.ToRelativeTime(dt).TotalMinutes, false);
         e.Handled = true;
     }
 }

@@ -11,6 +11,9 @@ namespace CaffeinePro.Services;
 /// lock/unlock) by monitoring the monitor powering off/on
 /// (GUID_CONSOLE_DISPLAY_STATE via WM_POWERBROADCAST), which does not raise a
 /// session switch.
+///
+/// The same message-only window also listens for GUID_ACDC_POWER_SOURCE so that plugging
+/// or unplugging the charger is reported the moment it happens.
 /// </summary>
 public sealed class SystemActivityService : IDisposable
 {
@@ -20,8 +23,14 @@ public sealed class SystemActivityService : IDisposable
     /// </summary>
     public event EventHandler? OnUserBecameActive;
 
+    /// <summary>
+    /// Raised when the machine switches between running on AC power and running on battery.
+    /// </summary>
+    public event EventHandler? OnPowerSourceChanged;
+
     private HwndSource? _messageWindow;
     private IntPtr _displayNotificationHandle = IntPtr.Zero;
+    private IntPtr _powerSourceNotificationHandle = IntPtr.Zero;
 
     private DisplayState _lastDisplayState = DisplayState.On;
 
@@ -33,6 +42,10 @@ public sealed class SystemActivityService : IDisposable
         _displayNotificationHandle =
             RegisterPowerSettingNotification(_messageWindow.Handle,
                 ref GuidConsoleDisplayState, DeviceNotifyWindowHandle);
+
+        _powerSourceNotificationHandle =
+            RegisterPowerSettingNotification(_messageWindow.Handle,
+                ref GuidAcdcPowerSource, DeviceNotifyWindowHandle);
     }
 
     private enum DisplayState
@@ -52,6 +65,12 @@ public sealed class SystemActivityService : IDisposable
             if (setting.PowerSetting == GuidConsoleDisplayState)
             {
                 OnDisplayStateChanged((DisplayState)setting.Data);
+            }
+            else if (setting.PowerSetting == GuidAcdcPowerSource)
+            {
+                // The payload distinguishes AC / battery / short-term (UPS), but callers only care
+                // that the power source changed - they re-read the current status themselves.
+                OnPowerSourceChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
@@ -93,6 +112,9 @@ public sealed class SystemActivityService : IDisposable
     // ReSharper disable once InconsistentNaming
     private static Guid GuidConsoleDisplayState = new("6fe69556-704a-47a0-8f24-c28d936fda47");
 
+    // ReSharper disable once InconsistentNaming
+    private static Guid GuidAcdcPowerSource = new("5d3e9a59-e9d5-4b00-a6bd-ff34ff516548");
+
     [StructLayout(LayoutKind.Sequential, Pack = 4)]
     private struct PowerBroadcastSetting
     {
@@ -116,6 +138,12 @@ public sealed class SystemActivityService : IDisposable
         {
             UnregisterPowerSettingNotification(_displayNotificationHandle);
             _displayNotificationHandle = IntPtr.Zero;
+        }
+
+        if (_powerSourceNotificationHandle != IntPtr.Zero)
+        {
+            UnregisterPowerSettingNotification(_powerSourceNotificationHandle);
+            _powerSourceNotificationHandle = IntPtr.Zero;
         }
 
         _messageWindow?.RemoveHook(WndProc);

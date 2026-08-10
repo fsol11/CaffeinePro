@@ -23,7 +23,7 @@ public class SessionActionToSymbolConverter : IValueConverter
             SessionAction.Lock => SymbolRegular.LockClosed20,
             SessionAction.SignOut => SymbolRegular.PersonArrowLeft20,
             SessionAction.ForceSignOut => SymbolRegular.PersonSubtract20,
-            SessionAction.Exit => SymbolRegular.ArrowExit20,
+            SessionAction.Quit => SymbolRegular.ArrowExit20,
             SessionAction.Sleep => SymbolRegular.WeatherMoon20,
             SessionAction.Hibernate => SymbolRegular.WeatherSnowflake20,
             SessionAction.Shutdown => SymbolRegular.Power20,

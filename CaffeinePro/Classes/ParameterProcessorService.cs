@@ -40,7 +40,7 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
         var type = Awakeness.AwakenessTypes.Absolute;
 
 
-        if (Has(eArgs, "exit"))
+        if (Has(eArgs, "exit") || Has(eArgs, "quit"))
         {
             Application.Current.Dispatcher.Invoke(Application.Current.Shutdown);
             return;
@@ -83,16 +83,6 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
         if (Has(eArgs, "-allowSS"))
         {
             App.CurrentApp.AppSettings.AllowScreenSaver = true;
-        }
-
-        if (Has(eArgs, "-cpu"))
-        {
-            var s = Item(eArgs, "-cpu");
-            if (s.Length > 4 && int.TryParse(s[4..], out var cpuPercentage))
-            {
-                App.CurrentApp.AppSettings.InactiveWhenCpuBelowPercentage = true;
-                App.CurrentApp.AppSettings.CpuBelowPercentage = cpuPercentage;
-            }
         }
 
         if (Has(eArgs, "-inactiveOnBattery"))
@@ -153,7 +143,6 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
         $"  -startinactive\t\tstarts inactive\r\n" +
         $"\r\n" +
         $"  -allowss\t\tallow screen saver. No mouse/key sim (default: false)\r\n" +
-        $"  -cpuX\t\t\tinactive when CPU below X% (default: false)\r\n" +
         $"  -inactiveOnBattery\tinactive when on battery (default: false)\r\n";
 }
 

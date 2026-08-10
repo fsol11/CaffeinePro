@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using CaffeinePro.Classes;
+using Windows.ApplicationModel.VoiceCommands;
 
 namespace CaffeinePro.Controls;
 
@@ -45,8 +46,14 @@ public sealed partial class AwakenessViewControl
         nameof(InStartupOptions),
         typeof(bool),
         typeof(AwakenessViewControl),
-        new FrameworkPropertyMetadata(false));
-    
+        new FrameworkPropertyMetadata(false, InStartupOptionsChanged));
+
+    // The slider lives inside the drop-down's ContextMenu, which is outside this control's inherited
+    // DataContext, so the flag is pushed across instead of bound in XAML.
+    private static void InStartupOptionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        => ((AwakenessViewControl)d).RelativeTimeSlider.InStartupOptions = (bool)e.NewValue;
+
+
 
     public static readonly DependencyProperty ShouldShowDateProperty =
         DependencyProperty.Register(nameof(ShouldShowDate), typeof(bool), typeof(AwakenessViewControl),
@@ -70,6 +77,19 @@ public sealed partial class AwakenessViewControl
         InitializeComponent();
     }
 
+    /// <summary>
+    /// Announces the awakeness the user just picked and dismisses the picker.
+    /// </summary>
+    private void RaiseNewAwakenessSelected()
+    {
+        // Closed through the flyout itself rather than through DropDownButton.IsDropDownOpen: that
+        // property only mirrors the menu (the menu pushes its state into it, not the other way
+        // round), so setting it would leave the picker on screen.
+        SetTimeFlyout.IsOpen = false;
+
+        NewAwakenessSelected?.Invoke(this, AwakenessValue);
+    }
+
     private void MenuItemIndefinitely_OnClick(object sender, RoutedEventArgs e)
     {
         AwakenessValue = new Awakeness(
@@ -77,29 +97,34 @@ public sealed partial class AwakenessViewControl
             TimeSpan.MaxValue
         );
 
-        NewAwakenessSelected?.Invoke(this, AwakenessValue);
-    }
-
-    private void OnNewTimeSelected(object? _, TimeSpan t)
-    {
-        var dt = Routines.GetDateTimeFromTimeSpan(t, Awakeness.AwakenessTypes.Absolute);
-        var ts = Routines.GetRelativeTimeSpanFromDateTime(dt);
-
-        RelativeTimeSlider.SetRelativeTime(ts);
+        RaiseNewAwakenessSelected();
     }
 
     private void ApplyButton_OnClick(object sender, RoutedEventArgs e)
     {
-        AwakenessValue = new Awakeness(
-            Awakeness.AwakenessTypes.Relative,
-            RelativeTimeSlider.TotalMinutes);
+        AwakenessValue = RelativeTimeSlider.IsForSelection
+            ? new Awakeness(Awakeness.AwakenessTypes.Relative, RelativeTimeSlider.TotalMinutes)
+            : new Awakeness(Awakeness.AwakenessTypes.Absolute, GetSelectedTimeOfDay());
 
-        NewAwakenessSelected?.Invoke(this, AwakenessValue);
+        RaiseNewAwakenessSelected();
+    }
+
+    /// <summary>
+    /// Returns the clock time the slider currently points at. A time picked in the UNTIL section is
+    /// kept absolute so the end time does not drift by however long the user takes to press Apply.
+    /// </summary>
+    private TimeSpan GetSelectedTimeOfDay()
+    {
+        var timeOfDay = Awakeness.GetNow().Add(RelativeTimeSlider.TotalMinutes).TimeOfDay;
+
+        // Awakeness reads a zero span as "indefinite", so midnight is expressed as a full day.
+        return timeOfDay == TimeSpan.Zero ? TimeSpan.FromDays(1) : timeOfDay;
     }
 
     private void SetTimeMenuOpened(object sender, RoutedEventArgs e)
     {
-        RelativeTimeSlider.SetRelativeTime(
-            Routines.GetRelativeTimeSpanFromDateTime(App.CurrentApp.AppSettings.StartupAwakeness.EndDateTime));
+        // Seeded from the awakeness this control is bound to (the active one in the status bar, the
+        // startup one in the startup options) rather than always from the startup awakeness.
+        RelativeTimeSlider.SetRelativeTime(Routines.ToRelativeTime(AwakenessValue.EndDateTime));
     }
 }

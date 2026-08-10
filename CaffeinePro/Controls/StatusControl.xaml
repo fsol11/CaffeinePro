@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     d:DesignWidth="400"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
     mc:Ignorable="d">
     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Center">
         <controls:AwakenessViewControl
@@ -45,6 +46,7 @@
                     Padding="0"
                     HorizontalAlignment="Center"
                     Click="OnCancel"
+                    Opacity="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactiveBecauseOnBattery, Converter={StaticResource BoolToOpacity}, ConverterParameter=0.55}"
                     Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsActive, Converter={StaticResource BoolToVis}}">
                     <Button.Content>
                         <StackPanel
@@ -60,10 +62,18 @@
                                 <Run Foreground="{StaticResource ActiveColor}" Text="●" />
                                 <Run Text=" " />
                             </TextBlock>
+                            <!--  Paused on battery: the battery says why, so it replaces the dot  -->
+                            <Image
+                                Width="18"
+                                Margin="0,0,6,0"
+                                VerticalAlignment="Center"
+                                Source="{StaticResource BatteryPausedIcon}"
+                                ToolTip="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.TemporarilyInactiveReason}"
+                                Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactiveBecauseOnBattery, Converter={StaticResource BoolToVis}}" />
                             <TextBlock
                                 VerticalAlignment="Center"
                                 TextAlignment="Center"
-                                Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactive, Converter={StaticResource BoolToVis}}">
+                                Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactiveOnlyBecauseSessionLocked, Converter={StaticResource BoolToVis}}">
                                 <Run Foreground="{StaticResource TemporarilyInactiveColor}" Text="●" />
                                 <Run Text=" " />
                             </TextBlock>
@@ -73,8 +83,8 @@
                                     <Style TargetType="TextBlock">
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactive}" Value="True">
-                                                <Setter Property="TextDecorations" Value="StrikeThrough" />
-                                                <Setter Property="ToolTip" Value="Temporarily Inactive" />
+                                                <!--<Setter Property="TextDecorations" Value="StrikeThrough" />-->
+                                                <Setter Property="ToolTip" Value="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.TemporarilyInactiveReason}" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactive}" Value="False">
                                                 <Setter Property="TextDecorations" Value="{x:Null}" />
@@ -100,33 +110,12 @@
                                 <Run Foreground="{StaticResource InactiveColor}" Text="●" />
                                 <Run Text=" Inactive" />
                             </TextBlock>
-                            <Image
-                                Width="18"
-                                Margin="5,0,0,0"
-                                Opacity="1"
-                                Source="{StaticResource CpuIcon}"
-                                ToolTip="Temporarily inactive cpu is below threshold."
-                                Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactiveBecauseCpuBelowPercentage, Converter={StaticResource BoolToVis}, Mode=OneWay}" />
-                            <Image
-                                Width="18"
-                                Margin="5,0,0,0"
-                                Opacity="1"
-                                Source="{StaticResource BatteryIcon}"
-                                ToolTip="Temporarily inactive because system is on battery."
-                                Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactiveBecauseOnBattery, Converter={StaticResource BoolToVis}, Mode=OneWay}" />
-                            <Image
-                                Width="18"
-                                Margin="5,0,0,0"
-                                Opacity="1"
-                                Source="{StaticResource LockIcon}"
-                                ToolTip="Temporarily inactive because session is locked."
-                                Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactiveBecauseSessionLocked, Converter={StaticResource BoolToVis}, Mode=OneWay}" />
 
-                            <ui:TextBlock
+                            <ui:SymbolIcon
                                 Margin="5,0,0,0"
-                                FontSize="20"
-                                Opacity="1"
-                                Text="🤫"
+                                VerticalAlignment="Center"
+                                FontSize="16"
+                                Symbol="Pause20"
                                 ToolTip="Notifications on are ignored Today."
                                 Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.IsUnlockNotificationIgnoredToday, Converter={StaticResource BoolToVis}, Mode=OneWay}" />
                         </StackPanel>

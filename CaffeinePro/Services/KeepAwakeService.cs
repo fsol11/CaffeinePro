@@ -34,7 +34,31 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
             }
 
             SetField(ref _isTemporarilyInactive, value);
+            UpdateStatusText();
             OnStatusChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    /// <summary>
+    /// Describes why the service is currently paused (e.g. "On battery"), or an empty
+    /// string when it is not paused.
+    /// </summary>
+    public string TemporarilyInactiveReason
+    {
+        get => _temporarilyInactiveReason;
+        private set
+        {
+            if (value == _temporarilyInactiveReason)
+            {
+                return;
+            }
+
+            SetField(ref _temporarilyInactiveReason, value);
+
+            // Also refreshed here, and not only from IsTemporarilyInactive, so that a reason
+            // swapping over while the service stays paused (unplugging an already locked machine)
+            // still reaches the status text.
+            UpdateStatusText();
         }
     }
 
@@ -50,11 +74,13 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
         private set => SetField(ref _isTemporarilyInactiveBecauseOnBattery, value);
     }
 
-    public bool IsTemporarilyInactiveBecauseCpuBelowPercentage
-    {
-        get => _isTemporarilyInactiveBecauseCpuBelowPercentage;
-        private set => SetField(ref _isTemporarilyInactiveBecauseCpuBelowPercentage, value);
-    }
+    /// <summary>
+    /// True while the service is paused, but not because of the battery. The status button shows the
+    /// battery icon for a battery pause and its plain paused dot for the rest, so the two must not
+    /// light up at the same time when the machine is both locked and unplugged.
+    /// </summary>
+    public bool IsTemporarilyInactiveOnlyBecauseSessionLocked =>
+        IsTemporarilyInactive && !IsTemporarilyInactiveBecauseOnBattery;
 
     public Awakeness Awakeness
     {
@@ -80,21 +106,77 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     /// Constructor
     /// </summary>
     public KeepAwakeService(WindowsSessionService windowsSessionService,
-        SystemActivityService systemActivityService, NotificationManager notificationManager)
+        SystemActivityService systemActivityService, NotificationManager notificationManager,
+        AppSettings appSettings)
     {
         _windowsSessionService = windowsSessionService;
-        _windowsSessionService.OnUnlock += (_, _) => OnUnlock();
-        _windowsSessionService.OnLock += (_, _) => OnLock();
+
+        // SystemEvents raises session switches on its own dedicated thread. Everything below ends up
+        // installing the low-level keyboard/mouse hooks and touching WPF state, both of which belong
+        // on the UI thread, so the handlers are marshalled there.
+        _windowsSessionService.OnUnlock += (_, _) => RunOnUiThread(OnUnlock);
+        _windowsSessionService.OnLock += (_, _) => RunOnUiThread(OnLock);
         _systemActivityService = systemActivityService;
-        _systemActivityService.OnUserBecameActive += (_, _) => OnUserBecameActive();
+        _systemActivityService.OnUserBecameActive += (_, _) => RunOnUiThread(OnUserBecameActive);
+
+        // Without this the pause would only be noticed on the next timer tick, i.e. up to two
+        // minutes after the charger was pulled out.
+        _systemActivityService.OnPowerSourceChanged += (_, _) => RunOnUiThread(UpdateIsTemporarilyInactive);
         _notificationManager = notificationManager;
+        _appSettings = appSettings;
+        _appSettings.PropertyChanged += OnAppSettingsChanged;
         _timer.Elapsed += TimerFunction;
+
         Awakeness = _awakeness = Awakeness.Indefinite;
     }
 
     private readonly WindowsSessionService _windowsSessionService;
     private readonly SystemActivityService _systemActivityService;
     private readonly NotificationManager _notificationManager;
+    private readonly AppSettings _appSettings;
+
+    /// <summary>
+    /// Runs the given action on the UI thread. Session-switch, power and timer callbacks all arrive
+    /// on background threads, but activating/deactivating touches the window hooks and the UI.
+    /// </summary>
+    private static void RunOnUiThread(Action action)
+    {
+        var dispatcher = App.CurrentApp?.Dispatcher;
+
+        if (dispatcher == null || dispatcher.CheckAccess())
+        {
+            action();
+            return;
+        }
+
+        // SessionLogoff and the expiry of an awakeness that shuts the machine down both arrive while
+        // the dispatcher may already be tearing down, where dispatching throws.
+        if (dispatcher.HasShutdownStarted || dispatcher.HasShutdownFinished)
+        {
+            return;
+        }
+
+        try
+        {
+            dispatcher.Invoke(action);
+        }
+        catch (TaskCanceledException)
+        {
+            // The dispatcher shut down while the callback was queued - there is nothing left to update.
+        }
+    }
+
+    /// <summary>
+    /// Re-evaluates the temporarily-inactive state as soon as a related option changes,
+    /// so the UI reflects the new battery setting immediately instead of waiting for the next timer tick.
+    /// </summary>
+    private void OnAppSettingsChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(AppSettings.InactiveWhenOnBattery))
+        {
+            UpdateIsTemporarilyInactive();
+        }
+    }
 
     /// <summary>
     /// This event is called when keep awake timer is enabled or disabled
@@ -128,9 +210,16 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     private void UpdateStatusText()
     {
         StatusText = $"{App.AppName} - {(IsActive ? "Active" : "Inactive")}";
-        if (IsActive)
+        if (!IsActive)
         {
-            StatusText += $" - {Awakeness.GetAwakenessDescription()}";
+            return;
+        }
+
+        StatusText += $" - {Awakeness.GetAwakenessDescription()}";
+
+        if (IsTemporarilyInactive)
+        {
+            StatusText += $"\r\n{TemporarilyInactiveReason}";
         }
     }
 
@@ -144,6 +233,17 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
 
     private const uint EsContinuous = 0x80000000;
     private const uint EsSystemRequired = 0x00000001;
+
+    /// <summary>
+    /// Applies the given execution state flags on the UI thread.
+    /// </summary>
+    /// <remarks>
+    /// Windows tracks the execution state per thread, and the timer callbacks that set it run on
+    /// arbitrary thread pool threads. Every call therefore has to be funnelled through one fixed
+    /// thread, otherwise a later ES_CONTINUOUS meant to release the state applies to an unrelated
+    /// thread and leaves the machine pinned awake - while pausing or deactivating.
+    /// </remarks>
+    private static void SetExecutionState(uint flags) => RunOnUiThread(() => SetThreadExecutionState(flags));
 
     /// <summary>
     /// Returns a random timer interval between 35 and 120 seconds
@@ -163,17 +263,24 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     private bool _isTemporarilyInactive;
     private bool _isTemporarilyInactiveBecauseSessionLocked;
     private bool _isTemporarilyInactiveBecauseOnBattery;
-    private bool _isTemporarilyInactiveBecauseCpuBelowPercentage;
+    private string _temporarilyInactiveReason = string.Empty;
+
+    private const string OnBatteryReason = "Paused - running on battery";
+    private const string SessionLockedReason = "Paused - workstation locked";
 
     /// <summary>
     /// Activate the keep awake service to the default time
     /// </summary>
     public void ActivateDefault()
     {
-        if (App.CurrentApp.AppSettings.StartupAwakeness != null)
+        if (App.CurrentApp.AppSettings.StartupAwakeness is not { } startupAwakeness)
         {
-            Activate(App.CurrentApp.AppSettings.StartupAwakeness);
+            return;
         }
+
+        // Always renewed: the end time stored in the settings was calculated when they were loaded,
+        // so a relative startup awakeness ("for 2 hours") has to be recounted from now.
+        Activate(Awakeness.RenewDateTime(startupAwakeness));
     }
 
     /// <summary>
@@ -196,6 +303,10 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
 
         ResetIgnoreUnlockNotificationDate();
         IsActive = true;
+
+        // Evaluated right away so that activating while already on battery (or with the screen
+        // locked) shows up as paused immediately rather than on the first timer tick.
+        UpdateIsTemporarilyInactive();
     }
 
     /// <summary>
@@ -205,7 +316,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     {
         if (_isActive)
         {
-            _ = SetThreadExecutionState(EsContinuous); // <- Setting thread state to normal
+            SetExecutionState(EsContinuous); // <- Setting thread state to normal
             IsActive = false;
         }
 
@@ -222,15 +333,30 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     /// </summary>
     private void UpdateIsTemporarilyInactive()
     {
-        var settings = App.CurrentApp.AppSettings;
-        IsTemporarilyInactiveBecauseOnBattery = settings.InactiveWhenOnBattery && Routines.IsOnBattery();
-        IsTemporarilyInactiveBecauseCpuBelowPercentage = settings.InactiveWhenCpuBelowPercentage &&
-                                                         Routines.CpuUsage() < settings.CpuBelowPercentage;
+        IsTemporarilyInactiveBecauseOnBattery = _appSettings.InactiveWhenOnBattery && Routines.IsOnBattery();
         IsTemporarilyInactiveBecauseSessionLocked = Routines.IsWorkstationLocked();
 
+        // Set before the aggregate flag below, whose setter refreshes the status text from it.
+        TemporarilyInactiveReason = IsTemporarilyInactiveBecauseOnBattery
+            ? OnBatteryReason
+            : IsTemporarilyInactiveBecauseSessionLocked
+                ? SessionLockedReason
+                : string.Empty;
+
         IsTemporarilyInactive = IsTemporarilyInactiveBecauseOnBattery
-                                || IsTemporarilyInactiveBecauseCpuBelowPercentage
                                 || IsTemporarilyInactiveBecauseSessionLocked;
+
+        // Computed from the two flags above, so it has to be announced by hand.
+        OnPropertyChanged(nameof(IsTemporarilyInactiveOnlyBecauseSessionLocked));
+
+        if (IsTemporarilyInactive)
+        {
+            // Pausing has to hand the machine back to Windows as well: an ES_SYSTEM_REQUIRED set on
+            // an earlier tick (AllowScreenSaver mode) stays in effect until it is explicitly
+            // cleared, so without this the battery would keep draining while the status already
+            // reads as paused.
+            SetExecutionState(EsContinuous);
+        }
     }
 
     /// <summary>
@@ -247,10 +373,11 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
             return;
         }
 
-        // Deactivate when the time is up
+        // Deactivate when the time is up. The timer runs on a thread pool thread, while unhooking the
+        // keyboard/mouse hooks and running the afterwards action belong on the UI thread.
         if (Awakeness.GetNow() >= Awakeness.EndDateTime)
         {
-            Deactivate(true);
+            RunOnUiThread(() => Deactivate(true));
             return;
         }
 
@@ -274,13 +401,13 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
             // NOTE: SetThreadExecutionState does NOT update GetLastInputInfo,
             // so communication apps (Teams, Slack, etc.) will still detect inactivity
             // and show the user as Away when this option is enabled.
-            _ = SetThreadExecutionState(EsContinuous | EsSystemRequired);
+            SetExecutionState(EsContinuous | EsSystemRequired);
         }
         else
         {
             // Allow Windows to manage sleep normally (SendInput below keeps it awake indirectly
             // by resetting the idle timer through actual simulated input).
-            _ = SetThreadExecutionState(EsContinuous);
+            SetExecutionState(EsContinuous);
 
             // Simulate input (key press or mouse move) via SendInput.
             // This updates GetLastInputInfo, which is the primary mechanism used by
@@ -294,12 +421,15 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
 
     private void OnLock()
     {
-        IsTemporarilyInactiveBecauseSessionLocked = true;
+        // Recomputed as a whole so the aggregate IsTemporarilyInactive (and with it the tray icon and
+        // the status text) is updated right away instead of on the next timer tick - which never comes
+        // while the service is inactive, because the timer is stopped then.
+        UpdateIsTemporarilyInactive();
     }
 
     private void OnUnlock()
     {
-        IsTemporarilyInactiveBecauseSessionLocked = false;
+        UpdateIsTemporarilyInactive();
         ConfirmAndSetDefaultAwakeness();
     }
 
@@ -317,15 +447,27 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     /// </summary>
     public void ConfirmAndSetDefaultAwakeness()
     {
+        var settings = App.CurrentApp.AppSettings;
+
         if (IsActive
-            || App.CurrentApp.AppSettings.IsUnlockNotificationIgnoredToday
-            || App.CurrentApp.AppSettings.StartActive == false
-            || App.CurrentApp.AppSettings.StartupAwakeness.EndDateTime.TimeOfDay < Awakeness.GetTimeOfDay())
+            || settings.IsUnlockNotificationIgnoredToday
+            || settings.StartActive == false
+            || settings.StartupAwakeness is not { } startupAwakeness)
         {
             return;
         }
 
-        if (App.CurrentApp.AppSettings.StartActive == true)
+        // For an absolute startup time ("until 5 PM") there is nothing left to do once that time has
+        // passed today. Relative ("for 2 hours") and indefinite awakenesses always stay valid - their
+        // stored EndDateTime must not be used here, as it dates back to when the settings were loaded.
+        if (!startupAwakeness.IsIndefinite
+            && !startupAwakeness.IsRelative
+            && startupAwakeness.RelativeSpan <= Awakeness.GetTimeOfDay())
+        {
+            return;
+        }
+
+        if (settings.StartActive == true)
         {
             ActivateDefault();
             return;
@@ -334,7 +476,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
         // Ask user if the program should be activated
         //   When reaching here => App.CurrentApp.AppSettings.StartActive is null
         //   Which means user has selected "Ask Me"
-        NotificationWindow.OpenIt(Awakeness.RenewDateTime(App.CurrentApp.AppSettings.StartupAwakeness));
+        NotificationWindow.OpenIt(Awakeness.RenewDateTime(startupAwakeness));
     }
 
     public void SetIgnoreUnlockNotificationToToday()

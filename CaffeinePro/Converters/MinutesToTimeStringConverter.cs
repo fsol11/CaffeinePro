@@ -45,8 +45,8 @@ public class MinutesToTimeStringConverter : IValueConverter
                 break;
         }
 
-        var h = minutes / 60;
-        var m = minutes % 60;
+        var h = (int) (minutes / 60);
+        var m = (int) (minutes % 60);
 
         if (m == 0)
         {
@@ -58,7 +58,7 @@ public class MinutesToTimeStringConverter : IValueConverter
         }
         else
         {
-            return h.ToString("0.0h");
+            return string.Format("{0}h : {1}m", h, m);
         }
     }
 

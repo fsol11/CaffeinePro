@@ -151,13 +151,24 @@ public partial class App
 
     private void SystemEvents_UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
     {
-        //SetThemeColor();
+        // Windows raises this (Category General) when the user switches between light and dark mode.
+        // The event may arrive on a non-UI thread, so marshal the theme update back onto the dispatcher.
+        if (e.Category is UserPreferenceCategory.General or UserPreferenceCategory.VisualStyle)
+        {
+            Dispatcher.Invoke(SetThemeColor);
+        }
     }
 
     private static void SetThemeColor()
     {
-        var isWindowsThemeDark = Routines.IsWindowsThemeDark();
-        ApplicationThemeManager.Apply(isWindowsThemeDark ? ApplicationTheme.Dark : ApplicationTheme.Light);
+        var target = Routines.IsWindowsThemeDark() ? ApplicationTheme.Dark : ApplicationTheme.Light;
+
+        // Only re-apply when the theme actually changed to avoid redundant resource swaps,
+        // since UserPreferenceChanged (General) fires for many unrelated preferences.
+        if (ApplicationThemeManager.GetAppTheme() != target)
+        {
+            ApplicationThemeManager.Apply(target);
+        }
     }
 
     /// <summary>
@@ -233,7 +244,7 @@ public partial class App
     }
 
     /// <summary>
-    /// Handling the "Exit" menu item
+    /// Handling the "Quit" menu item
     /// </summary>
     private void OnTrayContextMenuOpened(object sender, RoutedEventArgs e)
     {

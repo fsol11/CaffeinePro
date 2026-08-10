@@ -154,7 +154,7 @@
                     VerticalAlignment="Top"
                     FontSize="10.5"
                     FontWeight="SemiBold"
-                    Foreground="{DynamicResource SystemColorWindowTextColorBrush}"
+                    Foreground="{DynamicResource TextFillColorInverseBrush}"
                     Opacity="0.7"
                     Text="UNTIL" />
             </Border>
@@ -256,7 +256,8 @@
                                     Click="MenuItemOnClick_ActiveFor"
                                     Header="{Binding Converter={StaticResource MinutesToTimeString}}"
                                     StaysOpenOnClick="True"
-                                    Tag="{Binding}">
+                                    Tag="{Binding}"
+                                    ToolTipService.IsEnabled="{Binding InStartupOptions, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource Not}}">
                                     <MenuItem.ToolTip>
                                         <ToolTip>
                                             <TextBlock Text="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource AncestorType=ToolTip}, Converter={StaticResource MinutesToActualDateTime}}" />
@@ -287,7 +288,8 @@
                                     Click="MenuItemOnClick_ActiveFor"
                                     Header="{Binding Converter={StaticResource MinutesToTimeString}}"
                                     StaysOpenOnClick="True"
-                                    Tag="{Binding}">
+                                    Tag="{Binding}"
+                                    ToolTipService.IsEnabled="{Binding InStartupOptions, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource Not}}">
                                     <ui:MenuItem.ToolTip>
                                         <ToolTip>
                                             <TextBlock Text="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource AncestorType=ToolTip}, Converter={StaticResource MinutesToActualDateTime}}" />
@@ -307,14 +309,15 @@
                             Width="240"
                             Margin="0,0,5,0"
                             IsSnapToTickEnabled="True"
-                            LargeChange="15"
+                            LargeChange="5"
                             Maximum="1439"
                             Minimum="5"
                             SmallChange="1"
-                            TickFrequency="15"
-                            TickPlacement="None" />
+                            TickFrequency="5"
+                            TickPlacement="None"
+                            ValueChanged="MinutesSlider_OnValueChanged" />
                         <TextBlock
-                            Width="50"
+                            Width="80"
                             Padding="0,5,0,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
@@ -344,19 +347,60 @@
                     VerticalAlignment="Top"
                     FontSize="10.5"
                     FontWeight="SemiBold"
-                    Foreground="{DynamicResource SystemColorWindowTextColorBrush}"
+                    Foreground="{DynamicResource TextFillColorInverseBrush}"
                     Opacity="0.7"
                     Text="FOR" />
             </Border>
         </Grid>
 
-        <TextBlock
-            Padding="5,16,0,0"
-            HorizontalAlignment="Center"
-            FontSize="20"
-            Text="{Binding ElementName=MinutesSlider, Path=Value, Converter={StaticResource MinutesToActualDateTime}}"
-            TextAlignment="Center"
-            Visibility="{Binding InStartupOptions, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}" />
+        <StackPanel Margin="0,16,0,0" HorizontalAlignment="Center">
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontSize="20"
+                TextAlignment="Center"
+                Visibility="{Binding IsForSelection, Converter={StaticResource BoolToVis}}">
+                <Run FontSize="14" Text="FOR" />
+                <Run Text="{Binding ElementName=MinutesSlider, Path=Value, Converter={StaticResource MinutesToTimeString}, Mode=OneWay}" />
+            </TextBlock>
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontSize="12"
+                Opacity="0.6"
+                TextAlignment="Center">
+                <Run FontSize="10" Text="UNTIL" />
+                <Run Text="{Binding ElementName=MinutesSlider, Path=Value, Converter={StaticResource MinutesToActualDateTime}}" />
+                <TextBlock.Style>
+                    <!--  In the startup options the app is not running yet, so the clock time a FOR duration lands on is meaningless.  -->
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding IsForSelection}" Value="True" />
+                                    <Condition Binding="{Binding InStartupOptions}" Value="False" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="Visibility" Value="Visible" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <TextBlock
+                HorizontalAlignment="Center"
+                FontSize="20"
+                TextAlignment="Center"
+                Visibility="{Binding IsForSelection, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
+                <Run FontSize="14" Text="UNTIL" />
+                <Run>
+                    <Run.Text>
+                        <MultiBinding Converter="{StaticResource MinutesToActualDateTime}" Mode="OneWay">
+                            <Binding ElementName="MinutesSlider" Path="Value" />
+                            <Binding Path="InStartupOptions" />
+                        </MultiBinding>
+                    </Run.Text>
+                </Run>
+            </TextBlock>
+        </StackPanel>
 
     </StackPanel>
 </UserControl>

@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="CaffeinePro.Controls.AwakenessViewControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -12,141 +12,133 @@
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     mc:Ignorable="d">
 
-    <Border
-        Padding="5,2"
-        Background="Transparent"
-        BorderBrush="{DynamicResource TextControlElevationBorderBrush}"
-        BorderThickness="2"
-        CornerRadius="4">
-        <StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <StackPanel>
-                    <StackPanel x:Name="RelativeTimePanel" Orientation="Horizontal">
-                        <StackPanel.Style>
-                            <Style TargetType="StackPanel">
-                                <Setter Property="Visibility" Value="Collapsed" />
-                                <Style.Triggers>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding AwakenessValue.AwakenessType}" Value="{x:Static classes:Awakeness+AwakenessTypes.Relative}" />
-                                            <Condition Binding="{Binding InStartupOptions}" Value="True" />
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </MultiDataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Style>
+    <!--
+        The whole control is the drop-down: the current awakeness is the button's content, so
+        clicking anywhere on the text opens the time picker. The button draws its own chevron, so
+        no separate affordance is needed next to it.
+    -->
+    <ui:DropDownButton
+        MinWidth="220"
+        HorizontalAlignment="Stretch"
+        HorizontalContentAlignment="Center"
+        Padding="10,4"
+        ToolTip="Set the Time">
+        <ui:DropDownButton.Content>
+            <!--  Grid, so the two states overlap and the button does not resize as they swap  -->
+            <Grid HorizontalAlignment="Center">
+                <StackPanel
+                    x:Name="RelativeTimePanel"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding AwakenessValue.AwakenessType}" Value="{x:Static classes:Awakeness+AwakenessTypes.Relative}" />
+                                        <Condition Binding="{Binding InStartupOptions}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
 
-                        <TextBlock
-                            Width="75"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Text="For |"
-                            TextAlignment="Right" />
-                        <Border
-                            Width="150"
-                            Margin="4,2"
-                            Padding="8,1"
-                            CornerRadius="4">
-                            <StackPanel Orientation="Horizontal">
-
-                                <TextBlock VerticalAlignment="Center" TextAlignment="Left">
-                                    <TextBlock.Text>
-                                        <MultiBinding StringFormat="{}{0}h : {1}m">
-                                            <Binding Path="AwakenessValue.RelativeSpan.Hours" />
-                                            <Binding Path="AwakenessValue.RelativeSpan.Minutes" />
-                                        </MultiBinding>
-                                    </TextBlock.Text>
-                                </TextBlock>
-                                <TextBlock Text=" " />
-                            </StackPanel>
-                        </Border>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <StackPanel.Style>
-                            <Style TargetType="StackPanel">
-                                <Setter Property="Visibility" Value="Visible" />
-                                <Style.Triggers>
-                                    <MultiDataTrigger>
-                                        <MultiDataTrigger.Conditions>
-                                            <Condition Binding="{Binding AwakenessValue.IsRelative}" Value="True" />
-                                            <Condition Binding="{Binding InStartupOptions}" Value="True" />
-                                        </MultiDataTrigger.Conditions>
-                                        <Setter Property="Visibility" Value="Collapsed" />
-                                    </MultiDataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StackPanel.Style>
-
-                        <TextBlock
-                            Width="75"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Opacity="0.5"
-                            Text="Until |"
-                            TextAlignment="Right" />
-
-                        <Border
-                            Width="150"
-                            Margin="4,2"
-                            Padding="8,1"
-                            CornerRadius="4">
-                            <StackPanel Orientation="Horizontal">
-                                <TextBlock
-                                    Margin="0,0,8,0"
-                                    Text="{Binding AwakenessValue.EndDateText}"
-                                    Visibility="{Binding ShouldShowDate, Converter={StaticResource BoolToVis}}" />
-                                <TextBlock Text="{Binding AwakenessValue.EndTimeText}" Visibility="{Binding AwakenessValue.IsIndefinite, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}" />
-                            </StackPanel>
-                        </Border>
-
-                    </StackPanel>
+                    <TextBlock
+                        Margin="0,0,6,0"
+                        VerticalAlignment="Center"
+                        Opacity="0.5"
+                        Text="For |" />
+                    <TextBlock VerticalAlignment="Center">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource HoursMinutesToString}">
+                                <Binding Path="AwakenessValue.RelativeSpan.Hours" />
+                                <Binding Path="AwakenessValue.RelativeSpan.Minutes" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
                 </StackPanel>
-                <ui:DropDownButton
-                    Padding="5,0"
-                    VerticalAlignment="Top"
-                    Background="Transparent"
-                    BorderBrush="Transparent"
-                    ToolTip="Set the Time">
-                    <ui:DropDownButton.Icon>
-                        <ui:SymbolIcon
-                            Height="24"
-                            Filled="False"
-                            Symbol="Clock24" />
-                    </ui:DropDownButton.Icon>
-                    <ui:DropDownButton.Flyout>
 
-                        <ContextMenu Opened="SetTimeMenuOpened">
-                            <MenuItem
+                <StackPanel
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Horizontal">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Visible" />
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding AwakenessValue.IsRelative}" Value="True" />
+                                        <Condition Binding="{Binding InStartupOptions}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+
+                    <TextBlock
+                        Margin="0,0,6,0"
+                        VerticalAlignment="Center"
+                        Opacity="0.5"
+                        Text="Until |" />
+                    <TextBlock
+                        Margin="0,0,6,0"
+                        VerticalAlignment="Center"
+                        Text="{Binding AwakenessValue.EndDateText}"
+                        Visibility="{Binding ShouldShowDate, Converter={StaticResource BoolToVis}}" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Text="{Binding AwakenessValue.EndTimeText}"
+                        Visibility="{Binding AwakenessValue.IsIndefinite, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}" />
+                </StackPanel>
+            </Grid>
+        </ui:DropDownButton.Content>
+
+        <ui:DropDownButton.Flyout>
+            <ContextMenu x:Name="SetTimeFlyout" Opened="SetTimeMenuOpened">
+                <MenuItem
+                    HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Stretch"
+                    Click="MenuItemIndefinitely_OnClick"
+                    Tag="{x:Null}">
+                    <MenuItem.Header>
+                        <TextBlock HorizontalAlignment="Center" Text="♾️ Indefinitely" />
+                    </MenuItem.Header>
+                </MenuItem>
+                <MenuItem StaysOpenOnClick="True" Style="{StaticResource NoHighlightMenuItemStyle}">
+                    <MenuItem.Header>
+                        <StackPanel HorizontalAlignment="Stretch">
+
+                            <controls:TimeSliderControl
+                                x:Name="RelativeTimeSlider"
                                 HorizontalAlignment="Stretch"
-                                HorizontalContentAlignment="Stretch"
-                                Click="MenuItemIndefinitely_OnClick"
-                                Tag="{x:Null}">
-                                <MenuItem.Header>
-                                    <TextBlock HorizontalAlignment="Center" Text="♾️ Indefinitely" />
-                                </MenuItem.Header>
-                            </MenuItem>
-                            <MenuItem StaysOpenOnClick="True" Style="{StaticResource NoHighlightMenuItemStyle}">
-                                <MenuItem.Header>
-                                    <StackPanel HorizontalAlignment="Stretch">
+                                InStartupOptions="{Binding InStartupOptions, RelativeSource={RelativeSource AncestorType=UserControl}}" />
 
-                                        <controls:TimeSliderControl x:Name="RelativeTimeSlider" HorizontalAlignment="Stretch" />
+                            <ui:Button
+                                Margin="10"
+                                HorizontalAlignment="Center"
+                                Click="ApplyButton_OnClick">
+                                <ui:Button.Style>
+                                    <Style BasedOn="{StaticResource {x:Type ui:Button}}" TargetType="{x:Type ui:Button}">
+                                        <Setter Property="Content" Value="Apply &amp; Activate" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding InStartupOptions}" Value="True">
+                                                <Setter Property="Content" Value="Apply" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ui:Button.Style>
+                            </ui:Button>
+                        </StackPanel>
+                    </MenuItem.Header>
 
-                                        <Button
-                                            Margin="10"
-                                            HorizontalAlignment="Center"
-                                            Click="ApplyButton_OnClick"
-                                            Content="Apply &amp; Activate" />
-                                    </StackPanel>
-                                </MenuItem.Header>
-
-                            </MenuItem>
-                        </ContextMenu>
-                    </ui:DropDownButton.Flyout>
-                </ui:DropDownButton>
-            </StackPanel>
-
-        </StackPanel>
-    </Border>
+                </MenuItem>
+            </ContextMenu>
+        </ui:DropDownButton.Flyout>
+    </ui:DropDownButton>
 
 </UserControl>

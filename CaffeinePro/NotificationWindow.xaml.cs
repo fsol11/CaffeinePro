@@ -6,6 +6,7 @@ using System.Windows.Interop;
 using System.Windows.Media.Animation;
 using System.Windows.Shell;
 using CaffeinePro.Classes;
+using CaffeinePro.Services;
 using Wpf.Ui.Controls;
 
 namespace CaffeinePro;
@@ -70,10 +71,23 @@ public partial class NotificationWindow
     private NotificationWindow(Awakeness aw)
     {
         _window = this;
+        Awakeness = aw;
         InitializeComponent();
-        TxtAwakeness.Text = aw.GetAwakenessDescription().Trim();
         Opacity = 0;
     }
+
+    /// <summary>
+    /// The awakeness the notification is offering to activate.
+    /// </summary>
+    public Awakeness Awakeness
+    {
+        get;
+    }
+
+    /// <summary>
+    /// The action taken once the awakeness ends, or <see cref="SessionAction.None"/> when there is none.
+    /// </summary>
+    public SessionAction AfterwardsAction => App.CurrentApp.AppSettings.AfterwardsAction;
 
     private void NotificationWindow_OnKeyDown(object sender, KeyEventArgs e)
     {

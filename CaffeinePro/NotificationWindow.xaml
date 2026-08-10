@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:services="clr-namespace:CaffeinePro.Services"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="{Binding}"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
@@ -55,16 +56,48 @@
                     VerticalAlignment="Center"
                     FontSize="16"
                     TextWrapping="NoWrap">
-                    <Run Text="Keep the computer awake" />
-                    <Run Text=" " />
+                    <Run Text="Keep the computer awake?" />
+                </ui:TextBlock>
+
+                <!--  Mirrors the FOR / UNTIL summary of TimeSliderControl  -->
+                <ui:TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="20"
+                    TextAlignment="Center"
+                    TextWrapping="NoWrap"
+                    Visibility="{Binding Awakeness.IsRelative, Converter={StaticResource BoolToVis}}">
+                    <Run FontSize="14" Text="FOR" />
+                    <Run Text="{Binding Awakeness.RelativeSpan, Converter={StaticResource MinutesToTimeString}, Mode=OneWay}" />
                 </ui:TextBlock>
                 <ui:TextBlock
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    FontSize="16"
-                    TextWrapping="NoWrap">
-                    <Run x:Name="TxtAwakeness" />
-                    <Run Text="?" />
+                    FontSize="12"
+                    Opacity="0.6"
+                    TextAlignment="Center"
+                    TextWrapping="NoWrap"
+                    Visibility="{Binding Awakeness.IsRelative, Converter={StaticResource BoolToVis}}">
+                    <Run FontSize="10" Text="UNTIL" />
+                    <Run Text="{Binding Awakeness.EndDateTimeText, Mode=OneWay}" />
+                </ui:TextBlock>
+                <ui:TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="20"
+                    TextAlignment="Center"
+                    TextWrapping="NoWrap"
+                    Visibility="{Binding Awakeness.IsRelative, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
+                    <Run FontSize="14" Text="UNTIL" />
+                    <Run Text="{Binding Awakeness.EndDateTimeText, Mode=OneWay}" />
+                </ui:TextBlock>
+
+                <ui:TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    Opacity="0.6"
+                    TextAlignment="Center"
+                    TextWrapping="NoWrap"
+                    Visibility="{Binding AfterwardsAction, Converter={StaticResource ValueNotEqualsParameterToVisibility}, ConverterParameter={x:Static services:SessionAction.None}}">
+                    <Run FontSize="10" Text="AFTERWARDS" />
+                    <Run Text="{Binding AfterwardsAction, Converter={StaticResource EnumToDescription}, Mode=OneWay}" />
                 </ui:TextBlock>
             </StackPanel>
         </StackPanel>
@@ -109,8 +142,16 @@
             <ui:Button
                 Height="40"
                 Margin="10,0,0,0"
-                Click="IgnoreForToday_Click"
-                Content="🤫 Ignore For Today" />
+                Click="IgnoreForToday_Click">
+                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                    <ui:SymbolIcon
+                        Margin="0,0,6,0"
+                        VerticalAlignment="Center"
+                        FontSize="14"
+                        Symbol="Pause20" />
+                    <TextBlock VerticalAlignment="Center" Text="Ignore For Today" />
+                </StackPanel>
+            </ui:Button>
         </StackPanel>
 
     </StackPanel>

@@ -5647,29 +5647,6 @@
                                 <Grid.Resources>
                                     <ControlTemplate x:Key="PreviousButtonTemplate" TargetType="{x:Type Button}">
                                         <Grid Cursor="Hand">
-                                            <VisualStateManager.VisualStateGroups>
-                                                <VisualStateGroup x:Name="CommonStates">
-                                                    <VisualState x:Name="Normal" />
-                                                    <VisualState x:Name="MouseOver">
-                                                        <Storyboard>
-                                                            <ColorAnimation
-                                                                Storyboard.TargetName="path"
-                                                                Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
-                                                                To="{DynamicResource AColour.Tone8.Background.MouseOver}"
-                                                                Duration="0" />
-                                                        </Storyboard>
-                                                    </VisualState>
-                                                    <VisualState x:Name="Disabled">
-                                                        <Storyboard>
-                                                            <DoubleAnimation
-                                                                Storyboard.TargetName="path"
-                                                                Storyboard.TargetProperty="(Shape.Fill).(Brush.Opacity)"
-                                                                To=".5"
-                                                                Duration="0" />
-                                                        </Storyboard>
-                                                    </VisualState>
-                                                </VisualStateGroup>
-                                            </VisualStateManager.VisualStateGroups>
                                             <Grid>
                                                 <Rectangle Fill="Transparent" Stretch="Fill" />
                                                 <Path
@@ -5683,10 +5660,6 @@
                                                     Fill="{DynamicResource ABrush.Glyph.Static}"
                                                     Stretch="Fill" />
                                             </Grid>
-                                        </Grid>
-                                    </ControlTemplate>
-                                    <ControlTemplate x:Key="NextButtonTemplate" TargetType="{x:Type Button}">
-                                        <Grid Cursor="Hand">
                                             <VisualStateManager.VisualStateGroups>
                                                 <VisualStateGroup x:Name="CommonStates">
                                                     <VisualState x:Name="Normal" />
@@ -5710,6 +5683,10 @@
                                                     </VisualState>
                                                 </VisualStateGroup>
                                             </VisualStateManager.VisualStateGroups>
+                                        </Grid>
+                                    </ControlTemplate>
+                                    <ControlTemplate x:Key="NextButtonTemplate" TargetType="{x:Type Button}">
+                                        <Grid Cursor="Hand">
                                             <Grid>
                                                 <Rectangle Fill="Transparent" Stretch="Fill" />
                                                 <Path
@@ -5723,10 +5700,41 @@
                                                     Fill="{DynamicResource ABrush.Glyph.Static}"
                                                     Stretch="Fill" />
                                             </Grid>
+                                            <VisualStateManager.VisualStateGroups>
+                                                <VisualStateGroup x:Name="CommonStates">
+                                                    <VisualState x:Name="Normal" />
+                                                    <VisualState x:Name="MouseOver">
+                                                        <Storyboard>
+                                                            <ColorAnimation
+                                                                Storyboard.TargetName="path"
+                                                                Storyboard.TargetProperty="(Shape.Fill).(SolidColorBrush.Color)"
+                                                                To="{DynamicResource AColour.Tone8.Background.MouseOver}"
+                                                                Duration="0" />
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                    <VisualState x:Name="Disabled">
+                                                        <Storyboard>
+                                                            <DoubleAnimation
+                                                                Storyboard.TargetName="path"
+                                                                Storyboard.TargetProperty="(Shape.Fill).(Brush.Opacity)"
+                                                                To=".5"
+                                                                Duration="0" />
+                                                        </Storyboard>
+                                                    </VisualState>
+                                                </VisualStateGroup>
+                                            </VisualStateManager.VisualStateGroups>
                                         </Grid>
                                     </ControlTemplate>
                                     <ControlTemplate x:Key="HeaderButtonTemplate" TargetType="{x:Type Button}">
                                         <Grid Cursor="Hand">
+                                            <ContentPresenter
+                                                x:Name="buttonContent"
+                                                Margin="1,6"
+                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                Content="{TemplateBinding Content}"
+                                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                                TextElement.Foreground="{DynamicResource ABrush.Foreground.Deeper}" />
                                             <VisualStateManager.VisualStateGroups>
                                                 <VisualStateGroup x:Name="CommonStates">
                                                     <VisualState x:Name="Normal" />
@@ -5750,14 +5758,6 @@
                                                     </VisualState>
                                                 </VisualStateGroup>
                                             </VisualStateManager.VisualStateGroups>
-                                            <ContentPresenter
-                                                x:Name="buttonContent"
-                                                Margin="1,6"
-                                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                Content="{TemplateBinding Content}"
-                                                ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                TextElement.Foreground="{DynamicResource ABrush.Foreground.Deeper}" />
                                         </Grid>
                                     </ControlTemplate>
                                 </Grid.Resources>
@@ -6036,93 +6036,6 @@
                                 <SolidColorBrush x:Key="DisabledBrush" Color="{DynamicResource AColour.Tone5.Background.Disabled}" />
                                 <ControlTemplate x:Key="DropDownButtonTemplate" TargetType="{x:Type Button}">
                                     <Grid>
-                                        <VisualStateManager.VisualStateGroups>
-                                            <VisualStateGroup x:Name="CommonStates">
-                                                <VisualStateGroup.Transitions>
-                                                    <VisualTransition GeneratedDuration="0" />
-                                                    <VisualTransition GeneratedDuration="0:0:0.1" To="MouseOver" />
-                                                    <VisualTransition GeneratedDuration="0:0:0.1" To="Pressed" />
-                                                </VisualStateGroup.Transitions>
-                                                <VisualState x:Name="Normal" />
-                                                <VisualState x:Name="MouseOver">
-                                                    <Storyboard>
-                                                        <ColorAnimation
-                                                            Storyboard.TargetName="Background"
-                                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                            To="#FF448DCA"
-                                                            Duration="0" />
-                                                        <ColorAnimationUsingKeyFrames
-                                                            BeginTime="0"
-                                                            Storyboard.TargetName="BackgroundGradient"
-                                                            Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[3].(GradientStop.Color)"
-                                                            Duration="00:00:00.001">
-                                                            <SplineColorKeyFrame KeyTime="0" Value="#7FFFFFFF" />
-                                                        </ColorAnimationUsingKeyFrames>
-                                                        <ColorAnimationUsingKeyFrames
-                                                            BeginTime="0"
-                                                            Storyboard.TargetName="BackgroundGradient"
-                                                            Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[2].(GradientStop.Color)"
-                                                            Duration="00:00:00.001">
-                                                            <SplineColorKeyFrame KeyTime="0" Value="#CCFFFFFF" />
-                                                        </ColorAnimationUsingKeyFrames>
-                                                        <ColorAnimationUsingKeyFrames
-                                                            BeginTime="0"
-                                                            Storyboard.TargetName="BackgroundGradient"
-                                                            Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)"
-                                                            Duration="00:00:00.001">
-                                                            <SplineColorKeyFrame KeyTime="0" Value="#F2FFFFFF" />
-                                                        </ColorAnimationUsingKeyFrames>
-                                                    </Storyboard>
-                                                </VisualState>
-                                                <VisualState x:Name="Pressed">
-                                                    <Storyboard>
-                                                        <ColorAnimationUsingKeyFrames
-                                                            BeginTime="0"
-                                                            Storyboard.TargetName="Background"
-                                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
-                                                            Duration="00:00:00.001">
-                                                            <SplineColorKeyFrame KeyTime="0" Value="{DynamicResource AColour.AccentTone3.Background.Static}" />
-                                                        </ColorAnimationUsingKeyFrames>
-                                                        <DoubleAnimationUsingKeyFrames
-                                                            BeginTime="0"
-                                                            Storyboard.TargetName="Highlight"
-                                                            Storyboard.TargetProperty="(UIElement.Opacity)"
-                                                            Duration="00:00:00.001">
-                                                            <SplineDoubleKeyFrame KeyTime="0" Value="1" />
-                                                        </DoubleAnimationUsingKeyFrames>
-                                                        <ColorAnimationUsingKeyFrames
-                                                            BeginTime="0"
-                                                            Storyboard.TargetName="BackgroundGradient"
-                                                            Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)"
-                                                            Duration="00:00:00.001">
-                                                            <SplineColorKeyFrame KeyTime="0" Value="#EAFFFFFF" />
-                                                        </ColorAnimationUsingKeyFrames>
-                                                        <ColorAnimationUsingKeyFrames
-                                                            BeginTime="0"
-                                                            Storyboard.TargetName="BackgroundGradient"
-                                                            Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[2].(GradientStop.Color)"
-                                                            Duration="00:00:00.001">
-                                                            <SplineColorKeyFrame KeyTime="0" Value="#C6FFFFFF" />
-                                                        </ColorAnimationUsingKeyFrames>
-                                                        <ColorAnimationUsingKeyFrames
-                                                            BeginTime="0"
-                                                            Storyboard.TargetName="BackgroundGradient"
-                                                            Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[3].(GradientStop.Color)"
-                                                            Duration="00:00:00.001">
-                                                            <SplineColorKeyFrame KeyTime="0" Value="#6BFFFFFF" />
-                                                        </ColorAnimationUsingKeyFrames>
-                                                        <ColorAnimationUsingKeyFrames
-                                                            BeginTime="0"
-                                                            Storyboard.TargetName="BackgroundGradient"
-                                                            Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)"
-                                                            Duration="00:00:00.001">
-                                                            <SplineColorKeyFrame KeyTime="0" Value="#F4FFFFFF" />
-                                                        </ColorAnimationUsingKeyFrames>
-                                                    </Storyboard>
-                                                </VisualState>
-                                                <VisualState x:Name="Disabled" />
-                                            </VisualStateGroup>
-                                        </VisualStateManager.VisualStateGroups>
                                         <Grid
                                             Width="19"
                                             Height="18"
@@ -6230,6 +6143,93 @@
                                                 CornerRadius="0,0,.5,.5"
                                                 Opacity="0" />
                                         </Grid>
+                                        <VisualStateManager.VisualStateGroups>
+                                            <VisualStateGroup x:Name="CommonStates">
+                                                <VisualStateGroup.Transitions>
+                                                    <VisualTransition GeneratedDuration="0" />
+                                                    <VisualTransition GeneratedDuration="0:0:0.1" To="MouseOver" />
+                                                    <VisualTransition GeneratedDuration="0:0:0.1" To="Pressed" />
+                                                </VisualStateGroup.Transitions>
+                                                <VisualState x:Name="Normal" />
+                                                <VisualState x:Name="MouseOver">
+                                                    <Storyboard>
+                                                        <ColorAnimation
+                                                            Storyboard.TargetName="Background"
+                                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                            To="#FF448DCA"
+                                                            Duration="0" />
+                                                        <ColorAnimationUsingKeyFrames
+                                                            BeginTime="0"
+                                                            Storyboard.TargetName="BackgroundGradient"
+                                                            Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[3].(GradientStop.Color)"
+                                                            Duration="00:00:00.001">
+                                                            <SplineColorKeyFrame KeyTime="0" Value="#7FFFFFFF" />
+                                                        </ColorAnimationUsingKeyFrames>
+                                                        <ColorAnimationUsingKeyFrames
+                                                            BeginTime="0"
+                                                            Storyboard.TargetName="BackgroundGradient"
+                                                            Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[2].(GradientStop.Color)"
+                                                            Duration="00:00:00.001">
+                                                            <SplineColorKeyFrame KeyTime="0" Value="#CCFFFFFF" />
+                                                        </ColorAnimationUsingKeyFrames>
+                                                        <ColorAnimationUsingKeyFrames
+                                                            BeginTime="0"
+                                                            Storyboard.TargetName="BackgroundGradient"
+                                                            Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)"
+                                                            Duration="00:00:00.001">
+                                                            <SplineColorKeyFrame KeyTime="0" Value="#F2FFFFFF" />
+                                                        </ColorAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </VisualState>
+                                                <VisualState x:Name="Pressed">
+                                                    <Storyboard>
+                                                        <ColorAnimationUsingKeyFrames
+                                                            BeginTime="0"
+                                                            Storyboard.TargetName="Background"
+                                                            Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                            Duration="00:00:00.001">
+                                                            <SplineColorKeyFrame KeyTime="0" Value="{DynamicResource AColour.AccentTone3.Background.Static}" />
+                                                        </ColorAnimationUsingKeyFrames>
+                                                        <DoubleAnimationUsingKeyFrames
+                                                            BeginTime="0"
+                                                            Storyboard.TargetName="Highlight"
+                                                            Storyboard.TargetProperty="(UIElement.Opacity)"
+                                                            Duration="00:00:00.001">
+                                                            <SplineDoubleKeyFrame KeyTime="0" Value="1" />
+                                                        </DoubleAnimationUsingKeyFrames>
+                                                        <ColorAnimationUsingKeyFrames
+                                                            BeginTime="0"
+                                                            Storyboard.TargetName="BackgroundGradient"
+                                                            Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[1].(GradientStop.Color)"
+                                                            Duration="00:00:00.001">
+                                                            <SplineColorKeyFrame KeyTime="0" Value="#EAFFFFFF" />
+                                                        </ColorAnimationUsingKeyFrames>
+                                                        <ColorAnimationUsingKeyFrames
+                                                            BeginTime="0"
+                                                            Storyboard.TargetName="BackgroundGradient"
+                                                            Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[2].(GradientStop.Color)"
+                                                            Duration="00:00:00.001">
+                                                            <SplineColorKeyFrame KeyTime="0" Value="#C6FFFFFF" />
+                                                        </ColorAnimationUsingKeyFrames>
+                                                        <ColorAnimationUsingKeyFrames
+                                                            BeginTime="0"
+                                                            Storyboard.TargetName="BackgroundGradient"
+                                                            Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[3].(GradientStop.Color)"
+                                                            Duration="00:00:00.001">
+                                                            <SplineColorKeyFrame KeyTime="0" Value="#6BFFFFFF" />
+                                                        </ColorAnimationUsingKeyFrames>
+                                                        <ColorAnimationUsingKeyFrames
+                                                            BeginTime="0"
+                                                            Storyboard.TargetName="BackgroundGradient"
+                                                            Storyboard.TargetProperty="(Border.Background).(GradientBrush.GradientStops)[0].(GradientStop.Color)"
+                                                            Duration="00:00:00.001">
+                                                            <SplineColorKeyFrame KeyTime="0" Value="#F4FFFFFF" />
+                                                        </ColorAnimationUsingKeyFrames>
+                                                    </Storyboard>
+                                                </VisualState>
+                                                <VisualState x:Name="Disabled" />
+                                            </VisualStateGroup>
+                                        </VisualStateManager.VisualStateGroups>
                                     </Grid>
                                 </ControlTemplate>
                             </Grid.Resources>

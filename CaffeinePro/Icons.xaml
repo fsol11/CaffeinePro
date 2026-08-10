@@ -23,6 +23,31 @@
         </GeometryDrawing>
     </DrawingGroup>
 
+    <!--
+        Battery holding a pause sign, used when keeping awake is paused because the machine runs
+        on battery. Drawn as an outline (EvenOdd punches the inside out of the body) so the two
+        pause bars read against the hollow interior at tray/button sizes.
+    -->
+    <DrawingGroup x:Key="BatteryPaused">
+        <DrawingGroup.ClipGeometry>
+            <RectangleGeometry Rect="0.0,0.0,24.0,24.0" />
+        </DrawingGroup.ClipGeometry>
+        <GeometryDrawing Brush="{DynamicResource TextFillColorPrimaryBrush}">
+            <GeometryDrawing.Geometry>
+                <GeometryGroup FillRule="EvenOdd">
+                    <!--  Body, then its interior punched out of it  -->
+                    <RectangleGeometry RadiusX="1.6" RadiusY="1.6" Rect="2,7,18,10" />
+                    <RectangleGeometry RadiusX="0.6" RadiusY="0.6" Rect="3.4,8.4,15.2,7.2" />
+                    <!--  Terminal  -->
+                    <RectangleGeometry RadiusX="0.5" RadiusY="0.5" Rect="20,10,2,4" />
+                    <!--  Pause bars, inside the punched-out interior so they fill again  -->
+                    <RectangleGeometry RadiusX="0.4" RadiusY="0.4" Rect="7.6,10,2.2,4" />
+                    <RectangleGeometry RadiusX="0.4" RadiusY="0.4" Rect="12.2,10,2.2,4" />
+                </GeometryGroup>
+            </GeometryDrawing.Geometry>
+        </GeometryDrawing>
+    </DrawingGroup>
+
     <DrawingGroup x:Key="Lock">
         <DrawingGroup.ClipGeometry>
             <RectangleGeometry Rect="0.0,0.0,24.0,24.0" />
@@ -38,28 +63,9 @@
         </DrawingGroup>
     </DrawingGroup>
 
-    <DrawingGroup x:Key="Cpu">
-        <DrawingGroup.ClipGeometry>
-            <RectangleGeometry Rect="0.0,0.0,24.0,24.0" />
-        </DrawingGroup.ClipGeometry>
-        <DrawingGroup ClipGeometry="" />
-        <DrawingGroup ClipGeometry="" />
-        <DrawingGroup Transform="1.0,0.0,0.0,1.0,0.0,-0.83887468">
-            <GeometryDrawing Brush="{DynamicResource TextFillColorPrimaryBrush}">
-                <GeometryDrawing.Geometry>
-                    <PathGeometry Figures="M 9.18109 10.1811 C 9.2342 10.128 9.32905 10.0623 9.63166 10.0216 C 9.95434 9.97823 10.3923 9.97675 11.0698 9.97675 h 1.8604 c 0.6775 0 1.1155 0.00148 1.4381 0.04485 c 0.3027 0.0407 0.3975 0.1064 0.4506 0.1595 c 0.0531 0.0531 0.1188 0.1479 0.1595 0.4506 c 0.0434 0.3226 0.0449 0.7606 0.0449 1.4381 v 1.8604 c 0 0.6775 -0.0015 1.1155 -0.0449 1.4381 c -0.0407 0.3027 -0.1064 0.3975 -0.1595 0.4506 c -0.0531 0.0531 -0.1479 0.1188 -0.4506 0.1595 c -0.3226 0.0434 -0.7606 0.0449 -1.4381 0.0449 h -1.8604 c -0.6775 0 -1.11546 -0.0015 -1.43814 -0.0449 C 9.32905 15.9377 9.2342 15.872 9.18109 15.8189 C 9.12798 15.7658 9.0623 15.671 9.02161 15.3683 C 8.97823 15.0457 8.97675 14.6077 8.97675 13.9302 v -1.8604 c 0 -0.6775 0.00148 -1.1155 0.04486 -1.4381 c 0.04069 -0.3027 0.10637 -0.3975 0.15948 -0.4506 z" FillRule="Nonzero" />
-                </GeometryDrawing.Geometry>
-            </GeometryDrawing>
-            <GeometryDrawing Brush="{DynamicResource TextFillColorPrimaryBrush}">
-                <GeometryDrawing.Geometry>
-                    <PathGeometry Figures="m 12 3 c 0.3853 0 0.6977 0.31236 0.6977 0.69767 v 2.79117 c 0.5107 0.00107 0.974 0.00458 1.3955 0.01611 L 14.093 6.48837 V 3.69767 C 14.093 3.31236 14.4054 3 14.7907 3 c 0.3853 0 0.6977 0.31236 0.6977 0.69767 v 2.7907 c 0 0.0365 -0.0028 0.07235 -0.0082 0.10733 c 0.936 0.11497 1.5846 0.35309 2.0778 0.84628 c 0.4932 0.49319 0.7313 1.14183 0.8463 2.07786 c 0.035 -0.00541 0.0708 -0.00821 0.1073 -0.00821 h 2.7907 c 0.3853 0 0.6977 0.31236 0.6977 0.69767 c 0 0.3853 -0.3124 0.6977 -0.6977 0.6977 h -2.7907 l -0.0166 -0.0002 c 0.0116 0.4215 0.0156 0.8848 0.0166 1.3955 h 2.7907 C 21.6876 12.3023 22 12.6147 22 13 c 0 0.3853 -0.3124 0.6977 -0.6977 0.6977 h -2.7911 c -0.0011 0.5107 -0.0046 0.974 -0.0162 1.3955 l 0.0166 -0.0002 h 2.7907 c 0.3853 0 0.6977 0.3124 0.6977 0.6977 c 0 0.3853 -0.3124 0.6977 -0.6977 0.6977 h -2.7907 c -0.0365 0 -0.0723 -0.0028 -0.1073 -0.0082 c -0.115 0.936 -0.3531 1.5846 -0.8463 2.0778 c -0.4932 0.4932 -1.1418 0.7313 -2.0778 0.8463 c 0.0054 0.035 0.0082 0.0708 0.0082 0.1073 v 2.7907 C 15.4884 22.6876 15.176 23 14.7907 23 C 14.4054 23 14.093 22.6876 14.093 22.3023 v -2.7907 l 0.0002 -0.0166 c -0.4215 0.0116 -0.8848 0.0156 -1.3955 0.0166 v 2.7907 C 12.6977 22.6876 12.3853 23 12 23 C 11.6147 23 11.3023 22.6876 11.3023 22.3023 V 19.5112 C 10.7916 19.5101 10.3283 19.5066 9.90678 19.495 l 0.0002 0.0166 v 2.7907 C 9.90698 22.6876 9.59462 23 9.2093 23 C 8.82399 23 8.51163 22.6876 8.51163 22.3023 v -2.7907 c 0 -0.0365 0.0028 -0.0723 0.00821 -0.1073 C 7.58381 19.2893 6.93517 19.0512 6.44198 18.558 C 5.94879 18.0648 5.71067 17.4162 5.5957 16.4802 C 5.56071 16.4856 5.52487 16.4884 5.48837 16.4884 H 2.69767 C 2.31236 16.4884 2 16.176 2 15.7907 C 2 15.4054 2.31236 15.093 2.69767 15.093 h 2.7907 l 0.01658 0.0002 C 5.49342 14.6717 5.48944 14.2084 5.48837 13.6977 H 2.69767 C 2.31236 13.6977 2 13.3853 2 13 C 2 12.6147 2.31236 12.3023 2.69767 12.3023 h 2.79117 c 0.00107 -0.5107 0.00458 -0.974 0.01611 -1.3955 l -0.01658 0.0002 H 2.69767 C 2.31236 10.907 2 10.5946 2 10.2093 C 2 9.82399 2.31236 9.51163 2.69767 9.51163 h 2.7907 c 0.0365 0 0.07234 0.0028 0.10733 0.00821 C 5.71067 8.58381 5.94879 7.93517 6.44198 7.44198 C 6.93517 6.94879 7.58381 6.71067 8.51984 6.5957 C 8.51443 6.56072 8.51163 6.52487 8.51163 6.48837 V 3.69767 C 8.51163 3.31236 8.82399 3 9.2093 3 C 9.59462 3 9.90698 3.31236 9.90698 3.69767 v 2.7907 l -0.0002 0.01658 C 10.3283 6.49342 10.7916 6.48944 11.3023 6.48837 V 3.69767 C 11.3023 3.31236 11.6147 3 12 3 Z M 11.0238 8.5814 C 10.4054 8.58136 9.87247 8.58133 9.44573 8.63871 C 8.98839 8.70019 8.55001 8.83885 8.19443 9.19443 C 7.83885 9.55001 7.70019 9.98839 7.63871 10.4457 C 7.58133 10.8725 7.58136 11.4054 7.5814 12.0238 v 1.9524 c -4e-05 0.6184 -7e-05 1.1513 0.05731 1.5781 c 0.06148 0.4573 0.20014 0.8957 0.55572 1.2513 c 0.35558 0.3556 0.79396 0.4942 1.2513 0.5557 c 0.42674 0.0574 0.95967 0.0573 1.57807 0.0573 h 1.9524 c 0.6184 0 1.1513 0.0001 1.5781 -0.0573 c 0.4573 -0.0615 0.8957 -0.2001 1.2513 -0.5557 c 0.3556 -0.3556 0.4942 -0.794 0.5557 -1.2513 c 0.0574 -0.4268 0.0573 -0.9597 0.0573 -1.5781 v -1.9524 c 0 -0.6184 0.0001 -1.1513 -0.0573 -1.5781 C 16.2998 9.98839 16.1612 9.55001 15.8056 9.19443 C 15.45 8.83885 15.0116 8.70019 14.5543 8.63871 C 14.1275 8.58133 13.5947 8.58136 12.9762 8.5814 Z" />
-                </GeometryDrawing.Geometry>
-            </GeometryDrawing>
-        </DrawingGroup>
-    </DrawingGroup>
     <!--  Theme-aware icons (recolor with TextFillColorPrimaryBrush in light/dark modes)  -->
     <DrawingImage x:Key="BatteryIcon" Drawing="{StaticResource Battery}" />
-    <DrawingImage x:Key="CpuIcon" Drawing="{StaticResource Cpu}" />
+    <DrawingImage x:Key="BatteryPausedIcon" Drawing="{StaticResource BatteryPaused}" />
     <DrawingImage x:Key="LockIcon" Drawing="{StaticResource Lock}" />
 
 </ResourceDictionary>

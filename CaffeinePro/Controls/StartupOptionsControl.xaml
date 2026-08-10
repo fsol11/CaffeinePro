@@ -44,7 +44,7 @@
                         VerticalAlignment="Top"
                         FontSize="10.5"
                         FontWeight="SemiBold"
-                        Foreground="{DynamicResource SystemColorWindowTextColorBrush}"
+                        Foreground="{DynamicResource TextFillColorInverseBrush}"
                         Opacity="0.7"
                         Text="DEFAULT" />
                 </Border>
@@ -137,7 +137,7 @@
                         VerticalAlignment="Top"
                         FontSize="10.5"
                         FontWeight="SemiBold"
-                        Foreground="{DynamicResource SystemColorWindowTextColorBrush}"
+                        Foreground="{DynamicResource TextFillColorInverseBrush}"
                         Opacity="0.7"
                         Text="METHOD" />
                 </Border>
@@ -187,7 +187,7 @@
                         VerticalAlignment="Top"
                         FontSize="10.5"
                         FontWeight="SemiBold"
-                        Foreground="{DynamicResource SystemColorWindowTextColorBrush}"
+                        Foreground="{DynamicResource TextFillColorInverseBrush}"
                         Opacity="0.7"
                         Text="OPTIONS" />
                 </Border>
@@ -197,29 +197,11 @@
                             <Image
                                 Width="20"
                                 Margin="0,0,8,0"
-                                Source="{StaticResource BatteryIcon}" />
+                                Source="{StaticResource BatteryPausedIcon}" />
                             <CheckBox
                                 VerticalAlignment="Center"
-                                Content="Inactive When On Battery"
+                                Content="Inactive when on battery"
                                 IsChecked="{Binding InactiveWhenOnBattery, Mode=TwoWay}" />
-                        </StackPanel>
-                        <StackPanel Margin="0,4" Orientation="Horizontal">
-                            <Image
-                                Width="20"
-                                Margin="0,0,8,0"
-                                Source="{StaticResource CpuIcon}" />
-                            <CheckBox
-                                VerticalAlignment="Center"
-                                Content="Inactive When Idle - CPU Below"
-                                IsChecked="{Binding InactiveWhenCpuBelowPercentage, Mode=TwoWay}" />
-                            <controls:NumericTextBox
-                                Width="50"
-                                Margin="5,0,0,0"
-                                Padding="0,5"
-                                MaxLength="2"
-                                Text="{Binding CpuBelowPercentage, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                TextAlignment="Center" />
-                            <TextBlock VerticalAlignment="Center" Text="%" />
                         </StackPanel>
                     </StackPanel>
                 </Border>
@@ -245,7 +227,7 @@
                         VerticalAlignment="Top"
                         FontSize="10.5"
                         FontWeight="SemiBold"
-                        Foreground="{DynamicResource SystemColorWindowTextColorBrush}"
+                        Foreground="{DynamicResource TextFillColorInverseBrush}"
                         Opacity="0.7"
                         Text="AFTERWARDS" />
                 </Border>
@@ -298,7 +280,7 @@
                             </RadioButton>
                             <RadioButton
                                 GroupName="Afterwards"
-                                IsChecked="{Binding AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Exit}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}"
+                                IsChecked="{Binding AfterwardsAction, ConverterParameter={x:Static services:SessionAction.Quit}, Converter={StaticResource EnumToBooleanConverter}, Mode=TwoWay}"
                                 Style="{StaticResource AfterwardsRadioButtonStyle}">
                                 <StackPanel Orientation="Horizontal">
                                     <ui:SymbolIcon
@@ -306,7 +288,7 @@
                                         VerticalAlignment="Center"
                                         FontSize="14"
                                         Symbol="ArrowExit20" />
-                                    <TextBlock VerticalAlignment="Center" Text="Exit" />
+                                    <TextBlock VerticalAlignment="Center" Text="Quit" />
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton
@@ -362,7 +344,10 @@
                                         VerticalAlignment="Center"
                                         FontSize="14"
                                         Symbol="Flash20" />
-                                    <TextBlock VerticalAlignment="Center" Text="Force Shutdown" />
+                                    <TextBlock
+                                        Margin="0,0,30,0"
+                                        VerticalAlignment="Center"
+                                        Text="Force Shutdown" />
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton

@@ -30,6 +30,7 @@
             <converters:TimeIsPassedToBorderBrushConverter x:Key="TimeIsPassedToBorderBrush" />
             <converters:TimeIsPassedToOpacityConverter x:Key="TimeIsPassedToOpacity" />
             <converters:BooleanToVisibilityConverter x:Key="BoolToVis" />
+            <converters:BooleanToOpacityConverter x:Key="BoolToOpacity" />
             <converters:EnumToDescriptionConverter x:Key="EnumToDescription" />
             <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
             <converters:DateToEnabledConverter x:Key="DateToEnabled" />
@@ -42,6 +43,7 @@
             <converters:HalfConverter x:Key="Half" />
             <converters:TwoValuesNotEqualToVisibility x:Key="TwoValuesNotEqualToVisibility" />
             <converters:AwakenessTimeNotEqualsToVisibilityConverter x:Key="AwakenessTimeNotEqualsToVisibilityConverter" />
+            <converters:HoursMinutesToStringConverter x:Key="HoursMinutesToString" />
 
             <Style x:Key="NoHighlightMenuItemStyle" TargetType="{x:Type MenuItem}">
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -110,7 +112,7 @@
 
                 <MenuItem Click="OnSendFeedback" Header="Send Feedback..." />
                 <MenuItem Click="OnAboutMenu" Header="About..." />
-                <MenuItem Click="OnExitMenu" Header="Exit">
+                <MenuItem Click="OnExitMenu" Header="Quit">
                     <MenuItem.Icon>
                         <ui:SymbolIcon Margin="0,0,6,0" Symbol="ArrowExit20" />
                     </MenuItem.Icon>

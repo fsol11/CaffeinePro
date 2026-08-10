@@ -24,7 +24,7 @@
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <FileVersion>
     </FileVersion>
-    <Version>2.9</Version>
+    <Version>3.0</Version>
     <DelaySign>False</DelaySign>
     <UseWindowsForms>False</UseWindowsForms>
   </PropertyGroup>
