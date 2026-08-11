@@ -1,117 +1,291 @@
-﻿<ui:FluentWindow
+<ui:FluentWindow
     x:Class="CaffeinePro.AboutWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Title="About"
-    Width="450"
-    Height="250"
+    Title="About Caffeine Pro"
+    Width="510"
+    Height="334"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     ExtendsContentIntoTitleBar="False"
     KeyDown="AboutWindow_OnKeyDown"
+    Loaded="AboutWindow_OnLoaded"
     ResizeMode="NoResize"
-    SizeToContent="Height"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
     <Window.Resources>
-        <BitmapImage x:Key="Coffee" UriSource="/Resources/Coffee.png" />
+        <BitmapImage x:Key="Coffee" UriSource="/Resources/about-back.jpg" />
+        <CubicEase x:Key="RevealEase" EasingMode="EaseOut" />
+        <SineEase x:Key="SweepEase" EasingMode="EaseInOut" />
     </Window.Resources>
+
+    <!--
+        Entrance choreography: the photo pushes in and develops, a light gleam
+        sweeps across it, then the text cascades up line by line and the title
+        catches a shimmer. The window itself rises and fades in from code-behind.
+    -->
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <!--  Backdrop develops while slowly pushing in  -->
+                    <DoubleAnimation
+                        Storyboard.TargetName="Backdrop"
+                        Storyboard.TargetProperty="Opacity"
+                        From="0"
+                        To="1"
+                        Duration="0:0:0.45" />
+                    <DoubleAnimation
+                        EasingFunction="{StaticResource RevealEase}"
+                        Storyboard.TargetName="BackdropScale"
+                        Storyboard.TargetProperty="ScaleX"
+                        From="1.18"
+                        To="1"
+                        Duration="0:0:1.6" />
+                    <DoubleAnimation
+                        EasingFunction="{StaticResource RevealEase}"
+                        Storyboard.TargetName="BackdropScale"
+                        Storyboard.TargetProperty="ScaleY"
+                        From="1.18"
+                        To="1"
+                        Duration="0:0:1.6" />
+
+                    <!--  Gleam sweeping across the photo, once it is fully visible  -->
+                    <DoubleAnimation
+                        BeginTime="0:0:0.45"
+                        EasingFunction="{StaticResource SweepEase}"
+                        Storyboard.TargetName="SheenSlide"
+                        Storyboard.TargetProperty="X"
+                        From="-320"
+                        To="760"
+                        Duration="0:0:0.8" />
+
+                    <!--  Text cascade  -->
+                    <DoubleAnimation
+                        BeginTime="0:0:0.14"
+                        Storyboard.TargetName="RevealTitle"
+                        Storyboard.TargetProperty="Opacity"
+                        From="0"
+                        To="1"
+                        Duration="0:0:0.45" />
+                    <DoubleAnimation
+                        BeginTime="0:0:0.14"
+                        EasingFunction="{StaticResource RevealEase}"
+                        Storyboard.TargetName="TitleSlide"
+                        Storyboard.TargetProperty="Y"
+                        From="20"
+                        To="0"
+                        Duration="0:0:0.45" />
+
+                    <DoubleAnimation
+                        BeginTime="0:0:0.26"
+                        Storyboard.TargetName="RevealTagline"
+                        Storyboard.TargetProperty="Opacity"
+                        From="0"
+                        To="1"
+                        Duration="0:0:0.45" />
+                    <DoubleAnimation
+                        BeginTime="0:0:0.26"
+                        EasingFunction="{StaticResource RevealEase}"
+                        Storyboard.TargetName="TaglineSlide"
+                        Storyboard.TargetProperty="Y"
+                        From="18"
+                        To="0"
+                        Duration="0:0:0.45" />
+
+                    <DoubleAnimation
+                        BeginTime="0:0:0.38"
+                        Storyboard.TargetName="RevealInfo"
+                        Storyboard.TargetProperty="Opacity"
+                        From="0"
+                        To="1"
+                        Duration="0:0:0.45" />
+                    <DoubleAnimation
+                        BeginTime="0:0:0.38"
+                        EasingFunction="{StaticResource RevealEase}"
+                        Storyboard.TargetName="InfoSlide"
+                        Storyboard.TargetProperty="Y"
+                        From="18"
+                        To="0"
+                        Duration="0:0:0.45" />
+
+                    <DoubleAnimation
+                        BeginTime="0:0:0.5"
+                        Storyboard.TargetName="RevealAuthor"
+                        Storyboard.TargetProperty="Opacity"
+                        From="0"
+                        To="1"
+                        Duration="0:0:0.45" />
+                    <DoubleAnimation
+                        BeginTime="0:0:0.5"
+                        EasingFunction="{StaticResource RevealEase}"
+                        Storyboard.TargetName="AuthorSlide"
+                        Storyboard.TargetProperty="Y"
+                        From="18"
+                        To="0"
+                        Duration="0:0:0.45" />
+
+                    <!--  Shimmer travelling through the product name  -->
+                    <PointAnimation
+                        BeginTime="0:0:0.9"
+                        Storyboard.TargetName="TitleBrush"
+                        Storyboard.TargetProperty="StartPoint"
+                        From="-1,0"
+                        To="1,0"
+                        Duration="0:0:1" />
+                    <PointAnimation
+                        BeginTime="0:0:0.9"
+                        Storyboard.TargetName="TitleBrush"
+                        Storyboard.TargetProperty="EndPoint"
+                        From="0,0"
+                        To="2,0"
+                        Duration="0:0:1" />
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+
     <Grid>
         <StackPanel>
             <ui:TitleBar
                 Height="34"
                 Padding="0"
+                Background="Transparent"
                 ShowMaximize="False"
                 ShowMinimize="False" />
 
-            <Grid>
+            <Grid ClipToBounds="True">
                 <Image
-                    Width="128"
-                    Height="128"
-                    Margin="20,10,0,0"
+                    x:Name="Backdrop"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Top"
+                    RenderTransformOrigin="0.5,0.5"
                     Source="{StaticResource Coffee}">
-                    <Image.Clip>
-                        <RectangleGeometry
-                            RadiusX="10"
-                            RadiusY="10"
-                            Rect="0,0,128,128" />
-                    </Image.Clip>
+                    <Image.RenderTransform>
+                        <ScaleTransform x:Name="BackdropScale" />
+                    </Image.RenderTransform>
                 </Image>
+
+                <Rectangle
+                    x:Name="Sheen"
+                    Width="180"
+                    HorizontalAlignment="Left"
+                    IsHitTestVisible="False"
+                    RenderTransformOrigin="0.5,0.5">
+                    <Rectangle.Fill>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                            <GradientStop Offset="0" Color="#00FFFFFF" />
+                            <GradientStop Offset="0.5" Color="#66FFFFFF" />
+                            <GradientStop Offset="1" Color="#00FFFFFF" />
+                        </LinearGradientBrush>
+                    </Rectangle.Fill>
+                    <Rectangle.RenderTransform>
+                        <TransformGroup>
+                            <SkewTransform AngleX="-18" />
+                            <TranslateTransform x:Name="SheenSlide" X="-320" />
+                        </TransformGroup>
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+
                 <StackPanel
-                    Margin="171,0,25,33"
+                    Margin="264,87,10,33"
                     CanVerticallyScroll="True"
                     Orientation="Vertical">
                     <ui:TextBlock
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
+                        x:Name="RevealTitle"
                         FontSize="36"
+                        Opacity="0"
                         Text="Caffeine Pro"
-                        TextWrapping="Wrap" />
-                    <ui:TextBlock
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
                         TextWrapping="Wrap">
-                        <Run FontSize="16" Text="Keeps Windows awake." />
-                        <Run Text=" " />
-                        <Run Text=" " />
-                        <Run Text=" " />
-                        <Bold />
+                        <ui:TextBlock.Foreground>
+                            <LinearGradientBrush x:Name="TitleBrush" StartPoint="-1,0" EndPoint="0,0">
+                                <GradientStop Offset="0" Color="SandyBrown" />
+                                <GradientStop Offset="0.32" Color="SandyBrown" />
+                                <GradientStop Offset="0.5" Color="#FFFFFFFF" />
+                                <GradientStop Offset="0.68" Color="SandyBrown" />
+                                <GradientStop Offset="1" Color="SandyBrown" />
+                            </LinearGradientBrush>
+                        </ui:TextBlock.Foreground>
+                        <ui:TextBlock.RenderTransform>
+                            <TranslateTransform x:Name="TitleSlide" Y="20" />
+                        </ui:TextBlock.RenderTransform>
                     </ui:TextBlock>
-                    <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-                        <ui:TextBlock
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Opacity="0.5"
-                            Text="v"
-                            TextWrapping="Wrap" />
-                        <ui:TextBlock
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Top"
-                            Opacity="0.5"
-                            Text="{Binding Version}"
-                            TextWrapping="Wrap" />
+
+                    <StackPanel x:Name="RevealTagline" Opacity="0">
+                        <StackPanel.RenderTransform>
+                            <TranslateTransform x:Name="TaglineSlide" Y="18" />
+                        </StackPanel.RenderTransform>
+                        <ui:TextBlock Foreground="SaddleBrown" TextWrapping="Wrap">
+                            <Run FontSize="16" Text="Keeps Windows awake." />
+                        </ui:TextBlock>
+                        <StackPanel Orientation="Horizontal">
+                            <ui:TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Foreground="SaddleBrown"
+                                Text="v"
+                                TextWrapping="Wrap" />
+                            <ui:TextBlock
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Foreground="SaddleBrown"
+                                Text="{Binding Version}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
                     </StackPanel>
 
-                    <Separator Margin="0,10" />
-                    <ui:TextBlock
-                        Margin="0,0,0,10"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        TextWrapping="Wrap">
-                        <Run Text="Copyright © 2026 Lotrasoft Inc." />
-                    </ui:TextBlock>
+                    <StackPanel x:Name="RevealInfo" Opacity="0">
+                        <StackPanel.RenderTransform>
+                            <TranslateTransform x:Name="InfoSlide" Y="18" />
+                        </StackPanel.RenderTransform>
+                        <Separator Margin="0,4" />
+                        <ui:TextBlock
+                            Margin="0,0,0,3"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Foreground="SlateGray"
+                            TextWrapping="Wrap">
+                            <Run Text="Copyright © 2026 Lotrasoft Inc." />
+                        </ui:TextBlock>
 
-                    <ui:TextBlock
-                        Margin="0,0,0,10"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        TextWrapping="Wrap">
-                        <Run Text="Website:" />
-                        <Hyperlink Click="Hyperlink_OnClick" NavigateUri="https://lotrasoft.com/caffeinepro">lotrasoft.com/caffeinepro</Hyperlink>
-                    </ui:TextBlock>
+                        <ui:TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Foreground="SlateGray"
+                            TextWrapping="Wrap">
+                            <Run Text="Website:" />
+                            <Run Text=" " />
+                            <Hyperlink Click="Hyperlink_OnClick" NavigateUri="https://lotrasoft.com/caffeinepro">
+                                <Run Text="lotrasoft.com/caffeinepro" />
+                            </Hyperlink>
+                        </ui:TextBlock>
+                    </StackPanel>
 
-                    <Separator Margin="0,10" />
-                    <ui:TextBlock
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top"
-                        TextWrapping="Wrap">
-                        <Run Text="Written by: " />
-                        <Run Text=" " />
-                        <Run FontWeight="Bold" Text="Farshid Solimanpour" />
-                    </ui:TextBlock>
+                    <StackPanel x:Name="RevealAuthor" Opacity="0">
+                        <StackPanel.RenderTransform>
+                            <TranslateTransform x:Name="AuthorSlide" Y="18" />
+                        </StackPanel.RenderTransform>
+                        <Separator Margin="0,4" />
+                        <ui:TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Foreground="SlateGray"
+                            TextWrapping="Wrap">
+                            <Run Text="Written by: " />
+                            <Run FontWeight="Bold" Text="Farshid Solimanpour" />
+                        </ui:TextBlock>
 
-                    <ui:TextBlock
-                        Margin="82,0,0,0"
-                        HorizontalAlignment="Left"
-                        VerticalAlignment="Top">
-                        <Hyperlink Click="Hyperlink_OnClick" NavigateUri="mailto:caffinepro@farshid.ca">
-                            <Run Text="caffinepro@farshid.ca" />
-                        </Hyperlink>
-                    </ui:TextBlock>
+                        <ui:TextBlock
+                            Margin="77,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top">
+                            <Hyperlink Click="Hyperlink_OnClick" NavigateUri="mailto:caffinepro@farshid.ca">
+                                <Run Text="caffinepro@farshid.ca" />
+                            </Hyperlink>
+                        </ui:TextBlock>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
 

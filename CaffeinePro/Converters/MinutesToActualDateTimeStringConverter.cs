@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
 using CaffeinePro.Classes;
+using CaffeinePro.Controls;
 
 namespace CaffeinePro.Converters;
 
@@ -19,7 +20,10 @@ public class MinutesToActualDateTimeStringConverter : IValueConverter, IMultiVal
             return string.Empty;
         }
 
-        var inStartupOptions = (parameter as bool?) ?? true;
+        // Defaults to including the date: a duration picked in the FOR section can land tomorrow, and
+        // "1:56 PM" alone would hide that. The only place the date must be dropped is the startup
+        // options, where the app is not running yet - and those callers pass the flag explicitly.
+        var inStartupOptions = (parameter as bool?) ?? false;
 
         var minutes = 0;
 
@@ -37,6 +41,12 @@ public class MinutesToActualDateTimeStringConverter : IValueConverter, IMultiVal
             case int i:
                 minutes = i;
                 break;
+        }
+
+        // A full day means an indefinite awakeness, which never lands on a clock time.
+        if (minutes >= TimeSliderControl.IndefiniteMinutes)
+        {
+            return "Indefinitely";
         }
 
         var h = minutes / 60;

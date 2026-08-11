@@ -23,7 +23,7 @@ public partial class TimeSliderControl
             })
             .ToArray();
 
-    public static string[] Minutes1 => ["15", "30", "45"];
+    public static string[] Minutes1 => ["15", "30", "45", "1440"];
 
     public static string?[] Minutes2 { get; } = GenerateMinutes2();
 
@@ -32,14 +32,23 @@ public partial class TimeSliderControl
             .. Enumerable.Range(2, 23)
                 .Select(i => (string?)(i * 30).ToString())
 ,
-            "1440",
+            "1439",
         ];
+
+    /// <summary>
+    /// The top of the slider's range. A full day is not offered as a 24 hour duration: it stands for
+    /// an indefinite awakeness, which is also where an indefinite awakeness lands when the slider is
+    /// seeded from one.
+    /// </summary>
+    public const double IndefiniteMinutes = 1440;
 
     public TimeSpan TotalMinutes => TimeSpan.FromMinutes(MinutesSlider.Value);
 
     public static readonly DependencyProperty InStartupOptionsProperty = DependencyProperty.Register(nameof(InStartupOptions), typeof(bool), typeof(TimeSliderControl), new PropertyMetadata(default(bool)));
 
     public static readonly DependencyProperty IsForSelectionProperty = DependencyProperty.Register(nameof(IsForSelection), typeof(bool), typeof(TimeSliderControl), new PropertyMetadata(default(bool)));
+
+    public static readonly DependencyProperty IsIndefiniteProperty = DependencyProperty.Register(nameof(IsIndefinite), typeof(bool), typeof(TimeSliderControl), new PropertyMetadata(default(bool)));
 
     private bool _isProgrammaticSliderChange;
 
@@ -64,6 +73,16 @@ public partial class TimeSliderControl
         set => SetValue(IsForSelectionProperty, value);
     }
 
+    /// <summary>
+    /// True when the slider sits at the top of its range, which means "indefinitely" rather than
+    /// "for 24 hours".
+    /// </summary>
+    public bool IsIndefinite
+    {
+        get => (bool)GetValue(IsIndefiniteProperty);
+        private set => SetValue(IsIndefiniteProperty, value);
+    }
+
     private void SetSliderValue(double minutes, bool isForSelection)
     {
         _isProgrammaticSliderChange = true;
@@ -75,6 +94,10 @@ public partial class TimeSliderControl
 
     private void MinutesSlider_OnValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
+        // Updated for programmatic changes as well: seeding the slider from an indefinite awakeness
+        // clamps to the maximum, and the display has to follow.
+        IsIndefinite = e.NewValue >= IndefiniteMinutes;
+
         if (_isProgrammaticSliderChange)
         {
             return;

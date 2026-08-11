@@ -34,13 +34,13 @@
             ToolTip="Ask Later" />
 
         <StackPanel
-            Margin="0,10,0,0"
+            Margin="50,10,50,0"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <Image
                 Width="50"
                 Height="50"
-                Margin="0,0,10,0"
+                Margin="0,0,40,0"
                 Source="{StaticResource Coffee}">
                 <Image.Clip>
                     <RectangleGeometry
@@ -126,19 +126,7 @@
                     <TextBlock VerticalAlignment="Center" Text="Activate" />
                 </StackPanel>
             </ui:Button>
-            <ui:Button
-                Height="40"
-                Margin="10,0,0,0"
-                Click="AlwaysActivate_Click"
-                IsDefault="True">
-                <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Top" TextAlignment="Center">
-                        <Run Foreground="{StaticResource ActiveColor}" Text="●" />
-                        <Run Text=" " />
-                    </TextBlock>
-                    <TextBlock VerticalAlignment="Center" Text="Always Activate" />
-                </StackPanel>
-            </ui:Button>
+
             <ui:Button
                 Height="40"
                 Margin="10,0,0,0"

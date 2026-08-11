@@ -1,8 +1,9 @@
-﻿using System.Reflection;
+using System.ComponentModel;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Threading;
+using System.Windows.Media.Animation;
 using CaffeinePro.Classes;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
@@ -13,6 +14,15 @@ namespace CaffeinePro;
 /// </summary>
 public partial class AboutWindow
 {
+    // Entrance/exit animation parameters. The content choreography lives in the XAML storyboard;
+    // only the window itself (which has no layout position to animate in XAML) is handled here.
+    private const double EntranceRise = 26;
+    private static readonly Duration EntranceDuration = new(TimeSpan.FromMilliseconds(280));
+    private static readonly Duration ExitDuration = new(TimeSpan.FromMilliseconds(180));
+
+    private double _restingTop;
+    private bool _closingAnimated;
+
     private static AboutWindow? _window;
 
     public static string AppName => Assembly.GetExecutingAssembly().GetName().Name!;
@@ -43,6 +53,9 @@ public partial class AboutWindow
     {
         if (_window is { IsLoaded: true })
         {
+            // Forced close (e.g. application exit): skip the exit animation so the window
+            // does not outlive the shutting-down dispatcher.
+            _window._closingAnimated = true;
             _window.Close();
         }
     }
@@ -53,6 +66,8 @@ public partial class AboutWindow
     public AboutWindow()
     {
         InitializeComponent();
+
+        Opacity = 0;
 
         Icon = new System.Windows.Media.Imaging.BitmapImage(
             new Uri("pack://application:,,,/Resources/Coffee.png"));
@@ -72,5 +87,69 @@ public partial class AboutWindow
         {
             Close();
         }
+    }
+
+    private void AboutWindow_OnLoaded(object sender, RoutedEventArgs e)
+    {
+        AnimateIn();
+    }
+
+    protected override void OnClosing(CancelEventArgs e)
+    {
+        if (!_closingAnimated)
+        {
+            e.Cancel = true;
+            AnimateOut();
+        }
+
+        base.OnClosing(e);
+    }
+
+    /// <summary>
+    /// Fades the window in while it rises into its final position.
+    /// </summary>
+    private void AnimateIn()
+    {
+        _restingTop = Top;
+        Top = _restingTop + EntranceRise;
+
+        var ease = new CubicEase { EasingMode = EasingMode.EaseOut };
+
+        var rise = new DoubleAnimation(_restingTop, EntranceDuration) { EasingFunction = ease };
+        rise.Completed += (_, _) =>
+        {
+            // Release the animations once finished, otherwise they keep holding the
+            // property values and the window can no longer be dragged.
+            BeginAnimation(TopProperty, null);
+            Top = _restingTop;
+        };
+
+        var fade = new DoubleAnimation(1, EntranceDuration) { EasingFunction = ease };
+        fade.Completed += (_, _) =>
+        {
+            BeginAnimation(OpacityProperty, null);
+            Opacity = 1;
+        };
+
+        BeginAnimation(TopProperty, rise);
+        BeginAnimation(OpacityProperty, fade);
+    }
+
+    /// <summary>
+    /// Fades the window out, then closes it for real.
+    /// </summary>
+    private void AnimateOut()
+    {
+        var ease = new CubicEase { EasingMode = EasingMode.EaseIn };
+
+        var fade = new DoubleAnimation(0, ExitDuration) { EasingFunction = ease };
+        fade.Completed += (_, _) =>
+        {
+            _closingAnimated = true;
+            Close();
+        };
+
+        BeginAnimation(TopProperty, new DoubleAnimation(Top + EntranceRise / 2, ExitDuration) { EasingFunction = ease });
+        BeginAnimation(OpacityProperty, fade);
     }
 }

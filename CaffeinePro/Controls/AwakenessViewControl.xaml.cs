@@ -1,6 +1,6 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using CaffeinePro.Classes;
-using Windows.ApplicationModel.VoiceCommands;
 
 namespace CaffeinePro.Controls;
 
@@ -18,11 +18,16 @@ public sealed partial class AwakenessViewControl
         new FrameworkPropertyMetadata(default(Awakeness), ValueChanged));
 
     private static void ValueChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-    {
-        var awakeness = ((Awakeness)e.NewValue);
-        var control = (AwakenessViewControl)d;
-        control.ShouldShowDate = awakeness.IsIndefinite || (!awakeness.IsRelative && !control.InStartupOptions);
-    }
+        => ((AwakenessViewControl)d).UpdateShouldShowDate();
+
+    /// <summary>
+    /// Outside the startup options the end date is always shown - it is empty for today anyway, and
+    /// leaving it out hid the "Tomorrow" on a duration long enough to run past midnight. Inside the
+    /// startup options only an indefinite awakeness has a date to show ("Indefinitely"), because the
+    /// app is not running yet and any concrete date would be meaningless.
+    /// </summary>
+    private void UpdateShouldShowDate()
+        => ShouldShowDate = AwakenessValue.IsIndefinite || !InStartupOptions;
 
     public Awakeness AwakenessValue
     {
@@ -51,7 +56,20 @@ public sealed partial class AwakenessViewControl
     // The slider lives inside the drop-down's ContextMenu, which is outside this control's inherited
     // DataContext, so the flag is pushed across instead of bound in XAML.
     private static void InStartupOptionsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        => ((AwakenessViewControl)d).RelativeTimeSlider.InStartupOptions = (bool)e.NewValue;
+    {
+        var control = (AwakenessViewControl)d;
+        var inStartupOptions = (bool)e.NewValue;
+
+        control.RelativeTimeSlider.InStartupOptions = inStartupOptions;
+
+        // Recomputed here as well: this property and AwakenessValue are both set from XAML, in no
+        // guaranteed order, and ShouldShowDate depends on the two of them.
+        control.UpdateShouldShowDate();
+
+        // Only collapsed here, never shown: the section is authored visible so that the false case
+        // works too - setting the property to the value it already has raises no change callback.
+        control.DefaultAwakenessSection.Visibility = inStartupOptions ? Visibility.Collapsed : Visibility.Visible;
+    }
 
 
 
@@ -102,9 +120,25 @@ public sealed partial class AwakenessViewControl
 
     private void ApplyButton_OnClick(object sender, RoutedEventArgs e)
     {
-        AwakenessValue = RelativeTimeSlider.IsForSelection
-            ? new Awakeness(Awakeness.AwakenessTypes.Relative, RelativeTimeSlider.TotalMinutes)
-            : new Awakeness(Awakeness.AwakenessTypes.Absolute, GetSelectedTimeOfDay());
+        AwakenessValue = RelativeTimeSlider switch
+        {
+            // The top of the slider's range means "indefinitely", not "for 24 hours".
+            { IsIndefinite: true } => new Awakeness(Awakeness.AwakenessTypes.Absolute, TimeSpan.MaxValue),
+            { IsForSelection: true } slider => new Awakeness(Awakeness.AwakenessTypes.Relative, slider.TotalMinutes),
+            _ => new Awakeness(Awakeness.AwakenessTypes.Absolute, GetSelectedTimeOfDay())
+        };
+
+        RaiseNewAwakenessSelected();
+    }
+
+    /// <summary>
+    /// Adopts the default (startup) awakeness. It is renewed first: the end time stored in the
+    /// settings was calculated when they were loaded, so a relative default ("for 2 hours") has to
+    /// be recounted from now.
+    /// </summary>
+    private void SetToDefaultButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        AwakenessValue = Awakeness.RenewDateTime(App.CurrentApp.AppSettings.StartupAwakeness);
 
         RaiseNewAwakenessSelected();
     }
@@ -126,5 +160,9 @@ public sealed partial class AwakenessViewControl
         // Seeded from the awakeness this control is bound to (the active one in the status bar, the
         // startup one in the startup options) rather than always from the startup awakeness.
         RelativeTimeSlider.SetRelativeTime(Routines.ToRelativeTime(AwakenessValue.EndDateTime));
+
+        // The default's "until ..." hint is counted from now, so it goes stale between openings: the
+        // binding alone only refreshes when the setting itself changes.
+        DefaultAwakenessHint.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
     }
 }

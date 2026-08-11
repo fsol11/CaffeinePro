@@ -36,13 +36,28 @@
             <GeometryDrawing.Geometry>
                 <GeometryGroup FillRule="EvenOdd">
                     <!--  Body, then its interior punched out of it  -->
-                    <RectangleGeometry RadiusX="1.6" RadiusY="1.6" Rect="2,7,18,10" />
-                    <RectangleGeometry RadiusX="0.6" RadiusY="0.6" Rect="3.4,8.4,15.2,7.2" />
+                    <RectangleGeometry
+                        RadiusX="1.6"
+                        RadiusY="1.6"
+                        Rect="2,7,18,10" />
+                    <RectangleGeometry
+                        RadiusX="0.6"
+                        RadiusY="0.6"
+                        Rect="3.4,8.4,15.2,7.2" />
                     <!--  Terminal  -->
-                    <RectangleGeometry RadiusX="0.5" RadiusY="0.5" Rect="20,10,2,4" />
+                    <RectangleGeometry
+                        RadiusX="0.5"
+                        RadiusY="0.5"
+                        Rect="20,10,2,4" />
                     <!--  Pause bars, inside the punched-out interior so they fill again  -->
-                    <RectangleGeometry RadiusX="0.4" RadiusY="0.4" Rect="7.6,10,2.2,4" />
-                    <RectangleGeometry RadiusX="0.4" RadiusY="0.4" Rect="12.2,10,2.2,4" />
+                    <RectangleGeometry
+                        RadiusX="0.4"
+                        RadiusY="0.4"
+                        Rect="7.6,10,2.2,4" />
+                    <RectangleGeometry
+                        RadiusX="0.4"
+                        RadiusY="0.4"
+                        Rect="12.2,10,2.2,4" />
                 </GeometryGroup>
             </GeometryDrawing.Geometry>
         </GeometryDrawing>

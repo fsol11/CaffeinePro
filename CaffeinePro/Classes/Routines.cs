@@ -187,16 +187,10 @@ public static class Routines
     public static string GetDateString(DateTime datetime)
     {
         if (datetime == DateTime.MaxValue)
-        {
-            return "Indefinitely";
-        }
+            return "♾️ Indefinitely";
 
         if (datetime == DateTime.MinValue)
-        {
             return "Inactive";
-        }
-
-        var dateFormat = "MMM dd, yyyy";
 
         if (datetime is { Hour: 0, Minute: 0 })
             return "Midnight";

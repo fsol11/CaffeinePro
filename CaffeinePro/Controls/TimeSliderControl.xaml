@@ -310,22 +310,12 @@
                             Margin="0,0,5,0"
                             IsSnapToTickEnabled="True"
                             LargeChange="5"
-                            Maximum="1439"
+                            Maximum="1440"
                             Minimum="5"
                             SmallChange="1"
                             TickFrequency="5"
                             TickPlacement="None"
                             ValueChanged="MinutesSlider_OnValueChanged" />
-                        <TextBlock
-                            Width="80"
-                            Padding="0,5,0,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontFamily="Arial"
-                            FontSize="12pt"
-                            Opacity=".5"
-                            Text="{Binding ElementName=MinutesSlider, Path=Value, Converter={StaticResource MinutesToTimeString}, ConverterParameter={x:Static converters:TimeStringFormat.Relative}}"
-                            TextAlignment="Center" />
                     </StackPanel>
                 </StackPanel>
             </Border>
@@ -353,53 +343,75 @@
             </Border>
         </Grid>
 
-        <StackPanel Margin="0,16,0,0" HorizontalAlignment="Center">
+        <StackPanel
+            Height="45"
+            Margin="0,16,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+            <!--  The top of the slider's range is not a 24 hour duration, it is "indefinitely"  -->
             <TextBlock
                 HorizontalAlignment="Center"
+                VerticalAlignment="Center"
                 FontSize="20"
                 TextAlignment="Center"
-                Visibility="{Binding IsForSelection, Converter={StaticResource BoolToVis}}">
-                <Run FontSize="14" Text="FOR" />
-                <Run Text="{Binding ElementName=MinutesSlider, Path=Value, Converter={StaticResource MinutesToTimeString}, Mode=OneWay}" />
+                Visibility="{Binding IsIndefinite, Converter={StaticResource BoolToVis}}">
+                <Run Text="♾️" />
+                <Run Text="Indefinitely" />
             </TextBlock>
-            <TextBlock
+
+            <StackPanel
                 HorizontalAlignment="Center"
-                FontSize="12"
-                Opacity="0.6"
-                TextAlignment="Center">
-                <Run FontSize="10" Text="UNTIL" />
-                <Run Text="{Binding ElementName=MinutesSlider, Path=Value, Converter={StaticResource MinutesToActualDateTime}}" />
-                <TextBlock.Style>
-                    <!--  In the startup options the app is not running yet, so the clock time a FOR duration lands on is meaningless.  -->
-                    <Style TargetType="TextBlock">
-                        <Setter Property="Visibility" Value="Collapsed" />
-                        <Style.Triggers>
-                            <MultiDataTrigger>
-                                <MultiDataTrigger.Conditions>
-                                    <Condition Binding="{Binding IsForSelection}" Value="True" />
-                                    <Condition Binding="{Binding InStartupOptions}" Value="False" />
-                                </MultiDataTrigger.Conditions>
-                                <Setter Property="Visibility" Value="Visible" />
-                            </MultiDataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </TextBlock.Style>
-            </TextBlock>
-            <TextBlock
-                HorizontalAlignment="Center"
-                FontSize="20"
-                TextAlignment="Center"
-                Visibility="{Binding IsForSelection, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
-                <Run FontSize="14" Text="UNTIL" />
-                <Run>
-                    <Run.Text>
-                        <MultiBinding Converter="{StaticResource MinutesToActualDateTime}" Mode="OneWay">
-                            <Binding ElementName="MinutesSlider" Path="Value" />
-                            <Binding Path="InStartupOptions" />
-                        </MultiBinding>
-                    </Run.Text>
-                </Run>
-            </TextBlock>
+                VerticalAlignment="Center"
+                Visibility="{Binding IsIndefinite, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="20"
+                    TextAlignment="Center"
+                    Visibility="{Binding IsForSelection, Converter={StaticResource BoolToVis}}">
+                    <Run FontSize="14" Text="FOR" />
+                    <Run Text="{Binding ElementName=MinutesSlider, Path=Value, Converter={StaticResource MinutesToTimeString}, Mode=OneWay}" />
+                </TextBlock>
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="12"
+                    Opacity="0.6"
+                    TextAlignment="Center">
+                    <Run FontSize="10" Text="UNTIL" />
+                    <Run Text="{Binding ElementName=MinutesSlider, Path=Value, Converter={StaticResource MinutesToActualDateTime}}" />
+                    <TextBlock.Style>
+                        <!--  In the startup options the app is not running yet, so the clock time a FOR duration lands on is meaningless.  -->
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding IsForSelection}" Value="True" />
+                                        <Condition Binding="{Binding InStartupOptions}" Value="False" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock
+                    HorizontalAlignment="Center"
+                    FontSize="20"
+                    TextAlignment="Center"
+                    Visibility="{Binding IsForSelection, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
+                    <Run FontSize="14" Text="UNTIL" />
+                    <Run>
+                        <Run.Text>
+                            <MultiBinding Converter="{StaticResource MinutesToActualDateTime}" Mode="OneWay">
+                                <Binding ElementName="MinutesSlider" Path="Value" />
+                                <Binding Path="InStartupOptions" />
+                            </MultiBinding>
+                        </Run.Text>
+                    </Run>
+                </TextBlock>
+
+            </StackPanel>
         </StackPanel>
 
     </StackPanel>

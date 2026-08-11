@@ -44,6 +44,7 @@
             <converters:TwoValuesNotEqualToVisibility x:Key="TwoValuesNotEqualToVisibility" />
             <converters:AwakenessTimeNotEqualsToVisibilityConverter x:Key="AwakenessTimeNotEqualsToVisibilityConverter" />
             <converters:HoursMinutesToStringConverter x:Key="HoursMinutesToString" />
+            <converters:AwakenessToDisplayTextConverter x:Key="AwakenessToDisplayText" />
 
             <Style x:Key="NoHighlightMenuItemStyle" TargetType="{x:Type MenuItem}">
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -110,8 +111,16 @@
                 </MenuItem>
                 <Separator />
 
-                <MenuItem Click="OnSendFeedback" Header="Send Feedback..." />
-                <MenuItem Click="OnAboutMenu" Header="About..." />
+                <MenuItem Click="OnSendFeedback" Header="Send Feedback...">
+                    <MenuItem.Icon>
+                        <ui:SymbolIcon Margin="0,0,6,0" Symbol="PersonFeedback20" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Click="OnAboutMenu" Header="About Caffeine Pro...">
+                    <MenuItem.Icon>
+                        <ui:SymbolIcon Margin="0,0,6,0" Symbol="Info20" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <MenuItem Click="OnExitMenu" Header="Quit">
                     <MenuItem.Icon>
                         <ui:SymbolIcon Margin="0,0,6,0" Symbol="ArrowExit20" />

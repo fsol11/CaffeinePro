@@ -40,17 +40,19 @@
     <PackageReference Include="WPF-UI" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\about-back.jpg" />
     <Resource Include="Resources\Coffee.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </Resource>
+    <None Remove="Resources\about-back.jpg" />
     <None Remove="Resources\Coffee16.ico" />
     <Resource Include="Resources\Coffee16.ico" />
     <None Remove="Resources\Coffee32.ico" />
     <Resource Include="Resources\Coffee32.ico" />
     <None Remove="Resources\CoffeeDot.ico" />
     <None Remove="Resources\Software-Install.ico" />
-    <Content Include="Resources\Coffee.ico" />
+    <Resource Include="Resources\Coffee.ico" />
     <Resource Include="Resources\Software-Install.ico" />
   </ItemGroup>
   <ItemGroup>

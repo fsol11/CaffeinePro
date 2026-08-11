@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
-using CaffeinePro.Classes;
+using CaffeinePro.Controls;
 
 namespace CaffeinePro.Converters;
 
@@ -43,6 +43,12 @@ public class MinutesToTimeStringConverter : IValueConverter
             case TimeSpan at:
                 minutes = at.TotalMinutes;
                 break;
+        }
+
+        // A full day is not a duration the app offers: it stands for an indefinite awakeness.
+        if (minutes >= TimeSliderControl.IndefiniteMinutes)
+        {
+            return "♾️ Indefinitely";
         }
 
         var h = (int) (minutes / 60);

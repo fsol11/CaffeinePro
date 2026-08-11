@@ -4,4 +4,4 @@
 // a specific target and scoped to a namespace, type, member, etc.
 
 using System.Diagnostics.CodeAnalysis;
-[assembly: SuppressMessage("Style", "IDE0011:Add braces", Justification = "<Pending>", Scope = "member", Target = "~M:CaffeinePro.Classes.Routines.GetDateString(System.DateTime,System.Boolean)~System.String")]
+[assembly: SuppressMessage("Style", "IDE0011:Add braces", Justification = "<Pending>", Scope = "member", Target = "~M:CaffeinePro.*")]
