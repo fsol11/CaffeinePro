@@ -6,15 +6,17 @@ power settings — or don't want to remember to change them back later.
 
 It lives in the notification area (system tray), keeps itself out of the way, and stops on a schedule you choose.
 
-![Screenshot](https://lotrasoft.com/assets/caffeine-pro-light-BlS7Td5k.webp "Light Screen Shot")
-![Screenshot](https://lotrasoft.com/assets/caffeine-pro-dark-DYYnqE2s.webp "Dark Screen Shot")
+![Tray menu in the Windows light theme](CaffeinePro/Images/screenshot-light.png "Light theme") ![Tray menu in the Windows dark theme](CaffeinePro/Images/screenshot-dark.png "Dark theme")
+
+Everything runs from the tray menu: the current end time, an Active/Inactive toggle, and a Settings flyout.
+The whole window follows the Windows theme.
 
 ## Features
 
 - **Keeps Windows awake** using one of two methods (see [How It Works](#how-it-works)) — either by simulating
   real keyboard/mouse input, or by asking Windows directly while still allowing the screen saver.
 - **Timed sessions:** stay awake indefinitely, for a relative duration ("for 2 hours"), or until an absolute
-  time of day ("until 5:30 PM"). A time slider makes picking the end time quick.
+  time of day ("until 5:30 PM") — see [Setting How Long](#setting-how-long).
 - **Actions afterwards:** when the timer expires, Caffeine Pro can leave the session alone or perform
   **Lock**, **Sign Out**, **Quit** (the app), **Sleep**, **Hibernate**, **Shutdown**, **Force Shutdown**,
   **Restart**, or **Force Restart**.
@@ -36,6 +38,18 @@ It lives in the notification area (system tray), keeps itself out of the way, an
   command-line arguments to it over a named pipe, and exits.
 - **Command line control:** activate, deactivate, set a duration, query status, or quit the running instance
   from a script or shortcut.
+
+## Setting How Long
+
+Clicking the time button at the top of the tray menu opens the picker.
+
+![Picking how long to stay awake](CaffeinePro/Images/screenshot-timeselect.png "Time picker")
+
+**UNTIL** takes an absolute time of day; the hour you pick stays absolute, so the end time doesn't drift by
+however long you spend deciding. **FOR** takes a duration — quick presets, a half-hour grid running to
+23h 59m, a slider for anything in between, or **Indefinitely**. The current choice is spelled out above
+**Apply & Activate**, and **Set to Default** loads whatever you configured as the startup default (shown
+beside it) back into the picker.
 
 ## System Requirements
 
@@ -140,6 +154,14 @@ If an instance is already running, the arguments are forwarded to it through a n
 exits immediately — so `CaffeinePro.exe deactivate` from a script controls the copy already in your tray.
 
 ## Settings
+
+Everything lives in one panel, reached from **Settings** in the tray menu.
+
+![Settings panel](CaffeinePro/Images/screenshot-settings.png "Settings")
+
+**Default** is the awakeness applied at startup and after each unlock, together with how assertive the app
+should be about it. **Method** chooses between the two keep-awake techniques described above.
+**Afterwards** is the action to run when the timer expires.
 
 Settings are stored per user as JSON at:
 

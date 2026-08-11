@@ -9,3 +9,8 @@ CaffeinePro Setup-SetupFiles/
 CaffeinePro Setup-cache/
 Generated Assets/
 AppPackages/
+
+# MSIX packaging intermediates
+BundleArtifacts/
+*.assets.cache
+UpgradeLog*.htm

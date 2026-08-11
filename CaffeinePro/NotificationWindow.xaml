@@ -34,13 +34,14 @@
             ToolTip="Ask Later" />
 
         <StackPanel
-            Margin="50,10,50,0"
+            Margin="20,10,20,0"
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <Image
                 Width="50"
                 Height="50"
-                Margin="0,0,40,0"
+                Margin="0,0,20,0"
+                VerticalAlignment="Top"
                 Source="{StaticResource Coffee}">
                 <Image.Clip>
                     <RectangleGeometry
@@ -103,8 +104,8 @@
         </StackPanel>
 
         <StackPanel
-            Margin="0,20,0,0"
-            HorizontalAlignment="Center"
+            Margin="10,20,10,10"
+            HorizontalAlignment="Right"
             Orientation="Horizontal">
             <ui:TextBlock
                 Padding="5,0,0,0"
@@ -114,7 +115,7 @@
                 TextWrapping="Wrap" />
 
             <ui:Button
-                Width="123"
+                Width="150"
                 Height="40"
                 Click="Activate_Click"
                 IsDefault="True">
@@ -128,8 +129,9 @@
             </ui:Button>
 
             <ui:Button
+                Width="150"
                 Height="40"
-                Margin="10,0,0,0"
+                Margin="20,0,0,0"
                 Click="IgnoreForToday_Click">
                 <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
                     <ui:SymbolIcon
@@ -137,7 +139,7 @@
                         VerticalAlignment="Center"
                         FontSize="14"
                         Symbol="Pause20" />
-                    <TextBlock VerticalAlignment="Center" Text="Ignore For Today" />
+                    <TextBlock VerticalAlignment="Center" Text="Ignore for Today" />
                 </StackPanel>
             </ui:Button>
         </StackPanel>

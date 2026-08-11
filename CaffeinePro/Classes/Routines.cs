@@ -5,11 +5,13 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.ComponentModel;
 using System.Drawing;
+using System.Text;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
+using Windows.ApplicationModel;
 using Size = System.Windows.Size;
 
 namespace CaffeinePro.Classes;
@@ -238,6 +240,36 @@ public static class Routines
     }
 
     /// <summary>
+    /// Identifier of the startup task declared in the MSIX package manifest. Must stay in sync
+    /// with the TaskId in "CaffeinePro Setup\Package.appxmanifest".
+    /// </summary>
+    private const string StartupTaskId = "CaffeineProStartupTask";
+
+    /// <summary>
+    /// Retrieves the package full name of the calling process, or ERROR_NO_PACKAGE_IDENTITY (15700)
+    /// when the process is not running from an MSIX package.
+    /// </summary>
+    [DllImport("kernel32.dll", CharSet = CharSet.Unicode)]
+    private static extern int GetCurrentPackageFullName(ref int packageFullNameLength,
+        StringBuilder? packageFullName);
+
+    private static bool? _isPackaged;
+
+    /// <summary>
+    /// True when the application runs from an MSIX package (a Microsoft Store install) rather than
+    /// from the MSI installer. The two builds start with Windows in completely different ways.
+    /// </summary>
+    public static bool IsPackaged
+    {
+        get
+        {
+            const int errorNoPackageIdentity = 15700;
+            var length = 0;
+            return _isPackaged ??= GetCurrentPackageFullName(ref length, null) != errorNoPackageIdentity;
+        }
+    }
+
+    /// <summary>
     /// Adds or removes the program to/from the Windows startup
     /// </summary>
     /// <param name="isActive">When true, adds the program to Windows startups, and when false removes it</param>
@@ -245,6 +277,12 @@ public static class Routines
     {
         if (isActive == IsAddedToWindowsStartup())
         {
+            return;
+        }
+
+        if (IsPackaged)
+        {
+            SetPackagedStartupTask(isActive);
             return;
         }
 
@@ -264,6 +302,12 @@ public static class Routines
     /// </summary>
     public static bool IsAddedToWindowsStartup()
     {
+        if (IsPackaged)
+        {
+            return GetPackagedStartupTaskState() is StartupTaskState.Enabled
+                or StartupTaskState.EnabledByPolicy;
+        }
+
         var exePath = GetExePath();
         if (string.IsNullOrEmpty(exePath))
         {
@@ -273,6 +317,71 @@ public static class Routines
         using var key = OpenAppRegistryKey();
         return string.Equals(key?.GetValue(GetApplicationName())?.ToString(), exePath,
             StringComparison.CurrentCultureIgnoreCase);
+    }
+
+    /// <summary>
+    /// Reads the current state of the startup task declared in the package manifest. The WinRT call
+    /// is pushed onto a worker thread so that blocking on it cannot deadlock the UI dispatcher.
+    /// </summary>
+    private static StartupTaskState GetPackagedStartupTaskState()
+    {
+        try
+        {
+            return Task.Run(async () =>
+                (await StartupTask.GetAsync(StartupTaskId).AsTask()).State).GetAwaiter().GetResult();
+        }
+        catch (Exception)
+        {
+            // The extension is missing or the platform refused the query; report "not enabled"
+            // rather than tearing down the app over a checkbox.
+            return StartupTaskState.Disabled;
+        }
+    }
+
+    /// <summary>
+    /// Enables or disables the packaged startup task. Once the user turns the task off from Task
+    /// Manager or Settings, Windows will not let the app turn it back on, so that case is reported
+    /// instead of failing silently.
+    /// </summary>
+    /// <param name="isActive">When true, enables the startup task, and when false disables it</param>
+    private static void SetPackagedStartupTask(bool isActive)
+    {
+        StartupTaskState state;
+
+        try
+        {
+            state = Task.Run(async () =>
+            {
+                var task = await StartupTask.GetAsync(StartupTaskId).AsTask();
+
+                if (!isActive)
+                {
+                    task.Disable();
+                    return task.State;
+                }
+
+                return await task.RequestEnableAsync().AsTask();
+            }).GetAwaiter().GetResult();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(ex.Message, "Error Changing Startup Setting",
+                MessageBoxButton.OK, MessageBoxImage.Error);
+            return;
+        }
+
+        if (!isActive || state is StartupTaskState.Enabled or StartupTaskState.EnabledByPolicy)
+        {
+            return;
+        }
+
+        var reason = state == StartupTaskState.DisabledByPolicy
+            ? "Your organization's policy prevents Caffeine Pro from starting with Windows."
+            : "Caffeine Pro was turned off in the Startup apps list, so it can only be re-enabled "
+              + "from there. Open Task Manager > Startup apps (or Settings > Apps > Startup) and "
+              + "switch Caffeine Pro on.";
+
+        MessageBox.Show(reason, "Start With Windows", MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
     /// <summary>
