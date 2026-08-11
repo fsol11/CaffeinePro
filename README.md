@@ -1,8 +1,7 @@
 ## Caffeine Pro
-
 Caffeine Pro prevents your Windows computer from going to sleep, locking, or showing you as "Away" in
 communication apps. It's useful when you need the machine to stay awake but can't change the system-wide
-power settings — or don't want to remember to change them back later.
+power settings – or don't want to remember to change them back later.
 
 It lives in the notification area (system tray), keeps itself out of the way, and stops on a schedule you choose.
 
@@ -13,10 +12,10 @@ The whole window follows the Windows theme.
 
 ## Features
 
-- **Keeps Windows awake** using one of two methods (see [How It Works](#how-it-works)) — either by simulating
+- **Keeps Windows awake** using one of two methods (see [How It Works](#how-it-works)) – either by simulating
   real keyboard/mouse input, or by asking Windows directly while still allowing the screen saver.
 - **Timed sessions:** stay awake indefinitely, for a relative duration ("for 2 hours"), or until an absolute
-  time of day ("until 5:30 PM") — see [Setting How Long](#setting-how-long).
+  time of day ("until 5:30 PM") – see [Setting How Long](#setting-how-long).
 - **Actions afterwards:** when the timer expires, Caffeine Pro can leave the session alone or perform
   **Lock**, **Sign Out**, **Quit** (the app), **Sleep**, **Hibernate**, **Shutdown**, **Force Shutdown**,
   **Restart**, or **Force Restart**.
@@ -24,7 +23,7 @@ The whole window follows the Windows theme.
   *stay inactive* at startup and after each unlock. The "ask me" prompt is a lightweight notification you can
   dismiss for the rest of the day.
 - **Returns-to-desk detection:** the app also notices when the display wakes back up after being blanked for
-  inactivity — not just session lock/unlock — so it can offer to reactivate when you actually come back.
+  inactivity – not just session lock/unlock – so it can offer to reactivate when you actually come back.
 - **Pause while on battery:** optionally suspend keeping-awake whenever the machine is unplugged. Power source
   changes are detected the moment the charger is pulled, not on the next tick.
 - **Pause while locked:** keeping-awake is automatically suspended while the workstation is locked, and resumes
@@ -46,7 +45,7 @@ Clicking the time button at the top of the tray menu opens the picker.
 ![Picking how long to stay awake](CaffeinePro/Images/screenshot-timeselect.png "Time picker")
 
 **UNTIL** takes an absolute time of day; the hour you pick stays absolute, so the end time doesn't drift by
-however long you spend deciding. **FOR** takes a duration — quick presets, a half-hour grid running to
+however long you spend deciding. **FOR** takes a duration – quick presets, a half-hour grid running to
 23h 59m, a slider for anything in between, or **Indefinitely**. The current choice is spelled out above
 **Apply & Activate**, and **Set to Default** loads whatever you configured as the startup default (shown
 beside it) back into the picker.
@@ -54,11 +53,12 @@ beside it) back into the picker.
 ## System Requirements
 
 - Windows 10 version 1809 (build 17763) or later, x86 / x64 / ARM64.
-- .NET 10 Desktop Runtime (included in the installer).
+- Nothing else. Both the Store package and the standalone executable bundle the .NET 10 runtime,
+  so neither needs .NET installed – Windows ships no .NET Core runtime in the box.
 
 ## Installation
 
-Grab an installer from the [releases page](https://github.com/fsol11/CaffeinePro/releases), or build from
+Grab a build from the [releases page](https://github.com/fsol11/CaffeinePro/releases), or build from
 source:
 
 ```
@@ -67,8 +67,21 @@ cd CaffeinePro
 dotnet build CaffeinePro.sln -c Release
 ```
 
-The repository also contains an MSIX packaging project (`CaffeinePro Setup`) and an Advanced Installer MSI
-project (`CaffeinePro AdvInstaller MSI Setup`) used to produce the published packages.
+### Packaging
+
+Caffeine Pro ships as an MSIX package, built by the `CaffeinePro Setup` project. The `scripts` folder
+wraps the whole release path, and each script can be run from anywhere:
+
+| Script | Purpose |
+| --- | --- |
+| `scripts\publish-store.bat` | Builds the x86 / x64 / ARM64 bundle and the `.msixupload` for Partner Center. |
+| `scripts\test-package.ps1` | Builds one architecture, installs it, and launches it, so you can test the packaged app locally. `-Uninstall` removes it again. |
+| `scripts\submit-store.ps1` | Creates a Store submission and uploads the `.msixupload` through the Store submission API. Stages only, unless you pass `-Commit`. |
+| `scripts\publish.bat` | Separate from the Store path: produces the signed standalone executable for the releases page. |
+
+`test-package.ps1` needs Developer Mode (Settings → System → For developers) but no certificate and no
+administrator rights. `submit-store.ps1` reads its Partner Center credentials from the
+`PARTNER_TENANT_ID`, `PARTNER_CLIENT_ID` and `PARTNER_CLIENT_SECRET` environment variables.
 
 ## How It Works
 
@@ -81,7 +94,7 @@ Caffeine Pro sends real input events through `SendInput`, alternating randomly b
 pressing **F15** (neither is present on a normal keyboard, so nothing in your applications reacts to them), and
 nudging the mouse one pixel around a tiny square that returns the cursor to where it started.
 
-Because these are genuine input events, they update `GetLastInputInfo` — which is what Microsoft Teams, Slack
+Because these are genuine input events, they update `GetLastInputInfo` – which is what Microsoft Teams, Slack
 and similar apps use to decide you're away. This method therefore keeps you shown as *available*. The trade-off
 is that it also prevents the screen saver from ever starting.
 
@@ -126,7 +139,7 @@ SetThreadExecutionState(EsContinuous | EsSystemRequired);
 ```
 
 The machine stays awake and the screen saver is still free to start, but `SetThreadExecutionState` does **not**
-update `GetLastInputInfo` — so communication apps will still mark you as Away after a while.
+update `GetLastInputInfo` – so communication apps will still mark you as Away after a while.
 
 Whenever the app is deactivated or paused, the execution state is released with `ES_CONTINUOUS` alone so
 Windows resumes managing sleep normally.
@@ -151,7 +164,7 @@ Options:
 ```
 
 If an instance is already running, the arguments are forwarded to it through a named pipe and the new process
-exits immediately — so `CaffeinePro.exe deactivate` from a script controls the copy already in your tray.
+exits immediately – so `CaffeinePro.exe deactivate` from a script controls the copy already in your tray.
 
 ## Settings
 
@@ -179,8 +192,7 @@ They are written immediately whenever a setting changes, so there is no explicit
 | `CaffeinePro/Classes` | `AppSettings`, `Awakeness` (the "until when" model), `KeyMouseSimulator`, `WindowsKeyboardMouseCapture`, command-line processing |
 | `CaffeinePro/Controls` | Tray/settings UI: time slider, awakeness view, startup options, status |
 | `CaffeinePro/Converters` | WPF value converters used by the XAML |
-| `CaffeinePro Setup` | MSIX packaging project |
-| `CaffeinePro AdvInstaller MSI Setup` | Advanced Installer MSI project |
+| `CaffeinePro Setup` | MSIX packaging project: manifest, Store visual assets, packaging settings |
 
 ## License
 

@@ -1,15 +1,16 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <Package
   xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap rescap">
+  IgnorableNamespaces="uap desktop rescap">
 
   <Identity
     Name="LotrasoftInc.CaffeinePro"
     Publisher="CN=83954149-93B6-44D3-A8BC-084E5568F786"
-    Version="0.0.1.0" />
+    Version="3.0.0.0" />
 
   <Properties>
     <DisplayName>Caffeine Pro</DisplayName>
@@ -31,18 +32,34 @@
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
         DisplayName="Caffeine Pro"
-        Description="CaffeinePro Setup"
+        Description="Keeps Windows awake. Stops the screen from dimming, the PC from sleeping, and your status from going idle, for as long as you choose."
         BackgroundColor="transparent"
         Square150x150Logo="Images\Square150x150Logo.png"
         Square44x44Logo="Images\Square44x44Logo.png">
         <uap:DefaultTile Wide310x150Logo="Images\Wide310x150Logo.png" />
-        <uap:SplashScreen Image="Images\SplashScreen.png" />
       </uap:VisualElements>
+      <Extensions>
+        <!--
+          Start with Windows. A packaged app cannot use the HKCU\...\CurrentVersion\Run key
+          (writes to it are virtualized away), so the option is driven through this startup
+          task instead. Enabled="false" so installing does not opt the user in; the app calls
+          StartupTask.RequestEnableAsync when the setting is switched on. The TaskId must stay
+          in sync with Routines.StartupTaskId.
+        -->
+        <desktop:Extension
+          Category="windows.startupTask"
+          Executable="CaffeinePro\CaffeinePro.exe"
+          EntryPoint="Windows.FullTrustApplication">
+          <desktop:StartupTask
+            TaskId="CaffeineProStartupTask"
+            Enabled="false"
+            DisplayName="Caffeine Pro" />
+        </desktop:Extension>
+      </Extensions>
     </Application>
   </Applications>
 
   <Capabilities>
-    <Capability Name="internetClient" />
     <rescap:Capability Name="runFullTrust" />
   </Capabilities>
 </Package>

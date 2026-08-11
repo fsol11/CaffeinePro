@@ -4,9 +4,6 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 .vs
-CaffeinePro Setup-BuildUwpAppX-SetupFiles/
-CaffeinePro Setup-SetupFiles/
-CaffeinePro Setup-cache/
 Generated Assets/
 AppPackages/
 
@@ -14,3 +11,9 @@ AppPackages/
 BundleArtifacts/
 *.assets.cache
 UpgradeLog*.htm
+
+# Per-user IDE state. The non-.user siblings are shared settings and stay tracked.
+*.DotSettings.user
+*.csproj.user
+*.wapproj.user
+*.pubxml.user

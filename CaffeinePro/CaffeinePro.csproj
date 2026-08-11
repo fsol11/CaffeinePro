@@ -9,23 +9,13 @@
     <UseWPF>true</UseWPF>
     <StartupObject>CaffeinePro.App</StartupObject>
     <ApplicationIcon>Resources\Coffee.ico</ApplicationIcon>
-    <PackageProjectUrl>https://github.com/fsol11/CaffeinePro</PackageProjectUrl>
     <Copyright>Copyright (c) 2026 Lotrasoft Inc.</Copyright>
     <Description>Keeps Windows awake</Description>
-    <PackageIcon>Coffee.png</PackageIcon>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Title>Caffeine Pro</Title>
+    <!-- Drives AssemblyVersion and FileVersion, and the Version shown in the About window. -->
+    <Version>3.0</Version>
     <RepositoryUrl>https://github.com/fsol11/CaffeinePro</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <SignAssembly>False</SignAssembly>
-    <Deterministic>false</Deterministic>
-    <AssemblyOriginatorKeyFile>E:\dev\SigningCertificate\StrongNamingCertificate\LotrasoftStrongNamingCertificate.snk</AssemblyOriginatorKeyFile>
-    <Title>Caffeine Pro</Title>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <FileVersion>
-    </FileVersion>
-    <Version>3.0</Version>
-    <DelaySign>False</DelaySign>
     <UseWindowsForms>False</UseWindowsForms>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -41,19 +31,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\about-back.jpg" />
-    <Resource Include="Resources\Coffee.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </Resource>
+    <Resource Include="Resources\Coffee.png" />
     <None Remove="Resources\about-back.jpg" />
     <None Remove="Resources\Coffee16.ico" />
     <Resource Include="Resources\Coffee16.ico" />
-    <None Remove="Resources\Coffee32.ico" />
-    <Resource Include="Resources\Coffee32.ico" />
-    <None Remove="Resources\CoffeeDot.ico" />
-    <None Remove="Resources\Software-Install.ico" />
     <Resource Include="Resources\Coffee.ico" />
-    <Resource Include="Resources\Software-Install.ico" />
   </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\AwakenessViewControl.xaml">
@@ -63,11 +45,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="App.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>App.settings</DependentUpon>
-    </Compile>
     <Compile Update="Controls\AwakenessViewControl.xaml.cs">
       <SubType>Code</SubType>
       <DependentUpon>AwakenessViewControl.xaml</DependentUpon>
