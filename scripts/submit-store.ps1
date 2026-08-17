@@ -42,13 +42,24 @@
     .\submit-store.ps1 -Commit
     The same, then send it to certification and follow the status.
 
-.NOTES
-    Credentials come from the environment, never from arguments, so they stay out of your shell
-    history and off the process command line:
+.PARAMETER EnvFile
+    The .env file holding the Partner Center credentials. Defaults to .env beside this script.
 
-        $env:PARTNER_TENANT_ID     = '...'
-        $env:PARTNER_CLIENT_ID     = '...'
-        $env:PARTNER_CLIENT_SECRET = '...'
+.NOTES
+    Credentials are read from scripts\.env - never from arguments, so they stay out of your shell
+    history and off the process command line. Copy scripts\.env.example to scripts\.env and fill
+    it in:
+
+        PARTNER_TENANT_ID=...
+        PARTNER_CLIENT_ID=...
+        PARTNER_CLIENT_SECRET=...
+
+    .env is gitignored and must stay that way; it holds a secret that can publish under your
+    company's identity. If one ever does get committed, rotate it in Partner Center immediately.
+
+    Values in .env take precedence over variables already set in the session, so editing the file
+    is always what takes effect. If .env is absent the script falls back to real environment
+    variables, which is what a CI runner would use.
 
     The Entra application must be associated with the Partner Center account and hold the Manager
     role. The product must already have one completed submission, including the age-ratings
@@ -62,8 +73,15 @@ param(
     # This script lives in scripts\, so the package hangs off the parent directory.
     [string] $PackagePath = (Join-Path (Split-Path $PSScriptRoot -Parent) 'CaffeinePro Setup\AppPackages\CaffeinePro Setup_3.0.0.0_x86_x64_arm64_bundle.msixupload'),
 
+    # Sits next to this script, alongside the .env.example it is copied from.
+    [string] $EnvFile = (Join-Path $PSScriptRoot '.env'),
+
     [switch] $Commit,
-    [switch] $DeletePending
+    [switch] $DeletePending,
+
+    # Authenticate and read the product, then stop. Creates nothing, so it is safe to run
+    # repeatedly while getting the credentials right.
+    [switch] $CheckOnly
 )
 
 $ErrorActionPreference = 'Stop'
@@ -84,6 +102,47 @@ function Get-Prop {
     $prop = $Object.PSObject.Properties[$Name]
     if ($null -eq $prop -or $null -eq $prop.Value) { return $Default }
     return $prop.Value
+}
+
+# Minimal .env reader: KEY=VALUE, one per line. Handles blank lines, # comments, an optional
+# "export " prefix, surrounding quotes, and values that themselves contain "=". Unquoted values
+# have a trailing " # comment" stripped, so quote anything that legitimately contains one.
+function Import-DotEnv {
+    param([string] $Path)
+
+    if (-not (Test-Path -LiteralPath $Path)) { return 0 }
+
+    # A secret in a tracked file is a much bigger problem than a failed submission.
+    $tracked = & git -C (Split-Path $Path -Parent) ls-files --error-unmatch -- $Path 2>$null
+    if ($LASTEXITCODE -eq 0 -and $tracked) {
+        throw "'$Path' is tracked by git. It holds a secret and must not be. Run " +
+              "'git rm --cached `"$Path`"', confirm .gitignore covers it, and rotate the secret " +
+              "in Partner Center."
+    }
+
+    $loaded = 0
+    foreach ($line in Get-Content -LiteralPath $Path) {
+        $text = $line.Trim()
+        if ($text -eq '' -or $text.StartsWith('#')) { continue }
+        if ($text -notmatch '^(?:export\s+)?([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$') { continue }
+
+        $name  = $Matches[1]
+        $value = $Matches[2].Trim()
+
+        $quoted = $value.Length -ge 2 -and
+                  (($value[0] -eq '"' -and $value[-1] -eq '"') -or
+                   ($value[0] -eq "'" -and $value[-1] -eq "'"))
+        if ($quoted) {
+            $value = $value.Substring(1, $value.Length - 2)
+        }
+        elseif ($value -match '^(.*?)\s+#.*$') {
+            $value = $Matches[1].TrimEnd()
+        }
+
+        Set-Item -LiteralPath "Env:$name" -Value $value
+        $loaded++
+    }
+    return $loaded
 }
 
 function Get-RequiredEnv {
@@ -189,6 +248,14 @@ if (-not (Test-Path $PackagePath)) {
 }
 $package = Get-Item $PackagePath
 
+$loaded = Import-DotEnv -Path $EnvFile
+if ($loaded -gt 0) {
+    Write-Note "Loaded $loaded value(s) from $EnvFile"
+}
+elseif (-not (Test-Path -LiteralPath $EnvFile)) {
+    Write-Note "No $EnvFile - falling back to the session's environment variables"
+}
+
 Write-Step 'Authenticating'
 $script:Token = Get-AccessToken
 Write-Note 'Token acquired'
@@ -198,6 +265,23 @@ $app = Invoke-StoreApi -Method Get -Path "applications/$ApplicationId"
 Write-Note "Name: $(Get-Prop $app 'primaryName' '<unknown>')"
 
 $pending = Get-Prop $app 'pendingApplicationSubmission'
+
+if ($CheckOnly) {
+    $lastPublished = Get-Prop $app 'lastPublishedApplicationSubmission'
+    Write-Host "`nCredentials work." -ForegroundColor Green
+    Write-Note "Package to submit : $($package.Name)"
+    Write-Note "Pending submission: $(if ($pending) { Get-Prop $pending 'id' } else { 'none' })"
+    if ($lastPublished) {
+        Write-Note "Last published    : $(Get-Prop $lastPublished 'id')"
+    }
+    else {
+        Write-Host "`nNo published submission found. The API cannot create a product's first" -ForegroundColor Yellow
+        Write-Host "submission - do that once in Partner Center, including the age-ratings" -ForegroundColor Yellow
+        Write-Host "questionnaire, before using this script." -ForegroundColor Yellow
+    }
+    return
+}
+
 if ($pending) {
     $pendingId = Get-Prop $pending 'id' ''
 

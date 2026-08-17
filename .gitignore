@@ -12,6 +12,12 @@ BundleArtifacts/
 *.assets.cache
 UpgradeLog*.htm
 
+# Local secrets. scripts\.env holds the Partner Center client secret used by submit-store.ps1 and
+# must never be committed; .env.example is the value-free template and is tracked. Neither pattern
+# has a slash, so both apply at any depth.
+.env
+!.env.example
+
 # Per-user IDE state. The non-.user siblings are shared settings and stay tracked.
 *.DotSettings.user
 *.csproj.user

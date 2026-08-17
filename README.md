@@ -80,8 +80,23 @@ wraps the whole release path, and each script can be run from anywhere:
 | `scripts\publish.bat` | Separate from the Store path: produces the signed standalone executable for the releases page. |
 
 `test-package.ps1` needs Developer Mode (Settings → System → For developers) but no certificate and no
-administrator rights. `submit-store.ps1` reads its Partner Center credentials from the
-`PARTNER_TENANT_ID`, `PARTNER_CLIENT_ID` and `PARTNER_CLIENT_SECRET` environment variables.
+administrator rights.
+
+`submit-store.ps1` reads its Partner Center credentials from `scripts\.env`. Copy
+`scripts\.env.example` to `scripts\.env` and fill in the three values:
+
+```
+PARTNER_TENANT_ID=...
+PARTNER_CLIENT_ID=...
+PARTNER_CLIENT_SECRET=...
+```
+
+`.env` is gitignored and must stay that way — the secret in it can publish under your company's
+identity. If it is ever committed, rotate it in Partner Center. When `.env` is absent the script
+falls back to real environment variables, which is what a CI runner would supply.
+
+To confirm the credentials work without creating anything, run `scripts\submit-store.ps1 -CheckOnly`.
+It authenticates, reports the product's pending and last-published submissions, and stops.
 
 ## How It Works
 
