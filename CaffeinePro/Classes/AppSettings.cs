@@ -26,7 +26,8 @@ namespace CaffeinePro.Classes;
 public sealed class AppSettings : INotifyPropertyChanged
 {
     // Fields for storing the settings values
-    private bool? _startActive;
+    // null is the default: the user is asked at startup/unlock whether to activate.
+    private bool? _startActive = null;
     private bool _isLoading = true;
     private bool _startWithWindows;
     private bool _allowScreenSaver;
@@ -110,6 +111,8 @@ public sealed class AppSettings : INotifyPropertyChanged
 
     /// <summary>
     /// Gets or sets a value indicating whether the application starts in active state.
+    /// <c>true</c> auto-activates, <c>false</c> stays inactive, and <c>null</c> (the default)
+    /// asks the user at startup and unlock.
     /// </summary>
     [JsonInclude]
     public bool? StartActive

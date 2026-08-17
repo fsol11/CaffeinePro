@@ -89,6 +89,11 @@
                         <StackPanel Margin="0,6,0,0" Orientation="Vertical">
                             <RadioButton
                                 Margin="0,2"
+                                Content="Ask me"
+                                GroupName="Startup"
+                                IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive, Converter={StaticResource IsNull}}" />
+                            <RadioButton
+                                Margin="0,2"
                                 Click="StartActive_OnClick"
                                 GroupName="Startup"
                                 IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive}">
@@ -103,11 +108,6 @@
                                         Text="(only if the time of day is not passed)" />
                                 </StackPanel>
                             </RadioButton>
-                            <RadioButton
-                                Margin="0,2"
-                                Content="Ask me"
-                                GroupName="Startup"
-                                IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive, Converter={StaticResource IsNull}}" />
                             <RadioButton
                                 Margin="0,2"
                                 Content="Stay inactive"

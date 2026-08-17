@@ -7,15 +7,22 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CaffeinePro", "CaffeinePro\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D5CB19A6-B4CD-4B8B-BF40-230E9AC6364A}"
 	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
 		LICENSE.txt = LICENSE.txt
 		README.md = README.md
-		scripts\publish.bat = scripts\publish.bat
-		scripts\publish-store.bat = scripts\publish-store.bat
-		scripts\submit-store.ps1 = scripts\submit-store.ps1
-		scripts\test-package.ps1 = scripts\test-package.ps1
 	EndProjectSection
 EndProject
 Project("{C7167F0D-BC9F-4E6E-AFE1-012C56B48DB5}") = "CaffeinePro Setup", "CaffeinePro Setup\CaffeinePro Setup.wapproj", "{BE2CA1AF-88D0-4553-8F45-63B6DE5976E0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{56FBC62F-5BA5-4DEA-B6C3-571AB8DEAE65}"
+	ProjectSection(SolutionItems) = preProject
+		scripts\.env = scripts\.env
+		scripts\.env.example = scripts\.env.example
+		scripts\publish-store.bat = scripts\publish-store.bat
+		scripts\publish.bat = scripts\publish.bat
+		scripts\submit-store.ps1 = scripts\submit-store.ps1
+		scripts\test-package.ps1 = scripts\test-package.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
