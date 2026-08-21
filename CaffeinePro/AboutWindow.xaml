@@ -12,6 +12,7 @@
     ExtendsContentIntoTitleBar="False"
     KeyDown="AboutWindow_OnKeyDown"
     Loaded="AboutWindow_OnLoaded"
+    Icon="/Resources/Coffee.ico"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">

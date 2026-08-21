@@ -31,9 +31,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\about-back.jpg" />
-    <Resource Include="Resources\Coffee.png" />
     <None Remove="Resources\about-back.jpg" />
+    <None Remove="Resources\Coffee-Transparent.png" />
     <None Remove="Resources\Coffee16.ico" />
+    <Resource Include="Resources\Coffee-Transparent.png" />
     <Resource Include="Resources\Coffee16.ico" />
     <Resource Include="Resources\Coffee.ico" />
   </ItemGroup>

@@ -66,11 +66,7 @@ public partial class AboutWindow
     public AboutWindow()
     {
         InitializeComponent();
-
         Opacity = 0;
-
-        Icon = new System.Windows.Media.Imaging.BitmapImage(
-            new Uri("pack://application:,,,/Resources/Coffee.png"));
     }
 
     /// <summary>

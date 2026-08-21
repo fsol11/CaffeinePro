@@ -9,6 +9,7 @@
     Title="{Binding}"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     Foreground="{DynamicResource WindowForeground}"
+    Icon="/Resources/Coffee.ico"
     KeyDown="NotificationWindow_OnKeyDown"
     Loaded="NotificationWindow_OnLoaded"
     ResizeMode="NoResize"
@@ -19,7 +20,7 @@
     WindowStyle="None"
     mc:Ignorable="d">
     <Window.Resources>
-        <BitmapImage x:Key="Coffee" UriSource="/Resources/Coffee.png" />
+        <BitmapImage x:Key="Coffee" UriSource="/Resources/Coffee-Transparent.png" />
     </Window.Resources>
 
     <StackPanel
@@ -38,18 +39,10 @@
             HorizontalAlignment="Center"
             Orientation="Horizontal">
             <Image
-                Width="50"
-                Height="50"
+                Width="70"
                 Margin="0,0,20,0"
                 VerticalAlignment="Top"
-                Source="{StaticResource Coffee}">
-                <Image.Clip>
-                    <RectangleGeometry
-                        RadiusX="3"
-                        RadiusY="3"
-                        Rect="0,0,50,50" />
-                </Image.Clip>
-            </Image>
+                Source="{StaticResource Coffee}" />
 
             <StackPanel>
                 <ui:TextBlock
