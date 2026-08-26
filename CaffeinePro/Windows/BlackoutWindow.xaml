@@ -1,0 +1,34 @@
+﻿<Window
+    x:Class="CaffeinePro.Windows.BlackoutWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Blackout"
+    Background="Black"
+    Cursor="None"
+    Foreground="White"
+    Icon="/Resources/Coffee.ico"
+    ResizeMode="NoResize"
+    ShowInTaskbar="True"
+    SizeToContent="Manual"
+    Topmost="True"
+    WindowStartupLocation="Manual"
+    WindowStyle="None"
+    mc:Ignorable="d">
+
+    <!--
+        The screen is meant to look switched off, so the only thing on it is a hint about the way
+        back out, and even that fades away after a couple of seconds (see HintFadeStoryboard).
+    -->
+    <Grid>
+        <TextBlock
+            x:Name="Hint"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            FontSize="16"
+            Foreground="#59FFFFFF"
+            Text="Press Esc to return"
+            Visibility="Collapsed" />
+    </Grid>
+</Window>

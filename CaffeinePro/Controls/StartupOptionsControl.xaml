@@ -82,16 +82,28 @@
                                 </MultiBinding>
                             </TextBlock.Visibility>
                             <Hyperlink Click="SetToCurrentValue_Click">
-                                <Run Text="Copy from the current value" />
+                                <Run Text="Copy From the Current Value" />
                             </Hyperlink>
                         </TextBlock>
 
                         <StackPanel Margin="0,6,0,0" Orientation="Vertical">
                             <RadioButton
                                 Margin="0,2"
-                                Content="Ask me"
                                 GroupName="Startup"
-                                IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive, Converter={StaticResource IsNull}}" />
+                                IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive, Converter={StaticResource IsNull}}">
+                                <RadioButton.Content>
+                                    <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+                                        <TextBlock
+                                            Padding="0,10,0,0"
+                                            VerticalAlignment="Center"
+                                            Text="Ask Me" />
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontSize="10"
+                                            Text="(only if the time of day is not passed)" />
+                                    </StackPanel>
+                                </RadioButton.Content>
+                            </RadioButton>
                             <RadioButton
                                 Margin="0,2"
                                 Click="StartActive_OnClick"
@@ -101,7 +113,7 @@
                                     <TextBlock
                                         Padding="0,10,0,0"
                                         VerticalAlignment="Center"
-                                        Text="Auto-set to default at startup and unlock" />
+                                        Text="Auto-Set to Default at Startup and Unlock" />
                                     <TextBlock
                                         VerticalAlignment="Center"
                                         FontSize="10"
@@ -145,7 +157,7 @@
                     <StackPanel>
                         <RadioButton
                             Margin="0,2"
-                            Content="Simulate keyboard and mouse usage"
+                            Content="Simulate Keyboard/Mouse Usage"
                             GroupName="AwakeMethod"
                             IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.AllowScreenSaver, Converter={StaticResource Not}, Mode=TwoWay}" />
                         <RadioButton
@@ -156,7 +168,7 @@
                                 <TextBlock
                                     Padding="0,10,0,0"
                                     VerticalAlignment="Center"
-                                    Text="Allow screensaver" />
+                                    Text="Allow Screensaver" />
                                 <TextBlock
                                     VerticalAlignment="Top"
                                     FontSize="10"
@@ -200,9 +212,38 @@
                                 Source="{StaticResource BatteryPausedIcon}" />
                             <CheckBox
                                 VerticalAlignment="Center"
-                                Content="Inactive when on battery"
+                                Content="Inactive on Battery"
                                 IsChecked="{Binding InactiveWhenOnBattery, Mode=TwoWay}" />
                         </StackPanel>
+
+                        <!--  Blackout screen shortcut: shows the current combination and opens the recorder to change it  -->
+                        <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
+                            <ui:SymbolIcon
+                                Width="20"
+                                Margin="0,0,8,0"
+                                VerticalAlignment="Center"
+                                FontSize="16"
+                                Symbol="WeatherMoon20" />
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                Text="Blackout Screen Trigger"
+                                ToolTip="Covers every monitor in black, so the computer looks switched off. Press Esc to return." />
+                            <ui:Button
+                                Margin="10,0,0,0"
+                                Padding="10,3"
+                                VerticalAlignment="Center"
+                                Click="ChangeBlackoutHotKey_Click"
+                                Content="{Binding BlackoutHotKey.DisplayText, Mode=OneWay}"
+                                FontSize="12"
+                                ToolTip="Click to change this shortcut" />
+                        </StackPanel>
+                        <TextBlock
+                            Margin="28,4,0,0"
+                            FontSize="10"
+                            Foreground="{DynamicResource SystemFillColorCautionBrush}"
+                            Text="Another app is already using this shortcut."
+                            TextWrapping="Wrap"
+                            Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=HotKeyService.IsBlackoutHotKeyRegistered, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}" />
                     </StackPanel>
                 </Border>
             </Grid>

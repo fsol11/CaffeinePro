@@ -17,6 +17,7 @@ using System.Windows;
 using System.Windows.Threading;
 using System.Text.Json.Serialization;
 using CaffeinePro.Services;
+using CaffeinePro.Windows;
 
 namespace CaffeinePro.Classes;
 
@@ -35,6 +36,7 @@ public sealed class AppSettings : INotifyPropertyChanged
     private SessionAction _afterwardsAction = SessionAction.None;
     private Awakeness _startupAwakeness = Awakeness.Indefinite;
     private DateTime _ignoreUnlockNotificationDate = DateTime.MaxValue;
+    private HotKey _blackoutHotKey = HotKey.DefaultBlackout;
     private static readonly string ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "CaffeinePro", "CaffeineProConfig.json");
 
     public static AppSettings Load()
@@ -119,6 +121,17 @@ public sealed class AppSettings : INotifyPropertyChanged
     {
         get => _startActive;
         set => SetField(ref _startActive, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the system-wide shortcut that blacks out every screen, making the machine look
+    /// switched off until Escape is pressed. <see cref="HotKey.None"/> disables the shortcut.
+    /// </summary>
+    [JsonInclude]
+    public HotKey BlackoutHotKey
+    {
+        get => _blackoutHotKey;
+        set => SetField(ref _blackoutHotKey, value);
     }
 
     /// <summary>

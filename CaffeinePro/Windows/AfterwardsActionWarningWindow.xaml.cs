@@ -10,22 +10,27 @@ using System.Windows.Threading;
 using CaffeinePro.Classes;
 using CaffeinePro.Services;
 
-namespace CaffeinePro;
+namespace CaffeinePro.Windows;
 
 /// <summary>
 /// Full-screen, blurred-backdrop warning, with a one-minute cancellable countdown, shown before the
 /// configured afterwards action (e.g. Shutdown, Sleep, Lock) runs once an awakeness period ends.
-/// Spans every monitor so it cannot be missed regardless of which screen the user is looking at.
+/// One instance is shown per monitor so the whole desktop is covered, but only the instance on the
+/// main display carries the countdown and the buttons - the rest are backdrop only. See
+/// <see cref="OpenIt"/>.
 /// </summary>
 public partial class AfterwardsActionWarningWindow : INotifyPropertyChanged
 {
     private const int CountdownSeconds = 60;
     private static readonly Duration FadeDuration = new(TimeSpan.FromMilliseconds(350));
 
-    // Singleton instance to ensure only one warning window is open at a time
-    private static AfterwardsActionWarningWindow? _window;
+    // One window per monitor, all opened and closed together.
+    private static readonly List<AfterwardsActionWarningWindow> _windows = [];
 
     private readonly DispatcherTimer _timer = new() { Interval = TimeSpan.FromSeconds(1) };
+    private readonly PixelRect _screenBounds;
+    private readonly bool _isMainScreen;
+    private IntPtr _hwnd;
     private int _secondsRemaining = CountdownSeconds;
     private bool _closingAnimated;
 
@@ -33,12 +38,17 @@ public partial class AfterwardsActionWarningWindow : INotifyPropertyChanged
     {
         App.CurrentApp.Dispatcher.Invoke(() =>
         {
-            if (_window is { IsLoaded: true })
+            foreach (var window in _windows.ToArray())
             {
-                _window.Close();
+                window._timer.Stop();
+
+                if (window.IsLoaded)
+                {
+                    window.Close();
+                }
             }
 
-            _window = null;
+            _windows.Clear();
         });
     }
 
@@ -48,56 +58,91 @@ public partial class AfterwardsActionWarningWindow : INotifyPropertyChanged
     /// snoozed in time, <paramref name="action"/> is executed automatically. If a warning is
     /// already open, it is closed and replaced with the new one.
     /// </summary>
+    /// <remarks>
+    /// Every monitor gets its own window covering exactly that monitor, rather than one window
+    /// stretched across the virtual desktop: that keeps the countdown and the buttons centered on
+    /// the main display instead of straddling the seam between two screens, and it copes with
+    /// monitor layouts whose bounding rectangle contains gaps no display actually occupies.
+    /// </remarks>
     public static void OpenIt(SessionAction action)
     {
         App.CurrentApp.Dispatcher.Invoke(() =>
         {
-            if (_window is { IsLoaded: true })
+            if (_windows.Count > 0)
             {
                 CloseIt();
             }
 
-            _window = new AfterwardsActionWarningWindow(action);
-            _window.Show();
+            var virtualScreen = ScreenInfo.VirtualScreenBounds;
+            var snapshot = CaptureVirtualScreen(virtualScreen);
+            var screens = ScreenInfo.GetAll();
+            var mainScreen = ScreenInfo.GetMain(screens);
+
+            // Show the secondary screens first so the main one ends up on top and takes focus.
+            foreach (var screen in screens.OrderBy(s => ReferenceEquals(s, mainScreen)))
+            {
+                var window = new AfterwardsActionWarningWindow(
+                    action,
+                    screen.Bounds,
+                    ReferenceEquals(screen, mainScreen),
+                    CropToScreen(snapshot, virtualScreen, screen.Bounds));
+
+                _windows.Add(window);
+                window.Show();
+            }
         });
     }
 
     /// <summary>
-    /// Private constructor to enforce singleton pattern. Use OpenIt() to create and show the window.
+    /// Private constructor to enforce singleton pattern. Use OpenIt() to create and show the windows.
     /// </summary>
-    private AfterwardsActionWarningWindow(SessionAction action)
+    private AfterwardsActionWarningWindow(SessionAction action, PixelRect screenBounds, bool isMainScreen, BitmapSource backgroundSnapshot)
     {
-        _window = this;
         Action = action;
-
-        // Windows' own Mica/Acrylic backdrop only ever blurs the desktop wallpaper, never other
-        // windows on screen (that's a platform limitation, not a bug here), so a real "see the blurred
-        // desktop behind this" look is done by hand: grab a screenshot before this window exists to
-        // cover it, then blur that bitmap as the window's own background.
-        BackgroundSnapshot = CaptureVirtualScreen();
+        _screenBounds = screenBounds;
+        _isMainScreen = isMainScreen;
+        BackgroundSnapshot = backgroundSnapshot;
 
         InitializeComponent();
 
-        // Spans the full virtual desktop (every monitor), not just the primary one, so the warning
-        // cannot be missed regardless of which screen currently has the user's attention.
-        Left = SystemParameters.VirtualScreenLeft;
-        Top = SystemParameters.VirtualScreenTop;
-        Width = SystemParameters.VirtualScreenWidth;
-        Height = SystemParameters.VirtualScreenHeight;
+        // Only the main display shows the countdown and the buttons; the other monitors are covered
+        // by the blurred backdrop alone.
+        ContentPanel.Visibility = isMainScreen ? Visibility.Visible : Visibility.Collapsed;
+        ShowActivated = isMainScreen;
 
         Opacity = 0;
-        Loaded += (_, _) => AnimateIn();
+
+        Loaded += (_, _) =>
+        {
+            // WPF re-applies its own idea of the window rect while showing, so the snap has to be
+            // repeated once the window is up - see SnapToScreen.
+            SnapToScreen();
+            AnimateIn();
+
+            if (isMainScreen)
+            {
+                TakeForeground();
+            }
+        };
 
         // IsCancel on the Cancel button should already route Escape to it, but that relies on
         // focus/command routing that a full-screen backdrop window doesn't always have - this
-        // guarantees Escape always cancels regardless.
-        KeyDown += (_, e) =>
+        // guarantees Escape always cancels regardless, on whichever monitor's window has focus.
+        PreviewKeyDown += (_, e) =>
         {
-            if (e.Key == Key.Escape)
+            if (e.Key != Key.Escape)
             {
-                Cancel_Click(this, new RoutedEventArgs());
+                return;
             }
+
+            e.Handled = true;
+            Cancel_Click(this, new RoutedEventArgs());
         };
+
+        if (!isMainScreen)
+        {
+            return;
+        }
 
         _timer.Tick += Timer_Tick;
         _timer.Start();
@@ -106,10 +151,59 @@ public partial class AfterwardsActionWarningWindow : INotifyPropertyChanged
     // Corner preference and titlebar-background removal are handled internally by the ui:FluentWindow
     // base class via the WindowCornerPreference / ExtendsContentIntoTitleBar properties set in XAML.
 
+    protected override void OnSourceInitialized(EventArgs e)
+    {
+        base.OnSourceInitialized(e);
+
+        _hwnd = new WindowInteropHelper(this).Handle;
+
+        // Only the main display's window belongs in the taskbar; the backdrop-only ones are hidden
+        // from it here rather than with ShowInTaskbar="False" - see WindowPlacement.HideFromTaskbar
+        // for why that WPF property is avoided. Both this and the snap have to happen before the
+        // first paint.
+        if (!_isMainScreen)
+        {
+            WindowPlacement.HideFromTaskbar(_hwnd);
+        }
+
+        SnapToScreen();
+    }
+
     /// <summary>
-    /// A one-shot screenshot of every monitor, taken right before this window is shown, used as the
-    /// (blurred) window background. See the constructor for why this is done in software instead of
-    /// via the OS's own window backdrop.
+    /// Sizes the window to cover exactly the monitor it belongs to.
+    /// </summary>
+    private void SnapToScreen() => WindowPlacement.CoverScreen(_hwnd, _screenBounds);
+
+    /// <summary>
+    /// Pulls the window to the foreground and puts the keyboard focus on Cancel, so Escape - the
+    /// way out of a full-screen warning - works without the user having to click the window first,
+    /// and so the safest choice is the one Enter/Space acts on.
+    /// </summary>
+    private void TakeForeground()
+    {
+        WindowPlacement.TakeForeground(_hwnd);
+
+        Activate();
+        CancelButton.Focus();
+        Keyboard.Focus(CancelButton);
+    }
+
+    protected override void OnContentRendered(EventArgs e)
+    {
+        base.OnContentRendered(e);
+
+        // Repeated once the window is actually on screen: while it is still being shown, Windows can
+        // hand the foreground straight back to whatever had it.
+        if (_isMainScreen)
+        {
+            TakeForeground();
+        }
+    }
+
+    /// <summary>
+    /// The part of the one-shot desktop screenshot that belongs to this window's monitor, used as
+    /// the (blurred) window background. See <see cref="CaptureVirtualScreen"/> for why this is a
+    /// screenshot rather than an OS window backdrop.
     /// </summary>
     public BitmapSource BackgroundSnapshot
     {
@@ -140,28 +234,23 @@ public partial class AfterwardsActionWarningWindow : INotifyPropertyChanged
     [DllImport("gdi32.dll")]
     private static extern bool BitBlt(IntPtr hdcDest, int xDest, int yDest, int width, int height, IntPtr hdcSrc, int xSrc, int ySrc, int rop);
 
-    private const int SM_XVIRTUALSCREEN = 76;
-    private const int SM_YVIRTUALSCREEN = 77;
-    private const int SM_CXVIRTUALSCREEN = 78;
-    private const int SM_CYVIRTUALSCREEN = 79;
     private const int SrcCopy = 0x00CC0020;
 
-    [DllImport("user32.dll")]
-    private static extern int GetSystemMetrics(int nIndex);
-
-    private static BitmapSource CaptureVirtualScreen()
+    /// <summary>
+    /// Takes a single screenshot of every monitor, right before the warning windows are shown.
+    /// Windows' own Mica/Acrylic backdrop only ever blurs the desktop wallpaper, never other windows
+    /// on screen (that's a platform limitation, not a bug here), so a real "see the blurred desktop
+    /// behind this" look is done by hand: grab the desktop before these windows exist to cover it,
+    /// then blur that bitmap as the windows' own background.
+    /// </summary>
+    private static BitmapSource CaptureVirtualScreen(PixelRect virtualScreen)
     {
-        var left = GetSystemMetrics(SM_XVIRTUALSCREEN);
-        var top = GetSystemMetrics(SM_YVIRTUALSCREEN);
-        var width = GetSystemMetrics(SM_CXVIRTUALSCREEN);
-        var height = GetSystemMetrics(SM_CYVIRTUALSCREEN);
-
         var screenDc = GetDC(IntPtr.Zero);
         var memDc = CreateCompatibleDC(screenDc);
-        var bitmap = CreateCompatibleBitmap(screenDc, width, height);
+        var bitmap = CreateCompatibleBitmap(screenDc, virtualScreen.Width, virtualScreen.Height);
         var oldBitmap = SelectObject(memDc, bitmap);
 
-        BitBlt(memDc, 0, 0, width, height, screenDc, left, top, SrcCopy);
+        BitBlt(memDc, 0, 0, virtualScreen.Width, virtualScreen.Height, screenDc, virtualScreen.Left, virtualScreen.Top, SrcCopy);
 
         SelectObject(memDc, oldBitmap);
         DeleteDC(memDc);
@@ -172,6 +261,31 @@ public partial class AfterwardsActionWarningWindow : INotifyPropertyChanged
         DeleteObject(bitmap);
 
         return snapshot;
+    }
+
+    /// <summary>
+    /// Cuts one monitor's region out of the virtual-desktop screenshot, so each window shows the
+    /// piece of desktop it is actually covering rather than a stretched copy of all of them.
+    /// </summary>
+    private static BitmapSource CropToScreen(BitmapSource snapshot, PixelRect virtualScreen, PixelRect screen)
+    {
+        var crop = new Int32Rect(
+            screen.Left - virtualScreen.Left,
+            screen.Top - virtualScreen.Top,
+            screen.Width,
+            screen.Height);
+
+        // Guard against a display layout that changed between the capture and now.
+        if (crop.X < 0 || crop.Y < 0 || crop.Width <= 0 || crop.Height <= 0 ||
+            crop.X + crop.Width > snapshot.PixelWidth || crop.Y + crop.Height > snapshot.PixelHeight)
+        {
+            return snapshot;
+        }
+
+        var cropped = new CroppedBitmap(snapshot, crop);
+        cropped.Freeze();
+
+        return cropped;
     }
 
     private void AnimateIn()

@@ -1,4 +1,4 @@
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
@@ -7,7 +7,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shell;
 using Wpf.Ui.Controls;
 
-namespace CaffeinePro;
+namespace CaffeinePro.Windows;
 
 /// <summary>
 /// Base class for the small borderless popups (unlock prompt, afterwards-action countdown) that

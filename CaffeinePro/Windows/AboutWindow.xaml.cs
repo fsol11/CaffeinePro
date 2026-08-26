@@ -7,7 +7,7 @@ using System.Windows.Media.Animation;
 using CaffeinePro.Classes;
 using KeyEventArgs = System.Windows.Input.KeyEventArgs;
 
-namespace CaffeinePro;
+namespace CaffeinePro.Windows;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml

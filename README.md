@@ -7,8 +7,8 @@ It lives in the notification area (system tray), keeps itself out of the way, an
 
 ![Tray menu in the Windows light theme](CaffeinePro/Images/screenshot-light.png "Light theme") ![Tray menu in the Windows dark theme](CaffeinePro/Images/screenshot-dark.png "Dark theme")
 
-Everything runs from the tray menu: the current end time, an Active/Inactive toggle, and a Settings flyout.
-The whole window follows the Windows theme.
+Everything runs from the tray menu: the current end time, an Active/Inactive toggle, the blackout screen, and
+a Settings flyout. The whole window follows the Windows theme.
 
 ## Features
 
@@ -18,7 +18,10 @@ The whole window follows the Windows theme.
   time of day ("until 5:30 PM") – see [Setting How Long](#setting-how-long).
 - **Actions afterwards:** when the timer expires, Caffeine Pro can leave the session alone or perform
   **Lock**, **Sign Out**, **Quit** (the app), **Sleep**, **Hibernate**, **Shutdown**, **Force Shutdown**,
-  **Restart**, or **Force Restart**.
+  **Restart**, or **Force Restart**. Anything other than "do nothing" is announced first by a countdown you
+  have a minute to cancel – see [The Countdown Before an Action](#the-countdown-before-an-action).
+- **Blackout screen:** **Win + /** covers every monitor in black, so the machine looks switched off while it
+  carries on working. **Esc** brings the desktop back – see [Blackout Screen](#blackout-screen).
 - **Startup behavior:** choose a default awakeness and whether the app should *auto-activate*, *ask you*, or
   *stay inactive* at startup and after each unlock. The "ask me" prompt is a lightweight notification you can
   dismiss for the rest of the day.
@@ -49,6 +52,33 @@ however long you spend deciding. **FOR** takes a duration – quick presets, a h
 23h 59m, a slider for anything in between, or **Indefinitely**. The current choice is spelled out above
 **Apply & Activate**, and **Set to Default** loads whatever you configured as the startup default (shown
 beside it) back into the picker.
+
+## Blackout Screen
+
+**Win + /** blacks out every monitor – no wallpaper, no cursor, nothing – so the machine looks switched off
+while it carries on working. **Esc** brings the desktop back, and pressing the shortcut a second time does the
+same. It is also in the tray menu as **Blackout Screen**, with the current shortcut shown beside it.
+
+Nothing is suspended while the screen is black: downloads, builds and calls carry on, and Caffeine Pro keeps
+doing whatever it was doing. It is a curtain, not a power state.
+
+To change the shortcut, click the key combination beside **Blackout Screen Trigger** under **Settings →
+Options** and press the one you want. Recording uses a low-level keyboard hook, so combinations Windows
+normally keeps for itself – **Win + /**, **Win + D** and the like – can be captured, and pressing them while
+recording does not also trigger what they usually do. Windows requires at least one modifier, and refuses a
+combination another application has already registered; the settings panel says so when that happens.
+Backspace clears the shortcut, which leaves the menu item as the only way in, and Escape cancels.
+
+## The Countdown Before an Action
+
+When a session ends with an afterwards action set, the action does not fire straight away. Every monitor is
+covered with a blurred, dimmed snapshot of your desktop, and a one-minute countdown appears centered on your
+main display, offering **+5 min**, **+10 min**, **+20 min**, **+30 min**, **+1 hour** and **Cancel**. Escape
+cancels it too. Adding time reactivates the session for that long instead of running the action. If nothing is
+pressed before the countdown reaches zero, the action runs.
+
+Both this and the blackout screen take the keyboard focus when they appear, so Escape works without having to
+click them first.
 
 ## System Requirements
 
@@ -188,8 +218,9 @@ Everything lives in one panel, reached from **Settings** in the tray menu.
 ![Settings panel](CaffeinePro/Images/screenshot-settings.png "Settings")
 
 **Default** is the awakeness applied at startup and after each unlock, together with how assertive the app
-should be about it. **Method** chooses between the two keep-awake techniques described above.
-**Afterwards** is the action to run when the timer expires.
+should be about it. **Method** chooses between the two keep-awake techniques described above. **Options**
+holds the battery pause and the [blackout screen](#blackout-screen) shortcut. **Afterwards** is the action to
+run when the timer expires.
 
 Settings are stored per user as JSON at:
 
@@ -203,8 +234,9 @@ They are written immediately whenever a setting changes, so there is no explicit
 
 | Path | Contents |
 | --- | --- |
-| `CaffeinePro/Services` | `KeepAwakeService` (core timer and state), `WindowsSessionService` (lock/unlock, session actions), `SystemActivityService` (display power and AC/battery notifications), `SingletonService` (mutex + named pipe) |
-| `CaffeinePro/Classes` | `AppSettings`, `Awakeness` (the "until when" model), `KeyMouseSimulator`, `WindowsKeyboardMouseCapture`, command-line processing |
+| `CaffeinePro/Services` | `KeepAwakeService` (core timer and state), `WindowsSessionService` (lock/unlock, session actions), `SystemActivityService` (display power and AC/battery notifications), `SingletonService` (mutex + named pipe), `HotKeyService` (system-wide shortcut registration) |
+| `CaffeinePro/Classes` | `AppSettings`, `Awakeness` (the "until when" model), `HotKey` (a shortcut and how it is stored and shown), `KeyMouseSimulator`, `WindowsKeyboardMouseCapture`, `HotKeyRecorderHook` (captures a shortcut being recorded), `ScreenInfo` / `WindowPlacement` (per-monitor placement and focus for the full-screen overlays), command-line processing |
+| `CaffeinePro/Windows` | `NotificationWindow` (the "keep awake?" prompt) and its `NotificationWindowBase`, `AfterwardsActionWarningWindow` (the countdown), `BlackoutWindow`, `HotKeyRecorderWindow`, `AboutWindow` |
 | `CaffeinePro/Controls` | Tray/settings UI: time slider, awakeness view, startup options, status |
 | `CaffeinePro/Converters` | WPF value converters used by the XAML |
 | `CaffeinePro Setup` | MSIX packaging project: manifest, Store visual assets, packaging settings |

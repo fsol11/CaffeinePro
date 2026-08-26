@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using CaffeinePro.Windows;
 
 namespace CaffeinePro.Controls
 {
@@ -10,6 +11,20 @@ namespace CaffeinePro.Controls
         public StartupOptionsControl()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// Asks the user for a new blackout shortcut and stores it. Changing the setting is enough
+        /// for the shortcut to be re-registered with Windows - HotKeyService watches for it.
+        /// </summary>
+        private void ChangeBlackoutHotKey_Click(object sender, RoutedEventArgs e)
+        {
+            var hotKey = HotKeyRecorderWindow.AskForHotKey(App.CurrentApp.AppSettings.BlackoutHotKey);
+
+            if (hotKey is not null)
+            {
+                App.CurrentApp.AppSettings.BlackoutHotKey = hotKey.Value;
+            }
         }
 
         private void SetToCurrentValue_Click(object sender, RoutedEventArgs e)

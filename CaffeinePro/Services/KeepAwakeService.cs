@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Timers;
 using System.Windows;
 using CaffeinePro.Classes;
+using CaffeinePro.Windows;
 using Notification.Core;
 using Notification.Wpf;
 using Timer = System.Timers.Timer;

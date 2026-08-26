@@ -2,7 +2,7 @@ using System.Windows;
 using CaffeinePro.Classes;
 using CaffeinePro.Services;
 
-namespace CaffeinePro;
+namespace CaffeinePro.Windows;
 
 /// <summary>
 /// Interaction logic for MainWindow.xaml

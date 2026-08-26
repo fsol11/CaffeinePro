@@ -2,6 +2,7 @@
 using System.IO.Pipes;
 using System.Windows;
 using CaffeinePro.Classes;
+using CaffeinePro.Windows;
 
 namespace CaffeinePro.Services;
 

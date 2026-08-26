@@ -13,6 +13,7 @@ using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using Windows.ApplicationModel;
 using Size = System.Windows.Size;
+using CaffeinePro.Windows;
 
 namespace CaffeinePro.Classes;
 

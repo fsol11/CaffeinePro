@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Runtime.InteropServices;
+using CaffeinePro.Windows;
 using Microsoft.Win32;
 
 namespace CaffeinePro.Services;

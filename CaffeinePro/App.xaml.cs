@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Windows;
 using CaffeinePro.Classes;
 using CaffeinePro.Services;
+using CaffeinePro.Windows;
 using Hardcodet.Wpf.TaskbarNotification;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -48,6 +49,14 @@ public partial class App
         get;
     }
 
+    /// <summary>
+    /// Owns the application's system-wide keyboard shortcuts (currently the blackout screen).
+    /// </summary>
+    public HotKeyService HotKeyService
+    {
+        get;
+    }
+
     public AppSettings AppSettings
     {
         get;
@@ -66,6 +75,7 @@ public partial class App
                     .AddSingleton<ParameterProcessorService>()
                     .AddSingleton<NotificationManager>()
                     .AddSingleton<KeepAwakeService>()
+                    .AddSingleton<HotKeyService>()
                     .AddSingleton(AppSettings.Load())
                     .AddLogging(logging =>
                     {
@@ -85,6 +95,7 @@ public partial class App
         ParameterProcessorService = _host.Services.GetRequiredService<ParameterProcessorService>();
         SingletonService = _host.Services.GetRequiredService<SingletonService>();
         AppSettings = _host.Services.GetRequiredService<AppSettings>();
+        HotKeyService = _host.Services.GetRequiredService<HotKeyService>();
         _host.Services.GetRequiredService<NotificationManager>();
 
     }
@@ -126,6 +137,9 @@ public partial class App
         
         TrayIcon = Routines.FindResource<TaskbarIcon>("TrayIcon")!;
         Routines.AddToWindowsStartup(AppSettings.StartWithWindows);
+
+        HotKeyService.BlackoutRequested += (_, _) => BlackoutWindow.ToggleIt();
+        HotKeyService.Start();
 
         KeepAwakeService.ConfirmAndSetDefaultAwakeness();
 
@@ -201,6 +215,8 @@ public partial class App
     {
         SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
         AboutWindow.CloseIt(); // <- About Window might be open or loaded when exit is called
+        BlackoutWindow.CloseIt();
+        HotKeyService.Dispose(); // <- releases the system-wide shortcut registration
         //_activeIcon!.Dispose();
         //InactiveIcon!.Dispose();
         //_temporarilyInactiveIcon!.Dispose();
@@ -254,6 +270,15 @@ public partial class App
     private void OnExitMenu(object sender, RoutedEventArgs e)
     {
         Shutdown();
+    }
+
+
+    /// <summary>
+    /// Handling the "Blackout Screen" menu item - the same action the blackout shortcut triggers.
+    /// </summary>
+    private void OnBlackoutMenu(object sender, RoutedEventArgs e)
+    {
+        BlackoutWindow.ToggleIt();
     }
 
 

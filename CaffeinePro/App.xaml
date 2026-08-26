@@ -84,6 +84,18 @@
                 </MenuItem>
                 <Separator />
 
+                <!--  The shortcut is shown alongside, so the menu also teaches it  -->
+                <MenuItem
+                    Click="OnBlackoutMenu"
+                    Header="Blackout Screen"
+                    InputGestureText="{Binding AppSettings.BlackoutHotKey.DisplayText, Mode=OneWay}"
+                    ToolTip="Covers every monitor in black, so the computer looks switched off. Press Esc to return.">
+                    <MenuItem.Icon>
+                        <ui:SymbolIcon Margin="0,0,6,0" Symbol="WeatherMoon24" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <Separator />
+
                 <MenuItem Header="Settings">
                     <MenuItem.Icon>
                         <ui:SymbolIcon Margin="0,0,6,0" Symbol="Settings24" />
