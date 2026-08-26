@@ -324,7 +324,12 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
 
         if (executeAfterwardsAction)
         {
-            WindowsSessionService.ExecuteSessionAction(App.CurrentApp.AppSettings.AfterwardsAction);
+            var afterwardsAction = App.CurrentApp.AppSettings.AfterwardsAction;
+            if (afterwardsAction != SessionAction.None)
+            {
+                // Warn the user and give them a chance to cancel instead of running the action right away.
+                AfterwardsActionWarningWindow.OpenIt(afterwardsAction);
+            }
         }
     }
 

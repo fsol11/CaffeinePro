@@ -1,8 +1,9 @@
-﻿<Window
+﻿<local:NotificationWindowBase
     x:Class="CaffeinePro.NotificationWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:CaffeinePro"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:services="clr-namespace:CaffeinePro.Services"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
@@ -10,8 +11,6 @@
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
     Foreground="{DynamicResource WindowForeground}"
     Icon="/Resources/Coffee.ico"
-    KeyDown="NotificationWindow_OnKeyDown"
-    Loaded="NotificationWindow_OnLoaded"
     ResizeMode="NoResize"
     ShowInTaskbar="True"
     SizeToContent="WidthAndHeight"
@@ -138,4 +137,4 @@
         </StackPanel>
 
     </StackPanel>
-</Window>
+</local:NotificationWindowBase>

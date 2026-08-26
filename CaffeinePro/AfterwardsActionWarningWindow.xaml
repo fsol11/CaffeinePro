@@ -1,0 +1,198 @@
+<ui:FluentWindow
+    x:Class="CaffeinePro.AfterwardsActionWarningWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="{Binding}"
+    Background="Transparent"
+    DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    ExtendsContentIntoTitleBar="True"
+    Foreground="White"
+    Icon="/Resources/Coffee.ico"
+    ResizeMode="NoResize"
+    ShowInTaskbar="True"
+    SizeToContent="Manual"
+    Topmost="True"
+    WindowBackdropType="None"
+    WindowCornerPreference="DoNotRound"
+    WindowStartupLocation="Manual"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <BitmapImage x:Key="Coffee" UriSource="/Resources/Coffee-Transparent.png" />
+
+        <!--
+            Self-contained "glass" chrome: a translucent, softly-bordered rounded pill that sits on
+            top of the window's own Acrylic blur. Built from scratch (not BasedOn a library style) so
+            its look never depends on - or gets silently dropped by - the default ui:Button template.
+        -->
+        <ControlTemplate x:Key="GlassButtonTemplate" TargetType="{x:Type ui:Button}">
+            <Border
+                x:Name="Chrome"
+                Background="{TemplateBinding Background}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                CornerRadius="{TemplateBinding CornerRadius}"
+                SnapsToDevicePixels="True">
+                <ContentPresenter
+                    Margin="{TemplateBinding Padding}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    RecognizesAccessKey="True" />
+            </Border>
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter TargetName="Chrome" Property="Background" Value="{Binding MouseOverBackground, RelativeSource={RelativeSource TemplatedParent}}" />
+                    <Setter TargetName="Chrome" Property="BorderBrush" Value="{Binding MouseOverBorderBrush, RelativeSource={RelativeSource TemplatedParent}}" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter TargetName="Chrome" Property="Background" Value="{Binding PressedBackground, RelativeSource={RelativeSource TemplatedParent}}" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter TargetName="Chrome" Property="Opacity" Value="0.45" />
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+
+        <Style x:Key="GlassButtonBaseStyle" TargetType="{x:Type ui:Button}">
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="16" />
+            <Setter Property="Template" Value="{StaticResource GlassButtonTemplate}" />
+        </Style>
+
+        <Style
+            x:Key="AddTimeButtonStyle"
+            BasedOn="{StaticResource GlassButtonBaseStyle}"
+            TargetType="{x:Type ui:Button}">
+            <Setter Property="Width" Value="130" />
+            <Setter Property="Height" Value="60" />
+            <Setter Property="Margin" Value="8,0" />
+            <Setter Property="FontSize" Value="17" />
+            <Setter Property="Background" Value="#1FFFFFFF" />
+            <Setter Property="BorderBrush" Value="#33FFFFFF" />
+            <Setter Property="MouseOverBackground" Value="#38FFFFFF" />
+            <Setter Property="MouseOverBorderBrush" Value="#52FFFFFF" />
+            <Setter Property="PressedBackground" Value="#14FFFFFF" />
+        </Style>
+
+        <Style
+            x:Key="CancelButtonStyle"
+            BasedOn="{StaticResource GlassButtonBaseStyle}"
+            TargetType="{x:Type ui:Button}">
+            <Setter Property="Width" Value="220" />
+            <Setter Property="Height" Value="56" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Background" Value="#3DFFFFFF" />
+            <Setter Property="BorderBrush" Value="#61FFFFFF" />
+            <Setter Property="MouseOverBackground" Value="#52FFFFFF" />
+            <Setter Property="MouseOverBorderBrush" Value="#75FFFFFF" />
+            <Setter Property="PressedBackground" Value="#2EFFFFFF" />
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <!--  Blurred snapshot of the desktop taken right before this window appeared - see BackgroundSnapshot for why this is a screenshot rather than a live OS backdrop  -->
+        <Image
+            RenderOptions.BitmapScalingMode="LowQuality"
+            Source="{Binding BackgroundSnapshot}"
+            Stretch="Fill">
+            <Image.Effect>
+                <BlurEffect Radius="45" KernelType="Gaussian" />
+            </Image.Effect>
+        </Image>
+
+        <!--  Dark tint over the blurred snapshot, so text stays readable regardless of what's behind it  -->
+        <Border Background="#66000000" />
+
+        <StackPanel
+            MaxWidth="1000"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <Image
+                Width="130"
+                Margin="0,0,0,28"
+                HorizontalAlignment="Center"
+                Source="{StaticResource Coffee}" />
+
+            <ui:TextBlock
+                HorizontalAlignment="Center"
+                FontSize="34"
+                FontWeight="SemiBold"
+                Text="Awake time is up" />
+
+            <ui:TextBlock
+                Margin="0,20,0,0"
+                HorizontalAlignment="Center"
+                FontSize="96"
+                FontWeight="Bold"
+                Text="{Binding SecondsRemaining, Mode=OneWay}" />
+
+            <ui:TextBlock
+                Margin="0,0,0,36"
+                HorizontalAlignment="Center"
+                FontSize="26"
+                Opacity="0.8">
+                <Run Text="seconds until" />
+                <Run FontWeight="SemiBold" Text="{Binding ActionDescription, Mode=OneWay}" />
+            </ui:TextBlock>
+
+            <ProgressBar
+                Width="520"
+                Height="8"
+                Margin="0,0,0,48"
+                HorizontalAlignment="Center"
+                Maximum="1"
+                Minimum="0"
+                Value="{Binding Progress, Mode=OneWay}" />
+
+            <ui:TextBlock
+                Margin="0,0,0,16"
+                HorizontalAlignment="Center"
+                FontSize="14"
+                Opacity="0.65"
+                Text="OR KEEP AWAKE FOR" />
+
+            <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                <ui:Button
+                    Click="AddTime_Click"
+                    Content="+5 min"
+                    Style="{StaticResource AddTimeButtonStyle}"
+                    Tag="5" />
+                <ui:Button
+                    Click="AddTime_Click"
+                    Content="+10 min"
+                    Style="{StaticResource AddTimeButtonStyle}"
+                    Tag="10" />
+                <ui:Button
+                    Click="AddTime_Click"
+                    Content="+20 min"
+                    Style="{StaticResource AddTimeButtonStyle}"
+                    Tag="20" />
+                <ui:Button
+                    Click="AddTime_Click"
+                    Content="+30 min"
+                    Style="{StaticResource AddTimeButtonStyle}"
+                    Tag="30" />
+                <ui:Button
+                    Click="AddTime_Click"
+                    Content="+1 hour"
+                    Style="{StaticResource AddTimeButtonStyle}"
+                    Tag="60" />
+            </StackPanel>
+
+            <ui:Button
+                Margin="0,44,0,0"
+                HorizontalAlignment="Center"
+                Click="Cancel_Click"
+                Content="Cancel"
+                IsCancel="True"
+                IsDefault="True"
+                Style="{StaticResource CancelButtonStyle}" />
+        </StackPanel>
+    </Grid>
+</ui:FluentWindow>
