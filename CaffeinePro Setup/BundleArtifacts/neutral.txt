@@ -1,2 +1,0 @@
-MainPackage=D:\dev\CaffeinePro\CaffeinePro Setup\bin\AnyCPU\Release\CaffeinePro Setup_3.0.0.0_AnyCPU.msix
-SymbolPackage=D:\dev\CaffeinePro\CaffeinePro Setup\obj\Release\Symbols\CaffeinePro Setup_3.0.0.0_AnyCPU.appxsym
