@@ -1,7 +1,10 @@
 ﻿using System.Drawing;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Data;
+using System.Windows.Threading;
 using CaffeinePro.Classes;
+using CaffeinePro.Localization;
 using CaffeinePro.Services;
 using CaffeinePro.Windows;
 using Hardcodet.Wpf.TaskbarNotification;
@@ -11,7 +14,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Win32;
 using Notification.Wpf;
 using Wpf.Ui.Appearance;
-using MessageBox = System.Windows.MessageBox;
+using MenuItem = System.Windows.Controls.MenuItem;
 
 namespace CaffeinePro;
 
@@ -91,13 +94,19 @@ public partial class App
     public App()
     {
         _logger = _host.Services.GetRequiredService<ILogger<App>>();
+
+        // The settings come first, and the language is applied straight away - ahead of every other
+        // service. Some of them build display text in their constructor (KeepAwakeService composes
+        // the tray tooltip), and that has to happen under the right culture rather than be
+        // corrected afterwards.
+        AppSettings = _host.Services.GetRequiredService<AppSettings>();
+        LocalizationService.Instance.Apply(AppSettings.Language);
+
         KeepAwakeService = _host.Services.GetRequiredService<KeepAwakeService>();
         ParameterProcessorService = _host.Services.GetRequiredService<ParameterProcessorService>();
         SingletonService = _host.Services.GetRequiredService<SingletonService>();
-        AppSettings = _host.Services.GetRequiredService<AppSettings>();
         HotKeyService = _host.Services.GetRequiredService<HotKeyService>();
         _host.Services.GetRequiredService<NotificationManager>();
-
     }
 
     /// <summary>
@@ -130,13 +139,32 @@ public partial class App
     {
         SetThemeColor();
 
+        // Every menu item, wherever it is built, gets its submenu chevron turned round in a
+        // right-to-left language. Class handlers rather than a style, so nothing has to remember to
+        // opt in - and so this also covers items generated from a menu's ItemsSource.
+        //
+        // Two hooks are needed. Loaded catches the items of a menu as it is shown, but it never
+        // arrives for some items nested inside a submenu, which is why the Language entry kept its
+        // arrow pointing the wrong way; SubmenuOpened covers those, firing on the parent at the
+        // moment its children are realized.
+        EventManager.RegisterClassHandler(typeof(MenuItem), FrameworkElement.LoadedEvent,
+            new RoutedEventHandler(OnMenuItemLoaded));
+        EventManager.RegisterClassHandler(typeof(MenuItem), MenuItem.SubmenuOpenedEvent,
+            new RoutedEventHandler(OnSubmenuOpened));
+
         // Track Events
         KeepAwakeService.OnStatusChanged += OnStatusChanged;
+        LocalizationService.Instance.LanguageChanged += OnLanguageChanged;
         SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
         AppDomain.CurrentDomain.UnhandledException += HandleException;
         
         TrayIcon = Routines.FindResource<TaskbarIcon>("TrayIcon")!;
         Routines.AddToWindowsStartup(AppSettings.StartWithWindows);
+
+        // The settings file is read - and its awakeness texts built - while the host is still being
+        // constructed, before the language is known. Running the switch-over once now brings that
+        // cached text into line, exactly as picking a language from the menu would.
+        OnLanguageChanged(this, EventArgs.Empty);
 
         HotKeyService.BlackoutRequested += (_, _) => BlackoutWindow.ToggleIt();
         HotKeyService.Start();
@@ -155,11 +183,128 @@ public partial class App
 
             CurrentApp.Dispatcher.Invoke(() =>
             {
-                MessageBox.Show("An unexpected error occurred", "Error",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Error);
+                Dialogs.ShowError(LocalizationService.Get("Error_Unexpected"));
             });
         }
+    }
+
+    /// <summary>
+    /// Points a menu item's submenu chevron the way the language reads.
+    /// </summary>
+    /// <remarks>
+    /// The chevron is a glyph from an icon font, and <see cref="FlowDirection"/> does not mirror
+    /// glyphs the way it mirrors layout and vector art - so in Arabic and Farsi the submenu opened
+    /// to the left while its arrow still pointed right. The theme names the glyph "Chevron"; every
+    /// other icon, and the drop-down button's own chevron - which points down, and reads the same
+    /// either way - is left alone.
+    /// </remarks>
+    private static void OnMenuItemLoaded(object sender, RoutedEventArgs e)
+    {
+        if (sender is MenuItem item)
+        {
+            MirrorSubmenuChevron(item, allowRetry: true);
+        }
+    }
+
+    /// <summary>
+    /// Turns round the chevrons of the items a submenu has just revealed.
+    /// </summary>
+    /// <remarks>
+    /// Queued rather than run immediately: at the moment the event is raised the containers are
+    /// being generated, and their templates - and so the chevron - are only in place once the
+    /// dispatcher has finished loading them.
+    /// </remarks>
+    private static void OnSubmenuOpened(object sender, RoutedEventArgs e)
+    {
+        if (sender is not MenuItem parent)
+        {
+            return;
+        }
+
+        parent.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, () =>
+        {
+            foreach (var entry in parent.Items)
+            {
+                // Items written straight into the menu are their own containers; items coming from
+                // an ItemsSource have one generated for them.
+                var child = parent.ItemContainerGenerator.ContainerFromItem(entry) as MenuItem
+                            ?? entry as MenuItem;
+
+                if (child != null)
+                {
+                    MirrorSubmenuChevron(child, allowRetry: false);
+                }
+            }
+        });
+    }
+
+    /// <summary>
+    /// Binds one menu item's chevron to <see cref="LocalizationService.MirrorTransform"/>.
+    /// </summary>
+    /// <param name="allowRetry">
+    /// True on the first attempt. An item nested inside a submenu can raise Loaded before its
+    /// template has been applied, and the chevron simply is not there yet to be found; the retry
+    /// comes back for it once the dispatcher has finished loading that level of the menu. Without
+    /// it the top-level items were turned round and the ones a level down were not.
+    /// </param>
+    private static void MirrorSubmenuChevron(MenuItem item, bool allowRetry)
+    {
+        item.ApplyTemplate();
+
+        if (item.Template?.FindName("Chevron", item) is not FrameworkElement chevron)
+        {
+            if (allowRetry)
+            {
+                item.Dispatcher.BeginInvoke(DispatcherPriority.Loaded,
+                    () => MirrorSubmenuChevron(item, allowRetry: false));
+            }
+
+            return;
+        }
+
+        if (BindingOperations.IsDataBound(chevron, UIElement.RenderTransformProperty))
+        {
+            return;
+        }
+
+        chevron.RenderTransformOrigin = new System.Windows.Point(0.5, 0.5);
+        BindingOperations.SetBinding(chevron, UIElement.RenderTransformProperty,
+            new Binding(nameof(LocalizationService.MirrorTransform))
+            {
+                Source = LocalizationService.Instance,
+                Mode = BindingMode.OneWay,
+            });
+    }
+
+    /// <summary>
+    /// Handling the language menu: stores the choice and switches the UI over to it.
+    /// </summary>
+    /// <remarks>
+    /// No restart is needed - every piece of text on screen is bound to
+    /// <see cref="LocalizationService"/>, and the handful of strings that are cached instead are
+    /// rebuilt by <see cref="OnLanguageChanged"/>.
+    /// </remarks>
+    private void OnLanguageMenu(object sender, RoutedEventArgs e)
+    {
+        if (sender is not MenuItem { DataContext: AppLanguage language })
+        {
+            return;
+        }
+
+        AppSettings.Language = language.Code;
+        LocalizationService.Instance.Apply(language.Code);
+    }
+
+    /// <summary>
+    /// Brings the text that is built in C# - rather than bound in XAML - into the new language.
+    /// </summary>
+    private void OnLanguageChanged(object? sender, EventArgs e)
+    {
+        KeepAwakeService.RefreshLocalizedTexts();
+        AppSettings.RefreshLocalizedTexts();
+
+        // Last, so it picks up the values the two calls above have just rebuilt.
+        UiRefresher.RefreshAll();
     }
 
 
@@ -214,6 +359,7 @@ public partial class App
     protected override void OnExit(ExitEventArgs e)
     {
         SystemEvents.UserPreferenceChanged -= SystemEvents_UserPreferenceChanged;
+        LocalizationService.Instance.LanguageChanged -= OnLanguageChanged;
         AboutWindow.CloseIt(); // <- About Window might be open or loaded when exit is called
         BlackoutWindow.CloseIt();
         HotKeyService.Dispose(); // <- releases the system-wide shortcut registration

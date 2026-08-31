@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App_Name" xml:space="preserve">
+    <value>Caffeine Pro</value>
+  </data>
+  <data name="Menu_BlackoutScreen" xml:space="preserve">
+    <value>画面を暗転</value>
+  </data>
+  <data name="Menu_BlackoutScreen_ToolTip" xml:space="preserve">
+    <value>すべてのモニターを黒くして、電源が切れているように見せます。Esc キーで戻ります。</value>
+  </data>
+  <data name="Menu_Settings" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="Menu_StartWithWindows" xml:space="preserve">
+    <value>Windows と一緒に起動</value>
+  </data>
+  <data name="Menu_Language" xml:space="preserve">
+    <value>言語</value>
+  </data>
+  <data name="Language_SystemDefault" xml:space="preserve">
+    <value>システムの既定</value>
+  </data>
+  <data name="Menu_SendFeedback" xml:space="preserve">
+    <value>フィードバックを送信…</value>
+  </data>
+  <data name="Menu_About" xml:space="preserve">
+    <value>Caffeine Pro について…</value>
+  </data>
+  <data name="Menu_Quit" xml:space="preserve">
+    <value>終了</value>
+  </data>
+  <data name="Awakeness_SetTheTime" xml:space="preserve">
+    <value>時間を設定</value>
+  </data>
+  <data name="Awakeness_ForLabel" xml:space="preserve">
+    <value>継続 |</value>
+  </data>
+  <data name="Awakeness_UntilLabel" xml:space="preserve">
+    <value>終了 |</value>
+  </data>
+  <data name="Awakeness_DefaultLabel" xml:space="preserve">
+    <value>既定 |</value>
+  </data>
+  <data name="Awakeness_SetToDefault" xml:space="preserve">
+    <value>既定値にする</value>
+  </data>
+  <data name="Awakeness_SetToDefault_ToolTip" xml:space="preserve">
+    <value>既定の起動継続時間を使います</value>
+  </data>
+  <data name="Awakeness_ApplyAndActivate" xml:space="preserve">
+    <value>適用して有効化</value>
+  </data>
+  <data name="Awakeness_Apply" xml:space="preserve">
+    <value>適用</value>
+  </data>
+  <data name="TimeSlider_Until" xml:space="preserve">
+    <value>終了時刻</value>
+  </data>
+  <data name="TimeSlider_For" xml:space="preserve">
+    <value>継続時間</value>
+  </data>
+  <data name="TimeSlider_Quick" xml:space="preserve">
+    <value>クイック</value>
+  </data>
+  <data name="TimeSlider_Hours" xml:space="preserve">
+    <value>時間</value>
+  </data>
+  <data name="TimeSlider_Am" xml:space="preserve">
+    <value>午前</value>
+  </data>
+  <data name="TimeSlider_Pm" xml:space="preserve">
+    <value>午後</value>
+  </data>
+  <data name="Common_Indefinitely" xml:space="preserve">
+    <value>無期限</value>
+  </data>
+  <data name="Common_IndefinitelyWithIcon" xml:space="preserve">
+    <value>♾️ 無期限</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Status_SetToDefault" xml:space="preserve">
+    <value>既定値にする</value>
+  </data>
+  <data name="Status_Active" xml:space="preserve">
+    <value>有効</value>
+  </data>
+  <data name="Status_Inactive" xml:space="preserve">
+    <value>無効</value>
+  </data>
+  <data name="Status_NotificationsIgnoredToday" xml:space="preserve">
+    <value>今日は通知を表示しません。</value>
+  </data>
+  <data name="Status_Paused_OnBattery" xml:space="preserve">
+    <value>一時停止 – バッテリー駆動中</value>
+  </data>
+  <data name="Status_Paused_WorkstationLocked" xml:space="preserve">
+    <value>一時停止 – ロック中</value>
+  </data>
+  <data name="Startup_SectionDefault" xml:space="preserve">
+    <value>既定</value>
+  </data>
+  <data name="Startup_SectionMethod" xml:space="preserve">
+    <value>方式</value>
+  </data>
+  <data name="Startup_SectionOptions" xml:space="preserve">
+    <value>オプション</value>
+  </data>
+  <data name="Startup_SectionAfterwards" xml:space="preserve">
+    <value>終了後</value>
+  </data>
+  <data name="Startup_CopyFromCurrentValue" xml:space="preserve">
+    <value>現在の値からコピー</value>
+  </data>
+  <data name="Startup_AskMe" xml:space="preserve">
+    <value>確認する</value>
+  </data>
+  <data name="Startup_OnlyIfTimeNotPassed" xml:space="preserve">
+    <value>（指定時刻を過ぎていない場合のみ）</value>
+  </data>
+  <data name="Startup_AutoSetToDefault" xml:space="preserve">
+    <value>起動時とロック解除時に既定値を自動適用</value>
+  </data>
+  <data name="Startup_StayInactive" xml:space="preserve">
+    <value>無効のままにする</value>
+  </data>
+  <data name="Startup_SimulateKeyboardMouse" xml:space="preserve">
+    <value>キーボード／マウス操作をシミュレート</value>
+  </data>
+  <data name="Startup_AllowScreensaver" xml:space="preserve">
+    <value>スクリーンセーバーを許可</value>
+  </data>
+  <data name="Startup_AllowScreensaver_Hint" xml:space="preserve">
+    <value>（非アクティブ検出は防げません）</value>
+  </data>
+  <data name="Startup_InactiveOnBattery" xml:space="preserve">
+    <value>バッテリー駆動時は無効</value>
+  </data>
+  <data name="Startup_BlackoutTrigger" xml:space="preserve">
+    <value>画面暗転のショートカット</value>
+  </data>
+  <data name="Startup_ChangeShortcut_ToolTip" xml:space="preserve">
+    <value>クリックしてショートカットを変更</value>
+  </data>
+  <data name="Startup_ShortcutInUse" xml:space="preserve">
+    <value>別のアプリがこのショートカットを使用しています。</value>
+  </data>
+  <data name="Startup_UpdateAwakeness_Message" xml:space="preserve">
+    <value>既定の起動継続時間を次に変更しますか:</value>
+  </data>
+  <data name="Startup_UpdateAwakeness_Title" xml:space="preserve">
+    <value>既定の起動継続時間を更新</value>
+  </data>
+  <data name="SessionAction_None" xml:space="preserve">
+    <value>何もしない</value>
+  </data>
+  <data name="SessionAction_Quit" xml:space="preserve">
+    <value>プログラムを終了</value>
+  </data>
+  <data name="SessionAction_Lock" xml:space="preserve">
+    <value>ロック</value>
+  </data>
+  <data name="SessionAction_SignOut" xml:space="preserve">
+    <value>サインアウト</value>
+  </data>
+  <data name="SessionAction_ForceSignOut" xml:space="preserve">
+    <value>強制サインアウト</value>
+  </data>
+  <data name="SessionAction_Shutdown" xml:space="preserve">
+    <value>シャットダウン</value>
+  </data>
+  <data name="SessionAction_ForceShutdown" xml:space="preserve">
+    <value>強制シャットダウン</value>
+  </data>
+  <data name="SessionAction_Restart" xml:space="preserve">
+    <value>再起動</value>
+  </data>
+  <data name="SessionAction_ForceRestart" xml:space="preserve">
+    <value>強制再起動</value>
+  </data>
+  <data name="SessionAction_Hibernate" xml:space="preserve">
+    <value>休止状態</value>
+  </data>
+  <data name="SessionAction_Sleep" xml:space="preserve">
+    <value>スリープ</value>
+  </data>
+  <data name="SessionAction_MonitorOff" xml:space="preserve">
+    <value>モニターをオフ</value>
+  </data>
+  <data name="Notification_Question" xml:space="preserve">
+    <value>パソコンをスリープさせないようにしますか？</value>
+  </data>
+  <data name="Notification_AskLater" xml:space="preserve">
+    <value>後で確認</value>
+  </data>
+  <data name="Notification_Activate" xml:space="preserve">
+    <value>有効にする</value>
+  </data>
+  <data name="Notification_IgnoreForToday" xml:space="preserve">
+    <value>今日は表示しない</value>
+  </data>
+  <data name="Warning_AwakeTimeIsUp" xml:space="preserve">
+    <value>起動継続時間が終了しました</value>
+  </data>
+  <data name="Warning_SecondsUntil" xml:space="preserve">
+    <value>秒後に実行:</value>
+  </data>
+  <data name="Warning_OrKeepAwakeFor" xml:space="preserve">
+    <value>または延長する時間</value>
+  </data>
+  <data name="Warning_Add5Min" xml:space="preserve">
+    <value>+5 分</value>
+  </data>
+  <data name="Warning_Add10Min" xml:space="preserve">
+    <value>+10 分</value>
+  </data>
+  <data name="Warning_Add20Min" xml:space="preserve">
+    <value>+20 分</value>
+  </data>
+  <data name="Warning_Add30Min" xml:space="preserve">
+    <value>+30 分</value>
+  </data>
+  <data name="Warning_Add1Hour" xml:space="preserve">
+    <value>+1 時間</value>
+  </data>
+  <data name="Blackout_Title" xml:space="preserve">
+    <value>画面暗転</value>
+  </data>
+  <data name="Blackout_PressEscToReturn" xml:space="preserve">
+    <value>Esc キーで戻ります</value>
+  </data>
+  <data name="HotKey_Title" xml:space="preserve">
+    <value>ショートカットの変更</value>
+  </data>
+  <data name="HotKey_Prompt" xml:space="preserve">
+    <value>使用したいキーの組み合わせを押してください。</value>
+  </data>
+  <data name="HotKey_Waiting" xml:space="preserve">
+    <value>待機中…</value>
+  </data>
+  <data name="HotKey_ModifierRequiredHint" xml:space="preserve">
+    <value>修飾キー（Ctrl、Alt、Shift、Win）が少なくとも 1 つ必要です。</value>
+  </data>
+  <data name="HotKey_EscapeHint" xml:space="preserve">
+    <value>Esc で取り消し、Backspace でショートカットを削除します。</value>
+  </data>
+  <data name="HotKey_Status_PressSave" xml:space="preserve">
+    <value>「保存」を押すとこのショートカットが使われます。</value>
+  </data>
+  <data name="HotKey_Status_NeedsModifier" xml:space="preserve">
+    <value>この組み合わせには修飾キー（Ctrl、Alt、Shift、Win）が少なくとも 1 つ必要です。</value>
+  </data>
+  <data name="HotKey_Status_NowPressKey" xml:space="preserve">
+    <value>次に、この修飾キーと組み合わせるキーを押してください。</value>
+  </data>
+  <data name="HotKey_Status_NoShortcut" xml:space="preserve">
+    <value>ショートカットなし: 画面暗転はメニューからのみ開けます。</value>
+  </data>
+  <data name="HotKey_None" xml:space="preserve">
+    <value>なし</value>
+  </data>
+  <data name="HotKey_Ctrl" xml:space="preserve">
+    <value>Ctrl</value>
+  </data>
+  <data name="HotKey_Alt" xml:space="preserve">
+    <value>Alt</value>
+  </data>
+  <data name="HotKey_Shift" xml:space="preserve">
+    <value>Shift</value>
+  </data>
+  <data name="HotKey_Win" xml:space="preserve">
+    <value>Win</value>
+  </data>
+  <data name="HotKey_NumPadFormat" xml:space="preserve">
+    <value>テンキー {0}</value>
+  </data>
+  <data name="About_Title" xml:space="preserve">
+    <value>Caffeine Pro について</value>
+  </data>
+  <data name="About_Tagline" xml:space="preserve">
+    <value>Windows をスリープさせません。</value>
+  </data>
+  <data name="About_Copyright" xml:space="preserve">
+    <value>Copyright © 2026 Lotrasoft Inc.</value>
+  </data>
+  <data name="About_Website" xml:space="preserve">
+    <value>ウェブサイト:</value>
+  </data>
+  <data name="About_WrittenBy" xml:space="preserve">
+    <value>作者: </value>
+  </data>
+  <data name="Date_Midnight" xml:space="preserve">
+    <value>深夜 0 時</value>
+  </data>
+  <data name="Date_Yesterday" xml:space="preserve">
+    <value>昨日</value>
+  </data>
+  <data name="Date_Tomorrow" xml:space="preserve">
+    <value>明日</value>
+  </data>
+  <data name="Date_DaysAgoFormat" xml:space="preserve">
+    <value>{0} 日前</value>
+  </data>
+  <data name="Date_InDaysFormat" xml:space="preserve">
+    <value>{0} 日後</value>
+  </data>
+  <data name="Duration_HoursFormat" xml:space="preserve">
+    <value>{0} 時間</value>
+  </data>
+  <data name="Duration_MinutesFormat" xml:space="preserve">
+    <value>{0} 分</value>
+  </data>
+  <data name="Duration_HoursMinutesFormat" xml:space="preserve">
+    <value>{0} 時間 {1} 分</value>
+  </data>
+  <data name="Awakeness_ForFormat" xml:space="preserve">
+    <value>継続 {0}</value>
+  </data>
+  <data name="Awakeness_UntilFormat" xml:space="preserve">
+    <value>{0} まで</value>
+  </data>
+  <data name="Awakeness_UntilHintFormat" xml:space="preserve">
+    <value>{0} まで</value>
+  </data>
+  <data name="Awakeness_AfterwardsFormat" xml:space="preserve">
+    <value> – 終了後 {0}</value>
+  </data>
+  <data name="Error_Title" xml:space="preserve">
+    <value>エラー</value>
+  </data>
+  <data name="Error_Unexpected" xml:space="preserve">
+    <value>予期しないエラーが発生しました</value>
+  </data>
+  <data name="Error_SavingSettingsTitle" xml:space="preserve">
+    <value>設定ファイルの保存エラー</value>
+  </data>
+  <data name="Error_StartupSettingTitle" xml:space="preserve">
+    <value>スタートアップ設定の変更エラー</value>
+  </data>
+  <data name="Startup_PolicyBlocked" xml:space="preserve">
+    <value>組織のポリシーにより、Caffeine Pro は Windows と一緒に起動できません。</value>
+  </data>
+  <data name="Startup_TurnedOffInStartupApps" xml:space="preserve">
+    <value>Caffeine Pro はスタートアップ アプリの一覧で無効にされているため、そこからのみ有効にできます。タスク マネージャー &gt; スタートアップ アプリ（または 設定 &gt; アプリ &gt; スタートアップ）を開き、Caffeine Pro をオンにしてください。</value>
+  </data>
+  <data name="Singleton_AlreadyRunning" xml:space="preserve">
+    <value>アプリケーションは既に実行中です。</value>
+  </data>
+  <data name="Cli_VersionFormat" xml:space="preserve">
+    <value>Caffeine Pro バージョン: {0}</value>
+  </data>
+  <data name="Cli_ByFormat" xml:space="preserve">
+    <value>作者: {0} ({1})</value>
+  </data>
+  <data name="Cli_Usage" xml:space="preserve">
+    <value>使い方: CaffeinePro [コマンド] [オプション]</value>
+  </data>
+  <data name="Cli_Commands" xml:space="preserve">
+    <value>コマンド:</value>
+  </data>
+  <data name="Cli_Options" xml:space="preserve">
+    <value>オプション:</value>
+  </data>
+  <data name="Cli_Cmd_Activate" xml:space="preserve">
+    <value>有効にする（既定）</value>
+  </data>
+  <data name="Cli_Cmd_ActiveFor" xml:space="preserve">
+    <value>X 分間だけ有効にする</value>
+  </data>
+  <data name="Cli_Cmd_ActiveUntil" xml:space="preserve">
+    <value>X まで有効にする (X=hh:mmpp)</value>
+  </data>
+  <data name="Cli_Cmd_Deactivate" xml:space="preserve">
+    <value>実行中のインスタンスを無効にする</value>
+  </data>
+  <data name="Cli_Cmd_Exit" xml:space="preserve">
+    <value>実行中のインスタンスを終了する</value>
+  </data>
+  <data name="Cli_Opt_Help" xml:space="preserve">
+    <value>ヘルプを表示する</value>
+  </data>
+  <data name="Cli_Opt_ResetOptions" xml:space="preserve">
+    <value>オプションを既定値に戻す</value>
+  </data>
+  <data name="Cli_Opt_SaveOptions" xml:space="preserve">
+    <value>次回以降の既定としてオプションを保存する</value>
+  </data>
+  <data name="Cli_Opt_StartInactive" xml:space="preserve">
+    <value>無効の状態で起動する</value>
+  </data>
+  <data name="Cli_Opt_AllowSs" xml:space="preserve">
+    <value>スクリーンセーバーを許可し、キー／マウスをシミュレートしない（既定: false）</value>
+  </data>
+  <data name="Cli_Opt_InactiveOnBattery" xml:space="preserve">
+    <value>バッテリー駆動中は無効にする（既定: false）</value>
+  </data>
+  <data name="Cli_UnrecognizedParametersFormat" xml:space="preserve">
+    <value>認識できないパラメーター:&#10;{0}</value>
+  </data>
+  <data name="TimeSlider_ClockFormat" xml:space="preserve">
+    <value>{2}{0}:{1:00}</value>
+  </data>
+</root>

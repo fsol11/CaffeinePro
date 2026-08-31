@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:caffeinePro="clr-namespace:CaffeinePro"
     xmlns:controls="clr-namespace:CaffeinePro.Controls"
+    xmlns:loc="clr-namespace:CaffeinePro.Localization"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:services="clr-namespace:CaffeinePro.Services"
@@ -46,7 +47,7 @@
                         FontWeight="SemiBold"
                         Foreground="{DynamicResource TextFillColorInverseBrush}"
                         Opacity="0.7"
-                        Text="DEFAULT" />
+                        Text="{loc:Loc Startup_SectionDefault}" />
                 </Border>
                 <Border Margin="0,9,0,0" Padding="12,16,12,12">
                     <StackPanel>
@@ -82,7 +83,7 @@
                                 </MultiBinding>
                             </TextBlock.Visibility>
                             <Hyperlink Click="SetToCurrentValue_Click">
-                                <Run Text="Copy From the Current Value" />
+                                <Run Text="{loc:Loc Startup_CopyFromCurrentValue}" />
                             </Hyperlink>
                         </TextBlock>
 
@@ -96,11 +97,11 @@
                                         <TextBlock
                                             Padding="0,10,0,0"
                                             VerticalAlignment="Center"
-                                            Text="Ask Me" />
+                                            Text="{loc:Loc Startup_AskMe}" />
                                         <TextBlock
                                             VerticalAlignment="Center"
                                             FontSize="10"
-                                            Text="(only if the time of day is not passed)" />
+                                            Text="{loc:Loc Startup_OnlyIfTimeNotPassed}" />
                                     </StackPanel>
                                 </RadioButton.Content>
                             </RadioButton>
@@ -113,16 +114,16 @@
                                     <TextBlock
                                         Padding="0,10,0,0"
                                         VerticalAlignment="Center"
-                                        Text="Auto-Set to Default at Startup and Unlock" />
+                                        Text="{loc:Loc Startup_AutoSetToDefault}" />
                                     <TextBlock
                                         VerticalAlignment="Center"
                                         FontSize="10"
-                                        Text="(only if the time of day is not passed)" />
+                                        Text="{loc:Loc Startup_OnlyIfTimeNotPassed}" />
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton
                                 Margin="0,2"
-                                Content="Stay inactive"
+                                Content="{loc:Loc Startup_StayInactive}"
                                 GroupName="Startup"
                                 IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartActive, Converter={StaticResource Not}}" />
                         </StackPanel>
@@ -151,13 +152,13 @@
                         FontWeight="SemiBold"
                         Foreground="{DynamicResource TextFillColorInverseBrush}"
                         Opacity="0.7"
-                        Text="METHOD" />
+                        Text="{loc:Loc Startup_SectionMethod}" />
                 </Border>
                 <Border Margin="0,9,0,0" Padding="12,16,12,12">
                     <StackPanel>
                         <RadioButton
                             Margin="0,2"
-                            Content="Simulate Keyboard/Mouse Usage"
+                            Content="{loc:Loc Startup_SimulateKeyboardMouse}"
                             GroupName="AwakeMethod"
                             IsChecked="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.AllowScreenSaver, Converter={StaticResource Not}, Mode=TwoWay}" />
                         <RadioButton
@@ -168,11 +169,11 @@
                                 <TextBlock
                                     Padding="0,10,0,0"
                                     VerticalAlignment="Center"
-                                    Text="Allow Screensaver" />
+                                    Text="{loc:Loc Startup_AllowScreensaver}" />
                                 <TextBlock
                                     VerticalAlignment="Top"
                                     FontSize="10"
-                                    Text="(doesn't prevent inactivity detection)" />
+                                    Text="{loc:Loc Startup_AllowScreensaver_Hint}" />
                             </StackPanel>
                         </RadioButton>
                     </StackPanel>
@@ -201,7 +202,7 @@
                         FontWeight="SemiBold"
                         Foreground="{DynamicResource TextFillColorInverseBrush}"
                         Opacity="0.7"
-                        Text="OPTIONS" />
+                        Text="{loc:Loc Startup_SectionOptions}" />
                 </Border>
                 <Border Margin="0,9,0,0" Padding="12,16,12,12">
                     <StackPanel DataContext="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings}">
@@ -209,10 +210,11 @@
                             <Image
                                 Width="20"
                                 Margin="0,0,8,0"
+                                FlowDirection="LeftToRight"
                                 Source="{StaticResource BatteryPausedIcon}" />
                             <CheckBox
                                 VerticalAlignment="Center"
-                                Content="Inactive on Battery"
+                                Content="{loc:Loc Startup_InactiveOnBattery}"
                                 IsChecked="{Binding InactiveWhenOnBattery, Mode=TwoWay}" />
                         </StackPanel>
 
@@ -226,8 +228,8 @@
                                 Symbol="WeatherMoon20" />
                             <TextBlock
                                 VerticalAlignment="Center"
-                                Text="Blackout Screen Trigger"
-                                ToolTip="Covers every monitor in black, so the computer looks switched off. Press Esc to return." />
+                                Text="{loc:Loc Startup_BlackoutTrigger}"
+                                ToolTip="{loc:Loc Menu_BlackoutScreen_ToolTip}" />
                             <ui:Button
                                 Margin="10,0,0,0"
                                 Padding="10,3"
@@ -235,13 +237,13 @@
                                 Click="ChangeBlackoutHotKey_Click"
                                 Content="{Binding BlackoutHotKey.DisplayText, Mode=OneWay}"
                                 FontSize="12"
-                                ToolTip="Click to change this shortcut" />
+                                ToolTip="{loc:Loc Startup_ChangeShortcut_ToolTip}" />
                         </StackPanel>
                         <TextBlock
                             Margin="28,4,0,0"
                             FontSize="10"
                             Foreground="{DynamicResource SystemFillColorCautionBrush}"
-                            Text="Another app is already using this shortcut."
+                            Text="{loc:Loc Startup_ShortcutInUse}"
                             TextWrapping="Wrap"
                             Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=HotKeyService.IsBlackoutHotKeyRegistered, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}" />
                     </StackPanel>
@@ -270,7 +272,7 @@
                         FontWeight="SemiBold"
                         Foreground="{DynamicResource TextFillColorInverseBrush}"
                         Opacity="0.7"
-                        Text="AFTERWARDS" />
+                        Text="{loc:Loc Startup_SectionAfterwards}" />
                 </Border>
                 <Border Margin="0,9,0,0" Padding="12,16,12,12">
                     <StackPanel Margin="0,2" DataContext="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings}">
@@ -286,7 +288,7 @@
                                         VerticalAlignment="Center"
                                         FontSize="14"
                                         Symbol="Prohibited20" />
-                                    <TextBlock VerticalAlignment="Center" Text="Do Nothing" />
+                                    <TextBlock VerticalAlignment="Center" Text="{loc:Loc SessionAction_None}" />
                                 </StackPanel>
                             </RadioButton>
                         </UniformGrid>
@@ -303,7 +305,7 @@
                                         VerticalAlignment="Center"
                                         FontSize="14"
                                         Symbol="LockClosed20" />
-                                    <TextBlock VerticalAlignment="Center" Text="Lock" />
+                                    <TextBlock VerticalAlignment="Center" Text="{loc:Loc SessionAction_Lock}" />
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton
@@ -316,7 +318,7 @@
                                         VerticalAlignment="Center"
                                         FontSize="14"
                                         Symbol="PersonArrowLeft20" />
-                                    <TextBlock VerticalAlignment="Center" Text="Sign Out" />
+                                    <TextBlock VerticalAlignment="Center" Text="{loc:Loc SessionAction_SignOut}" />
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton
@@ -329,7 +331,7 @@
                                         VerticalAlignment="Center"
                                         FontSize="14"
                                         Symbol="ArrowExit20" />
-                                    <TextBlock VerticalAlignment="Center" Text="Quit" />
+                                    <TextBlock VerticalAlignment="Center" Text="{loc:Loc Menu_Quit}" />
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton
@@ -342,7 +344,7 @@
                                         VerticalAlignment="Center"
                                         FontSize="14"
                                         Symbol="WeatherMoon20" />
-                                    <TextBlock VerticalAlignment="Center" Text="Sleep" />
+                                    <TextBlock VerticalAlignment="Center" Text="{loc:Loc SessionAction_Sleep}" />
                                 </StackPanel>
                             </RadioButton>
                         </UniformGrid>
@@ -359,7 +361,7 @@
                                         VerticalAlignment="Center"
                                         FontSize="14"
                                         Symbol="WeatherSnowflake20" />
-                                    <TextBlock VerticalAlignment="Center" Text="Hibernate" />
+                                    <TextBlock VerticalAlignment="Center" Text="{loc:Loc SessionAction_Hibernate}" />
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton
@@ -372,7 +374,7 @@
                                         VerticalAlignment="Center"
                                         FontSize="14"
                                         Symbol="Power20" />
-                                    <TextBlock VerticalAlignment="Center" Text="Shutdown" />
+                                    <TextBlock VerticalAlignment="Center" Text="{loc:Loc SessionAction_Shutdown}" />
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton
@@ -388,7 +390,7 @@
                                     <TextBlock
                                         Margin="0,0,30,0"
                                         VerticalAlignment="Center"
-                                        Text="Force Shutdown" />
+                                        Text="{loc:Loc SessionAction_ForceShutdown}" />
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton
@@ -401,7 +403,7 @@
                                         VerticalAlignment="Center"
                                         FontSize="14"
                                         Symbol="ArrowCounterclockwise20" />
-                                    <TextBlock VerticalAlignment="Center" Text="Restart" />
+                                    <TextBlock VerticalAlignment="Center" Text="{loc:Loc SessionAction_Restart}" />
                                 </StackPanel>
                             </RadioButton>
                             <RadioButton
@@ -414,7 +416,7 @@
                                         VerticalAlignment="Center"
                                         FontSize="14"
                                         Symbol="ArrowCounterclockwiseDashes20" />
-                                    <TextBlock VerticalAlignment="Center" Text="Force Restart" />
+                                    <TextBlock VerticalAlignment="Center" Text="{loc:Loc SessionAction_ForceRestart}" />
                                 </StackPanel>
                             </RadioButton>
                         </UniformGrid>

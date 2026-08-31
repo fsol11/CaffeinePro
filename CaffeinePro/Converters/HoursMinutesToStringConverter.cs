@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Windows.Data;
+using CaffeinePro.Classes;
 
 namespace CaffeinePro.Converters;
 
@@ -15,7 +16,7 @@ public class HoursMinutesToStringConverter : IMultiValueConverter
             return string.Empty;
         }
 
-        return minutes == 0 ? $"{hours}h" : $"{hours}h : {minutes}m";
+        return Routines.FormatDuration(hours, minutes);
     }
 
     public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture) => throw new NotImplementedException();

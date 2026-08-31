@@ -3,12 +3,16 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:loc="clr-namespace:CaffeinePro.Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-    Title="About Caffeine Pro"
+    Title="{loc:Loc About_Title}"
     Width="510"
     Height="334"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    FontFamily="{Binding Source={x:Static loc:LocalizationService.Instance}, Path=FontFamily}"
+    NumberSubstitution.CultureSource="User"
+    NumberSubstitution.Substitution="{Binding Source={x:Static loc:LocalizationService.Instance}, Path=DigitSubstitution}"
     ExtendsContentIntoTitleBar="False"
     KeyDown="AboutWindow_OnKeyDown"
     Loaded="AboutWindow_OnLoaded"
@@ -190,15 +194,23 @@
                     </Rectangle.RenderTransform>
                 </Rectangle>
 
+                <!--
+                    The reading direction is set here rather than on the window: this is a fixed
+                    composition - photo pinned left, sheen sweeping left to right, text in the
+                    column beside it - and mirroring the whole thing would drop the text on top of
+                    the photo and run the animations backwards. The text column already sits on the
+                    right, so flipping just it is all Arabic and Farsi need.
+                -->
                 <StackPanel
                     Margin="264,87,10,33"
                     CanVerticallyScroll="True"
+                    FlowDirection="{Binding Source={x:Static loc:LocalizationService.Instance}, Path=FlowDirection}"
                     Orientation="Vertical">
                     <ui:TextBlock
                         x:Name="RevealTitle"
                         FontSize="36"
                         Opacity="0"
-                        Text="Caffeine Pro"
+                        Text="{loc:Loc App_Name}"
                         TextWrapping="Wrap">
                         <ui:TextBlock.Foreground>
                             <LinearGradientBrush x:Name="TitleBrush" StartPoint="-1,0" EndPoint="0,0">
@@ -219,9 +231,18 @@
                             <TranslateTransform x:Name="TaglineSlide" Y="18" />
                         </StackPanel.RenderTransform>
                         <ui:TextBlock Foreground="SaddleBrown" TextWrapping="Wrap">
-                            <Run FontSize="16" Text="Keeps Windows awake." />
+                            <Run FontSize="16" Text="{loc:Loc About_Tagline}" />
                         </ui:TextBlock>
-                        <StackPanel Orientation="Horizontal">
+                        <!--
+                            "v3.1" is a version stamp, not a sentence: held left-to-right so the
+                            "v" stays in front of the number in Arabic and Farsi instead of being
+                            reordered behind it. HorizontalAlignment is still resolved by the
+                            mirrored parent, so the stamp sits on the correct side of the column.
+                        -->
+                        <StackPanel
+                            HorizontalAlignment="Left"
+                            FlowDirection="LeftToRight"
+                            Orientation="Horizontal">
                             <ui:TextBlock
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Top"
@@ -242,13 +263,19 @@
                             <TranslateTransform x:Name="InfoSlide" Y="18" />
                         </StackPanel.RenderTransform>
                         <Separator Margin="0,4" />
+                        <!--
+                            The copyright notice stays in Latin in every language, so it is laid
+                            out left-to-right as well. Left in the surrounding right-to-left
+                            paragraph, its full stop would be reordered to the front of the line.
+                        -->
                         <ui:TextBlock
                             Margin="0,0,0,3"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Top"
+                            FlowDirection="LeftToRight"
                             Foreground="SlateGray"
                             TextWrapping="Wrap">
-                            <Run Text="Copyright © 2026 Lotrasoft Inc." />
+                            <Run Text="{loc:Loc About_Copyright}" />
                         </ui:TextBlock>
 
                         <ui:TextBlock
@@ -256,7 +283,7 @@
                             VerticalAlignment="Top"
                             Foreground="SlateGray"
                             TextWrapping="Wrap">
-                            <Run Text="Website:" />
+                            <Run Text="{loc:Loc About_Website}" />
                             <Run Text=" " />
                             <Hyperlink Click="Hyperlink_OnClick" NavigateUri="https://lotrasoft.com/caffeinepro">
                                 <Run Text="lotrasoft.com/caffeinepro" />
@@ -274,7 +301,7 @@
                             VerticalAlignment="Top"
                             Foreground="SlateGray"
                             TextWrapping="Wrap">
-                            <Run Text="Written by: " />
+                            <Run Text="{loc:Loc About_WrittenBy}" />
                             <Run FontWeight="Bold" Text="Farshid Solimanpour" />
                         </ui:TextBlock>
 

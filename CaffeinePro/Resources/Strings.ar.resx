@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App_Name" xml:space="preserve">
+    <value>Caffeine Pro</value>
+  </data>
+  <data name="Menu_BlackoutScreen" xml:space="preserve">
+    <value>تعتيم الشاشة</value>
+  </data>
+  <data name="Menu_BlackoutScreen_ToolTip" xml:space="preserve">
+    <value>يغطي جميع الشاشات باللون الأسود ليبدو الحاسوب مطفأً. اضغط Esc للعودة.</value>
+  </data>
+  <data name="Menu_Settings" xml:space="preserve">
+    <value>الإعدادات</value>
+  </data>
+  <data name="Menu_StartWithWindows" xml:space="preserve">
+    <value>البدء مع Windows</value>
+  </data>
+  <data name="Menu_Language" xml:space="preserve">
+    <value>اللغة</value>
+  </data>
+  <data name="Language_SystemDefault" xml:space="preserve">
+    <value>لغة النظام</value>
+  </data>
+  <data name="Menu_SendFeedback" xml:space="preserve">
+    <value>إرسال ملاحظات…</value>
+  </data>
+  <data name="Menu_About" xml:space="preserve">
+    <value>حول Caffeine Pro…</value>
+  </data>
+  <data name="Menu_Quit" xml:space="preserve">
+    <value>إنهاء</value>
+  </data>
+  <data name="Awakeness_SetTheTime" xml:space="preserve">
+    <value>تحديد الوقت</value>
+  </data>
+  <data name="Awakeness_ForLabel" xml:space="preserve">
+    <value>لمدة |</value>
+  </data>
+  <data name="Awakeness_UntilLabel" xml:space="preserve">
+    <value>حتى |</value>
+  </data>
+  <data name="Awakeness_DefaultLabel" xml:space="preserve">
+    <value>الافتراضي |</value>
+  </data>
+  <data name="Awakeness_SetToDefault" xml:space="preserve">
+    <value>تعيين إلى الافتراضي</value>
+  </data>
+  <data name="Awakeness_SetToDefault_ToolTip" xml:space="preserve">
+    <value>استخدام مدة اليقظة الافتراضية</value>
+  </data>
+  <data name="Awakeness_ApplyAndActivate" xml:space="preserve">
+    <value>تطبيق وتفعيل</value>
+  </data>
+  <data name="Awakeness_Apply" xml:space="preserve">
+    <value>تطبيق</value>
+  </data>
+  <data name="TimeSlider_Until" xml:space="preserve">
+    <value>حتى</value>
+  </data>
+  <data name="TimeSlider_For" xml:space="preserve">
+    <value>لمدة</value>
+  </data>
+  <data name="TimeSlider_Quick" xml:space="preserve">
+    <value>سريع</value>
+  </data>
+  <data name="TimeSlider_Hours" xml:space="preserve">
+    <value>ساعات</value>
+  </data>
+  <data name="TimeSlider_Am" xml:space="preserve">
+    <value>ص</value>
+  </data>
+  <data name="TimeSlider_Pm" xml:space="preserve">
+    <value>م</value>
+  </data>
+  <data name="Common_Indefinitely" xml:space="preserve">
+    <value>إلى أجل غير مسمى</value>
+  </data>
+  <data name="Common_IndefinitelyWithIcon" xml:space="preserve">
+    <value>♾️ إلى أجل غير مسمى</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>إلغاء</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>حفظ</value>
+  </data>
+  <data name="Status_SetToDefault" xml:space="preserve">
+    <value>تعيين إلى الافتراضي</value>
+  </data>
+  <data name="Status_Active" xml:space="preserve">
+    <value>نشط</value>
+  </data>
+  <data name="Status_Inactive" xml:space="preserve">
+    <value>غير نشط</value>
+  </data>
+  <data name="Status_NotificationsIgnoredToday" xml:space="preserve">
+    <value>يتم تجاهل الإشعارات اليوم.</value>
+  </data>
+  <data name="Status_Paused_OnBattery" xml:space="preserve">
+    <value>متوقف مؤقتًا – يعمل على البطارية</value>
+  </data>
+  <data name="Status_Paused_WorkstationLocked" xml:space="preserve">
+    <value>متوقف مؤقتًا – الجهاز مقفل</value>
+  </data>
+  <data name="Startup_SectionDefault" xml:space="preserve">
+    <value>الافتراضي</value>
+  </data>
+  <data name="Startup_SectionMethod" xml:space="preserve">
+    <value>الطريقة</value>
+  </data>
+  <data name="Startup_SectionOptions" xml:space="preserve">
+    <value>خيارات</value>
+  </data>
+  <data name="Startup_SectionAfterwards" xml:space="preserve">
+    <value>بعد ذلك</value>
+  </data>
+  <data name="Startup_CopyFromCurrentValue" xml:space="preserve">
+    <value>نسخ من القيمة الحالية</value>
+  </data>
+  <data name="Startup_AskMe" xml:space="preserve">
+    <value>اسألني</value>
+  </data>
+  <data name="Startup_OnlyIfTimeNotPassed" xml:space="preserve">
+    <value>(فقط إذا لم يكن الوقت قد مضى)</value>
+  </data>
+  <data name="Startup_AutoSetToDefault" xml:space="preserve">
+    <value>تعيين الافتراضي تلقائيًا عند البدء وإلغاء القفل</value>
+  </data>
+  <data name="Startup_StayInactive" xml:space="preserve">
+    <value>البقاء غير نشط</value>
+  </data>
+  <data name="Startup_SimulateKeyboardMouse" xml:space="preserve">
+    <value>محاكاة استخدام لوحة المفاتيح/الفأرة</value>
+  </data>
+  <data name="Startup_AllowScreensaver" xml:space="preserve">
+    <value>السماح بشاشة التوقف</value>
+  </data>
+  <data name="Startup_AllowScreensaver_Hint" xml:space="preserve">
+    <value>(لا يمنع اكتشاف الخمول)</value>
+  </data>
+  <data name="Startup_InactiveOnBattery" xml:space="preserve">
+    <value>غير نشط أثناء البطارية</value>
+  </data>
+  <data name="Startup_BlackoutTrigger" xml:space="preserve">
+    <value>اختصار تعتيم الشاشة</value>
+  </data>
+  <data name="Startup_ChangeShortcut_ToolTip" xml:space="preserve">
+    <value>انقر لتغيير هذا الاختصار</value>
+  </data>
+  <data name="Startup_ShortcutInUse" xml:space="preserve">
+    <value>يستخدم تطبيق آخر هذا الاختصار بالفعل.</value>
+  </data>
+  <data name="Startup_UpdateAwakeness_Message" xml:space="preserve">
+    <value>هل تريد تحديث مدة اليقظة الافتراضية إلى:</value>
+  </data>
+  <data name="Startup_UpdateAwakeness_Title" xml:space="preserve">
+    <value>تحديث مدة اليقظة الافتراضية</value>
+  </data>
+  <data name="SessionAction_None" xml:space="preserve">
+    <value>لا شيء</value>
+  </data>
+  <data name="SessionAction_Quit" xml:space="preserve">
+    <value>إنهاء البرنامج</value>
+  </data>
+  <data name="SessionAction_Lock" xml:space="preserve">
+    <value>قفل</value>
+  </data>
+  <data name="SessionAction_SignOut" xml:space="preserve">
+    <value>تسجيل الخروج</value>
+  </data>
+  <data name="SessionAction_ForceSignOut" xml:space="preserve">
+    <value>فرض تسجيل الخروج</value>
+  </data>
+  <data name="SessionAction_Shutdown" xml:space="preserve">
+    <value>إيقاف التشغيل</value>
+  </data>
+  <data name="SessionAction_ForceShutdown" xml:space="preserve">
+    <value>فرض إيقاف التشغيل</value>
+  </data>
+  <data name="SessionAction_Restart" xml:space="preserve">
+    <value>إعادة التشغيل</value>
+  </data>
+  <data name="SessionAction_ForceRestart" xml:space="preserve">
+    <value>فرض إعادة التشغيل</value>
+  </data>
+  <data name="SessionAction_Hibernate" xml:space="preserve">
+    <value>الإسبات</value>
+  </data>
+  <data name="SessionAction_Sleep" xml:space="preserve">
+    <value>السكون</value>
+  </data>
+  <data name="SessionAction_MonitorOff" xml:space="preserve">
+    <value>إطفاء الشاشة</value>
+  </data>
+  <data name="Notification_Question" xml:space="preserve">
+    <value>هل تريد إبقاء الحاسوب مستيقظًا؟</value>
+  </data>
+  <data name="Notification_AskLater" xml:space="preserve">
+    <value>اسأل لاحقًا</value>
+  </data>
+  <data name="Notification_Activate" xml:space="preserve">
+    <value>تفعيل</value>
+  </data>
+  <data name="Notification_IgnoreForToday" xml:space="preserve">
+    <value>تجاهل اليوم</value>
+  </data>
+  <data name="Warning_AwakeTimeIsUp" xml:space="preserve">
+    <value>انتهت مدة اليقظة</value>
+  </data>
+  <data name="Warning_SecondsUntil" xml:space="preserve">
+    <value>ثانية حتى</value>
+  </data>
+  <data name="Warning_OrKeepAwakeFor" xml:space="preserve">
+    <value>أو الإبقاء مستيقظًا لمدة</value>
+  </data>
+  <data name="Warning_Add5Min" xml:space="preserve">
+    <value>+5 دقائق</value>
+  </data>
+  <data name="Warning_Add10Min" xml:space="preserve">
+    <value>+10 دقائق</value>
+  </data>
+  <data name="Warning_Add20Min" xml:space="preserve">
+    <value>+20 دقيقة</value>
+  </data>
+  <data name="Warning_Add30Min" xml:space="preserve">
+    <value>+30 دقيقة</value>
+  </data>
+  <data name="Warning_Add1Hour" xml:space="preserve">
+    <value>+1 ساعة</value>
+  </data>
+  <data name="Blackout_Title" xml:space="preserve">
+    <value>تعتيم</value>
+  </data>
+  <data name="Blackout_PressEscToReturn" xml:space="preserve">
+    <value>اضغط Esc للعودة</value>
+  </data>
+  <data name="HotKey_Title" xml:space="preserve">
+    <value>تغيير الاختصار</value>
+  </data>
+  <data name="HotKey_Prompt" xml:space="preserve">
+    <value>اضغط تركيبة المفاتيح التي تريد استخدامها.</value>
+  </data>
+  <data name="HotKey_Waiting" xml:space="preserve">
+    <value>في الانتظار…</value>
+  </data>
+  <data name="HotKey_ModifierRequiredHint" xml:space="preserve">
+    <value>يلزم مفتاح تعديل واحد على الأقل (Ctrl أو Alt أو Shift أو Win).</value>
+  </data>
+  <data name="HotKey_EscapeHint" xml:space="preserve">
+    <value>Esc يلغي. Backspace يزيل الاختصار.</value>
+  </data>
+  <data name="HotKey_Status_PressSave" xml:space="preserve">
+    <value>اضغط حفظ لاستخدام هذا الاختصار.</value>
+  </data>
+  <data name="HotKey_Status_NeedsModifier" xml:space="preserve">
+    <value>تحتاج هذه التركيبة إلى مفتاح تعديل واحد على الأقل (Ctrl أو Alt أو Shift أو Win).</value>
+  </data>
+  <data name="HotKey_Status_NowPressKey" xml:space="preserve">
+    <value>الآن اضغط المفتاح الذي سيرافق مفاتيح التعديل هذه.</value>
+  </data>
+  <data name="HotKey_Status_NoShortcut" xml:space="preserve">
+    <value>بدون اختصار: يمكن فتح شاشة التعتيم من القائمة فقط.</value>
+  </data>
+  <data name="HotKey_None" xml:space="preserve">
+    <value>بلا</value>
+  </data>
+  <data name="HotKey_Ctrl" xml:space="preserve">
+    <value>Ctrl</value>
+  </data>
+  <data name="HotKey_Alt" xml:space="preserve">
+    <value>Alt</value>
+  </data>
+  <data name="HotKey_Shift" xml:space="preserve">
+    <value>Shift</value>
+  </data>
+  <data name="HotKey_Win" xml:space="preserve">
+    <value>Win</value>
+  </data>
+  <data name="HotKey_NumPadFormat" xml:space="preserve">
+    <value>لوحة الأرقام {0}</value>
+  </data>
+  <data name="About_Title" xml:space="preserve">
+    <value>حول Caffeine Pro</value>
+  </data>
+  <data name="About_Tagline" xml:space="preserve">
+    <value>يُبقي Windows مستيقظًا.</value>
+  </data>
+  <data name="About_Copyright" xml:space="preserve">
+    <value>Copyright © 2026 Lotrasoft Inc.</value>
+  </data>
+  <data name="About_Website" xml:space="preserve">
+    <value>الموقع:</value>
+  </data>
+  <data name="About_WrittenBy" xml:space="preserve">
+    <value>كتبه: </value>
+  </data>
+  <data name="Date_Midnight" xml:space="preserve">
+    <value>منتصف الليل</value>
+  </data>
+  <data name="Date_Yesterday" xml:space="preserve">
+    <value>أمس</value>
+  </data>
+  <data name="Date_Tomorrow" xml:space="preserve">
+    <value>غدًا</value>
+  </data>
+  <data name="Date_DaysAgoFormat" xml:space="preserve">
+    <value>قبل {0} أيام</value>
+  </data>
+  <data name="Date_InDaysFormat" xml:space="preserve">
+    <value>بعد {0} أيام</value>
+  </data>
+  <data name="Duration_HoursFormat" xml:space="preserve">
+    <value>{0} س</value>
+  </data>
+  <data name="Duration_MinutesFormat" xml:space="preserve">
+    <value>{0} د</value>
+  </data>
+  <data name="Duration_HoursMinutesFormat" xml:space="preserve">
+    <value>{0} س : {1} د</value>
+  </data>
+  <data name="Awakeness_ForFormat" xml:space="preserve">
+    <value>لمدة {0}</value>
+  </data>
+  <data name="Awakeness_UntilFormat" xml:space="preserve">
+    <value>حتى {0}</value>
+  </data>
+  <data name="Awakeness_UntilHintFormat" xml:space="preserve">
+    <value>حتى {0}</value>
+  </data>
+  <data name="Awakeness_AfterwardsFormat" xml:space="preserve">
+    <value> – بعد ذلك {0}</value>
+  </data>
+  <data name="Error_Title" xml:space="preserve">
+    <value>خطأ</value>
+  </data>
+  <data name="Error_Unexpected" xml:space="preserve">
+    <value>حدث خطأ غير متوقع</value>
+  </data>
+  <data name="Error_SavingSettingsTitle" xml:space="preserve">
+    <value>خطأ في حفظ ملف الإعدادات</value>
+  </data>
+  <data name="Error_StartupSettingTitle" xml:space="preserve">
+    <value>خطأ في تغيير إعداد بدء التشغيل</value>
+  </data>
+  <data name="Startup_PolicyBlocked" xml:space="preserve">
+    <value>تمنع سياسة مؤسستك تشغيل Caffeine Pro مع Windows.</value>
+  </data>
+  <data name="Startup_TurnedOffInStartupApps" xml:space="preserve">
+    <value>تم إيقاف Caffeine Pro من قائمة تطبيقات بدء التشغيل، لذا لا يمكن تفعيله إلا من هناك. افتح إدارة المهام &gt; تطبيقات بدء التشغيل (أو الإعدادات &gt; التطبيقات &gt; بدء التشغيل) وشغّل Caffeine Pro.</value>
+  </data>
+  <data name="Singleton_AlreadyRunning" xml:space="preserve">
+    <value>يوجد نسخة من التطبيق قيد التشغيل بالفعل.</value>
+  </data>
+  <data name="Cli_VersionFormat" xml:space="preserve">
+    <value>Caffeine Pro الإصدار: {0}</value>
+  </data>
+  <data name="Cli_ByFormat" xml:space="preserve">
+    <value>بواسطة {0} ({1})</value>
+  </data>
+  <data name="Cli_Usage" xml:space="preserve">
+    <value>الاستخدام: CaffeinePro [أمر] [خيارات]</value>
+  </data>
+  <data name="Cli_Commands" xml:space="preserve">
+    <value>الأوامر:</value>
+  </data>
+  <data name="Cli_Options" xml:space="preserve">
+    <value>الخيارات:</value>
+  </data>
+  <data name="Cli_Cmd_Activate" xml:space="preserve">
+    <value>التفعيل (افتراضي)</value>
+  </data>
+  <data name="Cli_Cmd_ActiveFor" xml:space="preserve">
+    <value>التفعيل لمدة X دقيقة</value>
+  </data>
+  <data name="Cli_Cmd_ActiveUntil" xml:space="preserve">
+    <value>التفعيل حتى X (X=hh:mmpp)</value>
+  </data>
+  <data name="Cli_Cmd_Deactivate" xml:space="preserve">
+    <value>إيقاف تفعيل النسخة قيد التشغيل</value>
+  </data>
+  <data name="Cli_Cmd_Exit" xml:space="preserve">
+    <value>إنهاء النسخة قيد التشغيل</value>
+  </data>
+  <data name="Cli_Opt_Help" xml:space="preserve">
+    <value>عرض التعليمات</value>
+  </data>
+  <data name="Cli_Opt_ResetOptions" xml:space="preserve">
+    <value>إعادة الخيارات إلى قيمها الافتراضية</value>
+  </data>
+  <data name="Cli_Opt_SaveOptions" xml:space="preserve">
+    <value>حفظ الخيارات كافتراضية للتشغيلات التالية</value>
+  </data>
+  <data name="Cli_Opt_StartInactive" xml:space="preserve">
+    <value>البدء غير نشط</value>
+  </data>
+  <data name="Cli_Opt_AllowSs" xml:space="preserve">
+    <value>السماح بشاشة التوقف؛ بدون محاكاة الفأرة/لوحة المفاتيح (الافتراضي: false)</value>
+  </data>
+  <data name="Cli_Opt_InactiveOnBattery" xml:space="preserve">
+    <value>غير نشط أثناء العمل على البطارية (الافتراضي: false)</value>
+  </data>
+  <data name="Cli_UnrecognizedParametersFormat" xml:space="preserve">
+    <value>معاملات غير معروفة:&#10;{0}</value>
+  </data>
+  <data name="TimeSlider_ClockFormat" xml:space="preserve">
+    <value>{0}:{1:00} {2}</value>
+  </data>
+</root>

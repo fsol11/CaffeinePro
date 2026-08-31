@@ -1,6 +1,7 @@
-using System.Globalization;
+﻿using System.Globalization;
 using System.Windows.Data;
 using CaffeinePro.Classes;
+using CaffeinePro.Localization;
 
 namespace CaffeinePro.Converters;
 
@@ -38,24 +39,26 @@ public class AwakenessToDisplayTextConverter : IValueConverter
             // Counted from now rather than from the stored end date, which was calculated when the
             // settings were loaded and can be days old.
             return awakeness is { IsIndefinite: false, IsRelative: true }
-                ? $"until {Routines.GetDateTimeString(Awakeness.GetNow().Add(awakeness.RelativeSpan))}"
+                ? LocalizationService.Format("Awakeness_UntilHintFormat",
+                    Routines.GetDateTimeString(Awakeness.GetNow().Add(awakeness.RelativeSpan)))
                 : string.Empty;
         }
 
         if (awakeness.IsIndefinite)
         {
-            return "Indefinitely";
+            return LocalizationService.Get("Common_Indefinitely");
         }
 
         if (awakeness.IsRelative)
         {
             var span = awakeness.RelativeSpan;
-            return span.Minutes == 0 ? $"For {span.Hours}h" : $"For {span.Hours}h : {span.Minutes}m";
+            return LocalizationService.Format("Awakeness_ForFormat",
+                Routines.FormatDuration(span.Hours, span.Minutes));
         }
 
         // Absolute: only the time of day carries meaning. The stored end date can be days old, so it
         // is deliberately left out.
-        return $"Until {awakeness.EndTimeText}";
+        return LocalizationService.Format("Awakeness_UntilFormat", awakeness.EndTimeText);
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) => null;

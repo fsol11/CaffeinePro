@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
 using CaffeinePro.Classes;
+using CaffeinePro.Localization;
 
 namespace CaffeinePro.Windows;
 
@@ -130,13 +131,13 @@ public partial class HotKeyRecorderWindow
         // "None" (no shortcut) is a legitimate choice - it just switches the feature off.
         SaveButton.IsEnabled = _recorded.IsValid || _recorded == HotKey.None;
 
-        StatusText.Text = _recorded switch
+        StatusText.Text = LocalizationService.Get(_recorded switch
         {
-            { IsValid: true } => "Press Save to use this shortcut.",
-            { IsSet: true } => "This combination needs at least one modifier (Ctrl, Alt, Shift or Win).",
-            _ when _recorded.Modifiers != ModifierKeys.None => "Now press the key to go with these modifiers.",
-            _ => "No shortcut: the blackout screen can then only be opened from the menu.",
-        };
+            { IsValid: true } => "HotKey_Status_PressSave",
+            { IsSet: true } => "HotKey_Status_NeedsModifier",
+            _ when _recorded.Modifiers != ModifierKeys.None => "HotKey_Status_NowPressKey",
+            _ => "HotKey_Status_NoShortcut",
+        });
     }
 
     private void Save_Click(object sender, RoutedEventArgs e)

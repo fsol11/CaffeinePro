@@ -5,6 +5,7 @@
     xmlns:caffeinePro="clr-namespace:CaffeinePro"
     xmlns:controls="clr-namespace:CaffeinePro.Controls"
     xmlns:converters="clr-namespace:CaffeinePro.Converters"
+    xmlns:loc="clr-namespace:CaffeinePro.Localization"
     xmlns:tb="http://www.hardcodet.net/taskbar"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     ShutdownMode="OnExplicitShutdown">
@@ -45,6 +46,7 @@
             <converters:AwakenessTimeNotEqualsToVisibilityConverter x:Key="AwakenessTimeNotEqualsToVisibilityConverter" />
             <converters:HoursMinutesToStringConverter x:Key="HoursMinutesToString" />
             <converters:AwakenessToDisplayTextConverter x:Key="AwakenessToDisplayText" />
+            <converters:QuarterTimeConverter x:Key="QuarterTime" />
 
             <Style x:Key="NoHighlightMenuItemStyle" TargetType="{x:Type MenuItem}">
                 <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -70,9 +72,17 @@
             </Style>
 
 
+            <!--
+                The tray menu is its own visual root, so it does not inherit the reading direction
+                or the script font from anywhere - both are bound here, as on every window.
+            -->
             <ContextMenu
                 x:Key="TrayContextMenu"
                 DataContext="{Binding Source={x:Static caffeinePro:App.CurrentApp}}"
+                FlowDirection="{Binding Source={x:Static loc:LocalizationService.Instance}, Path=FlowDirection}"
+                NumberSubstitution.CultureSource="User"
+                NumberSubstitution.Substitution="{Binding Source={x:Static loc:LocalizationService.Instance}, Path=DigitSubstitution}"
+                FontFamily="{Binding Source={x:Static loc:LocalizationService.Instance}, Path=FontFamily}"
                 Opened="OnTrayContextMenuOpened">
                 <MenuItem
                     HorizontalContentAlignment="Center"
@@ -87,16 +97,16 @@
                 <!--  The shortcut is shown alongside, so the menu also teaches it  -->
                 <MenuItem
                     Click="OnBlackoutMenu"
-                    Header="Blackout Screen"
+                    Header="{loc:Loc Menu_BlackoutScreen}"
                     InputGestureText="{Binding AppSettings.BlackoutHotKey.DisplayText, Mode=OneWay}"
-                    ToolTip="Covers every monitor in black, so the computer looks switched off. Press Esc to return.">
+                    ToolTip="{loc:Loc Menu_BlackoutScreen_ToolTip}">
                     <MenuItem.Icon>
                         <ui:SymbolIcon Margin="0,0,6,0" Symbol="WeatherMoon24" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <Separator />
 
-                <MenuItem Header="Settings">
+                <MenuItem Header="{loc:Loc Menu_Settings}">
                     <MenuItem.Icon>
                         <ui:SymbolIcon Margin="0,0,6,0" Symbol="Settings24" />
                     </MenuItem.Icon>
@@ -115,25 +125,43 @@
                                 <ui:ToggleSwitch
                                     HorizontalAlignment="Stretch"
                                     HorizontalContentAlignment="Stretch"
-                                    Content="Start With Windows"
+                                    Content="{loc:Loc Menu_StartWithWindows}"
                                     IsChecked="{Binding Mode=TwoWay, Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartWithWindows}" />
                             </MenuItem.Header>
+                        </MenuItem>
+
+                        <!--
+                            Every language names itself in its own script, so the list stays
+                            readable no matter which language the rest of the menu is in.
+                        -->
+                        <MenuItem Header="{loc:Loc Menu_Language}" ItemsSource="{Binding Source={x:Static loc:LocalizationService.Instance}, Path=Languages}">
+                            <MenuItem.Icon>
+                                <ui:SymbolIcon Margin="0,0,6,0" Symbol="LocalLanguage24" />
+                            </MenuItem.Icon>
+                            <MenuItem.ItemContainerStyle>
+                                <Style BasedOn="{StaticResource {x:Type MenuItem}}" TargetType="{x:Type MenuItem}">
+                                    <Setter Property="Header" Value="{Binding DisplayName}" />
+                                    <Setter Property="IsCheckable" Value="True" />
+                                    <Setter Property="IsChecked" Value="{Binding IsSelected, Mode=OneWay}" />
+                                    <EventSetter Event="Click" Handler="OnLanguageMenu" />
+                                </Style>
+                            </MenuItem.ItemContainerStyle>
                         </MenuItem>
                     </MenuItem.Items>
                 </MenuItem>
                 <Separator />
 
-                <MenuItem Click="OnSendFeedback" Header="Send Feedback...">
+                <MenuItem Click="OnSendFeedback" Header="{loc:Loc Menu_SendFeedback}">
                     <MenuItem.Icon>
                         <ui:SymbolIcon Margin="0,0,6,0" Symbol="PersonFeedback20" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Click="OnAboutMenu" Header="About Caffeine Pro...">
+                <MenuItem Click="OnAboutMenu" Header="{loc:Loc Menu_About}">
                     <MenuItem.Icon>
                         <ui:SymbolIcon Margin="0,0,6,0" Symbol="Info20" />
                     </MenuItem.Icon>
                 </MenuItem>
-                <MenuItem Click="OnExitMenu" Header="Quit">
+                <MenuItem Click="OnExitMenu" Header="{loc:Loc Menu_Quit}">
                     <MenuItem.Icon>
                         <ui:SymbolIcon Margin="0,0,6,0" Symbol="ArrowExit20" />
                     </MenuItem.Icon>

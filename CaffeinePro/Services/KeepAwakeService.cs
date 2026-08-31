@@ -5,6 +5,7 @@ using System.Security.Cryptography;
 using System.Timers;
 using System.Windows;
 using CaffeinePro.Classes;
+using CaffeinePro.Localization;
 using CaffeinePro.Windows;
 using Notification.Core;
 using Notification.Wpf;
@@ -210,7 +211,10 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
 
     private void UpdateStatusText()
     {
-        StatusText = $"{App.AppName} - {(IsActive ? "Active" : "Inactive")}";
+        StatusText =
+            $"{LocalizationService.Get("App_Name")} - " +
+            LocalizationService.Get(IsActive ? "Status_Active" : "Status_Inactive");
+
         if (!IsActive)
         {
             return;
@@ -265,9 +269,6 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
     private bool _isTemporarilyInactiveBecauseSessionLocked;
     private bool _isTemporarilyInactiveBecauseOnBattery;
     private string _temporarilyInactiveReason = string.Empty;
-
-    private const string OnBatteryReason = "Paused - running on battery";
-    private const string SessionLockedReason = "Paused - workstation locked";
 
     /// <summary>
     /// Activate the keep awake service to the default time
@@ -344,9 +345,9 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
 
         // Set before the aggregate flag below, whose setter refreshes the status text from it.
         TemporarilyInactiveReason = IsTemporarilyInactiveBecauseOnBattery
-            ? OnBatteryReason
+            ? LocalizationService.Get("Status_Paused_OnBattery")
             : IsTemporarilyInactiveBecauseSessionLocked
-                ? SessionLockedReason
+                ? LocalizationService.Get("Status_Paused_WorkstationLocked")
                 : string.Empty;
 
         IsTemporarilyInactive = IsTemporarilyInactiveBecauseOnBattery
@@ -483,6 +484,18 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
         //   When reaching here => App.CurrentApp.AppSettings.StartActive is null
         //   Which means user has selected "Ask Me"
         NotificationWindow.OpenIt(Awakeness.RenewDateTime(startupAwakeness));
+    }
+
+    /// <summary>
+    /// Rebuilds every piece of text this service caches. Called after the language is switched:
+    /// the tray tooltip and the pause reason are plain strings, not bindings, so nothing else
+    /// would bring them into the new language.
+    /// </summary>
+    public void RefreshLocalizedTexts()
+    {
+        UpdateIsTemporarilyInactive();
+        Awakeness.UpdateTexts();
+        UpdateStatusText();
     }
 
     public void SetIgnoreUnlockNotificationToToday()

@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App_Name" xml:space="preserve">
+    <value>Caffeine Pro</value>
+  </data>
+  <data name="Menu_BlackoutScreen" xml:space="preserve">
+    <value>黑屏</value>
+  </data>
+  <data name="Menu_BlackoutScreen_ToolTip" xml:space="preserve">
+    <value>将所有显示器变为黑屏，让电脑看起来已关机。按 Esc 键返回。</value>
+  </data>
+  <data name="Menu_Settings" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="Menu_StartWithWindows" xml:space="preserve">
+    <value>开机时启动</value>
+  </data>
+  <data name="Menu_Language" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="Language_SystemDefault" xml:space="preserve">
+    <value>跟随系统</value>
+  </data>
+  <data name="Menu_SendFeedback" xml:space="preserve">
+    <value>发送反馈…</value>
+  </data>
+  <data name="Menu_About" xml:space="preserve">
+    <value>关于 Caffeine Pro…</value>
+  </data>
+  <data name="Menu_Quit" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="Awakeness_SetTheTime" xml:space="preserve">
+    <value>设置时间</value>
+  </data>
+  <data name="Awakeness_ForLabel" xml:space="preserve">
+    <value>持续 |</value>
+  </data>
+  <data name="Awakeness_UntilLabel" xml:space="preserve">
+    <value>直到 |</value>
+  </data>
+  <data name="Awakeness_DefaultLabel" xml:space="preserve">
+    <value>默认 |</value>
+  </data>
+  <data name="Awakeness_SetToDefault" xml:space="preserve">
+    <value>设为默认</value>
+  </data>
+  <data name="Awakeness_SetToDefault_ToolTip" xml:space="preserve">
+    <value>使用默认唤醒设置</value>
+  </data>
+  <data name="Awakeness_ApplyAndActivate" xml:space="preserve">
+    <value>应用并启用</value>
+  </data>
+  <data name="Awakeness_Apply" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="TimeSlider_Until" xml:space="preserve">
+    <value>直到</value>
+  </data>
+  <data name="TimeSlider_For" xml:space="preserve">
+    <value>持续</value>
+  </data>
+  <data name="TimeSlider_Quick" xml:space="preserve">
+    <value>快捷</value>
+  </data>
+  <data name="TimeSlider_Hours" xml:space="preserve">
+    <value>小时</value>
+  </data>
+  <data name="TimeSlider_Am" xml:space="preserve">
+    <value>上午</value>
+  </data>
+  <data name="TimeSlider_Pm" xml:space="preserve">
+    <value>下午</value>
+  </data>
+  <data name="Common_Indefinitely" xml:space="preserve">
+    <value>无限期</value>
+  </data>
+  <data name="Common_IndefinitelyWithIcon" xml:space="preserve">
+    <value>♾️ 无限期</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="Status_SetToDefault" xml:space="preserve">
+    <value>设为默认</value>
+  </data>
+  <data name="Status_Active" xml:space="preserve">
+    <value>已启用</value>
+  </data>
+  <data name="Status_Inactive" xml:space="preserve">
+    <value>未启用</value>
+  </data>
+  <data name="Status_NotificationsIgnoredToday" xml:space="preserve">
+    <value>今天忽略通知。</value>
+  </data>
+  <data name="Status_Paused_OnBattery" xml:space="preserve">
+    <value>已暂停 – 正在使用电池</value>
+  </data>
+  <data name="Status_Paused_WorkstationLocked" xml:space="preserve">
+    <value>已暂停 – 工作站已锁定</value>
+  </data>
+  <data name="Startup_SectionDefault" xml:space="preserve">
+    <value>默认</value>
+  </data>
+  <data name="Startup_SectionMethod" xml:space="preserve">
+    <value>方式</value>
+  </data>
+  <data name="Startup_SectionOptions" xml:space="preserve">
+    <value>选项</value>
+  </data>
+  <data name="Startup_SectionAfterwards" xml:space="preserve">
+    <value>结束后</value>
+  </data>
+  <data name="Startup_CopyFromCurrentValue" xml:space="preserve">
+    <value>从当前值复制</value>
+  </data>
+  <data name="Startup_AskMe" xml:space="preserve">
+    <value>每次询问</value>
+  </data>
+  <data name="Startup_OnlyIfTimeNotPassed" xml:space="preserve">
+    <value>（仅当当天时间未过时）</value>
+  </data>
+  <data name="Startup_AutoSetToDefault" xml:space="preserve">
+    <value>启动和解锁时自动设为默认</value>
+  </data>
+  <data name="Startup_StayInactive" xml:space="preserve">
+    <value>保持未启用</value>
+  </data>
+  <data name="Startup_SimulateKeyboardMouse" xml:space="preserve">
+    <value>模拟键盘/鼠标操作</value>
+  </data>
+  <data name="Startup_AllowScreensaver" xml:space="preserve">
+    <value>允许屏幕保护程序</value>
+  </data>
+  <data name="Startup_AllowScreensaver_Hint" xml:space="preserve">
+    <value>（无法阻止空闲状态检测）</value>
+  </data>
+  <data name="Startup_InactiveOnBattery" xml:space="preserve">
+    <value>使用电池时不启用</value>
+  </data>
+  <data name="Startup_BlackoutTrigger" xml:space="preserve">
+    <value>黑屏快捷键</value>
+  </data>
+  <data name="Startup_ChangeShortcut_ToolTip" xml:space="preserve">
+    <value>点击以更改此快捷键</value>
+  </data>
+  <data name="Startup_ShortcutInUse" xml:space="preserve">
+    <value>另一个应用已在使用此快捷键。</value>
+  </data>
+  <data name="Startup_UpdateAwakeness_Message" xml:space="preserve">
+    <value>是否将默认唤醒设置更新为：</value>
+  </data>
+  <data name="Startup_UpdateAwakeness_Title" xml:space="preserve">
+    <value>更新默认唤醒设置</value>
+  </data>
+  <data name="SessionAction_None" xml:space="preserve">
+    <value>不执行任何操作</value>
+  </data>
+  <data name="SessionAction_Quit" xml:space="preserve">
+    <value>退出程序</value>
+  </data>
+  <data name="SessionAction_Lock" xml:space="preserve">
+    <value>锁定</value>
+  </data>
+  <data name="SessionAction_SignOut" xml:space="preserve">
+    <value>注销</value>
+  </data>
+  <data name="SessionAction_ForceSignOut" xml:space="preserve">
+    <value>强制注销</value>
+  </data>
+  <data name="SessionAction_Shutdown" xml:space="preserve">
+    <value>关机</value>
+  </data>
+  <data name="SessionAction_ForceShutdown" xml:space="preserve">
+    <value>强制关机</value>
+  </data>
+  <data name="SessionAction_Restart" xml:space="preserve">
+    <value>重启</value>
+  </data>
+  <data name="SessionAction_ForceRestart" xml:space="preserve">
+    <value>强制重启</value>
+  </data>
+  <data name="SessionAction_Hibernate" xml:space="preserve">
+    <value>休眠</value>
+  </data>
+  <data name="SessionAction_Sleep" xml:space="preserve">
+    <value>睡眠</value>
+  </data>
+  <data name="SessionAction_MonitorOff" xml:space="preserve">
+    <value>关闭显示器</value>
+  </data>
+  <data name="Notification_Question" xml:space="preserve">
+    <value>要让电脑保持唤醒吗？</value>
+  </data>
+  <data name="Notification_AskLater" xml:space="preserve">
+    <value>稍后询问</value>
+  </data>
+  <data name="Notification_Activate" xml:space="preserve">
+    <value>启用</value>
+  </data>
+  <data name="Notification_IgnoreForToday" xml:space="preserve">
+    <value>今天不再提示</value>
+  </data>
+  <data name="Warning_AwakeTimeIsUp" xml:space="preserve">
+    <value>唤醒时间已结束</value>
+  </data>
+  <data name="Warning_SecondsUntil" xml:space="preserve">
+    <value>秒后执行</value>
+  </data>
+  <data name="Warning_OrKeepAwakeFor" xml:space="preserve">
+    <value>或继续保持唤醒</value>
+  </data>
+  <data name="Warning_Add5Min" xml:space="preserve">
+    <value>+5 分钟</value>
+  </data>
+  <data name="Warning_Add10Min" xml:space="preserve">
+    <value>+10 分钟</value>
+  </data>
+  <data name="Warning_Add20Min" xml:space="preserve">
+    <value>+20 分钟</value>
+  </data>
+  <data name="Warning_Add30Min" xml:space="preserve">
+    <value>+30 分钟</value>
+  </data>
+  <data name="Warning_Add1Hour" xml:space="preserve">
+    <value>+1 小时</value>
+  </data>
+  <data name="Blackout_Title" xml:space="preserve">
+    <value>黑屏</value>
+  </data>
+  <data name="Blackout_PressEscToReturn" xml:space="preserve">
+    <value>按 Esc 键返回</value>
+  </data>
+  <data name="HotKey_Title" xml:space="preserve">
+    <value>更改快捷键</value>
+  </data>
+  <data name="HotKey_Prompt" xml:space="preserve">
+    <value>请按下您想要使用的组合键。</value>
+  </data>
+  <data name="HotKey_Waiting" xml:space="preserve">
+    <value>等待中…</value>
+  </data>
+  <data name="HotKey_ModifierRequiredHint" xml:space="preserve">
+    <value>至少需要一个修饰键（Ctrl、Alt、Shift 或 Win）。</value>
+  </data>
+  <data name="HotKey_EscapeHint" xml:space="preserve">
+    <value>Esc 取消，Backspace 删除快捷键。</value>
+  </data>
+  <data name="HotKey_Status_PressSave" xml:space="preserve">
+    <value>点击“保存”以使用此快捷键。</value>
+  </data>
+  <data name="HotKey_Status_NeedsModifier" xml:space="preserve">
+    <value>此组合至少需要一个修饰键（Ctrl、Alt、Shift 或 Win）。</value>
+  </data>
+  <data name="HotKey_Status_NowPressKey" xml:space="preserve">
+    <value>现在请按下与这些修饰键搭配的按键。</value>
+  </data>
+  <data name="HotKey_Status_NoShortcut" xml:space="preserve">
+    <value>无快捷键：黑屏将只能通过菜单开启。</value>
+  </data>
+  <data name="HotKey_None" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="HotKey_Ctrl" xml:space="preserve">
+    <value>Ctrl</value>
+  </data>
+  <data name="HotKey_Alt" xml:space="preserve">
+    <value>Alt</value>
+  </data>
+  <data name="HotKey_Shift" xml:space="preserve">
+    <value>Shift</value>
+  </data>
+  <data name="HotKey_Win" xml:space="preserve">
+    <value>Win</value>
+  </data>
+  <data name="HotKey_NumPadFormat" xml:space="preserve">
+    <value>小键盘 {0}</value>
+  </data>
+  <data name="About_Title" xml:space="preserve">
+    <value>关于 Caffeine Pro</value>
+  </data>
+  <data name="About_Tagline" xml:space="preserve">
+    <value>让 Windows 保持唤醒。</value>
+  </data>
+  <data name="About_Copyright" xml:space="preserve">
+    <value>Copyright © 2026 Lotrasoft Inc.</value>
+  </data>
+  <data name="About_Website" xml:space="preserve">
+    <value>网站：</value>
+  </data>
+  <data name="About_WrittenBy" xml:space="preserve">
+    <value>作者：</value>
+  </data>
+  <data name="Date_Midnight" xml:space="preserve">
+    <value>午夜</value>
+  </data>
+  <data name="Date_Yesterday" xml:space="preserve">
+    <value>昨天</value>
+  </data>
+  <data name="Date_Tomorrow" xml:space="preserve">
+    <value>明天</value>
+  </data>
+  <data name="Date_DaysAgoFormat" xml:space="preserve">
+    <value>{0} 天前</value>
+  </data>
+  <data name="Date_InDaysFormat" xml:space="preserve">
+    <value>{0} 天后</value>
+  </data>
+  <data name="Duration_HoursFormat" xml:space="preserve">
+    <value>{0} 小时</value>
+  </data>
+  <data name="Duration_MinutesFormat" xml:space="preserve">
+    <value>{0} 分钟</value>
+  </data>
+  <data name="Duration_HoursMinutesFormat" xml:space="preserve">
+    <value>{0} 小时 {1} 分</value>
+  </data>
+  <data name="Awakeness_ForFormat" xml:space="preserve">
+    <value>持续 {0}</value>
+  </data>
+  <data name="Awakeness_UntilFormat" xml:space="preserve">
+    <value>直到 {0}</value>
+  </data>
+  <data name="Awakeness_UntilHintFormat" xml:space="preserve">
+    <value>直到 {0}</value>
+  </data>
+  <data name="Awakeness_AfterwardsFormat" xml:space="preserve">
+    <value> – 结束后 {0}</value>
+  </data>
+  <data name="Error_Title" xml:space="preserve">
+    <value>错误</value>
+  </data>
+  <data name="Error_Unexpected" xml:space="preserve">
+    <value>发生了意外错误</value>
+  </data>
+  <data name="Error_SavingSettingsTitle" xml:space="preserve">
+    <value>保存设置文件时出错</value>
+  </data>
+  <data name="Error_StartupSettingTitle" xml:space="preserve">
+    <value>更改开机启动设置时出错</value>
+  </data>
+  <data name="Startup_PolicyBlocked" xml:space="preserve">
+    <value>贵组织的策略阻止 Caffeine Pro 随 Windows 启动。</value>
+  </data>
+  <data name="Startup_TurnedOffInStartupApps" xml:space="preserve">
+    <value>Caffeine Pro 已在“启动应用”列表中被关闭，只能从那里重新开启。请打开任务管理器 &gt; 启动应用（或 设置 &gt; 应用 &gt; 启动）并开启 Caffeine Pro。</value>
+  </data>
+  <data name="Singleton_AlreadyRunning" xml:space="preserve">
+    <value>该应用程序已在运行。</value>
+  </data>
+  <data name="Cli_VersionFormat" xml:space="preserve">
+    <value>Caffeine Pro 版本：{0}</value>
+  </data>
+  <data name="Cli_ByFormat" xml:space="preserve">
+    <value>作者：{0}（{1}）</value>
+  </data>
+  <data name="Cli_Usage" xml:space="preserve">
+    <value>用法：CaffeinePro [命令] [选项]</value>
+  </data>
+  <data name="Cli_Commands" xml:space="preserve">
+    <value>命令：</value>
+  </data>
+  <data name="Cli_Options" xml:space="preserve">
+    <value>选项：</value>
+  </data>
+  <data name="Cli_Cmd_Activate" xml:space="preserve">
+    <value>启用（默认）</value>
+  </data>
+  <data name="Cli_Cmd_ActiveFor" xml:space="preserve">
+    <value>启用 X 分钟</value>
+  </data>
+  <data name="Cli_Cmd_ActiveUntil" xml:space="preserve">
+    <value>启用至 X（X=hh:mmpp）</value>
+  </data>
+  <data name="Cli_Cmd_Deactivate" xml:space="preserve">
+    <value>停用正在运行的实例</value>
+  </data>
+  <data name="Cli_Cmd_Exit" xml:space="preserve">
+    <value>退出正在运行的实例</value>
+  </data>
+  <data name="Cli_Opt_Help" xml:space="preserve">
+    <value>显示帮助</value>
+  </data>
+  <data name="Cli_Opt_ResetOptions" xml:space="preserve">
+    <value>将选项重置为默认值</value>
+  </data>
+  <data name="Cli_Opt_SaveOptions" xml:space="preserve">
+    <value>将选项保存为下次运行的默认值</value>
+  </data>
+  <data name="Cli_Opt_StartInactive" xml:space="preserve">
+    <value>以未启用状态启动</value>
+  </data>
+  <data name="Cli_Opt_AllowSs" xml:space="preserve">
+    <value>允许屏幕保护程序，不模拟键鼠操作（默认：false）</value>
+  </data>
+  <data name="Cli_Opt_InactiveOnBattery" xml:space="preserve">
+    <value>使用电池时不启用（默认：false）</value>
+  </data>
+  <data name="Cli_UnrecognizedParametersFormat" xml:space="preserve">
+    <value>无法识别的参数：&#10;{0}</value>
+  </data>
+  <data name="TimeSlider_ClockFormat" xml:space="preserve">
+    <value>{2}{0}:{1:00}</value>
+  </data>
+</root>

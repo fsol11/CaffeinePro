@@ -1,6 +1,7 @@
-﻿using System.Windows;
+﻿using System.Reflection;
+using System.Windows;
+using CaffeinePro.Localization;
 using CaffeinePro.Services;
-using CaffeinePro.Windows;
 
 namespace CaffeinePro.Classes;
 
@@ -25,7 +26,7 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
     {
         if (Has(args, "-help"))
         {
-            MessageBox.Show(Title + Help);
+            Dialogs.Show(Title + Help, LocalizationService.Get("App_Name"));
             Application.Current.Shutdown();
         }
     }
@@ -58,7 +59,8 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
 
         if (Has(eArgs, "-status"))
         {
-            MessageBox.Show((Application.Current as App)!.KeepAwakeService.StatusText);
+            Dialogs.Show((Application.Current as App)!.KeepAwakeService.StatusText,
+                LocalizationService.Get("App_Name"));
         }
 
         if (Has(eArgs, "-activeFor"))
@@ -93,7 +95,10 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
 
         if (!string.IsNullOrEmpty(unrecognizedParameters))
         {
-            MessageBox.Show($"Unrecognized parameters:\n{unrecognizedParameters}\n\n{Help}");
+            Dialogs.Show(
+                LocalizationService.Format("Cli_UnrecognizedParametersFormat", unrecognizedParameters)
+                + Environment.NewLine + Environment.NewLine + Help,
+                LocalizationService.Get("App_Name"));
             return;
         }
 
@@ -117,33 +122,40 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
         args.First(a => a.StartsWith(arg, StringComparison.CurrentCultureIgnoreCase));
 
     /// <summary>
-    /// Title of the application
+    /// The banner shown above the help text.
     /// </summary>
     private static string Title =>
-        $"Caffeine Pro Version: {System.Reflection.Assembly.GetExecutingAssembly().GetName().Version}\n" +
-        $"By Farshid Solimanpour (caffeinepro@farshid.ca)\r\n" +
-        $"\r\n";
+        LocalizationService.Format("Cli_VersionFormat",
+            Assembly.GetExecutingAssembly().GetName().Version) + Environment.NewLine +
+        LocalizationService.Format("Cli_ByFormat", "Farshid Solimanpour", "caffeinepro@farshid.ca") +
+        Environment.NewLine + Environment.NewLine;
 
     /// <summary>
-    /// Help message
+    /// Help message. Only the descriptions are translated: the commands and switches themselves are
+    /// what the user has to type, so they stay exactly as the parser expects them.
     /// </summary>
     private static string Help =>
-        $"Usage: CaffeinePro [Command] [options]\n" +
-        $"\r\n" +
-        $"Commands:\n" +
-        $"    activate\t\tactivate (default)\r\n" +
-        $"    activeforX\t\tactivate for X min\r\n" +
-        $"    activeuntilX\t\tactivate until X (X=hh:mmpp)\r\n" +
-        $"    deactivate\t\tdeactivate the previous instance\r\n" +
-        $"    exit \t\t\texits the previous instance\r\n" +
-        $"\r\n" +
-        $"Options:\r\n" +
-        $"  -help\t\t\tshow help\r\n" +
-        $"  -resetoptions\t\treset options to default values\r\n" +
-        $"  -saveoptions\t\tsave options as default for next runs\r\n" +
-        $"  -startinactive\t\tstarts inactive\r\n" +
-        $"\r\n" +
-        $"  -allowss\t\tallow screen saver. No mouse/key sim (default: false)\r\n" +
-        $"  -inactiveOnBattery\tinactive when on battery (default: false)\r\n";
+        LocalizationService.Get("Cli_Usage") + Environment.NewLine + Environment.NewLine +
+        LocalizationService.Get("Cli_Commands") + Environment.NewLine +
+        Line("activate", "Cli_Cmd_Activate") +
+        Line("activeforX", "Cli_Cmd_ActiveFor") +
+        Line("activeuntilX", "Cli_Cmd_ActiveUntil") +
+        Line("deactivate", "Cli_Cmd_Deactivate") +
+        Line("exit", "Cli_Cmd_Exit") +
+        Environment.NewLine +
+        LocalizationService.Get("Cli_Options") + Environment.NewLine +
+        Line("-help", "Cli_Opt_Help") +
+        Line("-resetoptions", "Cli_Opt_ResetOptions") +
+        Line("-saveoptions", "Cli_Opt_SaveOptions") +
+        Line("-startinactive", "Cli_Opt_StartInactive") +
+        Line("-allowss", "Cli_Opt_AllowSs") +
+        Line("-inactiveOnBattery", "Cli_Opt_InactiveOnBattery");
+
+    /// <summary>
+    /// One help line: the literal switch padded to a fixed width, then its translated description.
+    /// Padded rather than tabbed, so a description of any length still lines up.
+    /// </summary>
+    private static string Line(string token, string descriptionKey) =>
+        $"  {token.PadRight(20)}{LocalizationService.Get(descriptionKey)}" + Environment.NewLine;
 }
 

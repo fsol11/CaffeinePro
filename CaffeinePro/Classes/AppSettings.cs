@@ -16,8 +16,8 @@ using System.Text.Json;
 using System.Windows;
 using System.Windows.Threading;
 using System.Text.Json.Serialization;
+using CaffeinePro.Localization;
 using CaffeinePro.Services;
-using CaffeinePro.Windows;
 
 namespace CaffeinePro.Classes;
 
@@ -37,6 +37,7 @@ public sealed class AppSettings : INotifyPropertyChanged
     private Awakeness _startupAwakeness = Awakeness.Indefinite;
     private DateTime _ignoreUnlockNotificationDate = DateTime.MaxValue;
     private HotKey _blackoutHotKey = HotKey.DefaultBlackout;
+    private string _language = LocalizationService.SystemDefaultCode;
     private static readonly string ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "CaffeinePro", "CaffeineProConfig.json");
 
     public static AppSettings Load()
@@ -135,6 +136,18 @@ public sealed class AppSettings : INotifyPropertyChanged
     }
 
     /// <summary>
+    /// Gets or sets the language the interface is shown in, as an
+    /// <see cref="AppLanguage.Code"/>. <see cref="LocalizationService.SystemDefaultCode"/> - the
+    /// default - follows the Windows display language.
+    /// </summary>
+    [JsonInclude]
+    public string Language
+    {
+        get => _language;
+        set => SetField(ref _language, value);
+    }
+
+    /// <summary>
     /// Gets or sets the date to ignore unlock notifications.
     /// </summary>
     [JsonIgnore]
@@ -153,6 +166,18 @@ public sealed class AppSettings : INotifyPropertyChanged
             IgnoreUnlockNotificationDate = value ? DateTime.Today : DateTime.MinValue;
             OnPropertyChanged(nameof(IsUnlockNotificationIgnoredToday));
         }
+    }
+
+    /// <summary>
+    /// Re-announces the settings whose displayed form is translated, so their bindings pick up a
+    /// language change: <see cref="BlackoutHotKey"/> spells the modifier names out in words, and
+    /// the startup awakeness caches the texts it is shown as.
+    /// </summary>
+    public void RefreshLocalizedTexts()
+    {
+        StartupAwakeness.UpdateTexts();
+        OnPropertyChanged(nameof(StartupAwakeness));
+        OnPropertyChanged(nameof(BlackoutHotKey));
     }
 
     // INotifyPropertyChanged implementation -----------------------------------
@@ -215,7 +240,8 @@ public sealed class AppSettings : INotifyPropertyChanged
         {
             App.CurrentApp.Dispatcher.BeginInvoke(DispatcherPriority.Normal, (Action)(() =>
             {
-                MessageBox.Show(ex.Message, "Error Saving Settings File", MessageBoxButton.OK, MessageBoxImage.Error);
+                Dialogs.Show(ex.Message, LocalizationService.Get("Error_SavingSettingsTitle"),
+                    MessageBoxButton.OK, MessageBoxImage.Error);
             }));
         }
     }

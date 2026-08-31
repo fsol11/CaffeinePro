@@ -2,6 +2,7 @@
 using System.IO.Pipes;
 using System.Windows;
 using CaffeinePro.Classes;
+using CaffeinePro.Localization;
 using CaffeinePro.Windows;
 
 namespace CaffeinePro.Services;
@@ -28,8 +29,9 @@ public class SingletonService(ParameterProcessorService parameterProcessorServic
         switch (commandlineArgs.Length)
         {
             case 0:
-                MessageBox.Show("An instance of the application is already running.",
-                    App.AppName, MessageBoxButton.OK, MessageBoxImage.Information);
+                Dialogs.Show(LocalizationService.Get("Singleton_AlreadyRunning"),
+                    LocalizationService.Get("App_Name"), MessageBoxButton.OK,
+                    MessageBoxImage.Information);
                 break;
             default:
                 // If another instance is already running, send the arguments to that instance

@@ -18,8 +18,7 @@ public partial class TimeSliderControl
             .Select(h =>
             {
                 var d = h % 12 == 0 ? 12 : h % 12; // <- 0 and 12 are both displayed as "12"
-                var ampm = startHour == 0 ? "AM" : "PM";
-                return new HourItem(d.ToString(), ampm, []);
+                return new HourItem(d.ToString(), h);
             })
             .ToArray();
 
@@ -117,35 +116,60 @@ public partial class TimeSliderControl
         SetSliderValue(int.Parse((menu.Tag as string)!), true);
     }
 
+    /// <summary>
+    /// One of the quarter-hour entries in an hour's drop-down. The hour comes from the
+    /// <see cref="HourItem"/> the button inherits, the minutes from its Tag.
+    /// </summary>
+    /// <remarks>
+    /// Read from the data rather than from the text on the button. The label is a translated,
+    /// left-to-right clock time whose digits may not even be 0-9, so parsing it back would be both
+    /// fragile and pointless when the values it encodes are right here.
+    /// </remarks>
     private void QuarterButton_Click(object sender, RoutedEventArgs e)
     {
-        var time = Routines.ContentToTimeSpan(sender);
-        if (time != TimeSpan.MaxValue)
-        {
-            var dt = Routines.GetDateTimeFromTimeSpan(time, Awakeness.AwakenessTypes.Absolute);
-            SetSliderValue(Routines.ToRelativeTime(dt).TotalMinutes, false);
-        }
         e.Handled = true;
+
+        if (sender is not Button { DataContext: HourItem hour, Tag: string minutesTag }
+            || !int.TryParse(minutesTag, out var minutes))
+        {
+            return;
+        }
+
+        SelectAbsoluteTime(new TimeSpan(hour.Hour24, minutes, 0));
+    }
+
+    /// <summary>
+    /// Moves the slider to the picked clock time, counted forward from now.
+    /// </summary>
+    private void SelectAbsoluteTime(TimeSpan timeOfDay)
+    {
+        var dt = Routines.GetDateTimeFromTimeSpan(timeOfDay, Awakeness.AwakenessTypes.Absolute);
+        SetSliderValue(Routines.ToRelativeTime(dt).TotalMinutes, false);
     }
 
     internal void SetRelativeTime(TimeSpan relativeSpan) => SetSliderValue(relativeSpan.TotalMinutes, false);
 
     private void HourButton_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is not Button button || !int.TryParse(button.Content?.ToString(), out var hour12))
-        {
-            return;
-        }
-
-        // The buttons are labelled 12, 1 ... 11 in both rows, so 12 AM is 0:00 and 12 PM is 12:00.
-        var hour24 = (hour12 % 12) + ((button.Tag as string) == "PM" ? 12 : 0);
-
-        var dt = Routines.GetDateTimeFromTimeSpan(TimeSpan.FromHours(hour24), Awakeness.AwakenessTypes.Absolute);
-        SetSliderValue(Routines.ToRelativeTime(dt).TotalMinutes, false);
         e.Handled = true;
+
+        if (sender is Button { DataContext: HourItem hour })
+        {
+            SelectAbsoluteTime(TimeSpan.FromHours(hour.Hour24));
+        }
     }
 }
 
-public record QuarterItem(string Label, string Minutes);
-public record HourItem(string HourLabel, string AmPm, IReadOnlyList<QuarterItem> Quarters);
+/// <summary>
+/// One hour button in the UNTIL grid, and the drop-down of quarter hours behind it.
+/// </summary>
+/// <param name="HourLabel">
+/// The hour as the button shows it - 12, 1 ... 11 in both rows. Always 0-9, whatever the language:
+/// it is only ever text, and WPF draws it in the language's own digits.
+/// </param>
+/// <param name="Hour24">
+/// The hour this actually means, on a 24 hour clock. Carried alongside the label so that picking a
+/// time never depends on reading the label back.
+/// </param>
+public record HourItem(string HourLabel, int Hour24);
 

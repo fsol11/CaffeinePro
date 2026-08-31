@@ -1,6 +1,8 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
+using CaffeinePro.Classes;
 using CaffeinePro.Controls;
+using CaffeinePro.Localization;
 
 namespace CaffeinePro.Converters;
 
@@ -48,24 +50,10 @@ public class MinutesToTimeStringConverter : IValueConverter
         // A full day is not a duration the app offers: it stands for an indefinite awakeness.
         if (minutes >= TimeSliderControl.IndefiniteMinutes)
         {
-            return "♾️ Indefinitely";
+            return LocalizationService.Get("Common_IndefinitelyWithIcon");
         }
 
-        var h = (int) (minutes / 60);
-        var m = (int) (minutes % 60);
-
-        if (m == 0)
-        {
-            return h.ToString("0h");
-        }
-        else if (h < 1)
-        {
-            return m.ToString("0m");
-        }
-        else
-        {
-            return string.Format("{0}h : {1}m", h, m);
-        }
+        return Routines.FormatDuration((int)(minutes / 60), (int)(minutes % 60));
     }
 
     public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

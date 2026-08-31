@@ -12,8 +12,9 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media.Imaging;
 using Windows.ApplicationModel;
-using Size = System.Windows.Size;
+using CaffeinePro.Localization;
 using CaffeinePro.Windows;
+using Size = System.Windows.Size;
 
 namespace CaffeinePro.Classes;
 
@@ -179,7 +180,10 @@ public static class Routines
     public static string GetDateTimeString(DateTime datetime, bool includeDate = true)
     {
         var day = includeDate ? GetDateString(datetime) : string.Empty;
-        return (datetime == DateTime.MaxValue) ? day : (day + datetime.ToString(" h:mm tt")).Trim();
+
+        return datetime == DateTime.MaxValue
+            ? day
+            : $"{day} {FormatClockTime(datetime)}".Trim();
     }
 
     /// <summary>
@@ -190,28 +194,74 @@ public static class Routines
     public static string GetDateString(DateTime datetime)
     {
         if (datetime == DateTime.MaxValue)
-            return "♾️ Indefinitely";
+            return LocalizationService.Get("Common_IndefinitelyWithIcon");
 
         if (datetime == DateTime.MinValue)
-            return "Inactive";
+            return LocalizationService.Get("Status_Inactive");
 
         if (datetime is { Hour: 0, Minute: 0 })
-            return "Midnight";
+            return LocalizationService.Get("Date_Midnight");
 
         var day = (datetime.Date - DateTime.Today).Days switch
         {
-            -3 => "3 days ago",
-            -2 => "2 days ago",
-            -1 => "Yesterday",
+            -3 or -2 => LocalizationService.Format("Date_DaysAgoFormat",
+                (DateTime.Today - datetime.Date).Days),
+            -1 => LocalizationService.Get("Date_Yesterday"),
             0 => string.Empty,
-            1 => "Tomorrow",
-            2 => "In 2 days",
-            3 => "In 3 days",
-            _ => datetime.ToString("MMM dd, yyyy")
+            1 => LocalizationService.Get("Date_Tomorrow"),
+            2 or 3 => LocalizationService.Format("Date_InDaysFormat",
+                (datetime.Date - DateTime.Today).Days),
+
+            // The culture's own short date pattern, rather than a fixed one: it decides the order
+            // of day, month and year - and, for languages such as Farsi, the calendar itself.
+            _ => LocalizationService.ToNativeDigits(datetime.ToString("d"))
         };
 
         return day;
     }
+
+    /// <summary>
+    /// Formats a clock time the way the app words it everywhere: "5:30 PM".
+    /// </summary>
+    /// <param name="hour24">The hour on a 24 hour clock.</param>
+    /// <param name="minutes">The minutes past the hour.</param>
+    /// <remarks>
+    /// Always a 12 hour clock, in every language. The picker the times come from is built around
+    /// AM and PM - two rows of twelve hours - so a summary underneath it reading "18:00" would be
+    /// describing the same choice in a different system. The culture still decides everything else:
+    /// <c>TimeSlider_ClockFormat</c> carries the wording and, with it, which side of the time the
+    /// marker belongs on, which differs per language.
+    /// </remarks>
+    public static string FormatClockTime(int hour24, int minutes)
+    {
+        var hour12 = hour24 % 12 == 0 ? 12 : hour24 % 12;
+        var marker = LocalizationService.Get(hour24 < 12 ? "TimeSlider_Am" : "TimeSlider_Pm");
+
+        return LocalizationService.Format("TimeSlider_ClockFormat", hour12, minutes, marker);
+    }
+
+    /// <summary>
+    /// Formats the time of day of <paramref name="datetime"/>. See
+    /// <see cref="FormatClockTime(int,int)"/>.
+    /// </summary>
+    public static string FormatClockTime(DateTime datetime) =>
+        FormatClockTime(datetime.Hour, datetime.Minute);
+
+    /// <summary>
+    /// Formats a duration the way the app words it everywhere: "2h : 30m", or just the hours or
+    /// the minutes when the other half is zero.
+    /// </summary>
+    /// <remarks>
+    /// Shared by every place that shows a duration, so the unit letters - which differ per
+    /// language, and are a whole word in some - only have to be translated once.
+    /// </remarks>
+    public static string FormatDuration(int hours, int minutes) =>
+        (hours, minutes) switch
+        {
+            (_, 0) => LocalizationService.Format("Duration_HoursFormat", hours),
+            (< 1, _) => LocalizationService.Format("Duration_MinutesFormat", minutes),
+            _ => LocalizationService.Format("Duration_HoursMinutesFormat", hours, minutes)
+        };
 
     /// <summary>
     /// Returns full path of the executable program
@@ -366,7 +416,7 @@ public static class Routines
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message, "Error Changing Startup Setting",
+            Dialogs.Show(ex.Message, LocalizationService.Get("Error_StartupSettingTitle"),
                 MessageBoxButton.OK, MessageBoxImage.Error);
             return;
         }
@@ -376,13 +426,12 @@ public static class Routines
             return;
         }
 
-        var reason = state == StartupTaskState.DisabledByPolicy
-            ? "Your organization's policy prevents Caffeine Pro from starting with Windows."
-            : "Caffeine Pro was turned off in the Startup apps list, so it can only be re-enabled "
-              + "from there. Open Task Manager > Startup apps (or Settings > Apps > Startup) and "
-              + "switch Caffeine Pro on.";
+        var reason = LocalizationService.Get(state == StartupTaskState.DisabledByPolicy
+            ? "Startup_PolicyBlocked"
+            : "Startup_TurnedOffInStartupApps");
 
-        MessageBox.Show(reason, "Start With Windows", MessageBoxButton.OK, MessageBoxImage.Information);
+        Dialogs.Show(reason, LocalizationService.Get("Menu_StartWithWindows"),
+            MessageBoxButton.OK, MessageBoxImage.Information);
     }
 
     /// <summary>
@@ -487,13 +536,24 @@ public static class Routines
     }
 
     /// <summary>
-    /// Returns the description attribute of an enum item.
+    /// Returns the display text of an enum item, translated into the current language.
     /// </summary>
-    /// <typeparam name="T">The type of the enum.</typeparam>
     /// <param name="value">The enum value.</param>
-    /// <returns>The description of the enum value, or the enum value as a string if no description is found.</returns>
-    public static string GetEnumDescription<T>(T value) where T : Enum
+    /// <returns>
+    /// The translation stored under "&lt;EnumType&gt;_&lt;Member&gt;", falling back to the member's
+    /// [Description] attribute and finally to its name.
+    /// </returns>
+    public static string GetEnumDescription(Enum value)
     {
+        // Translations win over the [Description] attributes, which stay as the English fallback
+        // for an enum member that has no resource key.
+        var translated = LocalizationService.TryGet($"{value.GetType().Name}_{value}");
+
+        if (translated != null)
+        {
+            return translated;
+        }
+
         var fi = value.GetType().GetField(value.ToString());
 
         if (fi == null)

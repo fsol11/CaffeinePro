@@ -3,9 +3,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:loc="clr-namespace:CaffeinePro.Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Blackout"
+    Title="{loc:Loc Blackout_Title}"
     Background="Black"
+    FlowDirection="{Binding Source={x:Static loc:LocalizationService.Instance}, Path=FlowDirection}"
+    NumberSubstitution.CultureSource="User"
+    NumberSubstitution.Substitution="{Binding Source={x:Static loc:LocalizationService.Instance}, Path=DigitSubstitution}"
+    FontFamily="{Binding Source={x:Static loc:LocalizationService.Instance}, Path=FontFamily}"
     Cursor="None"
     Foreground="White"
     Icon="/Resources/Coffee.ico"
@@ -28,7 +33,7 @@
             VerticalAlignment="Center"
             FontSize="16"
             Foreground="#59FFFFFF"
-            Text="Press Esc to return"
+            Text="{loc:Loc Blackout_PressEscToReturn}"
             Visibility="Collapsed" />
     </Grid>
 </Window>

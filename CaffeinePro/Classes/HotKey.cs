@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Windows.Input;
+using CaffeinePro.Localization;
 
 namespace CaffeinePro.Classes;
 
@@ -44,7 +45,8 @@ public readonly record struct HotKey(ModifierKeys Modifiers, Key Key)
     /// The combination as shown to the user, e.g. "Win + /".
     /// </summary>
     [JsonIgnore]
-    public string DisplayText => IsSet ? DisplayModifiers() + GetKeyText(Key) : "None";
+    public string DisplayText =>
+        IsSet ? DisplayModifiers() + GetKeyText(Key) : LocalizationService.Get("HotKey_None");
 
     /// <summary>
     /// Just the modifier part of <see cref="DisplayText"/>, each one followed by " + ", so a
@@ -54,24 +56,26 @@ public readonly record struct HotKey(ModifierKeys Modifiers, Key Key)
     {
         var text = new StringBuilder();
 
+        // Translated, because Windows itself labels these keys in the user's language - a German
+        // keyboard has "Strg" on it, not "Ctrl".
         if (Modifiers.HasFlag(ModifierKeys.Control))
         {
-            text.Append("Ctrl + ");
+            text.Append(LocalizationService.Get("HotKey_Ctrl")).Append(" + ");
         }
 
         if (Modifiers.HasFlag(ModifierKeys.Alt))
         {
-            text.Append("Alt + ");
+            text.Append(LocalizationService.Get("HotKey_Alt")).Append(" + ");
         }
 
         if (Modifiers.HasFlag(ModifierKeys.Shift))
         {
-            text.Append("Shift + ");
+            text.Append(LocalizationService.Get("HotKey_Shift")).Append(" + ");
         }
 
         if (Modifiers.HasFlag(ModifierKeys.Windows))
         {
-            text.Append("Win + ");
+            text.Append(LocalizationService.Get("HotKey_Win")).Append(" + ");
         }
 
         return text.ToString();
@@ -169,7 +173,8 @@ public readonly record struct HotKey(ModifierKeys Modifiers, Key Key)
         Key.OemQuotes => "'",
         Key.OemBackslash => "\\",
         >= Key.D0 and <= Key.D9 => ((char)('0' + (key - Key.D0))).ToString(),
-        >= Key.NumPad0 and <= Key.NumPad9 => "Num " + (key - Key.NumPad0),
+        >= Key.NumPad0 and <= Key.NumPad9 =>
+            LocalizationService.Format("HotKey_NumPadFormat", key - Key.NumPad0),
         _ => key.ToString(),
     };
 }

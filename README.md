@@ -34,6 +34,9 @@ a Settings flyout. The whole window follows the Windows theme.
 - **Tray icon reflects state:** distinct icons for active, inactive, and temporarily paused, with the reason
   ("Paused - running on battery", "Paused - workstation locked") shown in the tooltip.
 - **Auto start with Windows:** can register itself to launch at sign-in.
+- **Nine languages:** English, French, Spanish, German, Portuguese, Japanese, Chinese (Simplified), Arabic and
+  Farsi. The interface follows your Windows display language out of the box, or you can pick one from
+  **Settings > Language** – see [Languages](#languages).
 - **Light/dark theme:** built on the WPF-UI Fluent library; follows the Windows theme and switches live when
   you change it.
 - **Single instance:** only one copy runs at a time. Launching a second one detects the first, forwards any
@@ -220,7 +223,8 @@ Everything lives in one panel, reached from **Settings** in the tray menu.
 **Default** is the awakeness applied at startup and after each unlock, together with how assertive the app
 should be about it. **Method** chooses between the two keep-awake techniques described above. **Options**
 holds the battery pause and the [blackout screen](#blackout-screen) shortcut. **Afterwards** is the action to
-run when the timer expires.
+run when the timer expires. Below the panel sit **Start With Windows** and **Language** – see
+[Languages](#languages).
 
 Settings are stored per user as JSON at:
 
@@ -229,6 +233,110 @@ Settings are stored per user as JSON at:
 ```
 
 They are written immediately whenever a setting changes, so there is no explicit "save" step.
+
+## Languages
+
+The interface ships in English, French, Spanish, German, Portuguese, Japanese, Chinese (Simplified), Arabic
+and Farsi. **Settings > Language** lists them, each written in its own script, plus **System Default** –
+the initial setting, which follows your Windows display language and falls back to English for anything
+Caffeine Pro does not speak.
+
+![The language list, shown while the app is running in Farsi](CaffeinePro/Images/screenshot-languages.png "Language menu")
+
+The list above is that menu with the app running in Farsi. The layout is mirrored, so the check mark against
+the current language sits on the right rather than the left – as do the icons, and the arrows on the items
+that open a submenu, which point left toward where the submenu appears.
+
+Switching takes effect immediately: every window, menu and tooltip is rebound rather than reloaded, so there
+is nothing to restart. Alongside the text, the language also decides:
+
+- **Reading direction.** Arabic and Farsi mirror the entire layout – menus, buttons, and dialogs – while
+  logos and photos are held upright so they are not flipped with it. Directional icons drawn from an icon
+  font are a special case: `FlowDirection` mirrors layout and vector art but not glyphs, so the submenu
+  chevron is turned round explicitly (`LocalizationService.MirrorTransform`).
+- **Font.** Each script gets a stack that actually covers it (Segoe UI for Arabic and Farsi, Yu Gothic UI for
+  Japanese, Microsoft YaHei UI for Chinese). The Latin languages share one stack, so moving between them
+  never changes how the app looks.
+- **Dates, times and numbers.** These are formatted with the chosen language's own conventions rather than a
+  fixed pattern, so 12- and 24-hour cultures each read naturally. Arabic and Farsi also get their own digits
+  (`٦:٠٠`, `۱۸:۰۰`) rather than 0-9 — see the note below.
+
+### A note on digits
+
+Getting Arabic and Farsi numbers right takes two mechanisms, because neither one covers everything:
+
+- Text written directly in XAML, and numbers bound straight from a property, are drawn in native digits by
+  WPF itself. The window and menu roots ask for this with `NumberSubstitution.Substitution`. Left to its
+  default WPF would either do nothing (its number culture comes from `xml:lang`, which stays `en-US`) or
+  shape each digit from whatever character precedes it — which leaves a number at the start of a string
+  Latin and the same number mid-sentence native.
+- Text this app *builds* in C# — durations, clock times, anything with a number formatted into it — arrives
+  as 0-9, because .NET never emits native digits. `LocalizationService.ToNativeDigits` converts it on the way
+  to the screen.
+
+The two compose safely: substitution only ever maps 0-9, so it leaves already-converted digits alone.
+
+Text that doubles as a value is the exception: the picker's hour buttons keep plain 0-9 in `HourItem.HourLabel`
+and are drawn in native digits by WPF, while the time each button actually means travels beside it as a number
+(`HourItem.Hour24`). That is the pattern to follow — keep the value in the data and let the label be whatever
+the language needs, rather than parsing a label back and hoping its digits are still 0-9.
+
+Every clock time in the app goes through `Routines.FormatClockTime`, which builds one string from the
+translated `TimeSlider_ClockFormat`. That format carries the wording *and* the word order, so each language
+decides where the AM/PM marker sits in the string: after the time in English and the other Latin languages
+and in Arabic and Farsi, in front of it in Japanese and Chinese (`午後6:05`).
+
+Where the marker *appears* is a separate question from where it sits in the string, and in a right-to-left
+language the two are opposites: the last thing in the string is drawn leftmost. So Arabic and Farsi keep the
+marker last and let the mirrored layout put it on the left, which is why the format for those two reads the
+same as English. Forcing the label left-to-right instead — the obvious first guess — changes nothing, because
+the marker and the digits beside it form a single right-to-left run that gets reversed either way.
+
+What does matter is that the time travels as **one string**. Split across separate runs, the bidirectional
+algorithm reorders each piece on its own and the time comes out scrambled (`PM 00: 6`); as one string it is
+laid out as a unit, the digits keep their order, and the marker lands on the correct side.
+
+Times are always shown on a **12 hour clock**, in every language — including the ones that would normally use
+a 24 hour clock. The picker they come from is built around AM and PM (two rows of twelve hours), so a summary
+underneath it reading "18:00" would describe the same choice in a different system. To give a language its 24
+hour clock back, `FormatClockTime` is the one place to change.
+
+### Adding or changing a translation
+
+All text lives in `CaffeinePro/Resources/Strings.resx` (English, with a note on each entry explaining where
+it appears) and one `Strings.<language>.resx` beside it per language. XAML pulls a string in with
+`{loc:Loc SomeKey}` and C# with `LocalizationService.Get("SomeKey")`; both go through the same table, which
+is what lets the language change without a restart.
+
+Nothing at build time notices a key that was added to English and forgotten elsewhere – the app just falls
+back to English. Run the checker after touching any `.resx`:
+
+```
+pwsh Scripts\check-localization.ps1
+```
+
+It reports keys missing from a translation, keys that no longer exist in English, and – the one a fallback
+would not save you from – a translated `{0}` placeholder that was dropped or renamed.
+
+To add a language, add its `.resx` and one entry to `LocalizationService.Languages` — its code, its own name,
+whether it reads right to left, whether it writes numbers in its own digits, and its font stack — then list it
+in `CaffeinePro Setup/Package.appxmanifest` under `<Resources>` so packaged builds recognise it.
+
+### How a language change reaches the screen
+
+Most text refreshes itself: `{loc:Loc}` produces a binding onto `LocalizationService`, which announces its
+indexer, so every one of those updates at once. Text produced by a *converter* does not — a duration or a
+clock time is built from a source that has not changed, so the binding has no reason to re-evaluate.
+`UiRefresher` closes that gap by walking what is on screen and asking each binding to read its source again.
+
+Two things about that walk are easy to get wrong, and both cost real bugs:
+
+- It enumerates the **type's** dependency properties, not the element's local values. A binding that came from
+  a `DataTemplate`, `ControlTemplate` or `Style` setter is not a local value, and a local-value walk silently
+  skips it — which is exactly how the picker's item labels are bound.
+- It descends into `ContextMenu`, `ToolTip` and `DropDownButton.Flyout`. Those hang off a property rather than
+  sitting in the visual or logical tree, so an ordinary walk never reaches them. The time picker lives in a
+  flyout, and without this it kept the language *and the reading direction* it was last opened with.
 
 ## Project Layout
 
@@ -239,6 +347,8 @@ They are written immediately whenever a setting changes, so there is no explicit
 | `CaffeinePro/Windows` | `NotificationWindow` (the "keep awake?" prompt) and its `NotificationWindowBase`, `AfterwardsActionWarningWindow` (the countdown), `BlackoutWindow`, `HotKeyRecorderWindow`, `AboutWindow` |
 | `CaffeinePro/Controls` | Tray/settings UI: time slider, awakeness view, startup options, status |
 | `CaffeinePro/Converters` | WPF value converters used by the XAML |
+| `CaffeinePro/Localization` | `LocalizationService` (the string table, reading direction, script font and digits), `LocExtension` (the `{loc:Loc}` XAML markup extension), `AppLanguage` (one entry of the language menu), `UiRefresher` (re-reads the bindings a language change cannot reach on its own) |
+| `CaffeinePro/Resources` | `Strings.resx` and one `Strings.<language>.resx` per language, plus the icons and images |
 | `CaffeinePro Setup` | MSIX packaging project: manifest, Store visual assets, packaging settings |
 
 ## License

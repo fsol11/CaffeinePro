@@ -1,4 +1,6 @@
 ﻿using System.Windows;
+using CaffeinePro.Classes;
+using CaffeinePro.Localization;
 using CaffeinePro.Windows;
 
 namespace CaffeinePro.Controls
@@ -44,10 +46,12 @@ namespace CaffeinePro.Controls
                 && App.CurrentApp.KeepAwakeService.Awakeness.RelativeSpan != App.CurrentApp.AppSettings.StartupAwakeness.RelativeSpan)
             {
                 if (
-                    MessageBox.Show(
-                        "Do you want to update startup awakeness to:\r\n" +
+                    Dialogs.Show(
+                        LocalizationService.Get("Startup_UpdateAwakeness_Message") +
+                        Environment.NewLine +
                         App.CurrentApp.KeepAwakeService.Awakeness.GetAwakenessDescription(),
-                        "Update Startup Awakeness", MessageBoxButton.YesNo, MessageBoxImage.Question)
+                        LocalizationService.Get("Startup_UpdateAwakeness_Title"),
+                        MessageBoxButton.YesNo, MessageBoxImage.Question)
                     == MessageBoxResult.Yes)
                 {
                     App.CurrentApp.AppSettings.StartupAwakeness = App.CurrentApp.KeepAwakeService.Awakeness;    

@@ -4,11 +4,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:CaffeinePro.Windows"
+    xmlns:loc="clr-namespace:CaffeinePro.Localization"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:services="clr-namespace:CaffeinePro.Services"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="{Binding}"
     DataContext="{Binding RelativeSource={RelativeSource Self}}"
+    FlowDirection="{Binding Source={x:Static loc:LocalizationService.Instance}, Path=FlowDirection}"
+    NumberSubstitution.CultureSource="User"
+    NumberSubstitution.Substitution="{Binding Source={x:Static loc:LocalizationService.Instance}, Path=DigitSubstitution}"
+    FontFamily="{Binding Source={x:Static loc:LocalizationService.Instance}, Path=FontFamily}"
     Foreground="{DynamicResource WindowForeground}"
     Icon="/Resources/Coffee.ico"
     ResizeMode="NoResize"
@@ -31,7 +36,7 @@
             Padding="0"
             ShowMaximize="False"
             ShowMinimize="False"
-            ToolTip="Ask Later" />
+            ToolTip="{loc:Loc Notification_AskLater}" />
 
         <StackPanel
             Margin="20,10,20,0"
@@ -41,6 +46,7 @@
                 Width="70"
                 Margin="0,0,20,0"
                 VerticalAlignment="Top"
+                FlowDirection="LeftToRight"
                 Source="{StaticResource Coffee}" />
 
             <StackPanel>
@@ -49,7 +55,7 @@
                     VerticalAlignment="Center"
                     FontSize="16"
                     TextWrapping="NoWrap">
-                    <Run Text="Keep the computer awake?" />
+                    <Run Text="{loc:Loc Notification_Question}" />
                 </ui:TextBlock>
 
                 <!--  Mirrors the FOR / UNTIL summary of TimeSliderControl  -->
@@ -59,7 +65,7 @@
                     TextAlignment="Center"
                     TextWrapping="NoWrap"
                     Visibility="{Binding Awakeness.IsRelative, Converter={StaticResource BoolToVis}}">
-                    <Run FontSize="14" Text="FOR" />
+                    <Run FontSize="14" Text="{loc:Loc TimeSlider_For}" />
                     <Run Text="{Binding Awakeness.RelativeSpan, Converter={StaticResource MinutesToTimeString}, Mode=OneWay}" />
                 </ui:TextBlock>
                 <ui:TextBlock
@@ -69,7 +75,7 @@
                     TextAlignment="Center"
                     TextWrapping="NoWrap"
                     Visibility="{Binding Awakeness.IsRelative, Converter={StaticResource BoolToVis}}">
-                    <Run FontSize="10" Text="UNTIL" />
+                    <Run FontSize="10" Text="{loc:Loc TimeSlider_Until}" />
                     <Run Text="{Binding Awakeness.EndDateTimeText, Mode=OneWay}" />
                 </ui:TextBlock>
                 <ui:TextBlock
@@ -78,7 +84,7 @@
                     TextAlignment="Center"
                     TextWrapping="NoWrap"
                     Visibility="{Binding Awakeness.IsRelative, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
-                    <Run FontSize="14" Text="UNTIL" />
+                    <Run FontSize="14" Text="{loc:Loc TimeSlider_Until}" />
                     <Run Text="{Binding Awakeness.EndDateTimeText, Mode=OneWay}" />
                 </ui:TextBlock>
 
@@ -89,7 +95,7 @@
                     TextAlignment="Center"
                     TextWrapping="NoWrap"
                     Visibility="{Binding AfterwardsAction, Converter={StaticResource ValueNotEqualsParameterToVisibility}, ConverterParameter={x:Static services:SessionAction.None}}">
-                    <Run FontSize="10" Text="AFTERWARDS" />
+                    <Run FontSize="10" Text="{loc:Loc Startup_SectionAfterwards}" />
                     <Run Text="{Binding AfterwardsAction, Converter={StaticResource EnumToDescription}, Mode=OneWay}" />
                 </ui:TextBlock>
             </StackPanel>
@@ -116,7 +122,7 @@
                         <Run Foreground="{StaticResource ActiveColor}" Text="●" />
                         <Run Text=" " />
                     </TextBlock>
-                    <TextBlock VerticalAlignment="Center" Text="Activate" />
+                    <TextBlock VerticalAlignment="Center" Text="{loc:Loc Notification_Activate}" />
                 </StackPanel>
             </ui:Button>
 
@@ -131,7 +137,7 @@
                         VerticalAlignment="Center"
                         FontSize="14"
                         Symbol="Pause20" />
-                    <TextBlock VerticalAlignment="Center" Text="Ignore for Today" />
+                    <TextBlock VerticalAlignment="Center" Text="{loc:Loc Notification_IgnoreForToday}" />
                 </StackPanel>
             </ui:Button>
         </StackPanel>

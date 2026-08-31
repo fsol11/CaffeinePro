@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App_Name" xml:space="preserve">
+    <value>Caffeine Pro</value>
+    <comment>Product name - a brand, deliberately left untranslated.</comment>
+  </data>
+  <data name="Menu_BlackoutScreen" xml:space="preserve">
+    <value>Blackout Screen</value>
+    <comment>Tray menu item that blacks out every screen.</comment>
+  </data>
+  <data name="Menu_BlackoutScreen_ToolTip" xml:space="preserve">
+    <value>Covers every monitor in black, so the computer looks switched off. Press Esc to return.</value>
+    <comment>Explains what the blackout screen does.</comment>
+  </data>
+  <data name="Menu_Settings" xml:space="preserve">
+    <value>Settings</value>
+    <comment>Tray submenu holding the application options.</comment>
+  </data>
+  <data name="Menu_StartWithWindows" xml:space="preserve">
+    <value>Start With Windows</value>
+    <comment>Toggle: launch the app when Windows starts.</comment>
+  </data>
+  <data name="Menu_Language" xml:space="preserve">
+    <value>Language</value>
+    <comment>Submenu for picking the interface language.</comment>
+  </data>
+  <data name="Language_SystemDefault" xml:space="preserve">
+    <value>System Default</value>
+    <comment>Language menu entry: follow the Windows display language.</comment>
+  </data>
+  <data name="Menu_SendFeedback" xml:space="preserve">
+    <value>Send Feedback...</value>
+    <comment>Opens the feedback page in the browser.</comment>
+  </data>
+  <data name="Menu_About" xml:space="preserve">
+    <value>About Caffeine Pro...</value>
+    <comment>Opens the About window. The product name is a brand and stays untranslated.</comment>
+  </data>
+  <data name="Menu_Quit" xml:space="preserve">
+    <value>Quit</value>
+    <comment>Exits the application.</comment>
+  </data>
+  <data name="Awakeness_SetTheTime" xml:space="preserve">
+    <value>Set the Time</value>
+    <comment>Tooltip of the awakeness drop-down button.</comment>
+  </data>
+  <data name="Awakeness_ForLabel" xml:space="preserve">
+    <value>For |</value>
+    <comment>Prefix label before a duration. The trailing '|' is a visual separator.</comment>
+  </data>
+  <data name="Awakeness_UntilLabel" xml:space="preserve">
+    <value>Until |</value>
+    <comment>Prefix label before a clock time. The trailing '|' is a visual separator.</comment>
+  </data>
+  <data name="Awakeness_DefaultLabel" xml:space="preserve">
+    <value>Default |</value>
+    <comment>Prefix label before the default awakeness. '|' is a visual separator.</comment>
+  </data>
+  <data name="Awakeness_SetToDefault" xml:space="preserve">
+    <value>Set to Default</value>
+    <comment>Button that adopts the default awakeness.</comment>
+  </data>
+  <data name="Awakeness_SetToDefault_ToolTip" xml:space="preserve">
+    <value>Use the default awakeness</value>
+    <comment>Tooltip of the Set to Default button.</comment>
+  </data>
+  <data name="Awakeness_ApplyAndActivate" xml:space="preserve">
+    <value>Apply &amp; Activate</value>
+    <comment>Confirms the picked time and switches the service on.</comment>
+  </data>
+  <data name="Awakeness_Apply" xml:space="preserve">
+    <value>Apply</value>
+    <comment>Confirms the picked time (startup options, where nothing is activated yet).</comment>
+  </data>
+  <data name="TimeSlider_Until" xml:space="preserve">
+    <value>UNTIL</value>
+    <comment>Section heading over the absolute (clock time) picker.</comment>
+  </data>
+  <data name="TimeSlider_For" xml:space="preserve">
+    <value>FOR</value>
+    <comment>Section heading over the relative (duration) picker.</comment>
+  </data>
+  <data name="TimeSlider_Quick" xml:space="preserve">
+    <value>QUICK</value>
+    <comment>Heading over the quick duration presets.</comment>
+  </data>
+  <data name="TimeSlider_Hours" xml:space="preserve">
+    <value>HOURS</value>
+    <comment>Heading over the hour presets.</comment>
+  </data>
+  <data name="TimeSlider_Am" xml:space="preserve">
+    <value>AM</value>
+    <comment>Morning half of the day, next to the 12 hour buttons.</comment>
+  </data>
+  <data name="TimeSlider_Pm" xml:space="preserve">
+    <value>PM</value>
+    <comment>Afternoon half of the day, next to the 12 hour buttons.</comment>
+  </data>
+  <data name="Common_Indefinitely" xml:space="preserve">
+    <value>Indefinitely</value>
+    <comment>An awakeness with no end time.</comment>
+  </data>
+  <data name="Common_IndefinitelyWithIcon" xml:space="preserve">
+    <value>♾️ Indefinitely</value>
+    <comment>As Common_Indefinitely, prefixed with the infinity emoji.</comment>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+    <comment>Dismisses a dialog without applying anything.</comment>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>Save</value>
+    <comment>Confirms a dialog.</comment>
+  </data>
+  <data name="Status_SetToDefault" xml:space="preserve">
+    <value>Set to default</value>
+    <comment>Link that resets the running awakeness to the default one.</comment>
+  </data>
+  <data name="Status_Active" xml:space="preserve">
+    <value>Active</value>
+    <comment>The service is keeping the machine awake.</comment>
+  </data>
+  <data name="Status_Inactive" xml:space="preserve">
+    <value>Inactive</value>
+    <comment>The service is switched off.</comment>
+  </data>
+  <data name="Status_NotificationsIgnoredToday" xml:space="preserve">
+    <value>Notifications are ignored today.</value>
+    <comment>Tooltip on the pause badge next to the Inactive button.</comment>
+  </data>
+  <data name="Status_Paused_OnBattery" xml:space="preserve">
+    <value>Paused - running on battery</value>
+    <comment>Why the service is paused: the machine runs on battery.</comment>
+  </data>
+  <data name="Status_Paused_WorkstationLocked" xml:space="preserve">
+    <value>Paused - workstation locked</value>
+    <comment>Why the service is paused: the workstation is locked.</comment>
+  </data>
+  <data name="Startup_SectionDefault" xml:space="preserve">
+    <value>DEFAULT</value>
+    <comment>Section heading: the awakeness used at startup.</comment>
+  </data>
+  <data name="Startup_SectionMethod" xml:space="preserve">
+    <value>METHOD</value>
+    <comment>Section heading: how the machine is kept awake.</comment>
+  </data>
+  <data name="Startup_SectionOptions" xml:space="preserve">
+    <value>OPTIONS</value>
+    <comment>Section heading: miscellaneous options.</comment>
+  </data>
+  <data name="Startup_SectionAfterwards" xml:space="preserve">
+    <value>AFTERWARDS</value>
+    <comment>Section heading: what happens once the time is up.</comment>
+  </data>
+  <data name="Startup_CopyFromCurrentValue" xml:space="preserve">
+    <value>Copy From the Current Value</value>
+    <comment>Link that copies the running awakeness into the default.</comment>
+  </data>
+  <data name="Startup_AskMe" xml:space="preserve">
+    <value>Ask Me</value>
+    <comment>Startup behaviour: prompt before activating.</comment>
+  </data>
+  <data name="Startup_OnlyIfTimeNotPassed" xml:space="preserve">
+    <value>(only if the time of day is not passed)</value>
+    <comment>Qualifier under the startup behaviour options.</comment>
+  </data>
+  <data name="Startup_AutoSetToDefault" xml:space="preserve">
+    <value>Auto-Set to Default at Startup and Unlock</value>
+    <comment>Startup behaviour: activate without asking.</comment>
+  </data>
+  <data name="Startup_StayInactive" xml:space="preserve">
+    <value>Stay inactive</value>
+    <comment>Startup behaviour: never activate on its own.</comment>
+  </data>
+  <data name="Startup_SimulateKeyboardMouse" xml:space="preserve">
+    <value>Simulate Keyboard/Mouse Usage</value>
+    <comment>Awake method: send simulated input.</comment>
+  </data>
+  <data name="Startup_AllowScreensaver" xml:space="preserve">
+    <value>Allow Screensaver</value>
+    <comment>Awake method: keep the system awake but let the screensaver run.</comment>
+  </data>
+  <data name="Startup_AllowScreensaver_Hint" xml:space="preserve">
+    <value>(doesn't prevent inactivity detection)</value>
+    <comment>Qualifier under the Allow Screensaver option.</comment>
+  </data>
+  <data name="Startup_InactiveOnBattery" xml:space="preserve">
+    <value>Inactive on Battery</value>
+    <comment>Option: pause while the machine runs on battery.</comment>
+  </data>
+  <data name="Startup_BlackoutTrigger" xml:space="preserve">
+    <value>Blackout Screen Trigger</value>
+    <comment>Label next to the blackout shortcut button.</comment>
+  </data>
+  <data name="Startup_ChangeShortcut_ToolTip" xml:space="preserve">
+    <value>Click to change this shortcut</value>
+    <comment>Tooltip of the button showing the current shortcut.</comment>
+  </data>
+  <data name="Startup_ShortcutInUse" xml:space="preserve">
+    <value>Another app is already using this shortcut.</value>
+    <comment>Warning shown when Windows refused to register the shortcut.</comment>
+  </data>
+  <data name="Startup_UpdateAwakeness_Message" xml:space="preserve">
+    <value>Do you want to update startup awakeness to:</value>
+    <comment>Asks whether the default should follow the running awakeness.</comment>
+  </data>
+  <data name="Startup_UpdateAwakeness_Title" xml:space="preserve">
+    <value>Update Startup Awakeness</value>
+    <comment>Title of the update-default confirmation dialog.</comment>
+  </data>
+  <data name="SessionAction_None" xml:space="preserve">
+    <value>Do Nothing</value>
+    <comment>Afterwards action: leave the machine alone.</comment>
+  </data>
+  <data name="SessionAction_Quit" xml:space="preserve">
+    <value>Quit Program</value>
+    <comment>Afterwards action: close Caffeine Pro.</comment>
+  </data>
+  <data name="SessionAction_Lock" xml:space="preserve">
+    <value>Lock</value>
+    <comment>Afterwards action: lock the workstation.</comment>
+  </data>
+  <data name="SessionAction_SignOut" xml:space="preserve">
+    <value>Sign Out</value>
+    <comment>Afterwards action: sign the user out.</comment>
+  </data>
+  <data name="SessionAction_ForceSignOut" xml:space="preserve">
+    <value>Force Sign Out</value>
+    <comment>Afterwards action: sign out without waiting for apps.</comment>
+  </data>
+  <data name="SessionAction_Shutdown" xml:space="preserve">
+    <value>Shutdown</value>
+    <comment>Afterwards action: shut the machine down.</comment>
+  </data>
+  <data name="SessionAction_ForceShutdown" xml:space="preserve">
+    <value>Force Shutdown</value>
+    <comment>Afterwards action: shut down without waiting for apps.</comment>
+  </data>
+  <data name="SessionAction_Restart" xml:space="preserve">
+    <value>Restart</value>
+    <comment>Afterwards action: restart the machine.</comment>
+  </data>
+  <data name="SessionAction_ForceRestart" xml:space="preserve">
+    <value>Force Restart</value>
+    <comment>Afterwards action: restart without waiting for apps.</comment>
+  </data>
+  <data name="SessionAction_Hibernate" xml:space="preserve">
+    <value>Hibernate</value>
+    <comment>Afterwards action: hibernate.</comment>
+  </data>
+  <data name="SessionAction_Sleep" xml:space="preserve">
+    <value>Sleep</value>
+    <comment>Afterwards action: sleep.</comment>
+  </data>
+  <data name="SessionAction_MonitorOff" xml:space="preserve">
+    <value>Monitor Off</value>
+    <comment>Afterwards action: switch the monitor off.</comment>
+  </data>
+  <data name="Notification_Question" xml:space="preserve">
+    <value>Keep the computer awake?</value>
+    <comment>Headline of the unlock/startup prompt.</comment>
+  </data>
+  <data name="Notification_AskLater" xml:space="preserve">
+    <value>Ask Later</value>
+    <comment>Tooltip on the prompt's close button.</comment>
+  </data>
+  <data name="Notification_Activate" xml:space="preserve">
+    <value>Activate</value>
+    <comment>Accepts the prompt and switches the service on.</comment>
+  </data>
+  <data name="Notification_IgnoreForToday" xml:space="preserve">
+    <value>Ignore for Today</value>
+    <comment>Declines the prompt for the rest of the day.</comment>
+  </data>
+  <data name="Warning_AwakeTimeIsUp" xml:space="preserve">
+    <value>Awake time is up</value>
+    <comment>Headline of the countdown shown before the afterwards action runs.</comment>
+  </data>
+  <data name="Warning_SecondsUntil" xml:space="preserve">
+    <value>seconds until</value>
+    <comment>Reads as '&lt;n&gt; seconds until &lt;action&gt;'; the count sits above it.</comment>
+  </data>
+  <data name="Warning_OrKeepAwakeFor" xml:space="preserve">
+    <value>OR KEEP AWAKE FOR</value>
+    <comment>Heading over the buttons that push the action back.</comment>
+  </data>
+  <data name="Warning_Add5Min" xml:space="preserve">
+    <value>+5 min</value>
+    <comment>Pushes the afterwards action back by 5 minutes.</comment>
+  </data>
+  <data name="Warning_Add10Min" xml:space="preserve">
+    <value>+10 min</value>
+    <comment>Pushes the afterwards action back by 10 minutes.</comment>
+  </data>
+  <data name="Warning_Add20Min" xml:space="preserve">
+    <value>+20 min</value>
+    <comment>Pushes the afterwards action back by 20 minutes.</comment>
+  </data>
+  <data name="Warning_Add30Min" xml:space="preserve">
+    <value>+30 min</value>
+    <comment>Pushes the afterwards action back by 30 minutes.</comment>
+  </data>
+  <data name="Warning_Add1Hour" xml:space="preserve">
+    <value>+1 hour</value>
+    <comment>Pushes the afterwards action back by an hour.</comment>
+  </data>
+  <data name="Blackout_Title" xml:space="preserve">
+    <value>Blackout</value>
+    <comment>Window title of the blackout screen (taskbar only).</comment>
+  </data>
+  <data name="Blackout_PressEscToReturn" xml:space="preserve">
+    <value>Press Esc to return</value>
+    <comment>The only hint shown on the blackout screen; it fades out.</comment>
+  </data>
+  <data name="HotKey_Title" xml:space="preserve">
+    <value>Change Shortcut</value>
+    <comment>Title of the shortcut recorder window.</comment>
+  </data>
+  <data name="HotKey_Prompt" xml:space="preserve">
+    <value>Press the key combination you want to use.</value>
+    <comment>Instruction at the top of the shortcut recorder.</comment>
+  </data>
+  <data name="HotKey_Waiting" xml:space="preserve">
+    <value>Waiting...</value>
+    <comment>Placeholder shown until the first key is pressed.</comment>
+  </data>
+  <data name="HotKey_ModifierRequiredHint" xml:space="preserve">
+    <value>At least one modifier (Ctrl, Alt, Shift or Win) is required.</value>
+    <comment>Initial hint under the recorder box. Key names stay as Windows prints them.</comment>
+  </data>
+  <data name="HotKey_EscapeHint" xml:space="preserve">
+    <value>Escape cancels. Backspace removes the shortcut.</value>
+    <comment>Footer hint of the shortcut recorder.</comment>
+  </data>
+  <data name="HotKey_Status_PressSave" xml:space="preserve">
+    <value>Press Save to use this shortcut.</value>
+    <comment>Recorder status: the combination is valid.</comment>
+  </data>
+  <data name="HotKey_Status_NeedsModifier" xml:space="preserve">
+    <value>This combination needs at least one modifier (Ctrl, Alt, Shift or Win).</value>
+    <comment>Recorder status: a bare key was pressed.</comment>
+  </data>
+  <data name="HotKey_Status_NowPressKey" xml:space="preserve">
+    <value>Now press the key to go with these modifiers.</value>
+    <comment>Recorder status: modifiers are held, the main key is missing.</comment>
+  </data>
+  <data name="HotKey_Status_NoShortcut" xml:space="preserve">
+    <value>No shortcut: the blackout screen can then only be opened from the menu.</value>
+    <comment>Recorder status: the shortcut was cleared.</comment>
+  </data>
+  <data name="HotKey_None" xml:space="preserve">
+    <value>None</value>
+    <comment>Shown in place of a shortcut when none is assigned.</comment>
+  </data>
+  <data name="HotKey_Ctrl" xml:space="preserve">
+    <value>Ctrl</value>
+    <comment>Name of the Control key as printed on the keyboard.</comment>
+  </data>
+  <data name="HotKey_Alt" xml:space="preserve">
+    <value>Alt</value>
+    <comment>Name of the Alt key as printed on the keyboard.</comment>
+  </data>
+  <data name="HotKey_Shift" xml:space="preserve">
+    <value>Shift</value>
+    <comment>Name of the Shift key as printed on the keyboard.</comment>
+  </data>
+  <data name="HotKey_Win" xml:space="preserve">
+    <value>Win</value>
+    <comment>Name of the Windows key.</comment>
+  </data>
+  <data name="HotKey_NumPadFormat" xml:space="preserve">
+    <value>Num {0}</value>
+    <comment>A numeric keypad key, e.g. 'Num 5'. {0} is the digit.</comment>
+  </data>
+  <data name="About_Title" xml:space="preserve">
+    <value>About Caffeine Pro</value>
+    <comment>Title of the About window.</comment>
+  </data>
+  <data name="About_Tagline" xml:space="preserve">
+    <value>Keeps Windows awake.</value>
+    <comment>One line description of what the app does.</comment>
+  </data>
+  <data name="About_Copyright" xml:space="preserve">
+    <value>Copyright © 2026 Lotrasoft Inc.</value>
+    <comment>Copyright line - a legal notice, deliberately left untranslated.</comment>
+  </data>
+  <data name="About_Website" xml:space="preserve">
+    <value>Website:</value>
+    <comment>Label before the product website link.</comment>
+  </data>
+  <data name="About_WrittenBy" xml:space="preserve">
+    <value>Written by: </value>
+    <comment>Label before the author's name. The trailing space is intentional.</comment>
+  </data>
+  <data name="Date_Midnight" xml:space="preserve">
+    <value>Midnight</value>
+    <comment>Shown instead of a time when an awakeness ends exactly at midnight.</comment>
+  </data>
+  <data name="Date_Yesterday" xml:space="preserve">
+    <value>Yesterday</value>
+    <comment>Relative day name.</comment>
+  </data>
+  <data name="Date_Tomorrow" xml:space="preserve">
+    <value>Tomorrow</value>
+    <comment>Relative day name.</comment>
+  </data>
+  <data name="Date_DaysAgoFormat" xml:space="preserve">
+    <value>{0} days ago</value>
+    <comment>Relative day name for 2-3 days in the past. {0} is the number of days.</comment>
+  </data>
+  <data name="Date_InDaysFormat" xml:space="preserve">
+    <value>In {0} days</value>
+    <comment>Relative day name for 2-3 days ahead. {0} is the number of days.</comment>
+  </data>
+  <data name="Duration_HoursFormat" xml:space="preserve">
+    <value>{0}h</value>
+    <comment>A whole number of hours. {0} is the count.</comment>
+  </data>
+  <data name="Duration_MinutesFormat" xml:space="preserve">
+    <value>{0}m</value>
+    <comment>A number of minutes under an hour. {0} is the count.</comment>
+  </data>
+  <data name="Duration_HoursMinutesFormat" xml:space="preserve">
+    <value>{0}h : {1}m</value>
+    <comment>Hours and minutes. {0} is hours, {1} is minutes.</comment>
+  </data>
+  <data name="Awakeness_ForFormat" xml:space="preserve">
+    <value>For {0}</value>
+    <comment>A relative awakeness. {0} is a duration.</comment>
+  </data>
+  <data name="Awakeness_UntilFormat" xml:space="preserve">
+    <value>Until {0}</value>
+    <comment>An absolute awakeness. {0} is a time or date.</comment>
+  </data>
+  <data name="Awakeness_UntilHintFormat" xml:space="preserve">
+    <value>until {0}</value>
+    <comment>Secondary hint under a relative awakeness. {0} is a time.</comment>
+  </data>
+  <data name="Awakeness_AfterwardsFormat" xml:space="preserve">
+    <value> - afterwards {0}</value>
+    <comment>Appended to a description. {0} is the afterwards action.</comment>
+  </data>
+  <data name="Error_Title" xml:space="preserve">
+    <value>Error</value>
+    <comment>Title of a generic error dialog.</comment>
+  </data>
+  <data name="Error_Unexpected" xml:space="preserve">
+    <value>An unexpected error occurred</value>
+    <comment>Body of the unhandled exception dialog.</comment>
+  </data>
+  <data name="Error_SavingSettingsTitle" xml:space="preserve">
+    <value>Error Saving Settings File</value>
+    <comment>Title shown when the settings file could not be written.</comment>
+  </data>
+  <data name="Error_StartupSettingTitle" xml:space="preserve">
+    <value>Error Changing Startup Setting</value>
+    <comment>Title shown when the Windows startup entry could not be changed.</comment>
+  </data>
+  <data name="Startup_PolicyBlocked" xml:space="preserve">
+    <value>Your organization's policy prevents Caffeine Pro from starting with Windows.</value>
+    <comment>Windows refused the startup task because of a group policy.</comment>
+  </data>
+  <data name="Startup_TurnedOffInStartupApps" xml:space="preserve">
+    <value>Caffeine Pro was turned off in the Startup apps list, so it can only be re-enabled from there. Open Task Manager &gt; Startup apps (or Settings &gt; Apps &gt; Startup) and switch Caffeine Pro on.</value>
+    <comment>The user disabled the startup task outside the app; only Windows can re-enable it.</comment>
+  </data>
+  <data name="Singleton_AlreadyRunning" xml:space="preserve">
+    <value>An instance of the application is already running.</value>
+    <comment>A second copy of the app was started.</comment>
+  </data>
+  <data name="Cli_VersionFormat" xml:space="preserve">
+    <value>Caffeine Pro version: {0}</value>
+    <comment>First line of the command line banner. {0} is the version number.</comment>
+  </data>
+  <data name="Cli_ByFormat" xml:space="preserve">
+    <value>By {0} ({1})</value>
+    <comment>Author line of the command line banner. {0} is a name, {1} an e-mail address.</comment>
+  </data>
+  <data name="Cli_Usage" xml:space="preserve">
+    <value>Usage: CaffeinePro [Command] [options]</value>
+    <comment>Usage line. The command name and switches are literals and stay in English.</comment>
+  </data>
+  <data name="Cli_Commands" xml:space="preserve">
+    <value>Commands:</value>
+    <comment>Heading over the list of commands.</comment>
+  </data>
+  <data name="Cli_Options" xml:space="preserve">
+    <value>Options:</value>
+    <comment>Heading over the list of options.</comment>
+  </data>
+  <data name="Cli_Cmd_Activate" xml:space="preserve">
+    <value>activate (default)</value>
+    <comment>Help text for the 'activate' command.</comment>
+  </data>
+  <data name="Cli_Cmd_ActiveFor" xml:space="preserve">
+    <value>activate for X minutes</value>
+    <comment>Help text for the 'activeforX' command.</comment>
+  </data>
+  <data name="Cli_Cmd_ActiveUntil" xml:space="preserve">
+    <value>activate until X (X=hh:mmpp)</value>
+    <comment>Help text for the 'activeuntilX' command.</comment>
+  </data>
+  <data name="Cli_Cmd_Deactivate" xml:space="preserve">
+    <value>deactivate the running instance</value>
+    <comment>Help text for the 'deactivate' command.</comment>
+  </data>
+  <data name="Cli_Cmd_Exit" xml:space="preserve">
+    <value>exit the running instance</value>
+    <comment>Help text for the 'exit' command.</comment>
+  </data>
+  <data name="Cli_Opt_Help" xml:space="preserve">
+    <value>show help</value>
+    <comment>Help text for the -help option.</comment>
+  </data>
+  <data name="Cli_Opt_ResetOptions" xml:space="preserve">
+    <value>reset options to their default values</value>
+    <comment>Help text for the -resetoptions option.</comment>
+  </data>
+  <data name="Cli_Opt_SaveOptions" xml:space="preserve">
+    <value>save the options as the default for the next runs</value>
+    <comment>Help text for the -saveoptions option.</comment>
+  </data>
+  <data name="Cli_Opt_StartInactive" xml:space="preserve">
+    <value>start inactive</value>
+    <comment>Help text for the -startinactive option.</comment>
+  </data>
+  <data name="Cli_Opt_AllowSs" xml:space="preserve">
+    <value>allow the screen saver; no mouse/key simulation (default: false)</value>
+    <comment>Help text for the -allowss option.</comment>
+  </data>
+  <data name="Cli_Opt_InactiveOnBattery" xml:space="preserve">
+    <value>inactive while on battery (default: false)</value>
+    <comment>Help text for the -inactiveOnBattery option.</comment>
+  </data>
+  <data name="Cli_UnrecognizedParametersFormat" xml:space="preserve">
+    <value>Unrecognized parameters:&#10;{0}</value>
+    <comment>Shown for unknown switches. {0} is the list of them.</comment>
+  </data>
+  <data name="TimeSlider_ClockFormat" xml:space="preserve">
+    <value>{0}:{1:00} {2}</value>
+    <comment>One entry of an hour's drop-down. {0} is the hour, {1} the minutes and {2} the AM/PM marker; languages that put the marker in front reorder it here.</comment>
+  </data>
+</root>

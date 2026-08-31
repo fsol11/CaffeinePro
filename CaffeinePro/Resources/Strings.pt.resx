@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="App_Name" xml:space="preserve">
+    <value>Caffeine Pro</value>
+  </data>
+  <data name="Menu_BlackoutScreen" xml:space="preserve">
+    <value>Escurecer tela</value>
+  </data>
+  <data name="Menu_BlackoutScreen_ToolTip" xml:space="preserve">
+    <value>Cobre todos os monitores de preto, para que o computador pareça desligado. Pressione Esc para voltar.</value>
+  </data>
+  <data name="Menu_Settings" xml:space="preserve">
+    <value>Configurações</value>
+  </data>
+  <data name="Menu_StartWithWindows" xml:space="preserve">
+    <value>Iniciar com o Windows</value>
+  </data>
+  <data name="Menu_Language" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="Language_SystemDefault" xml:space="preserve">
+    <value>Padrão do sistema</value>
+  </data>
+  <data name="Menu_SendFeedback" xml:space="preserve">
+    <value>Enviar comentários…</value>
+  </data>
+  <data name="Menu_About" xml:space="preserve">
+    <value>Sobre o Caffeine Pro…</value>
+  </data>
+  <data name="Menu_Quit" xml:space="preserve">
+    <value>Sair</value>
+  </data>
+  <data name="Awakeness_SetTheTime" xml:space="preserve">
+    <value>Definir o tempo</value>
+  </data>
+  <data name="Awakeness_ForLabel" xml:space="preserve">
+    <value>Por |</value>
+  </data>
+  <data name="Awakeness_UntilLabel" xml:space="preserve">
+    <value>Até |</value>
+  </data>
+  <data name="Awakeness_DefaultLabel" xml:space="preserve">
+    <value>Padrão |</value>
+  </data>
+  <data name="Awakeness_SetToDefault" xml:space="preserve">
+    <value>Usar padrão</value>
+  </data>
+  <data name="Awakeness_SetToDefault_ToolTip" xml:space="preserve">
+    <value>Usar o tempo ativo padrão</value>
+  </data>
+  <data name="Awakeness_ApplyAndActivate" xml:space="preserve">
+    <value>Aplicar e ativar</value>
+  </data>
+  <data name="Awakeness_Apply" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="TimeSlider_Until" xml:space="preserve">
+    <value>ATÉ</value>
+  </data>
+  <data name="TimeSlider_For" xml:space="preserve">
+    <value>POR</value>
+  </data>
+  <data name="TimeSlider_Quick" xml:space="preserve">
+    <value>RÁPIDO</value>
+  </data>
+  <data name="TimeSlider_Hours" xml:space="preserve">
+    <value>HORAS</value>
+  </data>
+  <data name="TimeSlider_Am" xml:space="preserve">
+    <value>AM</value>
+  </data>
+  <data name="TimeSlider_Pm" xml:space="preserve">
+    <value>PM</value>
+  </data>
+  <data name="Common_Indefinitely" xml:space="preserve">
+    <value>Indefinidamente</value>
+  </data>
+  <data name="Common_IndefinitelyWithIcon" xml:space="preserve">
+    <value>♾️ Indefinidamente</value>
+  </data>
+  <data name="Common_Cancel" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="Common_Save" xml:space="preserve">
+    <value>Salvar</value>
+  </data>
+  <data name="Status_SetToDefault" xml:space="preserve">
+    <value>Usar padrão</value>
+  </data>
+  <data name="Status_Active" xml:space="preserve">
+    <value>Ativo</value>
+  </data>
+  <data name="Status_Inactive" xml:space="preserve">
+    <value>Inativo</value>
+  </data>
+  <data name="Status_NotificationsIgnoredToday" xml:space="preserve">
+    <value>As notificações são ignoradas hoje.</value>
+  </data>
+  <data name="Status_Paused_OnBattery" xml:space="preserve">
+    <value>Pausado – a usar bateria</value>
+  </data>
+  <data name="Status_Paused_WorkstationLocked" xml:space="preserve">
+    <value>Pausado – estação bloqueada</value>
+  </data>
+  <data name="Startup_SectionDefault" xml:space="preserve">
+    <value>PADRÃO</value>
+  </data>
+  <data name="Startup_SectionMethod" xml:space="preserve">
+    <value>MÉTODO</value>
+  </data>
+  <data name="Startup_SectionOptions" xml:space="preserve">
+    <value>OPÇÕES</value>
+  </data>
+  <data name="Startup_SectionAfterwards" xml:space="preserve">
+    <value>DEPOIS</value>
+  </data>
+  <data name="Startup_CopyFromCurrentValue" xml:space="preserve">
+    <value>Copiar do valor atual</value>
+  </data>
+  <data name="Startup_AskMe" xml:space="preserve">
+    <value>Perguntar-me</value>
+  </data>
+  <data name="Startup_OnlyIfTimeNotPassed" xml:space="preserve">
+    <value>(apenas se a hora ainda não tiver passado)</value>
+  </data>
+  <data name="Startup_AutoSetToDefault" xml:space="preserve">
+    <value>Aplicar o padrão ao iniciar e desbloquear</value>
+  </data>
+  <data name="Startup_StayInactive" xml:space="preserve">
+    <value>Permanecer inativo</value>
+  </data>
+  <data name="Startup_SimulateKeyboardMouse" xml:space="preserve">
+    <value>Simular uso de teclado/rato</value>
+  </data>
+  <data name="Startup_AllowScreensaver" xml:space="preserve">
+    <value>Permitir proteção de ecrã</value>
+  </data>
+  <data name="Startup_AllowScreensaver_Hint" xml:space="preserve">
+    <value>(não impede a deteção de inatividade)</value>
+  </data>
+  <data name="Startup_InactiveOnBattery" xml:space="preserve">
+    <value>Inativo com bateria</value>
+  </data>
+  <data name="Startup_BlackoutTrigger" xml:space="preserve">
+    <value>Atalho para escurecer tela</value>
+  </data>
+  <data name="Startup_ChangeShortcut_ToolTip" xml:space="preserve">
+    <value>Clique para alterar este atalho</value>
+  </data>
+  <data name="Startup_ShortcutInUse" xml:space="preserve">
+    <value>Outra aplicação já está a usar este atalho.</value>
+  </data>
+  <data name="Startup_UpdateAwakeness_Message" xml:space="preserve">
+    <value>Deseja atualizar o tempo ativo padrão para:</value>
+  </data>
+  <data name="Startup_UpdateAwakeness_Title" xml:space="preserve">
+    <value>Atualizar tempo ativo padrão</value>
+  </data>
+  <data name="SessionAction_None" xml:space="preserve">
+    <value>Não fazer nada</value>
+  </data>
+  <data name="SessionAction_Quit" xml:space="preserve">
+    <value>Sair do programa</value>
+  </data>
+  <data name="SessionAction_Lock" xml:space="preserve">
+    <value>Bloquear</value>
+  </data>
+  <data name="SessionAction_SignOut" xml:space="preserve">
+    <value>Terminar sessão</value>
+  </data>
+  <data name="SessionAction_ForceSignOut" xml:space="preserve">
+    <value>Forçar término de sessão</value>
+  </data>
+  <data name="SessionAction_Shutdown" xml:space="preserve">
+    <value>Desligar</value>
+  </data>
+  <data name="SessionAction_ForceShutdown" xml:space="preserve">
+    <value>Forçar desligar</value>
+  </data>
+  <data name="SessionAction_Restart" xml:space="preserve">
+    <value>Reiniciar</value>
+  </data>
+  <data name="SessionAction_ForceRestart" xml:space="preserve">
+    <value>Forçar reinício</value>
+  </data>
+  <data name="SessionAction_Hibernate" xml:space="preserve">
+    <value>Hibernar</value>
+  </data>
+  <data name="SessionAction_Sleep" xml:space="preserve">
+    <value>Suspender</value>
+  </data>
+  <data name="SessionAction_MonitorOff" xml:space="preserve">
+    <value>Desligar o monitor</value>
+  </data>
+  <data name="Notification_Question" xml:space="preserve">
+    <value>Manter o computador ativo?</value>
+  </data>
+  <data name="Notification_AskLater" xml:space="preserve">
+    <value>Perguntar mais tarde</value>
+  </data>
+  <data name="Notification_Activate" xml:space="preserve">
+    <value>Ativar</value>
+  </data>
+  <data name="Notification_IgnoreForToday" xml:space="preserve">
+    <value>Ignorar por hoje</value>
+  </data>
+  <data name="Warning_AwakeTimeIsUp" xml:space="preserve">
+    <value>O tempo ativo terminou</value>
+  </data>
+  <data name="Warning_SecondsUntil" xml:space="preserve">
+    <value>segundos até</value>
+  </data>
+  <data name="Warning_OrKeepAwakeFor" xml:space="preserve">
+    <value>OU MANTER ATIVO POR</value>
+  </data>
+  <data name="Warning_Add5Min" xml:space="preserve">
+    <value>+5 min</value>
+  </data>
+  <data name="Warning_Add10Min" xml:space="preserve">
+    <value>+10 min</value>
+  </data>
+  <data name="Warning_Add20Min" xml:space="preserve">
+    <value>+20 min</value>
+  </data>
+  <data name="Warning_Add30Min" xml:space="preserve">
+    <value>+30 min</value>
+  </data>
+  <data name="Warning_Add1Hour" xml:space="preserve">
+    <value>+1 hora</value>
+  </data>
+  <data name="Blackout_Title" xml:space="preserve">
+    <value>Tela escura</value>
+  </data>
+  <data name="Blackout_PressEscToReturn" xml:space="preserve">
+    <value>Pressione Esc para voltar</value>
+  </data>
+  <data name="HotKey_Title" xml:space="preserve">
+    <value>Alterar atalho</value>
+  </data>
+  <data name="HotKey_Prompt" xml:space="preserve">
+    <value>Pressione a combinação de teclas que deseja usar.</value>
+  </data>
+  <data name="HotKey_Waiting" xml:space="preserve">
+    <value>A aguardar…</value>
+  </data>
+  <data name="HotKey_ModifierRequiredHint" xml:space="preserve">
+    <value>É necessária pelo menos uma tecla modificadora (Ctrl, Alt, Shift ou Win).</value>
+  </data>
+  <data name="HotKey_EscapeHint" xml:space="preserve">
+    <value>Esc cancela. Backspace remove o atalho.</value>
+  </data>
+  <data name="HotKey_Status_PressSave" xml:space="preserve">
+    <value>Clique em Salvar para usar este atalho.</value>
+  </data>
+  <data name="HotKey_Status_NeedsModifier" xml:space="preserve">
+    <value>Esta combinação precisa de pelo menos uma tecla modificadora (Ctrl, Alt, Shift ou Win).</value>
+  </data>
+  <data name="HotKey_Status_NowPressKey" xml:space="preserve">
+    <value>Agora pressione a tecla que acompanha estes modificadores.</value>
+  </data>
+  <data name="HotKey_Status_NoShortcut" xml:space="preserve">
+    <value>Sem atalho: a tela escura só poderá ser aberta pelo menu.</value>
+  </data>
+  <data name="HotKey_None" xml:space="preserve">
+    <value>Nenhum</value>
+  </data>
+  <data name="HotKey_Ctrl" xml:space="preserve">
+    <value>Ctrl</value>
+  </data>
+  <data name="HotKey_Alt" xml:space="preserve">
+    <value>Alt</value>
+  </data>
+  <data name="HotKey_Shift" xml:space="preserve">
+    <value>Shift</value>
+  </data>
+  <data name="HotKey_Win" xml:space="preserve">
+    <value>Win</value>
+  </data>
+  <data name="HotKey_NumPadFormat" xml:space="preserve">
+    <value>Num {0}</value>
+  </data>
+  <data name="About_Title" xml:space="preserve">
+    <value>Sobre o Caffeine Pro</value>
+  </data>
+  <data name="About_Tagline" xml:space="preserve">
+    <value>Mantém o Windows ativo.</value>
+  </data>
+  <data name="About_Copyright" xml:space="preserve">
+    <value>Copyright © 2026 Lotrasoft Inc.</value>
+  </data>
+  <data name="About_Website" xml:space="preserve">
+    <value>Site:</value>
+  </data>
+  <data name="About_WrittenBy" xml:space="preserve">
+    <value>Escrito por: </value>
+  </data>
+  <data name="Date_Midnight" xml:space="preserve">
+    <value>Meia-noite</value>
+  </data>
+  <data name="Date_Yesterday" xml:space="preserve">
+    <value>Ontem</value>
+  </data>
+  <data name="Date_Tomorrow" xml:space="preserve">
+    <value>Amanhã</value>
+  </data>
+  <data name="Date_DaysAgoFormat" xml:space="preserve">
+    <value>há {0} dias</value>
+  </data>
+  <data name="Date_InDaysFormat" xml:space="preserve">
+    <value>Em {0} dias</value>
+  </data>
+  <data name="Duration_HoursFormat" xml:space="preserve">
+    <value>{0} h</value>
+  </data>
+  <data name="Duration_MinutesFormat" xml:space="preserve">
+    <value>{0} min</value>
+  </data>
+  <data name="Duration_HoursMinutesFormat" xml:space="preserve">
+    <value>{0} h : {1} min</value>
+  </data>
+  <data name="Awakeness_ForFormat" xml:space="preserve">
+    <value>Por {0}</value>
+  </data>
+  <data name="Awakeness_UntilFormat" xml:space="preserve">
+    <value>Até {0}</value>
+  </data>
+  <data name="Awakeness_UntilHintFormat" xml:space="preserve">
+    <value>até {0}</value>
+  </data>
+  <data name="Awakeness_AfterwardsFormat" xml:space="preserve">
+    <value> – depois {0}</value>
+  </data>
+  <data name="Error_Title" xml:space="preserve">
+    <value>Erro</value>
+  </data>
+  <data name="Error_Unexpected" xml:space="preserve">
+    <value>Ocorreu um erro inesperado</value>
+  </data>
+  <data name="Error_SavingSettingsTitle" xml:space="preserve">
+    <value>Erro ao salvar o arquivo de configurações</value>
+  </data>
+  <data name="Error_StartupSettingTitle" xml:space="preserve">
+    <value>Erro ao alterar a configuração de arranque</value>
+  </data>
+  <data name="Startup_PolicyBlocked" xml:space="preserve">
+    <value>A política da sua organização impede que o Caffeine Pro inicie com o Windows.</value>
+  </data>
+  <data name="Startup_TurnedOffInStartupApps" xml:space="preserve">
+    <value>O Caffeine Pro foi desativado na lista de aplicações de arranque, por isso só pode ser reativado a partir daí. Abra o Gestor de Tarefas &gt; Aplicações de arranque (ou Definições &gt; Aplicações &gt; Arranque) e ative o Caffeine Pro.</value>
+  </data>
+  <data name="Singleton_AlreadyRunning" xml:space="preserve">
+    <value>Já existe uma instância da aplicação em execução.</value>
+  </data>
+  <data name="Cli_VersionFormat" xml:space="preserve">
+    <value>Caffeine Pro versão: {0}</value>
+  </data>
+  <data name="Cli_ByFormat" xml:space="preserve">
+    <value>Por {0} ({1})</value>
+  </data>
+  <data name="Cli_Usage" xml:space="preserve">
+    <value>Utilização: CaffeinePro [Comando] [opções]</value>
+  </data>
+  <data name="Cli_Commands" xml:space="preserve">
+    <value>Comandos:</value>
+  </data>
+  <data name="Cli_Options" xml:space="preserve">
+    <value>Opções:</value>
+  </data>
+  <data name="Cli_Cmd_Activate" xml:space="preserve">
+    <value>ativar (padrão)</value>
+  </data>
+  <data name="Cli_Cmd_ActiveFor" xml:space="preserve">
+    <value>ativar por X minutos</value>
+  </data>
+  <data name="Cli_Cmd_ActiveUntil" xml:space="preserve">
+    <value>ativar até X (X=hh:mmpp)</value>
+  </data>
+  <data name="Cli_Cmd_Deactivate" xml:space="preserve">
+    <value>desativar a instância em execução</value>
+  </data>
+  <data name="Cli_Cmd_Exit" xml:space="preserve">
+    <value>sair da instância em execução</value>
+  </data>
+  <data name="Cli_Opt_Help" xml:space="preserve">
+    <value>mostrar a ajuda</value>
+  </data>
+  <data name="Cli_Opt_ResetOptions" xml:space="preserve">
+    <value>repor as opções nos valores padrão</value>
+  </data>
+  <data name="Cli_Opt_SaveOptions" xml:space="preserve">
+    <value>guardar as opções como padrão para as próximas execuções</value>
+  </data>
+  <data name="Cli_Opt_StartInactive" xml:space="preserve">
+    <value>iniciar inativo</value>
+  </data>
+  <data name="Cli_Opt_AllowSs" xml:space="preserve">
+    <value>permitir a proteção de ecrã; sem simulação de teclado/rato (padrão: false)</value>
+  </data>
+  <data name="Cli_Opt_InactiveOnBattery" xml:space="preserve">
+    <value>inativo com bateria (padrão: false)</value>
+  </data>
+  <data name="Cli_UnrecognizedParametersFormat" xml:space="preserve">
+    <value>Parâmetros não reconhecidos:&#10;{0}</value>
+  </data>
+  <data name="TimeSlider_ClockFormat" xml:space="preserve">
+    <value>{0}:{1:00} {2}</value>
+  </data>
+</root>

@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using CaffeinePro.Classes;
+using CaffeinePro.Localization;
 using CaffeinePro.Windows;
 
 namespace CaffeinePro.Controls;
@@ -162,8 +163,18 @@ public sealed partial class AwakenessViewControl
         // startup one in the startup options) rather than always from the startup awakeness.
         RelativeTimeSlider.SetRelativeTime(Routines.ToRelativeTime(AwakenessValue.EndDateTime));
 
-        // The default's "until ..." hint is counted from now, so it goes stale between openings: the
-        // binding alone only refreshes when the setting itself changes.
-        DefaultAwakenessHint.GetBindingExpression(TextBlock.TextProperty)?.UpdateTarget();
+        // The reading direction and font are pushed in by hand as well as bound. Shown as a
+        // drop-down's flyout, this menu is hosted in a popup of its own, and the values it was given
+        // when that popup was first built outlive a later language change - which left the picker
+        // mirrored, in the previous language's font, after switching away from Arabic or Farsi.
+        // SetCurrentValue rather than a plain assignment, so the bindings stay attached.
+        SetTimeFlyout.SetCurrentValue(FlowDirectionProperty, LocalizationService.Instance.FlowDirection);
+        SetTimeFlyout.SetCurrentValue(FontFamilyProperty, LocalizationService.Instance.FontFamily);
+
+        // Everything in the flyout is re-read on the way in. Two kinds of text here go stale while
+        // it is closed and nothing would otherwise notice: the default's "until ..." hint, which is
+        // counted from now rather than from the setting, and the durations and clock times, which a
+        // converter produces from sources that do not change when the language does.
+        UiRefresher.Refresh(SetTimeFlyout);
     }
 }

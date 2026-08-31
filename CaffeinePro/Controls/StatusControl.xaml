@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:caffeinePro="clr-namespace:CaffeinePro"
     xmlns:controls="clr-namespace:CaffeinePro.Controls"
+    xmlns:loc="clr-namespace:CaffeinePro.Localization"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
@@ -29,7 +30,7 @@
                 </MultiBinding>
             </TextBlock.Visibility>
             <Hyperlink Click="SetToStartupValue_Click">
-                <Run Text="Set to default" />
+                <Run Text="{loc:Loc Status_SetToDefault}" />
             </Hyperlink>
         </TextBlock>
 
@@ -67,6 +68,7 @@
                                 Width="18"
                                 Margin="0,0,6,0"
                                 VerticalAlignment="Center"
+                                FlowDirection="LeftToRight"
                                 Source="{StaticResource BatteryPausedIcon}"
                                 ToolTip="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.TemporarilyInactiveReason}"
                                 Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=KeepAwakeService.IsTemporarilyInactiveBecauseOnBattery, Converter={StaticResource BoolToVis}}" />
@@ -78,7 +80,7 @@
                                 <Run Text=" " />
                             </TextBlock>
 
-                            <TextBlock Text="Active">
+                            <TextBlock Text="{loc:Loc Status_Active}">
                                 <TextBlock.Style>
                                     <Style TargetType="TextBlock">
                                         <Style.Triggers>
@@ -108,7 +110,8 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBlock VerticalAlignment="Center" TextAlignment="Center">
                                 <Run Foreground="{StaticResource InactiveColor}" Text="●" />
-                                <Run Text=" Inactive" />
+                                <Run Text=" " />
+                                <Run Text="{loc:Loc Status_Inactive}" />
                             </TextBlock>
 
                             <ui:SymbolIcon
@@ -116,7 +119,7 @@
                                 VerticalAlignment="Center"
                                 FontSize="16"
                                 Symbol="Pause20"
-                                ToolTip="Notifications on are ignored Today."
+                                ToolTip="{loc:Loc Status_NotificationsIgnoredToday}"
                                 Visibility="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.IsUnlockNotificationIgnoredToday, Converter={StaticResource BoolToVis}, Mode=OneWay}" />
                         </StackPanel>
                     </Button.Content>

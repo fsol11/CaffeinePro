@@ -2,8 +2,8 @@
 using System.Runtime.CompilerServices;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using CaffeinePro.Localization;
 using CaffeinePro.Services;
-using CaffeinePro.Windows;
 
 namespace CaffeinePro.Classes;
 
@@ -161,10 +161,16 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
         OnPropertyChanged(propertyName);
     }
 
+    /// <summary>
+    /// Rebuilds the display texts. Called whenever the awakeness changes, and again whenever the
+    /// language does - these strings are cached rather than bound, so nothing else would refresh
+    /// them (see <see cref="LocalizationService.LanguageChanged"/>).
+    /// </summary>
     public void UpdateTexts()
     {
         EndDateText = Routines.GetDateString(EndDateTime);
-        EndTimeText = IsIndefinite ? string.Empty : EndDateTime.ToString("hh:mm tt");
+
+        EndTimeText = IsIndefinite ? string.Empty : Routines.FormatClockTime(EndDateTime);
         EndDateTimeText = Routines.GetDateTimeString(EndDateTime);
     }
 
@@ -175,11 +181,12 @@ public sealed class Awakeness : IEquatable<Awakeness>, INotifyPropertyChanged
 
     public string GetAwakenessDescription()
     {
-        var s = $"Until {EndDateTimeText}";
+        var s = LocalizationService.Format("Awakeness_UntilFormat", EndDateTimeText);
         var afterwardsAction = App.CurrentApp.AppSettings.AfterwardsAction;
         if (afterwardsAction != SessionAction.None)
         {
-            s += $" - afterwards {Routines.GetEnumDescription(afterwardsAction)}";
+            s += LocalizationService.Format("Awakeness_AfterwardsFormat",
+                Routines.GetEnumDescription(afterwardsAction));
         }
 
         return s;

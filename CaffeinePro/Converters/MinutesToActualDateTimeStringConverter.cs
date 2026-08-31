@@ -2,6 +2,7 @@
 using System.Windows.Data;
 using CaffeinePro.Classes;
 using CaffeinePro.Controls;
+using CaffeinePro.Localization;
 
 namespace CaffeinePro.Converters;
 
@@ -46,7 +47,7 @@ public class MinutesToActualDateTimeStringConverter : IValueConverter, IMultiVal
         // A full day means an indefinite awakeness, which never lands on a clock time.
         if (minutes >= TimeSliderControl.IndefiniteMinutes)
         {
-            return "Indefinitely";
+            return LocalizationService.Get("Common_Indefinitely");
         }
 
         var h = minutes / 60;

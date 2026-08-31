@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="clr-namespace:CaffeinePro.Converters"
+    xmlns:loc="clr-namespace:CaffeinePro.Localization"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
@@ -69,53 +70,69 @@
                                         <Button
                                             Padding="12,4"
                                             Click="QuarterButton_Click"
+                                            DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=1}}"
                                             Style="{StaticResource QuarterButtonStyle}"
-                                            Tag="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=2}}">
+                                            Tag="0">
                                             <Button.Content>
-                                                <TextBlock>
-                                                    <Run Text="{Binding Content, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=2}}" />
-                                                    <Run Text=":00" />
-                                                    <Run Text="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=2}}" />
-                                                </TextBlock>
+                                                <!--
+                                                    Left to follow the language's own reading
+                                                    direction. One string reorders correctly on its
+                                                    own, and in Arabic and Farsi that is what puts the
+                                                    AM/PM marker on the left of the time.
+                                                -->
+                                                <TextBlock
+                                                    Text="{Binding Converter={StaticResource QuarterTime}, ConverterParameter=0}" />
                                             </Button.Content>
                                         </Button>
                                         <Button
                                             Padding="12,4"
                                             Click="QuarterButton_Click"
+                                            DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=1}}"
                                             Style="{StaticResource QuarterButtonStyle}"
-                                            Tag="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=2}}">
+                                            Tag="15">
                                             <Button.Content>
-                                                <TextBlock>
-                                                    <Run Text="{Binding Content, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=2}}" />
-                                                    <Run Text=":15" />
-                                                    <Run Text="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=2}}" />
-                                                </TextBlock>
+                                                <!--
+                                                    Left to follow the language's own reading
+                                                    direction. One string reorders correctly on its
+                                                    own, and in Arabic and Farsi that is what puts the
+                                                    AM/PM marker on the left of the time.
+                                                -->
+                                                <TextBlock
+                                                    Text="{Binding Converter={StaticResource QuarterTime}, ConverterParameter=15}" />
                                             </Button.Content>
                                         </Button>
                                         <Button
                                             Padding="12,4"
                                             Click="QuarterButton_Click"
+                                            DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=1}}"
                                             Style="{StaticResource QuarterButtonStyle}"
-                                            Tag="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=2}}">
+                                            Tag="30">
                                             <Button.Content>
-                                                <TextBlock>
-                                                    <Run Text="{Binding Content, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=2}}" />
-                                                    <Run Text=":30" />
-                                                    <Run Text="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=2}}" />
-                                                </TextBlock>
+                                                <!--
+                                                    Left to follow the language's own reading
+                                                    direction. One string reorders correctly on its
+                                                    own, and in Arabic and Farsi that is what puts the
+                                                    AM/PM marker on the left of the time.
+                                                -->
+                                                <TextBlock
+                                                    Text="{Binding Converter={StaticResource QuarterTime}, ConverterParameter=30}" />
                                             </Button.Content>
                                         </Button>
                                         <Button
                                             Padding="12,4"
                                             Click="QuarterButton_Click"
+                                            DataContext="{Binding DataContext, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=1}}"
                                             Style="{StaticResource QuarterButtonStyle}"
-                                            Tag="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=2}}">
+                                            Tag="45">
                                             <Button.Content>
-                                                <TextBlock>
-                                                    <Run Text="{Binding Content, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=2}}" />
-                                                    <Run Text=":45" />
-                                                    <Run Text="{Binding Tag, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=2}}" />
-                                                </TextBlock>
+                                                <!--
+                                                    Left to follow the language's own reading
+                                                    direction. One string reorders correctly on its
+                                                    own, and in Arabic and Farsi that is what puts the
+                                                    AM/PM marker on the left of the time.
+                                                -->
+                                                <TextBlock
+                                                    Text="{Binding Converter={StaticResource QuarterTime}, ConverterParameter=45}" />
                                             </Button.Content>
                                         </Button>
                                     </StackPanel>
@@ -156,7 +173,7 @@
                     FontWeight="SemiBold"
                     Foreground="{DynamicResource TextFillColorInverseBrush}"
                     Opacity="0.7"
-                    Text="UNTIL" />
+                    Text="{loc:Loc TimeSlider_Until}" />
             </Border>
 
             <Border Margin="0,9,0,0" Padding="12,16,12,12">
@@ -175,7 +192,7 @@
                                 Margin="2,0,0,0"
                                 VerticalAlignment="Center"
                                 FontSize="9"
-                                Text="AM" />
+                                Text="{loc:Loc TimeSlider_Am}" />
                         </StackPanel>
 
                         <ItemsControl ItemsSource="{Binding AmHours}">
@@ -189,8 +206,7 @@
                                     <Button
                                         Click="HourButton_Click"
                                         Content="{Binding HourLabel}"
-                                        Style="{StaticResource HourButtonStyle}"
-                                        Tag="{Binding AmPm}" />
+                                        Style="{StaticResource HourButtonStyle}" />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
@@ -210,7 +226,7 @@
                                 Margin="2,0,0,0"
                                 VerticalAlignment="Center"
                                 FontSize="9"
-                                Text="PM" />
+                                Text="{loc:Loc TimeSlider_Pm}" />
                         </StackPanel>
                         <ItemsControl ItemsSource="{Binding PmHours}">
                             <ItemsControl.ItemsPanel>
@@ -223,8 +239,7 @@
                                     <Button
                                         Click="HourButton_Click"
                                         Content="{Binding HourLabel}"
-                                        Style="{StaticResource HourButtonStyle}"
-                                        Tag="{Binding AmPm}" />
+                                        Style="{StaticResource HourButtonStyle}" />
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
@@ -241,7 +256,7 @@
                         Margin="2,0,0,4"
                         FontSize="9"
                         Opacity="0.5"
-                        Text="QUICK" />
+                        Text="{loc:Loc TimeSlider_Quick}" />
 
                     <ItemsControl ItemsSource="{Binding Minutes1}">
                         <ItemsControl.ItemsPanel>
@@ -274,7 +289,7 @@
                         Margin="2,0,0,4"
                         FontSize="9"
                         Opacity="0.5"
-                        Text="HOURS" />
+                        Text="{loc:Loc TimeSlider_Hours}" />
                     <ItemsControl ItemsSource="{Binding Minutes2}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
@@ -339,7 +354,7 @@
                     FontWeight="SemiBold"
                     Foreground="{DynamicResource TextFillColorInverseBrush}"
                     Opacity="0.7"
-                    Text="FOR" />
+                    Text="{loc:Loc TimeSlider_For}" />
             </Border>
         </Grid>
 
@@ -357,7 +372,7 @@
                 TextAlignment="Center"
                 Visibility="{Binding IsIndefinite, Converter={StaticResource BoolToVis}}">
                 <Run Text="♾️" />
-                <Run Text="Indefinitely" />
+                <Run Text="{loc:Loc Common_Indefinitely}" />
             </TextBlock>
 
             <StackPanel
@@ -369,7 +384,7 @@
                     FontSize="20"
                     TextAlignment="Center"
                     Visibility="{Binding IsForSelection, Converter={StaticResource BoolToVis}}">
-                    <Run FontSize="14" Text="FOR" />
+                    <Run FontSize="14" Text="{loc:Loc TimeSlider_For}" />
                     <Run Text="{Binding ElementName=MinutesSlider, Path=Value, Converter={StaticResource MinutesToTimeString}, Mode=OneWay}" />
                 </TextBlock>
                 <TextBlock
@@ -377,7 +392,7 @@
                     FontSize="12"
                     Opacity="0.6"
                     TextAlignment="Center">
-                    <Run FontSize="10" Text="UNTIL" />
+                    <Run FontSize="10" Text="{loc:Loc TimeSlider_Until}" />
                     <Run Text="{Binding ElementName=MinutesSlider, Path=Value, Converter={StaticResource MinutesToActualDateTime}}" />
                     <TextBlock.Style>
                         <!--  In the startup options the app is not running yet, so the clock time a FOR duration lands on is meaningless.  -->
@@ -400,7 +415,7 @@
                     FontSize="20"
                     TextAlignment="Center"
                     Visibility="{Binding IsForSelection, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
-                    <Run FontSize="14" Text="UNTIL" />
+                    <Run FontSize="14" Text="{loc:Loc TimeSlider_Until}" />
                     <Run>
                         <Run.Text>
                             <MultiBinding Converter="{StaticResource MinutesToActualDateTime}" Mode="OneWay">
