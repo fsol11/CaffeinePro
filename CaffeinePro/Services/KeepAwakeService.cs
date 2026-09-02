@@ -211,16 +211,14 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
 
     private void UpdateStatusText()
     {
-        StatusText =
-            $"{LocalizationService.Get("App_Name")} - " +
-            LocalizationService.Get(IsActive ? "Status_Active" : "Status_Inactive");
+        StatusText = LocalizationService.Get(IsActive ? "Status_Active" : "Status_Inactive");
 
         if (!IsActive)
         {
             return;
         }
 
-        StatusText += $" - {Awakeness.GetAwakenessDescription()}";
+        StatusText += $" {Awakeness.GetAwakenessDescription()}";
 
         if (IsTemporarilyInactive)
         {
