@@ -10,6 +10,7 @@
 // -----------------------------------------------------------------------
 
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
@@ -108,7 +109,8 @@ internal static class UiRefresher
 
         // Both trees: the logical one reaches menu items and the Runs inside a TextBlock, the
         // visual one reaches everything a control template generated.
-        foreach (var child in LogicalTreeHelper.GetChildren(target).OfType<DependencyObject>())
+        var logicalChildren = LogicalTreeHelper.GetChildren(target).OfType<DependencyObject>().ToList();
+        foreach (var child in logicalChildren)
         {
             Refresh(child, visited);
         }
