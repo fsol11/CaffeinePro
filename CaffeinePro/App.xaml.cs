@@ -1,13 +1,17 @@
 ﻿using System.Drawing;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Interop;
 using System.Windows.Threading;
 using CaffeinePro.Classes;
 using CaffeinePro.Localization;
 using CaffeinePro.Services;
 using CaffeinePro.Windows;
 using Hardcodet.Wpf.TaskbarNotification;
+using Hardcodet.Wpf.TaskbarNotification.Interop;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -15,6 +19,7 @@ using Microsoft.Win32;
 using Notification.Wpf;
 using Wpf.Ui.Appearance;
 using MenuItem = System.Windows.Controls.MenuItem;
+using TrayPoint = Hardcodet.Wpf.TaskbarNotification.Interop.Point;
 
 namespace CaffeinePro;
 
@@ -159,6 +164,10 @@ public partial class App
         AppDomain.CurrentDomain.UnhandledException += HandleException;
         
         TrayIcon = Routines.FindResource<TaskbarIcon>("TrayIcon")!;
+
+        // The tray icon's own right-click handling does not survive - see OnTrayRightMouseUp.
+        TrayIcon.TrayRightMouseUp += OnTrayRightMouseUp;
+
         Routines.AddToWindowsStartup(AppSettings.StartWithWindows);
 
         // The settings file is read - and its awakeness texts built - while the host is still being
@@ -412,6 +421,100 @@ public partial class App
     {
         NotificationWindow.CloseIt();
     }
+
+    /// <summary>
+    /// Opens the tray menu on a right-click, and keeps it open.
+    /// </summary>
+    /// <remarks>
+    /// <para>
+    /// A right-click reaches Hardcodet.NotifyIcon.Wpf as WM_CONTEXTMENU rather than through
+    /// <see cref="TaskbarIcon.MenuActivation"/>, which the library only ever reads for the left
+    /// button. It does open the menu on that message - but it then activates the popup's window
+    /// in the same breath, and the popup has no window yet at that point. The activation lands on
+    /// the library's own hidden message window instead, the menu is left without the focus, and
+    /// the shell takes the foreground back half a second later and closes it: the menu flashes up
+    /// and vanishes, which reads as a right-click that does nothing at all. Left-clicking escapes
+    /// this because the library holds that one back by the double-click interval, by which time
+    /// the popup does have a window.
+    /// </para>
+    /// <para>
+    /// So the menu is opened from the right-button-up - whichever of the two messages arrives
+    /// first does the opening - and the activation is deferred until the window it needs exists.
+    /// </para>
+    /// </remarks>
+    private void OnTrayRightMouseUp(object sender, RoutedEventArgs e)
+    {
+        if (TrayIcon?.ContextMenu is not { } menu)
+        {
+            return;
+        }
+
+        // Left where it is when it is already up: WM_CONTEXTMENU may have got in first, and the
+        // menu is then already placed.
+        if (!menu.IsOpen)
+        {
+            var position = GetTrayCursorPosition();
+
+            menu.Placement = PlacementMode.AbsolutePoint;
+            menu.HorizontalOffset = position.X;
+            menu.VerticalOffset = position.Y;
+            menu.IsOpen = true;
+        }
+
+        // Queued rather than run here: the popup is given its window on a later dispatcher pass,
+        // and activating it is the whole point - an unfocused menu is the one that closes itself.
+        menu.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, () =>
+        {
+            if (menu.IsOpen && PresentationSource.FromVisual(menu) is HwndSource source)
+            {
+                SetForegroundWindow(source.Handle);
+                menu.Focus();
+            }
+        });
+    }
+
+    /// <summary>
+    /// The cursor position to open the tray menu at, in the coordinates a popup is placed in.
+    /// </summary>
+    /// <remarks>
+    /// Mirrors what the library does for the left button. Which of the two cursor calls applies
+    /// depends on the notification protocol the icon ended up registered with, and
+    /// <see cref="TaskbarIcon.SupportsCustomToolTips"/> is the one place that reports it.
+    /// </remarks>
+    private TrayPoint GetTrayCursorPosition()
+    {
+        var cursor = new TrayPoint();
+
+        if (TrayIcon!.SupportsCustomToolTips)
+        {
+            GetPhysicalCursorPos(ref cursor);
+        }
+        else
+        {
+            GetCursorPos(ref cursor);
+        }
+
+        return TrayInfo.GetDeviceCoordinates(cursor);
+    }
+
+    /// <summary>
+    /// Retrieves the cursor position in physical screen coordinates, which is what the shell
+    /// reports positions in once an icon speaks the newer notification protocol.
+    /// </summary>
+    [DllImport("user32.dll")]
+    private static extern bool GetPhysicalCursorPos(ref TrayPoint lpPoint);
+
+    /// <summary>
+    /// Retrieves the cursor position in the coordinates of the calling process.
+    /// </summary>
+    [DllImport("user32.dll")]
+    private static extern bool GetCursorPos(ref TrayPoint lpPoint);
+
+    /// <summary>
+    /// Brings a window to the foreground, so that the menu inside it learns when it is deactivated.
+    /// </summary>
+    [DllImport("user32.dll")]
+    private static extern bool SetForegroundWindow(IntPtr hWnd);
 
     private void OnExitMenu(object sender, RoutedEventArgs e)
     {

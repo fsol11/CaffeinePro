@@ -2,7 +2,7 @@
 <StoreAssociation xmlns="http://schemas.microsoft.com/appx/2010/storeassociation">
   <Publisher>CN=83954149-93B6-44D3-A8BC-084E5568F786</Publisher>
   <PublisherDisplayName>Lotrasoft Inc.</PublisherDisplayName>
-  <DeveloperAccountType>MSA</DeveloperAccountType>
+  <DeveloperAccountType>AAD</DeveloperAccountType>
   <GeneratePackageHash>http://www.w3.org/2001/04/xmlenc#sha256</GeneratePackageHash>
   <SupportedLocales>
     <Language Code="af" InMinimumRequirementSet="true" />
