@@ -2,6 +2,7 @@
     x:Class="CaffeinePro.Windows.NotificationWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:CaffeinePro.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:CaffeinePro.Windows"
     xmlns:loc="clr-namespace:CaffeinePro.Localization"
@@ -58,34 +59,36 @@
                     <Run Text="{loc:Loc Notification_Question}" />
                 </ui:TextBlock>
 
-                <!--  Mirrors the FOR / UNTIL summary of TimeSliderControl  -->
+                <!--
+                    The time is offered, not dictated: the prompt opens on the default awakeness,
+                    and the drop-down is the same picker the tray menu uses, so another time can be
+                    dialled in without dismissing the prompt and going to the menu.
+
+                    Bound through the window rather than through the DataContext: the control sets
+                    its own DataContext to itself, so an inherited binding would look for the
+                    awakeness on the control and silently find nothing.
+                -->
+                <controls:AwakenessViewControl
+                    Margin="0,8,0,0"
+                    AwakenessValue="{Binding Awakeness, RelativeSource={RelativeSource AncestorType={x:Type Window}}, Mode=TwoWay}"
+                    InStartupOptions="False"
+                    NewAwakenessSelected="OnNewAwakenessSelected" />
+
+                <!--
+                    The button above names the clock time the awakeness ends at. For a relative one
+                    ("for 2 hours") the duration it was picked as is worth saying too, so it is
+                    spelled out underneath.
+                -->
                 <ui:TextBlock
-                    HorizontalAlignment="Center"
-                    FontSize="20"
-                    TextAlignment="Center"
-                    TextWrapping="NoWrap"
-                    Visibility="{Binding Awakeness.IsRelative, Converter={StaticResource BoolToVis}}">
-                    <Run FontSize="14" Text="{loc:Loc TimeSlider_For}" />
-                    <Run Text="{Binding Awakeness.RelativeSpan, Converter={StaticResource MinutesToTimeString}, Mode=OneWay}" />
-                </ui:TextBlock>
-                <ui:TextBlock
+                    Margin="0,2,0,0"
                     HorizontalAlignment="Center"
                     FontSize="12"
                     Opacity="0.6"
                     TextAlignment="Center"
                     TextWrapping="NoWrap"
                     Visibility="{Binding Awakeness.IsRelative, Converter={StaticResource BoolToVis}}">
-                    <Run FontSize="10" Text="{loc:Loc TimeSlider_Until}" />
-                    <Run Text="{Binding Awakeness.EndDateTimeText, Mode=OneWay}" />
-                </ui:TextBlock>
-                <ui:TextBlock
-                    HorizontalAlignment="Center"
-                    FontSize="20"
-                    TextAlignment="Center"
-                    TextWrapping="NoWrap"
-                    Visibility="{Binding Awakeness.IsRelative, Converter={StaticResource BoolToVis}, ConverterParameter=Inverted}">
-                    <Run FontSize="14" Text="{loc:Loc TimeSlider_Until}" />
-                    <Run Text="{Binding Awakeness.EndDateTimeText, Mode=OneWay}" />
+                    <Run FontSize="10" Text="{loc:Loc TimeSlider_For}" />
+                    <Run Text="{Binding Awakeness.RelativeSpan, Converter={StaticResource MinutesToTimeString}, Mode=OneWay}" />
                 </ui:TextBlock>
 
                 <ui:TextBlock

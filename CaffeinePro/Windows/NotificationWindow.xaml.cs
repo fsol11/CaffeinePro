@@ -58,12 +58,20 @@ public partial class NotificationWindow
         InitializeComponent();
     }
 
+    public static readonly DependencyProperty AwakenessProperty = DependencyProperty.Register(
+        nameof(Awakeness),
+        typeof(Awakeness),
+        typeof(NotificationWindow),
+        new PropertyMetadata(default(Awakeness)));
+
     /// <summary>
-    /// The awakeness the notification is offering to activate.
+    /// The awakeness the notification is offering to activate. Starts out as the default (startup)
+    /// awakeness and is replaced when the user picks a different time from the drop-down.
     /// </summary>
     public Awakeness Awakeness
     {
-        get;
+        get => (Awakeness)GetValue(AwakenessProperty);
+        set => SetValue(AwakenessProperty, value);
     }
 
     /// <summary>
@@ -73,7 +81,29 @@ public partial class NotificationWindow
 
     private void Activate_Click(object sender, RoutedEventArgs e)
     {
-        App.CurrentApp.KeepAwakeService.ActivateDefault();
+        ActivateAndClose(Awakeness);
+    }
+
+    /// <summary>
+    /// A time picked from the drop-down. Its button reads "Apply &amp; Activate", so picking one is
+    /// itself an answer to the prompt and there is nothing left to confirm.
+    /// </summary>
+    private void OnNewAwakenessSelected(object? sender, Awakeness awakeness)
+    {
+        ActivateAndClose(awakeness);
+    }
+
+    /// <summary>
+    /// Answers the prompt with the given awakeness.
+    /// </summary>
+    /// <remarks>
+    /// Renewed first, because the prompt can sit on screen for a long time: a relative awakeness
+    /// ("for 2 hours") has to be counted from the moment it is accepted, not from the moment it was
+    /// offered, and an absolute one ("until 5 PM") has to roll on to tomorrow once that time is past.
+    /// </remarks>
+    private static void ActivateAndClose(Awakeness awakeness)
+    {
+        App.CurrentApp.KeepAwakeService.Activate(Awakeness.RenewDateTime(awakeness));
         CloseIt();
     }
 
