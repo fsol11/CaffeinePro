@@ -1,0 +1,636 @@
+﻿Field,ID,Type (Type),default,en-us,fr,es,de,pt,ja,zh-hans,ar,fa,pt-br
+Description,2,Text,,"Keeps your PC awake and your status ""available"" in Teams, Slack and other chat apps.
+
+· Stay awake indefinitely, for a set duration, or until a specific time of day
+· Lock, sleep, hibernate, shut down or restart when the session ends - with a countdown you can cancel or extend 
+· Blackout screen: Win + / blacks out every monitor while the machine keeps working 
+· Pauses automatically on battery and while the workstation is locked 
+· Lives in the notification area; no system power settings to change or change back 
+· Available in nine languages, following your Windows display language 
+· Light and dark themes that follow Windows 
+· Command-line control for scripts and shortcuts 
+· No ads, no account, no tracking, no network access
+","Garde votre PC éveillé et votre statut « disponible » dans Teams, Slack et les autres applications de discussion.
+
+· Restez éveillé indéfiniment, pendant une durée définie ou jusqu'à une heure précise
+· Verrouillage, veille, veille prolongée, arrêt ou redémarrage à la fin de la session, avec un compte à rebours que vous pouvez annuler ou prolonger
+· Écran noir : Win + / assombrit tous les moniteurs pendant que la machine continue de travailler
+· Se met en pause automatiquement sur batterie et quand la station de travail est verrouillée
+· Vit dans la zone de notification ; aucun paramètre d'alimentation du système à modifier ni à rétablir
+· Disponible en neuf langues, suivant la langue d'affichage de Windows
+· Thèmes clair et sombre qui suivent Windows
+· Pilotage en ligne de commande pour les scripts et les raccourcis
+· Pas de publicité, pas de compte, pas de suivi, aucun accès réseau","Mantiene su PC activo y su estado «disponible» en Teams, Slack y otras aplicaciones de chat.
+
+· Permanezca activo indefinidamente, durante un tiempo determinado o hasta una hora concreta
+· Bloquear, suspender, hibernar, apagar o reiniciar al terminar la sesión, con una cuenta atrás que puede cancelar o ampliar
+· Pantalla en negro: Win + / oscurece todos los monitores mientras el equipo sigue trabajando
+· Se pausa automáticamente con batería y mientras la estación de trabajo está bloqueada
+· Vive en el área de notificación; no hay que cambiar ni restaurar la configuración de energía del sistema
+· Disponible en nueve idiomas, siguiendo el idioma de Windows
+· Temas claro y oscuro que siguen a Windows
+· Control desde la línea de comandos para scripts y accesos directos
+· Sin anuncios, sin cuenta, sin seguimiento, sin acceso a la red","Hält Ihren PC wach und Ihren Status in Teams, Slack und anderen Chat-Apps auf „verfügbar“.
+
+· Bleiben Sie unbegrenzt wach, für eine festgelegte Dauer oder bis zu einer bestimmten Uhrzeit
+· Sperren, Energie sparen, Ruhezustand, Herunterfahren oder Neustart am Ende der Sitzung – mit einem Countdown, den Sie abbrechen oder verlängern können
+· Blackout-Bildschirm: Win + / färbt alle Monitore schwarz, während der Rechner weiterarbeitet
+· Pausiert automatisch im Akkubetrieb und solange die Arbeitsstation gesperrt ist
+· Lebt im Infobereich; keine Energieeinstellungen des Systems zu ändern oder zurückzustellen
+· In neun Sprachen verfügbar, der Windows-Anzeigesprache folgend
+· Helles und dunkles Design, dem Windows-Design folgend
+· Steuerung über die Befehlszeile für Skripte und Verknüpfungen
+· Keine Werbung, kein Konto, kein Tracking, kein Netzwerkzugriff","Mantém o seu PC ativo e o seu estado «disponível» no Teams, no Slack e noutras aplicações de conversação.
+
+· Fique ativo indefinidamente, durante um período definido ou até uma hora específica
+· Bloquear, suspender, hibernar, encerrar ou reiniciar no fim da sessão, com uma contagem decrescente que pode cancelar ou prolongar
+· Ecrã preto: Win + / escurece todos os monitores enquanto a máquina continua a trabalhar
+· Fica em pausa automaticamente com bateria e enquanto a estação de trabalho está bloqueada
+· Vive na área de notificação; não há definições de energia do sistema para alterar nem repor
+· Disponível em nove idiomas, seguindo o idioma de apresentação do Windows
+· Temas claro e escuro que acompanham o Windows
+· Controlo por linha de comandos para scripts e atalhos
+· Sem anúncios, sem conta, sem rastreio, sem acesso à rede","PC をスリープさせず、Teams や Slack などのチャット アプリでのステータスを「連絡可能」に保ちます。
+
+· 無期限、指定した長さ、または指定した時刻まで起動したままにできます
+· セッション終了時にロック、スリープ、休止状態、シャットダウン、再起動 — キャンセルも延長もできるカウントダウン付き
+· ブラックアウト画面: Win + / ですべてのモニターを黒くしたまま、PC は動作を続けます
+· バッテリー駆動中やワークステーションのロック中は自動的に一時停止します
+· 通知領域に常駐します。システムの電源設定を変更する必要も、元に戻す必要もありません
+· 9 つの言語に対応し、Windows の表示言語に従います
+· Windows に追従するライト テーマとダーク テーマ
+· スクリプトやショートカットから使えるコマンド ライン操作
+· 広告なし、アカウント不要、追跡なし、ネットワーク アクセスなし","让您的电脑保持唤醒，并让您在 Teams、Slack 等聊天应用中的状态保持为“有空”。
+
+· 可以无限期保持唤醒，也可以指定一段时长或具体的时刻
+· 会话结束时锁定、睡眠、休眠、关机或重启 —— 并提供可取消或延长的倒计时
+· 黑屏功能：Win + / 让所有显示器变黑，而电脑继续工作
+· 使用电池供电以及工作站锁定期间会自动暂停
+· 常驻通知区域；无需更改系统电源设置，也就不用再改回去
+· 支持九种语言，跟随 Windows 显示语言
+· 浅色与深色主题，跟随 Windows
+· 支持命令行控制，便于脚本和快捷方式调用
+· 无广告、无需账户、无跟踪、不访问网络","يُبقي جهازك مستيقظًا وحالتك «متاح» في Teams وSlack وتطبيقات المحادثة الأخرى.
+
+· ابقَ مستيقظًا إلى أجل غير مسمى، أو لمدة محددة، أو حتى وقت معيّن من اليوم
+· القفل أو السكون أو الإسبات أو إيقاف التشغيل أو إعادة التشغيل عند انتهاء الجلسة، مع عدّ تنازلي يمكنك إلغاؤه أو تمديده
+· شاشة التعتيم: Win + / تجعل كل الشاشات سوداء بينما يواصل الجهاز عمله
+· يتوقف مؤقتًا تلقائيًا عند العمل على البطارية وأثناء قفل محطة العمل
+· يقيم في منطقة الإعلامات؛ لا إعدادات طاقة في النظام تحتاج إلى تغييرها ثم إعادتها
+· متوفر بتسع لغات، ويتبع لغة عرض Windows
+· سمتان فاتحة وداكنة تتبعان Windows
+· تحكم عبر سطر الأوامر للبرامج النصية والاختصارات
+· بلا إعلانات، بلا حساب، بلا تتبع، وبلا وصول إلى الشبكة","رایانه شما را بیدار و وضعیتتان را در Teams، Slack و دیگر برنامه‌های گفت‌وگو روی «در دسترس» نگه می‌دارد.
+
+· به‌صورت نامحدود، برای مدتی مشخص، یا تا ساعتی معیّن بیدار بمانید
+· قفل کردن، خواب، خواب زمستانی، خاموش کردن یا راه‌اندازی مجدد در پایان جلسه، همراه با شمارش معکوسی که می‌توانید لغو یا تمدید کنید
+· صفحه سیاه: Win + / همه نمایشگرها را سیاه می‌کند در حالی که رایانه به کار ادامه می‌دهد
+· هنگام کار با باتری و در زمان قفل بودن ایستگاه کاری به‌طور خودکار متوقف می‌شود
+· در ناحیه اعلان قرار دارد؛ هیچ تنظیم انرژی سیستمی برای تغییر دادن و بازگرداندن وجود ندارد
+· در نُه زبان در دسترس است و از زبان نمایش Windows پیروی می‌کند
+· زمینه روشن و تیره، هماهنگ با Windows
+· کنترل از خط فرمان برای اسکریپت‌ها و میان‌برها
+· بدون تبلیغات، بدون حساب کاربری، بدون ردیابی، بدون دسترسی به شبکه","Mantém seu PC ativo e seu status “disponível” no Teams, no Slack e em outros aplicativos de bate-papo.
+
+· Fique ativo indefinidamente, por um período definido ou até um horário específico
+· Bloquear, suspender, hibernar, desligar ou reiniciar quando a sessão terminar, com uma contagem regressiva que você pode cancelar ou prolongar
+· Tela preta: Win + / escurece todos os monitores enquanto a máquina continua trabalhando
+· Pausa automaticamente na bateria e enquanto a estação de trabalho está bloqueada
+· Fica na área de notificação; não há configurações de energia do sistema para alterar nem restaurar
+· Disponível em nove idiomas, seguindo o idioma de exibição do Windows
+· Temas claro e escuro que acompanham o Windows
+· Controle por linha de comando para scripts e atalhos
+· Sem anúncios, sem conta, sem rastreamento, sem acesso à rede"
+ReleaseNotes,3,Text,," Version 3 rebuilds Caffeine Pro with a new interface and several new features.
+  
+- Blackout screen: Win + / covers every monitor in black, so the  machine looks switched off while it carries on working. 
+- Nine languages: English, French, Spanish, German, Portuguese, Japanese, Simplified Chinese, Arabic, and Farsi, following your Windows display language.
+- A countdown before the session's ending action. 
+- Rebuilt time picker
+- Added easier way of picking time or set to default settings
+- Added a feature to detect coming back from off monitor back on to enable Caffeine Pro
+- Added more anti-detection mechanisms
+","La version 3 reconstruit Caffeine Pro avec une nouvelle interface et plusieurs nouveautés.
+
+- Écran noir : Win + / couvre tous les moniteurs de noir, la machine semble éteinte alors qu'elle continue de travailler.
+- Neuf langues : anglais, français, espagnol, allemand, portugais, japonais, chinois simplifié, arabe et persan, suivant la langue d'affichage de Windows.
+- Un compte à rebours avant l'action de fin de session.
+- Sélecteur d'heure reconstruit.
+- Façon plus simple de choisir l'heure ou de revenir aux réglages par défaut.
+- Détection du retour après l'extinction de l'écran, pour réactiver Caffeine Pro.
+- Mécanismes anti-détection supplémentaires.","La versión 3 reconstruye Caffeine Pro con una nueva interfaz y varias novedades.
+
+- Pantalla en negro: Win + / cubre todos los monitores de negro, el equipo parece apagado mientras sigue trabajando.
+- Nueve idiomas: inglés, francés, español, alemán, portugués, japonés, chino simplificado, árabe y persa, siguiendo el idioma de Windows.
+- Una cuenta atrás antes de la acción de fin de sesión.
+- Selector de hora reconstruido.
+- Forma más sencilla de elegir la hora o volver a la configuración predeterminada.
+- Detección del regreso tras apagarse la pantalla, para reactivar Caffeine Pro.
+- Más mecanismos antidetección.","Version 3 baut Caffeine Pro mit einer neuen Oberfläche und mehreren Neuerungen neu auf.
+
+- Blackout-Bildschirm: Win + / färbt alle Monitore schwarz, der Rechner wirkt ausgeschaltet und arbeitet doch weiter.
+- Neun Sprachen: Englisch, Französisch, Spanisch, Deutsch, Portugiesisch, Japanisch, Chinesisch (vereinfacht), Arabisch und Persisch, der Windows-Anzeigesprache folgend.
+- Ein Countdown vor der Aktion am Sitzungsende.
+- Neu gebaute Zeitauswahl.
+- Einfacherer Weg, eine Zeit zu wählen oder die Standardeinstellungen zu übernehmen.
+- Erkennung der Rückkehr nach abgeschaltetem Bildschirm, um Caffeine Pro wieder zu aktivieren.
+- Weitere Mechanismen gegen Inaktivitätserkennung.","A versão 3 reconstrói o Caffeine Pro com uma nova interface e várias novidades.
+
+- Ecrã preto: Win + / cobre todos os monitores de preto, a máquina parece desligada enquanto continua a trabalhar.
+- Nove idiomas: inglês, francês, espanhol, alemão, português, japonês, chinês simplificado, árabe e persa, seguindo o idioma de apresentação do Windows.
+- Uma contagem decrescente antes da ação de fim de sessão.
+- Seletor de hora reconstruído.
+- Forma mais simples de escolher a hora ou de repor as predefinições.
+- Deteção do regresso depois de o ecrã se apagar, para reativar o Caffeine Pro.
+- Mais mecanismos antideteção.","バージョン 3 では、新しいインターフェイスといくつかの新機能で Caffeine Pro を作り直しました。
+
+- ブラックアウト画面: Win + / ですべてのモニターを黒一色にし、動作を続けたまま電源が切れているように見せます。
+- 9 つの言語に対応: 英語、フランス語、スペイン語、ドイツ語、ポルトガル語、日本語、簡体字中国語、アラビア語、ペルシア語。Windows の表示言語に従います。
+- セッション終了時の動作の前にカウントダウンを表示。
+- 時刻選択画面を刷新。
+- 時刻の指定や既定値への切り替えがより簡単に。
+- モニターが消灯した後の復帰を検出して Caffeine Pro を有効化。
+- 非アクティブ検出への対策を追加。","版本 3 以全新界面和多项新功能重建了 Caffeine Pro。
+
+- 黑屏功能：Win + / 让所有显示器变黑，电脑看起来像已关闭，实际仍在工作。
+- 支持九种语言：英语、法语、西班牙语、德语、葡萄牙语、日语、简体中文、阿拉伯语和波斯语，跟随 Windows 显示语言。
+- 会话结束动作之前会显示倒计时。
+- 重建的时间选择器。
+- 选择时间或恢复默认设置的方式更简便。
+- 新增检测显示器熄灭后重新亮起的功能，用于重新启用 Caffeine Pro。
+- 增加了更多防检测机制。","يعيد الإصدار 3 بناء Caffeine Pro بواجهة جديدة وعدة ميزات جديدة.
+
+- شاشة التعتيم: Win + / تجعل كل الشاشات سوداء، فيبدو الجهاز مطفأً بينما يواصل عمله.
+- تسع لغات: الإنجليزية والفرنسية والإسبانية والألمانية والبرتغالية واليابانية والصينية المبسطة والعربية والفارسية، وفقًا للغة عرض Windows.
+- عدّ تنازلي قبل تنفيذ إجراء نهاية الجلسة.
+- إعادة بناء أداة اختيار الوقت.
+- طريقة أسهل لاختيار الوقت أو العودة إلى الإعدادات الافتراضية.
+- اكتشاف العودة بعد انطفاء الشاشة لإعادة تفعيل Caffeine Pro.
+- مزيد من آليات منع اكتشاف الخمول.","نسخه ۳، Caffeine Pro را با رابط کاربری تازه و چند قابلیت جدید بازسازی می‌کند.
+
+- صفحه سیاه: Win + / همه نمایشگرها را سیاه می‌کند تا رایانه خاموش به نظر برسد در حالی که به کار ادامه می‌دهد.
+- نُه زبان: انگلیسی، فرانسوی، اسپانیایی، آلمانی، پرتغالی، ژاپنی، چینی ساده‌شده، عربی و فارسی، هماهنگ با زبان نمایش Windows.
+- شمارش معکوس پیش از اجرای کنش پایان جلسه.
+- بازسازی ابزار انتخاب زمان.
+- روشی ساده‌تر برای انتخاب زمان یا بازگشت به تنظیمات پیش‌فرض.
+- تشخیص بازگشت پس از خاموش شدن نمایشگر برای فعال‌سازی دوباره Caffeine Pro.
+- سازوکارهای بیشتر برای جلوگیری از تشخیص بی‌کاری.","A versão 3 reconstrói o Caffeine Pro com uma nova interface e vários recursos novos.
+
+- Tela preta: Win + / cobre todos os monitores de preto, a máquina parece desligada enquanto continua trabalhando.
+- Nove idiomas: inglês, francês, espanhol, alemão, português, japonês, chinês simplificado, árabe e persa, seguindo o idioma de exibição do Windows.
+- Uma contagem regressiva antes da ação de fim de sessão.
+- Seletor de horário reconstruído.
+- Forma mais simples de escolher o horário ou de voltar às configurações padrão.
+- Detecção do retorno depois que o monitor se apaga, para reativar o Caffeine Pro.
+- Mais mecanismos antidetecção."
+Title,4,Text,,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro
+ShortTitle,5,Text,,,,,,,,,,,
+SortTitle,6,Text,,,,,,,,,,,
+VoiceTitle,7,Text,,,,,,,,,,,
+ShortDescription,8,Text,,,,,,,,,,,
+DevStudio,9,Text,,Farshid Solimanpour,Farshid Solimanpour,Farshid Solimanpour,Farshid Solimanpour,Farshid Solimanpour,Farshid Solimanpour,Farshid Solimanpour,Farshid Solimanpour,Farshid Solimanpour,Farshid Solimanpour
+CopyrightTrademarkInformation,12,Text,,Copyright (c) 2026 Lotrasoft Inc.,Copyright (c) 2026 Lotrasoft Inc.,Copyright (c) 2026 Lotrasoft Inc.,Copyright (c) 2026 Lotrasoft Inc.,Copyright (c) 2026 Lotrasoft Inc.,Copyright (c) 2026 Lotrasoft Inc.,Copyright (c) 2026 Lotrasoft Inc.,Copyright (c) 2026 Lotrasoft Inc.,Copyright (c) 2026 Lotrasoft Inc.,Copyright (c) 2026 Lotrasoft Inc.
+AdditionalLicenseTerms,13,Text,,,,,,,,,,,
+DesktopScreenshot1,100,Relative path (or URL to file in Partner Center),,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700017474671/listingassets/3063390619581701765,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027213221/listingassets/3063390619581701765,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481273/listingassets/3063390619581701765,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481281/listingassets/3063390619581701765,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481663/listingassets/3063390619581701765,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481290/listingassets/3063390619581701765,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481298/listingassets/3063390619581701765,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481695/listingassets/3063390619581701765,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481702/listingassets/3063390619581701765,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700017474671/listingassets/3063390619581701765
+DesktopScreenshot2,101,Relative path (or URL to file in Partner Center),,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700017474671/listingassets/3030744046824007106,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027213221/listingassets/3030744046824007106,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481273/listingassets/3030744046824007106,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481281/listingassets/3030744046824007106,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481663/listingassets/3030744046824007106,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481290/listingassets/3030744046824007106,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481298/listingassets/3030744046824007106,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481695/listingassets/3030744046824007106,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481702/listingassets/3030744046824007106,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700017474671/listingassets/3030744046824007106
+DesktopScreenshot3,102,Relative path (or URL to file in Partner Center),,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700017474671/listingassets/3009991251404370050,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027213221/listingassets/3000431189218094801,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481273/listingassets/3000431189218094801,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481281/listingassets/3000431189218094801,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481663/listingassets/3000431189218094801,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481290/listingassets/3000431189218094801,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481298/listingassets/3000431189218094801,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481695/listingassets/3000431189218094801,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481702/listingassets/3000431189218094801,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700017474671/listingassets/3009991251404370050
+DesktopScreenshot4,103,Relative path (or URL to file in Partner Center),,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700017474671/listingassets/3000431189218094801,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027213221/listingassets/3009991251404370050,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481273/listingassets/3009991251404370050,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481281/listingassets/3009991251404370050,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481663/listingassets/3009991251404370050,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481290/listingassets/3009991251404370050,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481298/listingassets/3009991251404370050,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481695/listingassets/3009991251404370050,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481702/listingassets/3009991251404370050,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700017474671/listingassets/3000431189218094801
+DesktopScreenshot5,104,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot6,105,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot7,106,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot8,107,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot9,108,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot10,109,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot11,110,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot12,111,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot13,112,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot14,113,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot15,114,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot16,115,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot17,116,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot18,117,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot19,118,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot20,119,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot21,120,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot22,121,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot23,122,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot24,123,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot25,124,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot26,125,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot27,126,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot28,127,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot29,128,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshot30,129,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+DesktopScreenshotCaption1,150,Text,,Main menu in Windows light theme,Menu principal dans le thème clair de Windows,Menú principal en el tema claro de Windows,Hauptmenü im hellen Windows-Design,Menu principal no tema claro do Windows,Windows ライト テーマのメイン メニュー,Windows 浅色主题下的主菜单,القائمة الرئيسية في سمة Windows الفاتحة,منوی اصلی در زمینه روشن Windows,Menu principal no tema claro do Windows
+DesktopScreenshotCaption2,151,Text,,Main menu in Windows dark theme,Menu principal dans le thème sombre de Windows,Menú principal en el tema oscuro de Windows,Hauptmenü im dunklen Windows-Design,Menu principal no tema escuro do Windows,Windows ダーク テーマのメイン メニュー,Windows 深色主题下的主菜单,القائمة الرئيسية في سمة Windows الداكنة,منوی اصلی در زمینه تیره Windows,Menu principal no tema escuro do Windows
+DesktopScreenshotCaption3,152,Text,,Settings menu,Menu de sélection de l'heure,Menú de selección de hora,Menü zur Zeitauswahl,Menu de seleção da hora,時刻選択メニュー,时间选择菜单,قائمة اختيار الوقت,منوی انتخاب زمان,Menu de seleção de horário
+DesktopScreenshotCaption4,153,Text,,Time select menu,Menu des paramètres,Menú de configuración,Einstellungsmenü,Menu de definições,設定メニュー,设置菜单,قائمة الإعدادات,منوی تنظیمات,Menu de configurações
+DesktopScreenshotCaption5,154,Text,,,,,,,,,,,
+DesktopScreenshotCaption6,155,Text,,,,,,,,,,,
+DesktopScreenshotCaption7,156,Text,,,,,,,,,,,
+DesktopScreenshotCaption8,157,Text,,,,,,,,,,,
+DesktopScreenshotCaption9,158,Text,,,,,,,,,,,
+DesktopScreenshotCaption10,159,Text,,,,,,,,,,,
+DesktopScreenshotCaption11,160,Text,,,,,,,,,,,
+DesktopScreenshotCaption12,161,Text,,,,,,,,,,,
+DesktopScreenshotCaption13,162,Text,,,,,,,,,,,
+DesktopScreenshotCaption14,163,Text,,,,,,,,,,,
+DesktopScreenshotCaption15,164,Text,,,,,,,,,,,
+DesktopScreenshotCaption16,165,Text,,,,,,,,,,,
+DesktopScreenshotCaption17,166,Text,,,,,,,,,,,
+DesktopScreenshotCaption18,167,Text,,,,,,,,,,,
+DesktopScreenshotCaption19,168,Text,,,,,,,,,,,
+DesktopScreenshotCaption20,169,Text,,,,,,,,,,,
+DesktopScreenshotCaption21,170,Text,,,,,,,,,,,
+DesktopScreenshotCaption22,171,Text,,,,,,,,,,,
+DesktopScreenshotCaption23,172,Text,,,,,,,,,,,
+DesktopScreenshotCaption24,173,Text,,,,,,,,,,,
+DesktopScreenshotCaption25,174,Text,,,,,,,,,,,
+DesktopScreenshotCaption26,175,Text,,,,,,,,,,,
+DesktopScreenshotCaption27,176,Text,,,,,,,,,,,
+DesktopScreenshotCaption28,177,Text,,,,,,,,,,,
+DesktopScreenshotCaption29,178,Text,,,,,,,,,,,
+DesktopScreenshotCaption30,179,Text,,,,,,,,,,,
+MobileScreenshot1,200,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot2,201,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot3,202,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot4,203,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot5,204,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot6,205,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot7,206,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot8,207,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot9,208,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot10,209,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot11,210,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot12,211,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot13,212,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot14,213,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot15,214,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot16,215,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot17,216,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot18,217,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot19,218,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot20,219,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot21,220,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot22,221,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot23,222,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot24,223,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot25,224,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot26,225,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot27,226,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot28,227,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot29,228,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshot30,229,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+MobileScreenshotCaption1,250,Text,,,,,,,,,,,
+MobileScreenshotCaption2,251,Text,,,,,,,,,,,
+MobileScreenshotCaption3,252,Text,,,,,,,,,,,
+MobileScreenshotCaption4,253,Text,,,,,,,,,,,
+MobileScreenshotCaption5,254,Text,,,,,,,,,,,
+MobileScreenshotCaption6,255,Text,,,,,,,,,,,
+MobileScreenshotCaption7,256,Text,,,,,,,,,,,
+MobileScreenshotCaption8,257,Text,,,,,,,,,,,
+MobileScreenshotCaption9,258,Text,,,,,,,,,,,
+MobileScreenshotCaption10,259,Text,,,,,,,,,,,
+MobileScreenshotCaption11,260,Text,,,,,,,,,,,
+MobileScreenshotCaption12,261,Text,,,,,,,,,,,
+MobileScreenshotCaption13,262,Text,,,,,,,,,,,
+MobileScreenshotCaption14,263,Text,,,,,,,,,,,
+MobileScreenshotCaption15,264,Text,,,,,,,,,,,
+MobileScreenshotCaption16,265,Text,,,,,,,,,,,
+MobileScreenshotCaption17,266,Text,,,,,,,,,,,
+MobileScreenshotCaption18,267,Text,,,,,,,,,,,
+MobileScreenshotCaption19,268,Text,,,,,,,,,,,
+MobileScreenshotCaption20,269,Text,,,,,,,,,,,
+MobileScreenshotCaption21,270,Text,,,,,,,,,,,
+MobileScreenshotCaption22,271,Text,,,,,,,,,,,
+MobileScreenshotCaption23,272,Text,,,,,,,,,,,
+MobileScreenshotCaption24,273,Text,,,,,,,,,,,
+MobileScreenshotCaption25,274,Text,,,,,,,,,,,
+MobileScreenshotCaption26,275,Text,,,,,,,,,,,
+MobileScreenshotCaption27,276,Text,,,,,,,,,,,
+MobileScreenshotCaption28,277,Text,,,,,,,,,,,
+MobileScreenshotCaption29,278,Text,,,,,,,,,,,
+MobileScreenshotCaption30,279,Text,,,,,,,,,,,
+XboxScreenshot1,300,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot2,301,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot3,302,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot4,303,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot5,304,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot6,305,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot7,306,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot8,307,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot9,308,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot10,309,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot11,310,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot12,311,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot13,312,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot14,313,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot15,314,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot16,315,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot17,316,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot18,317,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot19,318,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot20,319,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot21,320,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot22,321,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot23,322,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot24,323,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot25,324,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot26,325,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot27,326,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot28,327,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot29,328,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshot30,329,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxScreenshotCaption1,350,Text,,,,,,,,,,,
+XboxScreenshotCaption2,351,Text,,,,,,,,,,,
+XboxScreenshotCaption3,352,Text,,,,,,,,,,,
+XboxScreenshotCaption4,353,Text,,,,,,,,,,,
+XboxScreenshotCaption5,354,Text,,,,,,,,,,,
+XboxScreenshotCaption6,355,Text,,,,,,,,,,,
+XboxScreenshotCaption7,356,Text,,,,,,,,,,,
+XboxScreenshotCaption8,357,Text,,,,,,,,,,,
+XboxScreenshotCaption9,358,Text,,,,,,,,,,,
+XboxScreenshotCaption10,359,Text,,,,,,,,,,,
+XboxScreenshotCaption11,360,Text,,,,,,,,,,,
+XboxScreenshotCaption12,361,Text,,,,,,,,,,,
+XboxScreenshotCaption13,362,Text,,,,,,,,,,,
+XboxScreenshotCaption14,363,Text,,,,,,,,,,,
+XboxScreenshotCaption15,364,Text,,,,,,,,,,,
+XboxScreenshotCaption16,365,Text,,,,,,,,,,,
+XboxScreenshotCaption17,366,Text,,,,,,,,,,,
+XboxScreenshotCaption18,367,Text,,,,,,,,,,,
+XboxScreenshotCaption19,368,Text,,,,,,,,,,,
+XboxScreenshotCaption20,369,Text,,,,,,,,,,,
+XboxScreenshotCaption21,370,Text,,,,,,,,,,,
+XboxScreenshotCaption22,371,Text,,,,,,,,,,,
+XboxScreenshotCaption23,372,Text,,,,,,,,,,,
+XboxScreenshotCaption24,373,Text,,,,,,,,,,,
+XboxScreenshotCaption25,374,Text,,,,,,,,,,,
+XboxScreenshotCaption26,375,Text,,,,,,,,,,,
+XboxScreenshotCaption27,376,Text,,,,,,,,,,,
+XboxScreenshotCaption28,377,Text,,,,,,,,,,,
+XboxScreenshotCaption29,378,Text,,,,,,,,,,,
+XboxScreenshotCaption30,379,Text,,,,,,,,,,,
+HolographicScreenshot1,400,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot2,401,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot3,402,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot4,403,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot5,404,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot6,405,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot7,406,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot8,407,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot9,408,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot10,409,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot11,410,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot12,411,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot13,412,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot14,413,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot15,414,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot16,415,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot17,416,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot18,417,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot19,418,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot20,419,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot21,420,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot22,421,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot23,422,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot24,423,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot25,424,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot26,425,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot27,426,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot28,427,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot29,428,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshot30,429,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+HolographicScreenshotCaption1,450,Text,,,,,,,,,,,
+HolographicScreenshotCaption2,451,Text,,,,,,,,,,,
+HolographicScreenshotCaption3,452,Text,,,,,,,,,,,
+HolographicScreenshotCaption4,453,Text,,,,,,,,,,,
+HolographicScreenshotCaption5,454,Text,,,,,,,,,,,
+HolographicScreenshotCaption6,455,Text,,,,,,,,,,,
+HolographicScreenshotCaption7,456,Text,,,,,,,,,,,
+HolographicScreenshotCaption8,457,Text,,,,,,,,,,,
+HolographicScreenshotCaption9,458,Text,,,,,,,,,,,
+HolographicScreenshotCaption10,459,Text,,,,,,,,,,,
+HolographicScreenshotCaption11,460,Text,,,,,,,,,,,
+HolographicScreenshotCaption12,461,Text,,,,,,,,,,,
+HolographicScreenshotCaption13,462,Text,,,,,,,,,,,
+HolographicScreenshotCaption14,463,Text,,,,,,,,,,,
+HolographicScreenshotCaption15,464,Text,,,,,,,,,,,
+HolographicScreenshotCaption16,465,Text,,,,,,,,,,,
+HolographicScreenshotCaption17,466,Text,,,,,,,,,,,
+HolographicScreenshotCaption18,467,Text,,,,,,,,,,,
+HolographicScreenshotCaption19,468,Text,,,,,,,,,,,
+HolographicScreenshotCaption20,469,Text,,,,,,,,,,,
+HolographicScreenshotCaption21,470,Text,,,,,,,,,,,
+HolographicScreenshotCaption22,471,Text,,,,,,,,,,,
+HolographicScreenshotCaption23,472,Text,,,,,,,,,,,
+HolographicScreenshotCaption24,473,Text,,,,,,,,,,,
+HolographicScreenshotCaption25,474,Text,,,,,,,,,,,
+HolographicScreenshotCaption26,475,Text,,,,,,,,,,,
+HolographicScreenshotCaption27,476,Text,,,,,,,,,,,
+HolographicScreenshotCaption28,477,Text,,,,,,,,,,,
+HolographicScreenshotCaption29,478,Text,,,,,,,,,,,
+HolographicScreenshotCaption30,479,Text,,,,,,,,,,,
+SurfaceHubScreenshot11,510,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot12,511,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot13,512,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot14,513,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot15,514,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot16,515,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot17,516,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot18,517,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot19,518,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot20,519,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot21,520,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot22,521,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot23,522,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot24,523,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot25,524,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot26,525,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot27,526,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot28,527,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot29,528,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshot30,529,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+SurfaceHubScreenshotCaption11,560,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption12,561,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption13,562,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption14,563,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption15,564,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption16,565,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption17,566,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption18,567,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption19,568,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption20,569,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption21,570,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption22,571,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption23,572,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption24,573,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption25,574,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption26,575,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption27,576,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption28,577,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption29,578,Text,,,,,,,,,,,
+SurfaceHubScreenshotCaption30,579,Text,,,,,,,,,,,
+StoreLogo720x1080,600,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+StoreLogo1080x1080,601,Relative path (or URL to file in Partner Center),,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700017474671/listingassets/3002058171559056680,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027213221/listingassets/3002058171559056680,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481273/listingassets/3002058171559056680,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481281/listingassets/3002058171559056680,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481663/listingassets/3002058171559056680,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481290/listingassets/3002058171559056680,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481298/listingassets/3002058171559056680,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481695/listingassets/3002058171559056680,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481702/listingassets/3002058171559056680,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700017474671/listingassets/3002058171559056680
+StoreLogo300x300,602,Relative path (or URL to file in Partner Center),,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700017474671/listingassets/3055588878798533278,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027213221/listingassets/3055588878798533278,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481273/listingassets/3055588878798533278,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481281/listingassets/3055588878798533278,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481663/listingassets/3055588878798533278,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481290/listingassets/3055588878798533278,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481298/listingassets/3055588878798533278,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481695/listingassets/3055588878798533278,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700027481702/listingassets/3055588878798533278,https://developer.microsoft.com/en-us/dashboard/apps/9N1K4J8VDZVV/submissions/1152921505701781537/listings/1152922700017474671/listingassets/3055588878798533278
+OverrideLogosForWin10,603,True/False,,True,False,False,False,False,False,False,False,False,False
+StoreLogoOverride150x150,604,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+StoreLogoOverride71x71,605,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+PromoImage1920x1080,606,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+PromoImage2400x1200,607,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxBrandedKeyArt584x800,608,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxTitledHero1920x1080,609,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+XboxFeaturedPromo1080x1080,610,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+OptionalPromo358x358,611,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+OptionalPromo1000x800,612,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+OptionalPromo414x180,613,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+Feature1,700,Text,,Keeps computer awake.,Garde l'ordinateur éveillé.,Mantiene el equipo activo.,Hält den Computer wach.,Mantém o computador ativo.,コンピューターをスリープさせません。,让计算机保持唤醒状态。,يُبقي الكمبيوتر مستيقظًا.,رایانه را بیدار نگه می‌دارد.,Mantém o computador ativo.
+Feature2,701,Text,,"Lock, sleep, hibernate, shut down or restart when the session ends","Verrouiller, mettre en veille, mettre en veille prolongée, éteindre ou redémarrer à la fin de la session","Bloquear, suspender, hibernar, apagar o reiniciar al terminar la sesión","Sperren, Energie sparen, Ruhezustand, Herunterfahren oder Neustart am Ende der Sitzung","Bloquear, suspender, hibernar, encerrar ou reiniciar no fim da sessão",セッション終了時にロック、スリープ、休止状態、シャットダウン、再起動を実行,会话结束时锁定、睡眠、休眠、关机或重启,القفل أو السكون أو الإسبات أو إيقاف التشغيل أو إعادة التشغيل عند انتهاء الجلسة,قفل کردن، خواب، خواب زمستانی، خاموش کردن یا راه‌اندازی مجدد در پایان جلسه,"Bloquear, suspender, hibernar, desligar ou reiniciar quando a sessão terminar"
+Feature3,702,Text,,Can automatically run with Windows.,Peut démarrer automatiquement avec Windows.,Puede iniciarse automáticamente con Windows.,Kann automatisch mit Windows starten.,Pode iniciar automaticamente com o Windows.,Windows の起動時に自動的に実行できます。,可随 Windows 自动启动。,يمكنه العمل تلقائيًا مع بدء تشغيل Windows.,می‌تواند به‌طور خودکار همراه با Windows اجرا شود.,Pode iniciar automaticamente com o Windows.
+Feature4,703,Text,,Available in 9 languages,Disponible en 9 langues,Disponible en 9 idiomas,In 9 Sprachen verfügbar,Disponível em 9 idiomas,9 つの言語に対応,支持 9 种语言,متوفر بـ 9 لغات,در ۹ زبان در دسترس است,Disponível em 9 idiomas
+Feature5,704,Text,,Implements anti-detection mechanism,Intègre un mécanisme anti-détection,Incorpora un mecanismo antidetección,Enthält einen Mechanismus gegen Inaktivitätserkennung,Inclui um mecanismo antideteção,非アクティブ検出への対策を搭載,内置防检测机制,يتضمّن آلية لمنع اكتشاف الخمول,دارای سازوکار جلوگیری از تشخیص بی‌کاری,Inclui um mecanismo antidetecção
+Feature6,705,Text,,"Keeps Teams status on ""available""",Maintient le statut Teams sur « Disponible »,Mantiene el estado de Teams en «Disponible»,Hält den Teams-Status auf „Verfügbar“,Mantém o estado do Teams em «Disponível»,Teams のステータスを「連絡可能」のまま維持,让 Teams 状态保持为“有空”,يُبقي حالتك في Teams على «متاح»,وضعیت Teams را روی «در دسترس» نگه می‌دارد,Mantém o status do Teams como “Disponível”
+Feature7,706,Text,,,,,,,,,,,
+Feature8,707,Text,,,,,,,,,,,
+Feature9,708,Text,,,,,,,,,,,
+Feature10,709,Text,,,,,,,,,,,
+Feature11,710,Text,,,,,,,,,,,
+Feature12,711,Text,,,,,,,,,,,
+Feature13,712,Text,,,,,,,,,,,
+Feature14,713,Text,,,,,,,,,,,
+Feature15,714,Text,,,,,,,,,,,
+Feature16,715,Text,,,,,,,,,,,
+Feature17,716,Text,,,,,,,,,,,
+Feature18,717,Text,,,,,,,,,,,
+Feature19,718,Text,,,,,,,,,,,
+Feature20,719,Text,,,,,,,,,,,
+MinimumHardwareReq1,800,Text,,,,,,,,,,,
+MinimumHardwareReq2,801,Text,,,,,,,,,,,
+MinimumHardwareReq3,802,Text,,,,,,,,,,,
+MinimumHardwareReq4,803,Text,,,,,,,,,,,
+MinimumHardwareReq5,804,Text,,,,,,,,,,,
+MinimumHardwareReq6,805,Text,,,,,,,,,,,
+MinimumHardwareReq7,806,Text,,,,,,,,,,,
+MinimumHardwareReq8,807,Text,,,,,,,,,,,
+MinimumHardwareReq9,808,Text,,,,,,,,,,,
+MinimumHardwareReq10,809,Text,,,,,,,,,,,
+MinimumHardwareReq11,810,Text,,,,,,,,,,,
+RecommendedHardwareReq1,850,Text,,,,,,,,,,,
+RecommendedHardwareReq2,851,Text,,,,,,,,,,,
+RecommendedHardwareReq3,852,Text,,,,,,,,,,,
+RecommendedHardwareReq4,853,Text,,,,,,,,,,,
+RecommendedHardwareReq5,854,Text,,,,,,,,,,,
+RecommendedHardwareReq6,855,Text,,,,,,,,,,,
+RecommendedHardwareReq7,856,Text,,,,,,,,,,,
+RecommendedHardwareReq8,857,Text,,,,,,,,,,,
+RecommendedHardwareReq9,858,Text,,,,,,,,,,,
+RecommendedHardwareReq10,859,Text,,,,,,,,,,,
+RecommendedHardwareReq11,860,Text,,,,,,,,,,,
+SearchTerm1,900,Text,,Caffeine ,Caféine,Cafeína,Koffein,Cafeína,カフェイン,咖啡因,كافيين,کافئین,Cafeína
+SearchTerm2,901,Text,,Keep Awake,Garder éveillé,Mantener activo,Wach halten,Manter ativo,スリープ防止,防止睡眠,إبقاء الجهاز مستيقظًا,جلوگیری از خواب,Manter ativo
+SearchTerm3,902,Text,,Teams,Teams,Teams,Teams,Teams,Teams,Teams,Teams,Teams,Teams
+SearchTerm4,903,Text,,Prevent Sleep,Empêcher la veille,Evitar suspensión,Standby verhindern,Impedir suspensão,スリープさせない,保持唤醒,منع السكون,بیدار نگه داشتن,Impedir suspensão
+SearchTerm5,904,Text,,Fool Teams,Anti-veille,No dormir,Nicht einschlafen,Não dormir,画面オフ防止,防止息屏,منع إطفاء الشاشة,جلوگیری از خاموشی صفحه,Não dormir
+SearchTerm6,905,Text,,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro
+SearchTerm7,906,Text,,,,,,,,,,,
+TrailerToPlayAtTopOfListing,999,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+Trailer1,1000,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+Trailer2,1001,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+Trailer3,1002,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+Trailer4,1003,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+Trailer5,1004,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+Trailer6,1005,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+Trailer7,1006,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+Trailer8,1007,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+Trailer9,1008,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+Trailer10,1009,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+Trailer11,1010,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+Trailer12,1011,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+Trailer13,1012,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+Trailer14,1013,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+Trailer15,1014,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerTitle1,1020,Text,,,,,,,,,,,
+TrailerTitle2,1021,Text,,,,,,,,,,,
+TrailerTitle3,1022,Text,,,,,,,,,,,
+TrailerTitle4,1023,Text,,,,,,,,,,,
+TrailerTitle5,1024,Text,,,,,,,,,,,
+TrailerTitle6,1025,Text,,,,,,,,,,,
+TrailerTitle7,1026,Text,,,,,,,,,,,
+TrailerTitle8,1027,Text,,,,,,,,,,,
+TrailerTitle9,1028,Text,,,,,,,,,,,
+TrailerTitle10,1029,Text,,,,,,,,,,,
+TrailerTitle11,1030,Text,,,,,,,,,,,
+TrailerTitle12,1031,Text,,,,,,,,,,,
+TrailerTitle13,1032,Text,,,,,,,,,,,
+TrailerTitle14,1033,Text,,,,,,,,,,,
+TrailerTitle15,1034,Text,,,,,,,,,,,
+TrailerThumbnail1,1040,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerThumbnail2,1041,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerThumbnail3,1042,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerThumbnail4,1043,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerThumbnail5,1044,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerThumbnail6,1045,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerThumbnail7,1046,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerThumbnail8,1047,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerThumbnail9,1048,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerThumbnail10,1049,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerThumbnail11,1050,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerThumbnail12,1051,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerThumbnail13,1052,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerThumbnail14,1053,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerThumbnail15,1054,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerClosedCaption1,1055,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerClosedCaption2,1056,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerClosedCaption3,1057,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerClosedCaption4,1058,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerClosedCaption5,1059,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerClosedCaption6,1060,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerClosedCaption7,1061,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerClosedCaption8,1062,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerClosedCaption9,1063,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerClosedCaption10,1064,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerClosedCaption11,1065,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerClosedCaption12,1066,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerClosedCaption13,1067,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerClosedCaption14,1068,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerClosedCaption15,1069,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerAudioDescription1,1070,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerAudioDescription2,1071,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerAudioDescription3,1072,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerAudioDescription4,1073,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerAudioDescription5,1074,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerAudioDescription6,1075,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerAudioDescription7,1076,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerAudioDescription8,1077,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerAudioDescription9,1078,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerAudioDescription10,1079,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerAudioDescription11,1080,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerAudioDescription12,1081,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerAudioDescription13,1082,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerAudioDescription14,1083,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+TrailerAudioDescription15,1084,Relative path (or URL to file in Partner Center),,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
+,,,,,,,,,,,,,
