@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.IO.Pipes;
+using System.Runtime.InteropServices;
 using System.Windows;
 using CaffeinePro.Classes;
 using CaffeinePro.Localization;
@@ -55,10 +56,36 @@ public class SingletonService(ParameterProcessorService parameterProcessorServic
         }
 
         // Listen for commands from other instances through a named pipe
-        _pipeServer = new NamedPipeServerStream(PipeName, PipeDirection.In);
-        _pipeServer.BeginWaitForConnection(OtherInstanceRequestedACommand, _pipeServer);
+        StartListening();
 
         return true;
+    }
+
+    /// <summary>
+    /// Puts a fresh pipe server up and waits for the next command.
+    /// </summary>
+    /// <remarks>
+    /// A server stream serves one connection, so this is called again after each command. Without
+    /// that the first forwarded command was the only one the running instance ever accepted, and
+    /// every later <c>CaffeinePro.exe activate</c> blocked in Connect() forever - a process left
+    /// hanging with no window, for what looks like a command that simply did nothing.
+    /// </remarks>
+    private void StartListening()
+    {
+        try
+        {
+            _pipeServer = new NamedPipeServerStream(PipeName, PipeDirection.In);
+            _pipeServer.BeginWaitForConnection(OtherInstanceRequestedACommand, _pipeServer);
+        }
+        catch (IOException)
+        {
+            // The name is taken, which means another instance is already listening. Nothing to do:
+            // this one is not the singleton and is on its way out.
+        }
+        catch (ObjectDisposedException)
+        {
+            // Shutting down.
+        }
     }
 
     /// <summary>
@@ -67,11 +94,42 @@ public class SingletonService(ParameterProcessorService parameterProcessorServic
     /// <param name="command"></param>
     private void SendCommandToTheRunningInstance(string command)
     {
-        using var pipeClient = new NamedPipeClientStream(".", PipeName, PipeDirection.Out);
-        pipeClient.Connect();
-        using var writer = new StreamWriter(pipeClient);
-        writer.Write(command);
+        try
+        {
+            using var pipeClient = new NamedPipeClientStream(".", PipeName, PipeDirection.Out);
+
+            // Bounded, so a running instance that is wedged or shutting down costs a few seconds
+            // rather than leaving this process hanging in Connect() with nothing on screen.
+            pipeClient.Connect(ConnectTimeoutMs);
+
+            // The command may ask for something that has to come to the front - the tray menu does,
+            // and a menu without the focus closes itself. Only the process that currently holds the
+            // foreground can grant that, and for these few seconds that is this one, on its way out.
+            AllowSetForegroundWindow(AsfwAny);
+
+            using var writer = new StreamWriter(pipeClient);
+            writer.Write(command);
+        }
+        catch (TimeoutException)
+        {
+            Dialogs.Show(LocalizationService.Get("Singleton_NoResponse"),
+                LocalizationService.Get("App_Name"), MessageBoxButton.OK, MessageBoxImage.Warning);
+        }
     }
+
+    /// <summary>
+    /// How long to wait for the running instance to pick up the pipe.
+    /// </summary>
+    private const int ConnectTimeoutMs = 5000;
+
+    /// <summary>
+    /// ASFW_ANY: let any process take the foreground, rather than naming one by process id.
+    /// </summary>
+    private const int AsfwAny = -1;
+
+    [DllImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static extern bool AllowSetForegroundWindow(int dwProcessId);
 
     /// <summary>
     /// This function is the handler for the named pipe server, and it is called when another instance sends a command
@@ -79,9 +137,36 @@ public class SingletonService(ParameterProcessorService parameterProcessorServic
     /// <param name="ar"></param>
     private void OtherInstanceRequestedACommand(IAsyncResult ar)
     {
-        _pipeServer = (NamedPipeServerStream)ar.AsyncState!;
-        using var reader = new StreamReader(_pipeServer);
-        var command = reader.ReadToEnd();
+        var server = (NamedPipeServerStream)ar.AsyncState!;
+        string command;
+
+        try
+        {
+            server.EndWaitForConnection(ar);
+
+            using var reader = new StreamReader(server);
+            command = reader.ReadToEnd();
+        }
+        catch (ObjectDisposedException)
+        {
+            // Disposed from under us while shutting down.
+            return;
+        }
+        catch (IOException)
+        {
+            // The sender went away mid-write. Still worth listening again below.
+            command = string.Empty;
+        }
+        finally
+        {
+            server.Dispose();
+        }
+
+        // Listening again before the command runs, not after: processing can show a dialog and
+        // block this thread for as long as it is up, and a command arriving meanwhile should queue
+        // on the pipe rather than find nothing listening.
+        StartListening();
+
         if (!string.IsNullOrEmpty(command))
         {
             parameterProcessorService.ProcessArgs(command.Split(" "));

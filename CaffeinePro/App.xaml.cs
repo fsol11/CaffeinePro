@@ -442,8 +442,28 @@ public partial class App
     /// first does the opening - and the activation is deferred until the window it needs exists.
     /// </para>
     /// </remarks>
-    private void OnTrayRightMouseUp(object sender, RoutedEventArgs e)
+    private void OnTrayRightMouseUp(object sender, RoutedEventArgs e) => ShowTrayMenu();
+
+    /// <summary>
+    /// Opens the tray menu at the cursor and leaves the focus on it.
+    /// </summary>
+    /// <remarks>
+    /// Shared by the right-click above and by the -menu switch. Injected clicks never reach the
+    /// notification area, which leaves the tray menu as the one part of the UI a script cannot
+    /// drive - and the Store screenshots have to be taken from it in every language the app
+    /// speaks. Does nothing before the tray icon exists, so starting the app with the switch just
+    /// starts the app: it is meant for the instance already running, which the singleton pipe
+    /// forwards it to.
+    /// </remarks>
+    internal void ShowTrayMenu()
     {
+        // A switch arrives on the pipe listener's thread, and everything below is UI.
+        if (!Dispatcher.CheckAccess())
+        {
+            Dispatcher.Invoke(ShowTrayMenu);
+            return;
+        }
+
         if (TrayIcon?.ContextMenu is not { } menu)
         {
             return;

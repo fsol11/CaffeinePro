@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -409,6 +409,10 @@
   <data name="Singleton_AlreadyRunning" xml:space="preserve">
     <value>该应用程序已在运行。</value>
   </data>
+  <data name="Singleton_NoResponse" xml:space="preserve">
+    <value>Caffeine Pro 正在运行，但没有响应。</value>
+    <comment>Shown when a command could not be handed to the running instance in time.</comment>
+  </data>
   <data name="Cli_VersionFormat" xml:space="preserve">
     <value>Caffeine Pro 版本：{0}</value>
   </data>
@@ -441,6 +445,10 @@
   </data>
   <data name="Cli_Opt_Help" xml:space="preserve">
     <value>显示帮助</value>
+  </data>
+  <data name="Cli_Opt_Menu" xml:space="preserve">
+    <value>打开正在运行实例的托盘菜单。</value>
+    <comment>Command line option: opens the tray menu. Used for scripted screenshots.</comment>
   </data>
   <data name="Cli_Opt_ResetOptions" xml:space="preserve">
     <value>将选项重置为默认值</value>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
@@ -526,6 +526,10 @@
     <value>An instance of the application is already running.</value>
     <comment>A second copy of the app was started.</comment>
   </data>
+  <data name="Singleton_NoResponse" xml:space="preserve">
+    <value>Caffeine Pro is running but did not respond.</value>
+    <comment>Shown when a command could not be handed to the running instance in time.</comment>
+  </data>
   <data name="Cli_VersionFormat" xml:space="preserve">
     <value>Caffeine Pro version: {0}</value>
     <comment>First line of the command line banner. {0} is the version number.</comment>
@@ -569,6 +573,10 @@
   <data name="Cli_Opt_Help" xml:space="preserve">
     <value>show help</value>
     <comment>Help text for the -help option.</comment>
+  </data>
+  <data name="Cli_Opt_Menu" xml:space="preserve">
+    <value>Opens the tray menu on the running instance.</value>
+    <comment>Command line option: opens the tray menu. Used for scripted screenshots.</comment>
   </data>
   <data name="Cli_Opt_ResetOptions" xml:space="preserve">
     <value>reset options to their default values</value>
