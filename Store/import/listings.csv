@@ -101,88 +101,67 @@ Description,2,Text,,"Keeps your PC awake and your status ""available"" in Teams,
 · Temas claro e escuro que acompanham o Windows
 · Controle por linha de comando para scripts e atalhos
 · Sem anúncios, sem conta, sem rastreamento, sem acesso à rede"
-ReleaseNotes,3,Text,," Version 3 rebuilds Caffeine Pro with a new interface and several new features.
-  
-- Blackout screen: Win + / covers every monitor in black, so the  machine looks switched off while it carries on working. 
-- Nine languages: English, French, Spanish, German, Portuguese, Japanese, Simplified Chinese, Arabic, and Farsi, following your Windows display language.
-- A countdown before the session's ending action. 
-- Rebuilt time picker
-- Added easier way of picking time or set to default settings
-- Added a feature to detect coming back from off monitor back on to enable Caffeine Pro
-- Added more anti-detection mechanisms
-","La version 3 reconstruit Caffeine Pro avec une nouvelle interface et plusieurs nouveautés.
+ReleaseNotes,3,Text,,"Version 3.2 makes the reminder prompt interactive and steadies the tray menu.
 
-- Écran noir : Win + / couvre tous les moniteurs de noir, la machine semble éteinte alors qu'elle continue de travailler.
-- Neuf langues : anglais, français, espagnol, allemand, portugais, japonais, chinois simplifié, arabe et persan, suivant la langue d'affichage de Windows.
-- Un compte à rebours avant l'action de fin de session.
-- Sélecteur d'heure reconstruit.
-- Façon plus simple de choisir l'heure ou de revenir aux réglages par défaut.
-- Détection du retour après l'extinction de l'écran, pour réactiver Caffeine Pro.
-- Mécanismes anti-détection supplémentaires.","La versión 3 reconstruye Caffeine Pro con una nueva interfaz y varias novedades.
+- Choose a different duration straight from the prompt: it now carries the same time picker as the tray menu, so a session can be extended or shortened without dismissing the prompt and opening the menu.
+- The tray icon's right-click menu opens reliably, and where the cursor is.
+- Commands sent from the command line to an already running copy now work every time. Before, only the first was accepted and later ones waited with nothing on screen.
+- If the running copy does not answer, Caffeine Pro says so instead of waiting indefinitely.
+- Tidier status text on the tray icon.","La version 3.2 rend l'invite de rappel interactive et fiabilise le menu de la zone de notification.
 
-- Pantalla en negro: Win + / cubre todos los monitores de negro, el equipo parece apagado mientras sigue trabajando.
-- Nueve idiomas: inglés, francés, español, alemán, portugués, japonés, chino simplificado, árabe y persa, siguiendo el idioma de Windows.
-- Una cuenta atrás antes de la acción de fin de sesión.
-- Selector de hora reconstruido.
-- Forma más sencilla de elegir la hora o volver a la configuración predeterminada.
-- Detección del regreso tras apagarse la pantalla, para reactivar Caffeine Pro.
-- Más mecanismos antidetección.","Version 3 baut Caffeine Pro mit einer neuen Oberfläche und mehreren Neuerungen neu auf.
+- Choisissez une autre durée directement dans l'invite : elle reprend le sélecteur d'heure du menu, de sorte qu'une session peut être prolongée ou écourtée sans fermer l'invite ni ouvrir le menu.
+- Le menu contextuel de l'icône de notification s'ouvre de façon fiable, à l'endroit du curseur.
+- Les commandes envoyées en ligne de commande à une instance déjà lancée fonctionnent à chaque fois. Auparavant, seule la première était acceptée et les suivantes attendaient sans rien afficher.
+- Si l'instance en cours ne répond pas, Caffeine Pro le signale au lieu d'attendre indéfiniment.
+- Texte d'état plus sobre sur l'icône de notification.","La versión 3.2 hace interactivo el aviso de recordatorio y afianza el menú del área de notificación.
 
-- Blackout-Bildschirm: Win + / färbt alle Monitore schwarz, der Rechner wirkt ausgeschaltet und arbeitet doch weiter.
-- Neun Sprachen: Englisch, Französisch, Spanisch, Deutsch, Portugiesisch, Japanisch, Chinesisch (vereinfacht), Arabisch und Persisch, der Windows-Anzeigesprache folgend.
-- Ein Countdown vor der Aktion am Sitzungsende.
-- Neu gebaute Zeitauswahl.
-- Einfacherer Weg, eine Zeit zu wählen oder die Standardeinstellungen zu übernehmen.
-- Erkennung der Rückkehr nach abgeschaltetem Bildschirm, um Caffeine Pro wieder zu aktivieren.
-- Weitere Mechanismen gegen Inaktivitätserkennung.","A versão 3 reconstrói o Caffeine Pro com uma nova interface e várias novidades.
+- Elija otra duración directamente en el aviso: ahora incluye el mismo selector de hora del menú, de modo que una sesión se puede alargar o acortar sin cerrar el aviso ni abrir el menú.
+- El menú contextual del icono de notificación se abre de forma fiable y donde está el cursor.
+- Los comandos enviados desde la línea de comandos a una instancia ya abierta funcionan siempre. Antes solo se aceptaba el primero y los siguientes esperaban sin mostrar nada.
+- Si la instancia en ejecución no responde, Caffeine Pro lo indica en lugar de esperar indefinidamente.
+- Texto de estado más limpio en el icono de notificación.","Version 3.2 macht die Erinnerung interaktiv und stabilisiert das Menü im Infobereich.
 
-- Ecrã preto: Win + / cobre todos os monitores de preto, a máquina parece desligada enquanto continua a trabalhar.
-- Nove idiomas: inglês, francês, espanhol, alemão, português, japonês, chinês simplificado, árabe e persa, seguindo o idioma de apresentação do Windows.
-- Uma contagem decrescente antes da ação de fim de sessão.
-- Seletor de hora reconstruído.
-- Forma mais simples de escolher a hora ou de repor as predefinições.
-- Deteção do regresso depois de o ecrã se apagar, para reativar o Caffeine Pro.
-- Mais mecanismos antideteção.","バージョン 3 では、新しいインターフェイスといくつかの新機能で Caffeine Pro を作り直しました。
+- Wählen Sie eine andere Dauer direkt in der Erinnerung: Sie trägt nun dieselbe Zeitauswahl wie das Menü, sodass sich eine Sitzung verlängern oder verkürzen lässt, ohne die Erinnerung zu schließen und das Menü zu öffnen.
+- Das Kontextmenü des Infobereichssymbols öffnet sich zuverlässig und dort, wo der Zeiger steht.
+- Über die Befehlszeile an eine bereits laufende Instanz gesendete Befehle wirken jedes Mal. Zuvor wurde nur der erste angenommen, spätere warteten ohne Anzeige.
+- Antwortet die laufende Instanz nicht, sagt Caffeine Pro das, statt unbegrenzt zu warten.
+- Aufgeräumterer Statustext am Infobereichssymbol.","A versão 3.2 torna o aviso interativo e estabiliza o menu da área de notificação.
 
-- ブラックアウト画面: Win + / ですべてのモニターを黒一色にし、動作を続けたまま電源が切れているように見せます。
-- 9 つの言語に対応: 英語、フランス語、スペイン語、ドイツ語、ポルトガル語、日本語、簡体字中国語、アラビア語、ペルシア語。Windows の表示言語に従います。
-- セッション終了時の動作の前にカウントダウンを表示。
-- 時刻選択画面を刷新。
-- 時刻の指定や既定値への切り替えがより簡単に。
-- モニターが消灯した後の復帰を検出して Caffeine Pro を有効化。
-- 非アクティブ検出への対策を追加。","版本 3 以全新界面和多项新功能重建了 Caffeine Pro。
+- Escolha outra duração diretamente no aviso: passa a incluir o mesmo seletor de hora do menu, pelo que uma sessão pode ser prolongada ou encurtada sem fechar o aviso nem abrir o menu.
+- O menu de contexto do ícone de notificação abre de forma fiável e no local do cursor.
+- Os comandos enviados pela linha de comandos para uma instância já em execução funcionam sempre. Antes, só o primeiro era aceite e os seguintes ficavam à espera sem nada no ecrã.
+- Se a instância em execução não responder, o Caffeine Pro indica-o em vez de esperar indefinidamente.
+- Texto de estado mais simples no ícone de notificação.","バージョン 3.2 では、確認画面を操作できるようにし、通知領域のメニューの動作を安定させました。
 
-- 黑屏功能：Win + / 让所有显示器变黑，电脑看起来像已关闭，实际仍在工作。
-- 支持九种语言：英语、法语、西班牙语、德语、葡萄牙语、日语、简体中文、阿拉伯语和波斯语，跟随 Windows 显示语言。
-- 会话结束动作之前会显示倒计时。
-- 重建的时间选择器。
-- 选择时间或恢复默认设置的方式更简便。
-- 新增检测显示器熄灭后重新亮起的功能，用于重新启用 Caffeine Pro。
-- 增加了更多防检测机制。","يعيد الإصدار 3 بناء Caffeine Pro بواجهة جديدة وعدة ميزات جديدة.
+- 確認画面から直接別の継続時間を選べるようになりました。メニューと同じ時刻選択を備えているため、確認画面を閉じてメニューを開かなくてもセッションを延長・短縮できます。
+- 通知領域アイコンの右クリックメニューが確実に、カーソルの位置に開きます。
+- 起動中のインスタンスへコマンドラインから送るコマンドが毎回動作します。以前は最初の 1 回だけが受け付けられ、以降は何も表示されないまま待機していました。
+- 起動中のインスタンスが応答しない場合、無期限に待たずにその旨を表示します。
+- 通知領域アイコンのステータス表示を簡潔にしました。","版本 3.2 让提醒窗口可以直接操作，并让通知区域菜单更稳定。
 
-- شاشة التعتيم: Win + / تجعل كل الشاشات سوداء، فيبدو الجهاز مطفأً بينما يواصل عمله.
-- تسع لغات: الإنجليزية والفرنسية والإسبانية والألمانية والبرتغالية واليابانية والصينية المبسطة والعربية والفارسية، وفقًا للغة عرض Windows.
-- عدّ تنازلي قبل تنفيذ إجراء نهاية الجلسة.
-- إعادة بناء أداة اختيار الوقت.
-- طريقة أسهل لاختيار الوقت أو العودة إلى الإعدادات الافتراضية.
-- اكتشاف العودة بعد انطفاء الشاشة لإعادة تفعيل Caffeine Pro.
-- مزيد من آليات منع اكتشاف الخمول.","نسخه ۳، Caffeine Pro را با رابط کاربری تازه و چند قابلیت جدید بازسازی می‌کند.
+- 直接在提醒窗口中选择其他时长：它现在带有与菜单相同的时间选择器，无需关闭提醒再打开菜单即可延长或缩短会话。
+- 通知区域图标的右键菜单可靠打开，并显示在光标所在位置。
+- 通过命令行发送给已运行实例的命令每次都能生效。此前只有第一条会被接受，后续命令会一直等待且没有任何提示。
+- 如果正在运行的实例没有响应，Caffeine Pro 会给出提示，而不是无限等待。
+- 通知区域图标的状态文字更简洁。","يجعل الإصدار 3.2 نافذة التذكير تفاعلية ويثبّت قائمة منطقة الإشعارات.
 
-- صفحه سیاه: Win + / همه نمایشگرها را سیاه می‌کند تا رایانه خاموش به نظر برسد در حالی که به کار ادامه می‌دهد.
-- نُه زبان: انگلیسی، فرانسوی، اسپانیایی، آلمانی، پرتغالی، ژاپنی، چینی ساده‌شده، عربی و فارسی، هماهنگ با زبان نمایش Windows.
-- شمارش معکوس پیش از اجرای کنش پایان جلسه.
-- بازسازی ابزار انتخاب زمان.
-- روشی ساده‌تر برای انتخاب زمان یا بازگشت به تنظیمات پیش‌فرض.
-- تشخیص بازگشت پس از خاموش شدن نمایشگر برای فعال‌سازی دوباره Caffeine Pro.
-- سازوکارهای بیشتر برای جلوگیری از تشخیص بی‌کاری.","A versão 3 reconstrói o Caffeine Pro com uma nova interface e vários recursos novos.
+- اختر مدة أخرى مباشرة من نافذة التذكير: صارت تحمل أداة اختيار الوقت نفسها الموجودة في القائمة، فيمكن تمديد الجلسة أو تقصيرها دون إغلاق التذكير وفتح القائمة.
+- تُفتح قائمة النقر الأيمن على أيقونة الإشعارات بشكل موثوق، وفي موضع المؤشر.
+- الأوامر المرسلة من سطر الأوامر إلى نسخة قيد التشغيل تعمل في كل مرة. سابقًا كان يُقبل الأمر الأول فقط وتنتظر الأوامر التالية دون أي شيء على الشاشة.
+- إذا لم تستجب النسخة قيد التشغيل، ينبّه Caffeine Pro بدل الانتظار إلى ما لا نهاية.
+- نص حالة أبسط على أيقونة الإشعارات.","نسخه ۳.۲ پنجره یادآوری را تعاملی می‌کند و منوی ناحیه اعلان را پایدارتر می‌سازد.
 
-- Tela preta: Win + / cobre todos os monitores de preto, a máquina parece desligada enquanto continua trabalhando.
-- Nove idiomas: inglês, francês, espanhol, alemão, português, japonês, chinês simplificado, árabe e persa, seguindo o idioma de exibição do Windows.
-- Uma contagem regressiva antes da ação de fim de sessão.
-- Seletor de horário reconstruído.
-- Forma mais simples de escolher o horário ou de voltar às configurações padrão.
-- Detecção do retorno depois que o monitor se apaga, para reativar o Caffeine Pro.
-- Mais mecanismos antidetecção."
+- مدت دیگری را مستقیم از پنجره یادآوری انتخاب کنید: اکنون همان ابزار انتخاب زمانِ منو را دارد، بنابراین می‌توان جلسه را بدون بستن یادآوری و باز کردن منو طولانی‌تر یا کوتاه‌تر کرد.
+- منوی راست‌کلیک نماد اعلان به‌طور مطمئن و در محل نشانگر باز می‌شود.
+- فرمان‌هایی که از خط فرمان به نسخهٔ در حال اجرا فرستاده می‌شوند هر بار کار می‌کنند. پیش‌تر فقط نخستین فرمان پذیرفته می‌شد و فرمان‌های بعدی بدون هیچ نمایشی منتظر می‌ماندند.
+- اگر نسخهٔ در حال اجرا پاسخ ندهد، Caffeine Pro اطلاع می‌دهد به‌جای آنکه بی‌پایان منتظر بماند.
+- متن وضعیت ساده‌تر روی نماد اعلان.","A versão 3.2 torna o aviso interativo e deixa o menu da área de notificação mais confiável.
+
+- Escolha outra duração direto no aviso: ele agora traz o mesmo seletor de horário do menu, então dá para prolongar ou encurtar uma sessão sem fechar o aviso nem abrir o menu.
+- O menu de contexto do ícone de notificação abre de forma confiável e no lugar do cursor.
+- Os comandos enviados pela linha de comando para uma instância já aberta funcionam sempre. Antes, só o primeiro era aceito e os seguintes ficavam esperando sem nada na tela.
+- Se a instância em execução não responder, o Caffeine Pro avisa em vez de esperar indefinidamente.
+- Texto de status mais enxuto no ícone de notificação."
 Title,4,Text,,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro,Caffeine Pro
 ShortTitle,5,Text,,,,,,,,,,,
 SortTitle,6,Text,,,,,,,,,,,
@@ -221,10 +200,10 @@ DesktopScreenshot27,126,Relative path (or URL to file in Partner Center),,,,,,,,
 DesktopScreenshot28,127,Relative path (or URL to file in Partner Center),,,,,,,,,,,
 DesktopScreenshot29,128,Relative path (or URL to file in Partner Center),,,,,,,,,,,
 DesktopScreenshot30,129,Relative path (or URL to file in Partner Center),,,,,,,,,,,
-DesktopScreenshotCaption1,150,Text,,Main menu in Windows light theme,Menu principal dans le thème clair de Windows,Menú principal en el tema claro de Windows,Hauptmenü im hellen Windows-Design,Menu principal no tema claro do Windows,Windows ライト テーマのメイン メニュー,设置菜单,القائمة الرئيسية في سمة Windows الفاتحة,منوی اصلی در زمینه روشن Windows,Menu principal no tema claro do Windows
-DesktopScreenshotCaption2,151,Text,,Main menu in Windows dark theme,Menu principal dans le thème sombre de Windows,Menú principal en el tema oscuro de Windows,Hauptmenü im dunklen Windows-Design,Menu principal no tema escuro do Windows,Windows ダーク テーマのメイン メニュー,Windows 浅色主题下的主菜单,القائمة الرئيسية في سمة Windows الداكنة,منوی اصلی در زمینه تیره Windows,Menu principal no tema escuro do Windows
-DesktopScreenshotCaption3,152,Text,,Time select menu,Menu des paramètres,Menú de selección de hora,Menü zur Zeitauswahl,Menu de seleção da hora,時刻選択メニュー,Windows 深色主题下的主菜单,قائمة اختيار الوقت,منوی انتخاب زمان,Menu de seleção de horário
-DesktopScreenshotCaption4,153,Text,,Settings menu,Menu de sélection de l'heure,Menú de configuración,Einstellungsmenü,Menu de definições,設定メニュー,时间选择菜单,قائمة الإعدادات,منوی تنظیمات,Menu de configurações
+DesktopScreenshotCaption1,150,Text,,Main menu in Windows light theme,Menu principal dans le thème clair de Windows,Menú principal en el tema claro de Windows,Hauptmenü im hellen Windows-Design,Menu principal no tema claro do Windows,Windows ライト テーマのメイン メニュー,Windows 浅色主题下的主菜单,القائمة الرئيسية في سمة Windows الفاتحة,منوی اصلی در زمینه روشن Windows,Menu principal no tema claro do Windows
+DesktopScreenshotCaption2,151,Text,,Main menu in Windows dark theme,Menu principal dans le thème sombre de Windows,Menú principal en el tema oscuro de Windows,Hauptmenü im dunklen Windows-Design,Menu principal no tema escuro do Windows,Windows ダーク テーマのメイン メニュー,Windows 深色主题下的主菜单,القائمة الرئيسية في سمة Windows الداكنة,منوی اصلی در زمینه تیره Windows,Menu principal no tema escuro do Windows
+DesktopScreenshotCaption3,152,Text,,Time select menu,Menu de sélection de l'heure,Menú de selección de hora,Menü zur Zeitauswahl,Menu de seleção da hora,時刻選択メニュー,时间选择菜单,قائمة اختيار الوقت,منوی انتخاب زمان,Menu de seleção de horário
+DesktopScreenshotCaption4,153,Text,,Settings menu,Menu des paramètres,Menú de configuración,Einstellungsmenü,Menu de definições,設定メニュー,设置菜单,قائمة الإعدادات,منوی تنظیمات,Menu de configurações
 DesktopScreenshotCaption5,154,Text,,,,,,,,,,,
 DesktopScreenshotCaption6,155,Text,,,,,,,,,,,
 DesktopScreenshotCaption7,156,Text,,,,,,,,,,,
