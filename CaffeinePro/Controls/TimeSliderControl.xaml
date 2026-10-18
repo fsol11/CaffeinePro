@@ -150,7 +150,7 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <StackPanel HorizontalAlignment="Center">
+    <StackPanel HorizontalAlignment="Stretch">
 
         <Grid Margin="0,4,0,0">
             <Border
@@ -178,7 +178,11 @@
 
             <Border Margin="0,9,0,0" Padding="12,16,12,12">
                 <StackPanel>
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
                         <StackPanel
                             Width="38"
                             VerticalAlignment="Center"
@@ -195,7 +199,7 @@
                                 Text="{loc:Loc TimeSlider_Am}" />
                         </StackPanel>
 
-                        <ItemsControl ItemsSource="{Binding AmHours}">
+                        <ItemsControl Grid.Column="1" ItemsSource="{Binding AmHours}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <UniformGrid Columns="12" />
@@ -210,9 +214,13 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                    </StackPanel>
+                    </Grid>
 
-                    <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
                         <StackPanel
                             Width="38"
                             VerticalAlignment="Center"
@@ -228,7 +236,7 @@
                                 FontSize="9"
                                 Text="{loc:Loc TimeSlider_Pm}" />
                         </StackPanel>
-                        <ItemsControl ItemsSource="{Binding PmHours}">
+                        <ItemsControl Grid.Column="1" ItemsSource="{Binding PmHours}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <UniformGrid Columns="12" />
@@ -243,7 +251,7 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                    </StackPanel>
+                    </Grid>
                 </StackPanel>
             </Border>
 
