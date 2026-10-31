@@ -212,7 +212,7 @@
                                 Margin="0,0,8,0"
                                 FlowDirection="LeftToRight"
                                 Source="{StaticResource BatteryPausedIcon}" />
-                            <CheckBox
+                            <ui:ToggleSwitch
                                 VerticalAlignment="Center"
                                 Content="{loc:Loc Startup_InactiveOnBattery}"
                                 IsChecked="{Binding InactiveWhenOnBattery, Mode=TwoWay}" />

@@ -276,11 +276,20 @@
                             <DataTemplate>
                                 <MenuItem
                                     Margin="0,-1"
+                                    HorizontalAlignment="Stretch"
                                     Click="MenuItemOnClick_ActiveFor"
                                     Header="{Binding Converter={StaticResource MinutesToTimeString}}"
+                                    HorizontalContentAlignment="Stretch"
                                     StaysOpenOnClick="True"
                                     Tag="{Binding}"
                                     ToolTipService.IsEnabled="{Binding InStartupOptions, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource Not}}">
+                                    <MenuItem.HeaderTemplate>
+                                        <DataTemplate>
+                                            <Border HorizontalAlignment="Stretch" Background="Transparent">
+                                                <TextBlock HorizontalAlignment="Center" Text="{Binding}" TextAlignment="Center" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </MenuItem.HeaderTemplate>
                                     <MenuItem.ToolTip>
                                         <ToolTip>
                                             <TextBlock Text="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource AncestorType=ToolTip}, Converter={StaticResource MinutesToActualDateTime}}" />
@@ -308,11 +317,20 @@
                             <DataTemplate>
                                 <ui:MenuItem
                                     Margin="0,-1"
+                                    HorizontalAlignment="Stretch"
                                     Click="MenuItemOnClick_ActiveFor"
                                     Header="{Binding Converter={StaticResource MinutesToTimeString}}"
+                                    HorizontalContentAlignment="Stretch"
                                     StaysOpenOnClick="True"
                                     Tag="{Binding}"
                                     ToolTipService.IsEnabled="{Binding InStartupOptions, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource Not}}">
+                                    <ui:MenuItem.HeaderTemplate>
+                                        <DataTemplate>
+                                            <Border HorizontalAlignment="Stretch" Background="Transparent">
+                                                <TextBlock HorizontalAlignment="Center" Text="{Binding}" TextAlignment="Center" />
+                                            </Border>
+                                        </DataTemplate>
+                                    </ui:MenuItem.HeaderTemplate>
                                     <ui:MenuItem.ToolTip>
                                         <ToolTip>
                                             <TextBlock Text="{Binding Path=PlacementTarget.Tag, RelativeSource={RelativeSource AncestorType=ToolTip}, Converter={StaticResource MinutesToActualDateTime}}" />
