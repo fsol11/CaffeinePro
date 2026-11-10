@@ -77,6 +77,16 @@ public partial class AboutWindow
         Routines.OpenHyperlink(((Hyperlink)sender).NavigateUri.ToString());
     }
 
+    /// <summary>
+    /// Whether the "Rate in Microsoft Store" link is offered.
+    /// </summary>
+    public static bool CanRate => Routines.IsPackaged || RatingPromptWindow.TestMode;
+
+    private async void RateInStore_OnClick(object sender, RoutedEventArgs e)
+    {
+        await RatingPromptWindow.RequestStoreRatingAsync(this);
+    }
+
     private void AboutWindow_OnKeyDown(object sender, KeyEventArgs e)
     {
         if (e.Key == Key.Escape)

@@ -551,9 +551,11 @@ public partial class App
     }
 
 
+    internal const string FeedbackUrl = "https://lotrasoft.com/feedback?product=Caffeine%20Pro";
+
     private void OnSendFeedback(object sender, RoutedEventArgs e)
     {
-        Routines.OpenHyperlink("https://lotrasoft.com/feedback?product=Caffeine%20Pro");
+        Routines.OpenHyperlink(FeedbackUrl);
     }
 
 

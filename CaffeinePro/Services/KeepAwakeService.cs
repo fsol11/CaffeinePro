@@ -302,6 +302,7 @@ public sealed class KeepAwakeService : INotifyPropertyChanged
         _windowsKeyboardMouseCapture.Hook();
 
         ResetIgnoreUnlockNotificationDate();
+        App.CurrentApp.AppSettings.RecordUsage();
         IsActive = true;
 
         // Evaluated right away so that activating while already on battery (or with the screen

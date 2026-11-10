@@ -17,6 +17,7 @@ namespace CaffeinePro.Controls
         private void OnActivate(object sender, RoutedEventArgs e)
         {
             App.CurrentApp.KeepAwakeService.Activate();
+            RatingPromptWindow.OpenIfDue();
         }
 
         private void OnCancel(object sender, RoutedEventArgs e)
@@ -27,6 +28,7 @@ namespace CaffeinePro.Controls
         private void OnNewAwakenessSelected(object? sender, Awakeness aw)
         {
             App.CurrentApp.KeepAwakeService.Activate(aw);
+            RatingPromptWindow.OpenIfDue();
         }
 
         private void SetToStartupValue_Click(object sender, RoutedEventArgs e)

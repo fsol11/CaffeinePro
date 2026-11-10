@@ -289,6 +289,16 @@
                                 <Run Text="lotrasoft.com/caffeinepro" />
                             </Hyperlink>
                         </ui:TextBlock>
+
+                        <!--  Store build only: an MSI install has no Store listing of its own to rate  -->
+                        <ui:TextBlock
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Visibility="{Binding CanRate, Converter={StaticResource BoolToVis}}">
+                            <Hyperlink Click="RateInStore_OnClick">
+                                <Run Text="{loc:Loc Rating_RateInStore}" />
+                            </Hyperlink>
+                        </ui:TextBlock>
                     </StackPanel>
 
                     <StackPanel x:Name="RevealAuthor" Opacity="0">

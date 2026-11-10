@@ -131,6 +131,36 @@ falls back to real environment variables, which is what a CI runner would supply
 To confirm the credentials work without creating anything, run `scripts\submit-store.ps1 -CheckOnly`.
 It authenticates, reports the product's pending and last-published submissions, and stops.
 
+### Rating prompt
+
+The Store build asks once in a while whether the app is working well. **Yes** opens the Microsoft
+Store's own rating dialog; **Not really** offers to send feedback to Lotrasoft, and still links to the
+Store rating — Store policy forbids sending only satisfied users there. The About window has a
+**Rate in Microsoft Store** link as well.
+
+The prompt appears two seconds after the user switches the app on, once the app has been used on 5
+different days. It is not shown again for 90 days after being dismissed, and never again once the user
+has rated or sent feedback. MSI installs never show it.
+
+To test the whole procedure without waiting, use the undocumented `-ratingTest` switch. It forgets any
+earlier answer, shows the prompt immediately, makes the About link visible even outside the Store build,
+and shows the Store's answer (`Succeeded`, `CanceledByUser`, `NetworkError`, `OtherError`) in a message box.
+
+1. Run `scripts\test-package.ps1` to install and start the packaged app. The Store dialog needs the
+   package identity, so it only works in the packaged app.
+2. Run `CaffeinePro\bin\Debug\net10.0-windows10.0.17763.0\CaffeinePro.exe -ratingTest`. The switch
+   is forwarded to the running packaged instance.
+3. Try each path: **Yes**, **Not really → Send Feedback**, **Not really → Rate in Microsoft Store**,
+   and closing the prompt. Then open **About** and click **Rate in Microsoft Store**.
+
+Without the packaged app running, step 2 starts the unpackaged build instead. That shows the prompt and
+the About link, but the Store dialog is skipped and a message box says so: without a package identity
+the Store API crashes the process rather than returning an error. Test mode lasts until the app exits.
+
+To test the schedule itself, quit the app and edit `%AppData%\CaffeinePro\CaffeineProConfig.json`:
+set `UsageDays` to `5`, `RatingPromptDone` to `false`, and `RatingPromptDate` to more than 90 days ago.
+Start the app and switch it on from the tray menu.
+
 ## How It Works
 
 There are two methods to keep Windows active, each with its own trade-off. You pick one under **Settings →

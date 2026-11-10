@@ -2,6 +2,7 @@
 using System.Windows;
 using CaffeinePro.Localization;
 using CaffeinePro.Services;
+using CaffeinePro.Windows;
 
 namespace CaffeinePro.Classes;
 
@@ -81,6 +82,12 @@ public class ParameterProcessorService(KeepAwakeService keepAwakeService)
             {
                 timespan = untilTime.TimeOfDay;
             }
+        }
+
+        // Undocumented on purpose: a developer switch, see RatingPromptWindow.TestMode.
+        if (Has(eArgs, "-ratingTest"))
+        {
+            RatingPromptWindow.StartTest();
         }
 
         if (Has(eArgs, "-allowSS"))

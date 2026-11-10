@@ -606,4 +606,28 @@
     <value>{0}:{1:00} {2}</value>
     <comment>One entry of an hour's drop-down. {0} is the hour, {1} the minutes and {2} the AM/PM marker; languages that put the marker in front reorder it here.</comment>
   </data>
+  <data name="Rating_Question" xml:space="preserve">
+    <value>Is Caffeine Pro working well for you?</value>
+    <comment>Headline of the occasional prompt asking whether the app works well.</comment>
+  </data>
+  <data name="Rating_Yes" xml:space="preserve">
+    <value>Yes, I like it</value>
+    <comment>Positive answer; opens the Microsoft Store rating dialog.</comment>
+  </data>
+  <data name="Rating_No" xml:space="preserve">
+    <value>Not really</value>
+    <comment>Negative answer; offers to send feedback to Lotrasoft.</comment>
+  </data>
+  <data name="Rating_Sorry" xml:space="preserve">
+    <value>Sorry to hear that. Tell us what went wrong and we will look into it.</value>
+    <comment>Shown after the negative answer.</comment>
+  </data>
+  <data name="Rating_FeedbackNote" xml:space="preserve">
+    <value>Feedback goes straight to Lotrasoft. It is not a Microsoft Store review.</value>
+    <comment>Store policy: must make clear that feedback is not a Store review.</comment>
+  </data>
+  <data name="Rating_RateInStore" xml:space="preserve">
+    <value>Rate in Microsoft Store</value>
+    <comment>Link that still lets an unhappy user rate the app in the Store.</comment>
+  </data>
 </root>

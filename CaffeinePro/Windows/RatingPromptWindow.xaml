@@ -1,0 +1,114 @@
+<local:NotificationWindowBase
+    x:Class="CaffeinePro.Windows.RatingPromptWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:CaffeinePro.Windows"
+    xmlns:loc="clr-namespace:CaffeinePro.Localization"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="{loc:Loc App_Name}"
+    FlowDirection="{Binding Source={x:Static loc:LocalizationService.Instance}, Path=FlowDirection}"
+    FontFamily="{Binding Source={x:Static loc:LocalizationService.Instance}, Path=FontFamily}"
+    Foreground="{DynamicResource WindowForeground}"
+    Icon="/Resources/Coffee.ico"
+    ResizeMode="NoResize"
+    ShowInTaskbar="True"
+    SizeToContent="WidthAndHeight"
+    Topmost="True"
+    WindowStartupLocation="Manual"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <BitmapImage x:Key="Coffee" UriSource="/Resources/Coffee-Transparent.png" />
+    </Window.Resources>
+
+    <StackPanel Margin="5">
+        <ui:TitleBar
+            Height="28"
+            Padding="0"
+            ShowMaximize="False"
+            ShowMinimize="False"
+            ToolTip="{loc:Loc Notification_AskLater}" />
+
+        <StackPanel
+            Margin="20,10,20,10"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Image
+                Width="70"
+                Margin="0,0,20,0"
+                VerticalAlignment="Top"
+                FlowDirection="LeftToRight"
+                Source="{StaticResource Coffee}" />
+
+            <!--
+                Both steps share one cell, and the one not showing is Hidden rather than Collapsed:
+                the window is placed by the tray once, when it loads, so it has to keep its size
+                when the second step replaces the first.
+            -->
+            <Grid Width="320">
+                <StackPanel x:Name="QuestionPanel">
+                    <ui:TextBlock
+                        FontSize="16"
+                        Text="{loc:Loc Rating_Question}"
+                        TextWrapping="Wrap" />
+
+                    <StackPanel Margin="0,20,0,0" Orientation="Horizontal">
+                        <ui:Button
+                            MinWidth="150"
+                            Height="40"
+                            Appearance="Primary"
+                            Click="Yes_Click"
+                            Content="{loc:Loc Rating_Yes}"
+                            IsDefault="True" />
+                        <ui:Button
+                            MinWidth="150"
+                            Height="40"
+                            Margin="20,0,0,0"
+                            Click="No_Click"
+                            Content="{loc:Loc Rating_No}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel x:Name="FeedbackPanel" Visibility="Hidden">
+                    <ui:TextBlock
+                        FontSize="16"
+                        Text="{loc:Loc Rating_Sorry}"
+                        TextWrapping="Wrap" />
+
+                    <ui:TextBlock
+                        Margin="0,6,0,0"
+                        FontSize="12"
+                        Opacity="0.6"
+                        Text="{loc:Loc Rating_FeedbackNote}"
+                        TextWrapping="Wrap" />
+
+                    <StackPanel Margin="0,14,0,0" Orientation="Horizontal">
+                        <ui:Button
+                            MinWidth="150"
+                            Height="40"
+                            Appearance="Primary"
+                            Click="SendFeedback_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <ui:SymbolIcon
+                                    Margin="0,0,6,0"
+                                    Symbol="PersonFeedback20" />
+                                <TextBlock VerticalAlignment="Center" Text="{loc:Loc Menu_SendFeedback}" />
+                            </StackPanel>
+                        </ui:Button>
+
+                        <!--  Store policy: an unhappy user must still be able to rate, not only the happy ones  -->
+                        <ui:Button
+                            Height="40"
+                            Margin="10,0,0,0"
+                            Appearance="Transparent"
+                            Click="Yes_Click"
+                            Content="{loc:Loc Rating_RateInStore}"
+                            FontSize="12" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </StackPanel>
+</local:NotificationWindowBase>

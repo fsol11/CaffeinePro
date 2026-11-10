@@ -471,4 +471,22 @@
   <data name="TimeSlider_ClockFormat" xml:space="preserve">
     <value>{2}{0}:{1:00}</value>
   </data>
+  <data name="Rating_Question" xml:space="preserve">
+    <value>Caffeine Pro 运行得还好吗？</value>
+  </data>
+  <data name="Rating_Yes" xml:space="preserve">
+    <value>是的，我喜欢</value>
+  </data>
+  <data name="Rating_No" xml:space="preserve">
+    <value>不太好</value>
+  </data>
+  <data name="Rating_Sorry" xml:space="preserve">
+    <value>很抱歉。请告诉我们哪里出了问题，我们会尽快处理。</value>
+  </data>
+  <data name="Rating_FeedbackNote" xml:space="preserve">
+    <value>反馈将直接发送给 Lotrasoft，不是 Microsoft Store 评论。</value>
+  </data>
+  <data name="Rating_RateInStore" xml:space="preserve">
+    <value>在 Microsoft Store 中评分</value>
+  </data>
 </root>

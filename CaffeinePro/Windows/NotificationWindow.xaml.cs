@@ -105,6 +105,7 @@ public partial class NotificationWindow
     {
         App.CurrentApp.KeepAwakeService.Activate(Awakeness.RenewDateTime(awakeness));
         CloseIt();
+        RatingPromptWindow.OpenIfDue();
     }
 
     private void IgnoreForToday_Click(object sender, RoutedEventArgs e)

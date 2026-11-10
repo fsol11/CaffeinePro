@@ -471,4 +471,22 @@
   <data name="TimeSlider_ClockFormat" xml:space="preserve">
     <value>{0}:{1:00} {2}</value>
   </data>
+  <data name="Rating_Question" xml:space="preserve">
+    <value>O Caffeine Pro está a funcionar bem para si?</value>
+  </data>
+  <data name="Rating_Yes" xml:space="preserve">
+    <value>Sim, gosto</value>
+  </data>
+  <data name="Rating_No" xml:space="preserve">
+    <value>Nem por isso</value>
+  </data>
+  <data name="Rating_Sorry" xml:space="preserve">
+    <value>Lamentamos. Diga-nos o que correu mal e vamos analisar.</value>
+  </data>
+  <data name="Rating_FeedbackNote" xml:space="preserve">
+    <value>Os comentários vão diretamente para a Lotrasoft. Não são uma avaliação na Microsoft Store.</value>
+  </data>
+  <data name="Rating_RateInStore" xml:space="preserve">
+    <value>Avaliar na Microsoft Store</value>
+  </data>
 </root>

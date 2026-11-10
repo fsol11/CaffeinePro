@@ -38,6 +38,10 @@ public sealed class AppSettings : INotifyPropertyChanged
     private DateTime _ignoreUnlockNotificationDate = DateTime.MaxValue;
     private HotKey _blackoutHotKey = HotKey.DefaultBlackout;
     private string _language = LocalizationService.SystemDefaultCode;
+    private int _usageDays;
+    private DateTime _lastUsageDate;
+    private DateTime _ratingPromptDate;
+    private bool _ratingPromptDone;
     private static readonly string ConfigPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "CaffeinePro", "CaffeineProConfig.json");
 
     public static AppSettings Load()
@@ -145,6 +149,62 @@ public sealed class AppSettings : INotifyPropertyChanged
     {
         get => _language;
         set => SetField(ref _language, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the number of different days the app has been activated on. Gates the rating
+    /// prompt, so it is only shown to someone who has actually been using the app.
+    /// </summary>
+    [JsonInclude]
+    public int UsageDays
+    {
+        get => _usageDays;
+        set => SetField(ref _usageDays, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the last day <see cref="UsageDays"/> was counted for.
+    /// </summary>
+    [JsonInclude]
+    public DateTime LastUsageDate
+    {
+        get => _lastUsageDate;
+        set => SetField(ref _lastUsageDate, value);
+    }
+
+    /// <summary>
+    /// Gets or sets the day the rating prompt was last shown, so it is not shown again too soon.
+    /// </summary>
+    [JsonInclude]
+    public DateTime RatingPromptDate
+    {
+        get => _ratingPromptDate;
+        set => SetField(ref _ratingPromptDate, value);
+    }
+
+    /// <summary>
+    /// Gets or sets a value indicating whether the user has rated the app or sent feedback from the
+    /// rating prompt, after which it is never shown again.
+    /// </summary>
+    [JsonInclude]
+    public bool RatingPromptDone
+    {
+        get => _ratingPromptDone;
+        set => SetField(ref _ratingPromptDone, value);
+    }
+
+    /// <summary>
+    /// Counts today towards <see cref="UsageDays"/>, once per day.
+    /// </summary>
+    public void RecordUsage()
+    {
+        if (LastUsageDate == DateTime.Today)
+        {
+            return;
+        }
+
+        LastUsageDate = DateTime.Today;
+        UsageDays++;
     }
 
     /// <summary>
