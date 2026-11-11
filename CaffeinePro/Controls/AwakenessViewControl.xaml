@@ -111,89 +111,107 @@
                 Opened="SetTimeMenuOpened">
                 <MenuItem StaysOpenOnClick="True" Style="{StaticResource NoHighlightMenuItemStyle}">
                     <MenuItem.Header>
-                        <StackPanel HorizontalAlignment="Stretch">
+                        <!--
+                            On short screens the picker can be taller than the room around the
+                            button, which pushed the Apply button off screen. Its height is capped
+                            from code-behind when the flyout opens: the slider's FOR box scrolls
+                            first, so everything else stays in view, and only once that box is down
+                            to a usable minimum does the whole picker scroll.
+                        -->
+                        <ScrollViewer
+                            x:Name="SetTimeScrollViewer"
+                            HorizontalScrollBarVisibility="Disabled"
+                            VerticalScrollBarVisibility="Auto">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
 
-                            <controls:TimeSliderControl
-                                x:Name="RelativeTimeSlider"
-                                HorizontalAlignment="Stretch"
-                                InStartupOptions="{Binding InStartupOptions, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                <controls:TimeSliderControl
+                                    x:Name="RelativeTimeSlider"
+                                    HorizontalAlignment="Stretch"
+                                    InStartupOptions="{Binding InStartupOptions, RelativeSource={RelativeSource AncestorType=UserControl}}" />
 
-                            <ui:Button
-                                Margin="10"
-                                HorizontalAlignment="Center"
-                                Click="ApplyButton_OnClick">
-                                <ui:Button.Style>
-                                    <Style BasedOn="{StaticResource {x:Type ui:Button}}" TargetType="{x:Type ui:Button}">
-                                        <Setter Property="Content" Value="{loc:Loc Awakeness_ApplyAndActivate}" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding InStartupOptions}" Value="True">
-                                                <Setter Property="Content" Value="{loc:Loc Awakeness_Apply}" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </ui:Button.Style>
-                            </ui:Button>
+                                <ui:Button
+                                    Grid.Row="1"
+                                    Margin="10"
+                                    HorizontalAlignment="Center"
+                                    Click="ApplyButton_OnClick">
+                                    <ui:Button.Style>
+                                        <Style BasedOn="{StaticResource {x:Type ui:Button}}" TargetType="{x:Type ui:Button}">
+                                            <Setter Property="Content" Value="{loc:Loc Awakeness_ApplyAndActivate}" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding InStartupOptions}" Value="True">
+                                                    <Setter Property="Content" Value="{loc:Loc Awakeness_Apply}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ui:Button.Style>
+                                </ui:Button>
 
-                            <!--
-                                Outside the startup options the picker also offers the default
-                                awakeness, so it can be adopted without going through the settings.
-                                In the startup options the default IS what is being edited, so the
-                                section would be circular and is hidden from code-behind.
-                            -->
-                            <StackPanel x:Name="DefaultAwakenessSection" Margin="10,0,10,8">
-                                <Separator Margin="0,0,0,8" />
-                                <Grid HorizontalAlignment="Center">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-
-                                    <!--  Two columns, so the hint lines up with the awakeness text rather than with the label  -->
-                                    <Grid VerticalAlignment="Center">
+                                <!--
+                                    Outside the startup options the picker also offers the default
+                                    awakeness, so it can be adopted without going through the settings.
+                                    In the startup options the default IS what is being edited, so the
+                                    section would be circular and is hidden from code-behind.
+                                -->
+                                <StackPanel x:Name="DefaultAwakenessSection" Grid.Row="2" Margin="10,0,10,8">
+                                    <Separator Margin="0,0,0,8" />
+                                    <Grid HorizontalAlignment="Center">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
 
-                                        <TextBlock
-                                            Margin="0,0,6,0"
-                                            VerticalAlignment="Top"
-                                            Opacity="0.5"
-                                            Text="{loc:Loc Awakeness_DefaultLabel}" />
+                                        <!--  Two columns, so the hint lines up with the awakeness text rather than with the label  -->
+                                        <Grid VerticalAlignment="Center">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
 
-                                        <StackPanel Grid.Column="1">
-                                            <TextBlock Text="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartupAwakeness, Converter={StaticResource AwakenessToDisplayText}}" />
-
-                                            <!--  A relative default says nothing about when it actually ends, so spell that out  -->
                                             <TextBlock
-                                                x:Name="DefaultAwakenessHint"
-                                                Margin="0,1,0,0"
-                                                FontSize="10"
-                                                Opacity="0.6"
-                                                Text="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartupAwakeness, Converter={StaticResource AwakenessToDisplayText}, ConverterParameter={x:Static converters:AwakenessTextPart.AbsoluteHint}}">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="TextBlock">
-                                                        <Style.Triggers>
-                                                            <!--  Nothing to add for absolute or indefinite defaults  -->
-                                                            <Trigger Property="Text" Value="">
-                                                                <Setter Property="Visibility" Value="Collapsed" />
-                                                            </Trigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-                                        </StackPanel>
-                                    </Grid>
+                                                Margin="0,0,6,0"
+                                                VerticalAlignment="Top"
+                                                Opacity="0.5"
+                                                Text="{loc:Loc Awakeness_DefaultLabel}" />
 
-                                    <ui:Button
-                                        Grid.Column="1"
-                                        Margin="12,0,0,0"
-                                        Click="SetToDefaultButton_OnClick"
-                                        Content="{loc:Loc Awakeness_SetToDefault}"
-                                        ToolTip="{loc:Loc Awakeness_SetToDefault_ToolTip}" />
-                                </Grid>
-                            </StackPanel>
-                        </StackPanel>
+                                            <StackPanel Grid.Column="1">
+                                                <TextBlock Text="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartupAwakeness, Converter={StaticResource AwakenessToDisplayText}}" />
+
+                                                <!--  A relative default says nothing about when it actually ends, so spell that out  -->
+                                                <TextBlock
+                                                    x:Name="DefaultAwakenessHint"
+                                                    Margin="0,1,0,0"
+                                                    FontSize="10"
+                                                    Opacity="0.6"
+                                                    Text="{Binding Source={x:Static caffeinePro:App.CurrentApp}, Path=AppSettings.StartupAwakeness, Converter={StaticResource AwakenessToDisplayText}, ConverterParameter={x:Static converters:AwakenessTextPart.AbsoluteHint}}">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Style.Triggers>
+                                                                <!--  Nothing to add for absolute or indefinite defaults  -->
+                                                                <Trigger Property="Text" Value="">
+                                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Grid>
+
+                                        <ui:Button
+                                            Grid.Column="1"
+                                            Margin="12,0,0,0"
+                                            Click="SetToDefaultButton_OnClick"
+                                            Content="{loc:Loc Awakeness_SetToDefault}"
+                                            ToolTip="{loc:Loc Awakeness_SetToDefault_ToolTip}" />
+                                    </Grid>
+                                </StackPanel>
+                            </Grid>
+                        </ScrollViewer>
                     </MenuItem.Header>
 
                 </MenuItem>

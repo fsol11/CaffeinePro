@@ -423,6 +423,19 @@ public partial class App
     }
 
     /// <summary>
+    /// On short screens the settings submenu scrolls, but its scroller moves a whole item at a time
+    /// and the startup options are one tall item, so a single step threw all of them off screen.
+    /// The scroller lives in the menu's template, so it is switched to pixel scrolling from here.
+    /// </summary>
+    private void OnStartupOptionsMenuItemLoaded(object sender, RoutedEventArgs e)
+    {
+        if (Routines.FindAncestor<System.Windows.Controls.ScrollViewer>((DependencyObject)sender) is { } scrollViewer)
+        {
+            scrollViewer.CanContentScroll = false;
+        }
+    }
+
+    /// <summary>
     /// Opens the tray menu on a right-click, and keeps it open.
     /// </summary>
     /// <remarks>

@@ -112,7 +112,10 @@
                     </MenuItem.Icon>
 
                     <MenuItem.Items>
-                        <MenuItem StaysOpenOnClick="True" Style="{StaticResource NoHighlightMenuItemStyle}">
+                        <MenuItem
+                            Loaded="OnStartupOptionsMenuItemLoaded"
+                            StaysOpenOnClick="True"
+                            Style="{StaticResource NoHighlightMenuItemStyle}">
                             <MenuItem.Header>
                                 <controls:StartupOptionsControl />
                             </MenuItem.Header>

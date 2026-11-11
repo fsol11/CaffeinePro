@@ -176,5 +176,83 @@ public sealed partial class AwakenessViewControl
         // counted from now rather than from the setting, and the durations and clock times, which a
         // converter produces from sources that do not change when the language does.
         UiRefresher.Refresh(SetTimeFlyout);
+
+        LimitFlyoutHeight();
     }
+
+    /// <summary>
+    /// Fits the picker into the room between this control and the edge of its monitor's work area.
+    /// The FOR box gives up height first, so everything else stays in view; once it is down to
+    /// <see cref="MinimumForBoxHeight"/> the whole picker scrolls instead. The larger of the two
+    /// sides is used, since the popup flips above the button when that fits better.
+    /// </summary>
+    private void LimitFlyoutHeight()
+    {
+        var source = PresentationSource.FromVisual(this);
+        if (source?.CompositionTarget == null)
+        {
+            return;
+        }
+
+        var topLeft = PointToScreen(new Point(0, 0));
+        var bottomRight = PointToScreen(new Point(ActualWidth, ActualHeight));
+        var workArea = ScreenInfo.FromPoint((int)topLeft.X, (int)topLeft.Y).WorkArea;
+
+        var roomInPixels = Math.Max(workArea.Bottom - bottomRight.Y, topLeft.Y - workArea.Top);
+        _roomInDips = source.CompositionTarget.TransformFromDevice.Transform(new Vector(0, roomInPixels)).Y;
+
+        // Measured at full size, so the fit always starts from the picker's natural height.
+        var forBox = RelativeTimeSlider.ForScrollViewer;
+        forBox.MaxHeight = double.PositiveInfinity;
+        SetTimeScrollViewer.MaxHeight = double.PositiveInfinity;
+        SetTimeFlyout.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+        _naturalPickerHeight = SetTimeScrollViewer.DesiredSize.Height;
+        _naturalForBoxHeight = forBox.DesiredSize.Height;
+
+        // The menu's own border, padding and the margin its shadow is drawn in. Taken from the same
+        // measure, so it includes that margin, which the menu's ActualHeight leaves out.
+        _menuChrome = SetTimeFlyout.DesiredSize.Height - _naturalPickerHeight + Math.Abs(SetTimeFlyout.VerticalOffset);
+        FitFlyout();
+    }
+
+    /// <summary>
+    /// Takes whatever the picker overflows the room by off the FOR box, down to
+    /// <see cref="MinimumForBoxHeight"/>; anything beyond that caps the whole picker, which then scrolls.
+    /// </summary>
+    private void FitFlyout()
+    {
+        var forBox = RelativeTimeSlider.ForScrollViewer;
+
+        // A few pixels of slack for rounding between device pixels and DIPs.
+        const double slack = 8;
+        var room = _roomInDips - _menuChrome - slack;
+        var overflow = _naturalPickerHeight - room;
+        if (overflow <= 0)
+        {
+            return;
+        }
+
+        var shrunkForBoxHeight = _naturalForBoxHeight - overflow;
+        if (shrunkForBoxHeight >= MinimumForBoxHeight)
+        {
+            // The FOR box absorbs it all. The outer scroller is left uncapped: capping it as well
+            // made it scroll by a few pixels of measuring difference.
+            forBox.MaxHeight = shrunkForBoxHeight;
+            return;
+        }
+
+        forBox.MaxHeight = Math.Min(_naturalForBoxHeight, MinimumForBoxHeight);
+        SetTimeScrollViewer.MaxHeight = Math.Max(100, room);
+    }
+
+    /// <summary>
+    /// Below this the FOR box is too cramped to use (about the quick row plus the start of the
+    /// hours), so the whole picker scrolls instead.
+    /// </summary>
+    private const double MinimumForBoxHeight = 80;
+
+    private double _roomInDips;
+    private double _naturalPickerHeight;
+    private double _naturalForBoxHeight;
+    private double _menuChrome;
 }

@@ -24,9 +24,10 @@ public readonly record struct PixelRect(int Left, int Top, int Width, int Height
 /// </remarks>
 public sealed class ScreenInfo
 {
-    private ScreenInfo(PixelRect bounds, bool isPrimary)
+    private ScreenInfo(PixelRect bounds, PixelRect workArea, bool isPrimary)
     {
         Bounds = bounds;
+        WorkArea = workArea;
         IsPrimary = isPrimary;
     }
 
@@ -34,6 +35,14 @@ public sealed class ScreenInfo
     /// The monitor's full bounds (not its work area), in device pixels.
     /// </summary>
     public PixelRect Bounds
+    {
+        get;
+    }
+
+    /// <summary>
+    /// The part of the monitor not covered by the taskbar or docked toolbars, in device pixels.
+    /// </summary>
+    public PixelRect WorkArea
     {
         get;
     }
@@ -71,9 +80,9 @@ public sealed class ScreenInfo
 
             if (GetMonitorInfo(monitor, ref info))
             {
-                var bounds = info.rcMonitor;
                 screens.Add(new ScreenInfo(
-                    new PixelRect(bounds.Left, bounds.Top, bounds.Right - bounds.Left, bounds.Bottom - bounds.Top),
+                    ToPixelRect(info.rcMonitor),
+                    ToPixelRect(info.rcWork),
                     (info.dwFlags & MONITORINFOF_PRIMARY) != 0));
             }
 
@@ -82,7 +91,7 @@ public sealed class ScreenInfo
 
         if (screens.Count == 0)
         {
-            screens.Add(new ScreenInfo(VirtualScreenBounds, true));
+            screens.Add(new ScreenInfo(VirtualScreenBounds, VirtualScreenBounds, true));
         }
 
         return screens;
@@ -93,6 +102,18 @@ public sealed class ScreenInfo
     /// </summary>
     public static ScreenInfo GetMain(IReadOnlyList<ScreenInfo> screens)
         => screens.FirstOrDefault(s => s.IsPrimary) ?? screens[0];
+
+    /// <summary>
+    /// The display containing the given device-pixel point, falling back to the main display.
+    /// </summary>
+    public static ScreenInfo FromPoint(int x, int y)
+    {
+        var screens = GetAll();
+        return screens.FirstOrDefault(s => x >= s.Bounds.Left && x < s.Bounds.Right && y >= s.Bounds.Top && y < s.Bounds.Bottom)
+               ?? GetMain(screens);
+    }
+
+    private static PixelRect ToPixelRect(Rect rect) => new(rect.Left, rect.Top, rect.Right - rect.Left, rect.Bottom - rect.Top);
 
     private const int SM_XVIRTUALSCREEN = 76;
     private const int SM_YVIRTUALSCREEN = 77;
